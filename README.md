@@ -5,5 +5,8 @@ Ziel dieses Projekts ist die Erstellung einer Webseite auf der Bewerbungcoaching
 # Features
 
 # Technologien
+NodeJS
+React
+Express
 
 # Bibliotheken
