@@ -1,3 +1,12 @@
-h1 {
-  color: red;
+@import "bootstrap";
+
+.vertical-center {
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
+body {
+  padding-bottom: 2rem;
 }
