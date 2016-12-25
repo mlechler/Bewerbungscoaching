@@ -8,10 +8,15 @@ return [
     |--------------------------------------------------------------------------
     |
     | Here you may specify the default filesystem disk that should be used
+<<<<<<< HEAD
     | by the framework. A "local" driver, as well as a variety of cloud
     | based drivers are available for your choosing. Just store away!
     |
     | Supported: "local", "ftp", "s3", "rackspace"
+=======
+    | by the framework. The "local" disk, as well as a variety of cloud
+    | based disks are available to your application. Just store away!
+>>>>>>> 0d3881453ca30bc1ffe46f8b6d106b3478da9966
     |
     */
 
@@ -39,6 +44,11 @@ return [
     | may even configure multiple disks of the same driver. Defaults have
     | been setup for each driver as an example of the required options.
     |
+<<<<<<< HEAD
+=======
+    | Supported Drivers: "local", "ftp", "s3", "rackspace"
+    |
+>>>>>>> 0d3881453ca30bc1ffe46f8b6d106b3478da9966
     */
 
     'disks' => [

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+
 use App\View\ThemeViewFinder;
 use Illuminate\Support\ServiceProvider;
 

@@ -27,6 +27,10 @@ class CreatePasswordResetsTable extends Migration
      */
     public function down()
     {
+<<<<<<< HEAD
         Schema::drop('password_resets');
+=======
+        Schema::dropIfExists('password_resets');
+>>>>>>> 0d3881453ca30bc1ffe46f8b6d106b3478da9966
     }
 }

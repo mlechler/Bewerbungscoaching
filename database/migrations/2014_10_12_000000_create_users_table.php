@@ -30,6 +30,10 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
+<<<<<<< HEAD
         Schema::drop('users');
+=======
+        Schema::dropIfExists('users');
+>>>>>>> 0d3881453ca30bc1ffe46f8b6d106b3478da9966
     }
 }
