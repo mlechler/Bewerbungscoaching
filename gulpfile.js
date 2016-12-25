@@ -1,6 +1,6 @@
-const elixir = require('laravel-elixir');
+var elixir = require('laravel-elixir');
 
-require('laravel-elixir-vue-2');
+//require('laravel-elixir-vue-2');
 
 /*
  |--------------------------------------------------------------------------
@@ -12,8 +12,9 @@ require('laravel-elixir-vue-2');
  | file for our application, as well as publishing vendor resources.
  |
  */
+elixir.config.assetsPath = 'public/themes/default/assets';
+elixir.config.publicPath = elixir.config.assetsPath;
 
-elixir(mix => {
-    mix.sass('app.scss')
-       .webpack('app.js');
+elixir(function(mix) {
+    mix.sass('backend.scss');
 });
