@@ -2,14 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
-<<<<<<< HEAD
-use Validator;
-use App\Http\Controllers\Controller;
-=======
+use App\User;;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
->>>>>>> 0d3881453ca30bc1ffe46f8b6d106b3478da9966
 use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
@@ -32,7 +27,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/admin';
 
     /**
      * Create a new controller instance.

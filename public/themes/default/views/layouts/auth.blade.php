@@ -11,9 +11,9 @@
     <body>
         <div class="container">
             <div class="row vertical-center">
-                <div class="col-md-4"></div>
-                <div class="col-md-4">
-                    <div class="panel panel-default">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="panel panel-{{$errors->any() ? 'danger' : 'default'}}">
                         <div class="panel-heading">
                             <h2 class="panel-title">@yield('heading')</h2>
                         </div>
@@ -22,7 +22,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4"></div>
+                <div class="col-md-3"></div>
             </div>
         </div>
     </body>
