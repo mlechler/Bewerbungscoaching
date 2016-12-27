@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title></title>
+        <title>@yield('title') &mdash; Bewerbungscoaching</title>
 
         <link rel="stylesheet" type="text/css" href="{{ theme('css/backend.css') }}">
     </head>
@@ -19,14 +19,15 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><span class="navbar-text">Hello, Marcel</span></li>
-                    <li><a href="#">Logout</a></li>
+                    <li><a href="auth/logout">Logout</a></li>
                 </ul>
             </div>
         </nav>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <!-- Content here -->
+                    @yield('heading')
+                    @yield('content')
                 </div>
             </div>
         </div>
