@@ -11,7 +11,7 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     protected $redirectTo = 'admin';
-    protected $redirectAfterLogout = 'auth/login';
+    protected $redirectAfterLogout = 'login';
 
     public function __construct()
     {

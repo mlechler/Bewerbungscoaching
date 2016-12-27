@@ -13,12 +13,10 @@
             <div class="container">
                 <div class="navbar-header"><a href="/" class="navbar-brand">Bewerbungscoaching</a></div>
                 <ul class="nav navbar-nav">
-                    <li><a href="#">Item 1</a></li>
-                    <li><a href="#">Item 2</a></li>
-                    <li><a href="#">Item 3</a></li>
+                    <li><a href="admin/employees">Employees</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><span class="navbar-text">Hello, Marcel</span></li>
+                    <li><span class="navbar-text">Hello, {{ $admin->firstname }}</span></li>
                     <li><a href="auth/logout">Logout</a></li>
                 </ul>
             </div>

@@ -18,6 +18,16 @@ class EmployeeTableSeeder extends Seeder
             'password' => Hash::make('awesome'),
             'remember_token' => 'null'
         ));
+        Employee::create(array(
+            'lastname' => 'L',
+            'firstname' => 'Marcel',
+            'birthday' => '28.06.1995',
+            'phone' => '123/456',
+            'mobile' => '456/789',
+            'email' => 'scrat007@gmx.de',
+            'password' => Hash::make('awesome'),
+            'remember_token' => 'null'
+        ));
     }
 
 }
