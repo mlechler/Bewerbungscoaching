@@ -31,15 +31,26 @@ class EmployeesController extends Controller
         return view('backend.employees.form', compact('employee'));
     }
 
+    public function store(Requests\StoreEmployeeRequest $request)
+    {
+        Employee::create(array(
+            'lastname' => $request->lastname,
+            'firstname' => $request->firstname,
+            'birthday' => $request->birthday,
+            'phone' => $request->phone,
+            'mobile' => $request->mobile,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'remember_token' => Auth::viaRemember()
+        ));
+
+        return redirect('/admin/employees')->with('status', 'Employee has been created.');
+    }
+
     public function edit($id)
     {
         $employee = Employee::findOrFail($id);
         return view('backend.employees.form', compact('employee'));
-    }
-
-    public function confirm($id)
-    {
-        echo $id;
     }
 
     public function update(Requests\UpdateEmployeeRequest $request, $id)
@@ -60,19 +71,17 @@ class EmployeesController extends Controller
         return redirect('/admin/employees')->with('status', 'Employee has been updated.');
     }
 
-    public function store(Requests\StoreEmployeeRequest $request)
-    {
-        Employee::create(array(
-            'lastname' => $request->lastname,
-            'firstname' => $request->firstname,
-            'birthday' => $request->birthday,
-            'phone' => $request->phone,
-            'mobile' => $request->mobile,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'remember_token' => Auth::viaRemember()
-        ));
 
-        return redirect('/admin/employees')->with('status', 'Employee has been created.');
+    public function confirm(Requests\DeleteEmployeeRequest $request, $id)
+    {
+        $employee = Employee::findOrFail($id);
+        return view('backend.employees.confirm', compact('employee'));
+    }
+
+    public function destroy(Requests\DeleteEmployeeRequest $request, $id)
+    {
+        Employee::destroy($id);
+
+        return redirect('/admin/employees')->with('status', 'Employee has been deleted.');
     }
 }

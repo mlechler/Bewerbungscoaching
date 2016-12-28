@@ -31,15 +31,29 @@ class MembersController extends Controller
         return view('backend.members.form', compact('member'));
     }
 
+    public function store(Requests\StoreMemberRequest $request)
+    {
+        Member::create(array(
+            'lastname' => $request->lastname,
+            'firstname' => $request->firstname,
+            'birthday' => $request->birthday,
+            'phone' => $request->phone,
+            'mobile' => $request->mobile,
+            'email' => $request->email,
+            'job' => $request->job,
+            'employer' => $request->employer,
+            'university' => $request->university,
+            'courseofstudies' => $request->courseofstudies,
+            'password' => Hash::make($request->password)
+        ));
+
+        return redirect('/admin/members')->with('status', 'Member has been created.');
+    }
+
     public function edit($id)
     {
         $member = Member::findOrFail($id);
         return view('backend.members.form', compact('member'));
-    }
-
-    public function confirm($id)
-    {
-        echo $id;
     }
 
     public function update(Requests\UpdateMemberRequest $request, $id)
@@ -63,22 +77,16 @@ class MembersController extends Controller
         return redirect('/admin/members')->with('status', 'Member has been updated.');
     }
 
-    public function store(Requests\StoreMemberRequest $request)
+    public function confirm($id)
     {
-        Member::create(array(
-            'lastname' => $request->lastname,
-            'firstname' => $request->firstname,
-            'birthday' => $request->birthday,
-            'phone' => $request->phone,
-            'mobile' => $request->mobile,
-            'email' => $request->email,
-            'job' => $request->job,
-            'employer' => $request->employer,
-            'university' => $request->university,
-            'courseofstudies' => $request->courseofstudies,
-            'password' => Hash::make($request->password)
-        ));
+        $member = Member::findOrFail($id);
+        return view('backend.members.confirm', compact('member'));
+    }
 
-        return redirect('/admin/members')->with('status', 'Member has been created.');
+    public function destroy($id)
+    {
+        Member::destroy($id);
+
+        return redirect('/admin/members')->with('status', 'Member has been deleted.');
     }
 }

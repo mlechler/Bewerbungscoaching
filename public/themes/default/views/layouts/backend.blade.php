@@ -11,10 +11,16 @@
     <body>
         <nav class="navbar navbar-static-top navbar-inverse">
             <div class="container">
-                <div class="navbar-header"><a href="/" class="navbar-brand">Bewerbungscoaching</a></div>
+                <div class="navbar-header"><a href="/admin" class="navbar-brand">Bewerbungscoaching</a></div>
                 <ul class="nav navbar-nav">
-                    <li><a href="/admin/employees">Employees</a></li>
-                    <li><a href="/admin/members">Members</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle">Users <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/admin/employees">Employees</a></li>
+                            <li><a href="/admin/members">Members</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="/admin/seminars">Seminars</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><span class="navbar-text">Hello, {{ $admin->firstname }}</span></li>
@@ -29,7 +35,6 @@
 
                     @if($errors->any())
                         <div class="alert alert-danger">
-                            <strong>We found some errors!</strong>
                             <ul>
                                 @foreach($errors->all() as $error)
                                     <li>{{ $error }}</li>
