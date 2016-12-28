@@ -2,7 +2,10 @@
 
 @section('title', 'Members')
 
+@section('heading', 'Members')
+
 @section('content')
+    <a href="/admin/members/create" class="btn btn-primary">Create new Member</a>
     <table class="table table-hover">
         <thead>
         <tr>
@@ -35,4 +38,6 @@
         @endforeach
         </tbody>
     </table>
+
+    {{ $members->links() }}
 @endsection

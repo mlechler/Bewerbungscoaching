@@ -25,7 +25,24 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    @yield('heading')
+                    <h3>@yield('heading')</h3>
+
+                    @if($errors->any())
+                        <div class="alert alert-danger">
+                            <strong>We found some errors!</strong>
+                            <ul>
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    @if($status)
+                        <div class="alert alert-success">
+                            {{ $status }}
+                        </div>
+                    @endif
+
                     @yield('content')
                 </div>
             </div>

@@ -2,7 +2,10 @@
 
 @section('title', 'Employees')
 
+@section('heading', 'Employees')
+
 @section('content')
+    <a href="/admin/employees/create" class="btn btn-primary">Create new Employee</a>
     <table class="table table-hover">
         <thead>
             <tr>
@@ -35,4 +38,6 @@
             @endforeach
         </tbody>
     </table>
+
+    {{ $employees->links() }}
 @endsection

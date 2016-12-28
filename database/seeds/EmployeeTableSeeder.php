@@ -16,7 +16,7 @@ class EmployeeTableSeeder extends Seeder
             'mobile' => '456/789',
             'email' => 'marcel.lechler@gmx.de',
             'password' => Hash::make('awesome'),
-            'remember_token' => 'null'
+            'remember_token' => Auth::viaRemember()
         ));
         Employee::create(array(
             'lastname' => 'L',
@@ -26,7 +26,7 @@ class EmployeeTableSeeder extends Seeder
             'mobile' => '456/789',
             'email' => 'scrat007@gmx.de',
             'password' => Hash::make('awesome'),
-            'remember_token' => 'null'
+            'remember_token' => Auth::viaRemember()
         ));
     }
 
