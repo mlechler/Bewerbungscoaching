@@ -26,6 +26,11 @@ class EmployeesController extends Controller
 
     public function confirm($id)
     {
-        //
+        echo $id;
+    }
+
+    public function edit($id)
+    {
+        echo $id;
     }
 }
