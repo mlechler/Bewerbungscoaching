@@ -23,7 +23,7 @@ class EmployeeTableSeeder extends Seeder
             'firstname' => 'Marcel',
             'birthday' => '28.06.1995',
             'phone' => '123/456',
-            'mobile' => '456/789',
+            'mobile' => '456/7890',
             'email' => 'scrat007@gmx.de',
             'password' => Hash::make('awesome'),
             'remember_token' => Auth::viaRemember()

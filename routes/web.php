@@ -15,6 +15,10 @@ Route::resource('admin/members', 'Backend\MembersController');
 Route::get('admin/seminars/{id}/confirm', ['as' => 'backend.seminars.confirm', 'uses' => 'Backend\SeminarsController@confirm']);
 Route::resource('admin/seminars', 'Backend\SeminarsController');
 
+Route::get('admin/pages/{id}/confirm', ['as' => 'backend.pages.confirm', 'uses' => 'Backend\PagesController@confirm']);
+Route::resource('admin/pages', 'Backend\PagesController');
+
+
 Route::get('/', function () {
     return view('welcome');
 });

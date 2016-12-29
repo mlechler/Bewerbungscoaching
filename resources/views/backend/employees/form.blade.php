@@ -1,8 +1,8 @@
 @extends('layouts.backend')
 
-@section('title', $employee->exists ? 'Editing '.$employee->lastname.' '.$employee->firstname : 'Create new Employee')
+@section('title', $employee->exists ? 'Editing '.$employee->getName() : 'Create new Employee')
 
-@section('heading', $employee->exists ? 'Editing '.$employee->lastname.' '.$employee->firstname : 'Create new Employee')
+@section('heading', $employee->exists ? 'Editing '.$employee->getName() : 'Create new Employee')
 
 @section('content')
     {{ Form::model($employee, [

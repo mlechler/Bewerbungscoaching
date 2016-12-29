@@ -28,8 +28,8 @@ class StoreEmployeeRequest extends FormRequest
             'firstname' => ['required'],
             'birthday' => ['required'],
             'phone' => ['required'],
-            'mobile' => ['required'],
-            'email' => ['required', 'email'],
+            'mobile' => ['required', 'unique:employees'],
+            'email' => ['required', 'email', 'unique:employees'],
             'password' => ['required','confirmed']
         ];
     }

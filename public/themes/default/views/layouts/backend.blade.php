@@ -21,6 +21,7 @@
                         </ul>
                     </li>
                     <li><a href="/admin/seminars">Seminars</a></li>
+                    <li><a href="/admin/pages">Pages</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><span class="navbar-text">Hello, {{ $admin->firstname }}</span></li>

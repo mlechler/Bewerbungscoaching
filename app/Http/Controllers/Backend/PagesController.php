@@ -2,26 +2,25 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Seminar;
+use App\Page;
 use Illuminate\Http\Request;
-use App\Http\Requests;
 
-class SeminarsController extends Controller
+class PagesController extends Controller
 {
-    protected $seminars;
+    protected $pages;
 
-    public function __construct(Seminar $seminars)
+    public function __construct(Page $pages)
     {
-        $this->seminars = $seminars;
+        $this->pages = $pages;
 
         parent::__construct();
     }
 
     public function index()
     {
-        $seminars = Seminar::paginate(10);
+        $pages = Page::paginate(10);
 
-        return view('backend.seminars.index', compact('seminars'));
+        return view('backend.pages.index', compact('pages'));
     }
 
     public function create()

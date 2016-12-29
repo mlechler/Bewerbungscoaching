@@ -28,8 +28,8 @@ class StoreMemberRequest extends FormRequest
             'firstname' => ['required'],
             'birthday' => ['required'],
             'phone' => ['required'],
-            'mobile' => ['required'],
-            'email' => ['required', 'email'],
+            'mobile' => ['required', 'unique:members'],
+            'email' => ['required', 'email', 'unique:members'],
             'password' => ['required','confirmed']
         ];
     }

@@ -23,13 +23,14 @@ class UpdateMemberRequest extends FormRequest
      */
     public function rules()
     {
+        $id = $this->route('member');
         return [
             'lastname' => ['required'],
             'firstname' => ['required'],
             'birthday' => ['required'],
             'phone' => ['required'],
-            'mobile' => ['required'],
-            'email' => ['required', 'email'],
+            'mobile' => ['required', 'unique:members,mobile,'.$id],
+            'email' => ['required', 'email', 'unique:members,email,'.$id],
             'password' => ['required_with:password_confirmation','confirmed']
         ];
     }

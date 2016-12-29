@@ -139,6 +139,7 @@ return [
 
     'providers' => [
 
+        McCool\LaravelAutoPresenter\AutoPresenterServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
 
         Illuminate\Auth\AuthServiceProvider::class,
