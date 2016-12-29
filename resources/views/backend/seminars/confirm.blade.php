@@ -14,7 +14,7 @@
     </div>
 
     {{ Form::submit('Yes, delete this seminar!', ['class' => 'btn btn-danger']) }}
-    <a href="/admin/seminars" class="btn btn-success">
+    <a href="{{ route('seminars.index') }}" class="btn btn-success">
         <strong>No, get me out of here!</strong>
     </a>
 

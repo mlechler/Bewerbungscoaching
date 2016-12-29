@@ -49,6 +49,6 @@
     </div>
 
     {{ Form::submit($employee->exists ? 'Save Employee' : 'Create New Employee', ['class' => 'btn btn-success']) }}
-    <a href="/admin/employees" class="btn btn-danger">Cancel</a>
+    <a href="{{ route('employees.index') }}" class="btn btn-danger">Cancel</a>
     {{ Form::close() }}
 @endsection

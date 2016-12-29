@@ -18,7 +18,7 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next)
     {
         if ($this->auth->check()) {
-            return redirect('admin');
+            return redirect(route('backend.dashboard'));
         }
 
         return $next($request);

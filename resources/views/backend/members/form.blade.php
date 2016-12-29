@@ -69,6 +69,6 @@
     </div>
 
     {{ Form::submit($member->exists ? 'Save Member' : 'Create new Member', ['class' => 'btn btn-success']) }}
-    <a href="/admin/members" class="btn btn-danger">Cancel</a>
+    <a href="{{ route('members.index') }}" class="btn btn-danger">Cancel</a>
     {{ Form::close() }}
 @endsection

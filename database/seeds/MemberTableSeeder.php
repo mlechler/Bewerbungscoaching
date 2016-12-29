@@ -14,7 +14,7 @@ class MemberTableSeeder extends Seeder
             'birthday' => '28.06.1995',
             'phone' => '123/456',
             'mobile' => '456/789',
-            'email' => 'marcel.lechler@gmx.de',
+            'email' => 'marcel.lechler@gmail.de',
             'job' => 'student',
             'employer' => 'HPE',
             'university' => 'DHBW',

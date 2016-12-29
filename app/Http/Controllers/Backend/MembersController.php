@@ -47,7 +47,7 @@ class MembersController extends Controller
             'password' => Hash::make($request->password)
         ));
 
-        return redirect('/admin/members')->with('status', 'Member has been created.');
+        return redirect(route('members.index'))->with('status', 'Member has been created.');
     }
 
     public function edit($id)
@@ -74,7 +74,7 @@ class MembersController extends Controller
             'password' => Hash::make($request->password)
         ))->save();
 
-        return redirect('/admin/members')->with('status', 'Member has been updated.');
+        return redirect(route('members.index'))->with('status', 'Member has been updated.');
     }
 
     public function confirm($id)
@@ -88,6 +88,6 @@ class MembersController extends Controller
     {
         Member::destroy($id);
 
-        return redirect('/admin/members')->with('status', 'Member has been deleted.');
+        return redirect(route('members.index'))->with('status', 'Member has been deleted.');
     }
 }

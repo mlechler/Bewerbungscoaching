@@ -44,7 +44,7 @@ class EmployeesController extends Controller
             'remember_token' => Auth::viaRemember()
         ));
 
-        return redirect('/admin/employees')->with('status', 'Employee has been created.');
+        return redirect(route('employees.index'))->with('status', 'Employee has been created.');
     }
 
     public function edit($id)
@@ -69,7 +69,7 @@ class EmployeesController extends Controller
             'remember_token' => Auth::viaRemember()
         ))->save();
 
-        return redirect('/admin/employees')->with('status', 'Employee has been updated.');
+        return redirect(route('employees.index'))->with('status', 'Employee has been updated.');
     }
 
 
@@ -84,6 +84,6 @@ class EmployeesController extends Controller
     {
         Employee::destroy($id);
 
-        return redirect('/admin/employees')->with('status', 'Employee has been deleted.');
+        return redirect(route('employees.index'))->with('status', 'Employee has been deleted.');
     }
 }

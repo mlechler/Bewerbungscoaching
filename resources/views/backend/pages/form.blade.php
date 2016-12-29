@@ -33,7 +33,7 @@
     </div>
 
     {{ Form::submit($page->exists ? 'Save Page' : 'Create New Page', ['class' => 'btn btn-success']) }}
-    <a href="/admin/pages" class="btn btn-danger">Cancel</a>
+    <a href="{{ route('pages.index') }}" class="btn btn-danger">Cancel</a>
     {{ Form::close() }}
 
     <script>

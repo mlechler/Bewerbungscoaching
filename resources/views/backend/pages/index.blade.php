@@ -3,7 +3,7 @@
 @section('title', 'Pages')
 
 @section('content')
-    <a href="/admin/pages/create" class="btn btn-primary">Create New Page</a>
+    <a href="{{ route('pages.create') }}" class="btn btn-primary">Create New Page</a>
     <table class="table table-hover">
         <thead>
         <tr>

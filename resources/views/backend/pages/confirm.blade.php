@@ -14,7 +14,7 @@
     </div>
 
     {{ Form::submit('Yes, delete this page!', ['class' => 'btn btn-danger']) }}
-    <a href="/admin/pages" class="btn btn-success">
+    <a href="{{ route('pages.index') }}" class="btn btn-success">
         <strong>No, get me out of here!</strong>
     </a>
 

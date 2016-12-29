@@ -13,6 +13,7 @@ class Employee extends Authenticatable implements HasPresenter
 
     protected $table = 'employees';
     protected $fillable = ['lastname', 'firstname', 'birthday', 'phone', 'mobile', 'email', 'password', 'remember_token'];
+    protected $hidden = ['password', 'remember_token'];
 
     public function getPresenterClass()
     {

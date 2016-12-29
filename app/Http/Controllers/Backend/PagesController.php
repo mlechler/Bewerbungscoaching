@@ -38,7 +38,7 @@ class PagesController extends Controller
             'pagecontent' => $request->pagecontent
         ));
 
-        return redirect('/admin/pages')->with('status', 'Page has been created.');
+        return redirect(route('pages.index'))->with('status', 'Page has been created.');
     }
 
     public function edit($id)
@@ -59,7 +59,7 @@ class PagesController extends Controller
             'pagecontent' => $request->pagecontent
         ))->save();
 
-        return redirect('/admin/pages')->with('status', 'Page has been updated.');
+        return redirect(route('pages.index'))->with('status', 'Page has been updated.');
     }
 
     public function confirm($id)
@@ -73,6 +73,6 @@ class PagesController extends Controller
     {
         Page::destroy($id);
 
-        return redirect('/admin/pages')->with('status', 'Page has been deleted.');
+        return redirect(route('pages.index'))->with('status', 'Page has been deleted.');
     }
 }

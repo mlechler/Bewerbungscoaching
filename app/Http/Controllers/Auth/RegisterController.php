@@ -9,6 +9,9 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
+
+    // NOT UP TO DATE
+
     /*
     |--------------------------------------------------------------------------
     | Register Controller

@@ -40,7 +40,7 @@ class SeminarsController extends Controller
             'price' => $request->price
         ));
 
-        return redirect('/admin/seminars')->with('status', 'Seminar has been created.');
+        return redirect(route('seminars.index'))->with('status', 'Seminar has been created.');
     }
 
     public function edit($id)
@@ -63,7 +63,7 @@ class SeminarsController extends Controller
             'price' => $request->price
         ))->save();
 
-        return redirect('/admin/seminars')->with('status', 'Seminar has been updated.');
+        return redirect(route('seminars.index'))->with('status', 'Seminar has been updated.');
     }
 
     public function confirm($id)
@@ -77,6 +77,6 @@ class SeminarsController extends Controller
     {
         Seminar::destroy($id);
 
-        return redirect('/admin/seminars')->with('status', 'Seminar has been deleted.');
+        return redirect(route('seminars.index'))->with('status', 'Seminar has been deleted.');
     }
 }

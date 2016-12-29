@@ -13,6 +13,7 @@ class Member extends Authenticatable implements HasPresenter
 
     protected $table = 'members';
     protected $fillable = ['lastname', 'firstname', 'birthday', 'phone', 'mobile', 'email', 'job', 'employer', 'university', 'courseofstudies', 'password'];
+    protected $hidden = ['password'];
 
     public function getPresenterClass()
     {

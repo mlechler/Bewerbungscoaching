@@ -67,13 +67,12 @@ return [
     'providers' => [
         'employees' => [
             'driver' => 'eloquent',
-            'model' => App\Employee::class,
+            'model' => App\Employee::class
         ],
-
-         //'users' => [
-        //    'driver' => 'database',
-        //     'table' => 'employees',
-         //],
+        'members' => [
+            'driver' => 'eloquent',
+            'model' => App\Member::class
+        ]
     ],
 
     /*
@@ -94,9 +93,14 @@ return [
     'passwords' => [
         'employees' => [
             'provider' => 'employees',
-            'table' => 'password_resets',
+            'table' => 'password_resets_employees',
             'expire' => 60,
         ],
+        'members' => [
+            'provider' => 'members',
+            'table' => 'password_resets_members',
+            'expire' => 60,
+        ]
     ],
 
 ];

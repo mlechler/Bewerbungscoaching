@@ -45,7 +45,7 @@
     </div>
 
     {{ Form::submit($seminar->exists ? 'Save Seminar' : 'Create New Seminar', ['class' => 'btn btn-success']) }}
-    <a href="/admin/seminars" class="btn btn-danger">Cancel</a>
+    <a href="{{ route('seminars.index') }}" class="btn btn-danger">Cancel</a>
     {{ Form::close() }}
 
     <script>
