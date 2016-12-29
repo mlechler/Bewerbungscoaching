@@ -2,8 +2,6 @@
 
 @section('title', $member->exists ? 'Editing '.$member->getName() : 'Create new Member')
 
-@section('heading', $member->exists ? 'Editing '.$member->getName() : 'Create new Member')
-
 @section('content')
     {{ Form::model($member, [
     'method' => $member->exists ? 'put' : 'post',
@@ -70,6 +68,7 @@
         {{ Form::password('password_confirmation', ['class' => 'form-control']) }}
     </div>
 
-    {{ Form::submit($member->exists ? 'Save Member' : 'Create new Member', ['class' => 'btn btn-primary']) }}
+    {{ Form::submit($member->exists ? 'Save Member' : 'Create new Member', ['class' => 'btn btn-success']) }}
+    <a href="/admin/members" class="btn btn-danger">Cancel</a>
     {{ Form::close() }}
 @endsection

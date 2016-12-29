@@ -14,11 +14,18 @@ elixir.config.assetsPath = 'public/themes/default/assets';
 elixir.config.publicPath = elixir.config.assetsPath;
 
 elixir.config.css.sass.pluginOptions.includePaths = [
-  'node_modules/bootstrap-sass/assets/stylesheets'
+    'node_modules/bootstrap-sass/assets/stylesheets',
+    'node_modules/font-awesome/scss'
 ];
 
-elixir(function(mix) {
-    mix.copy('node_modules/bootstrap-sass/assets/fonts', elixir.config.publicPath+'/fonts');
+elixir(function (mix) {
+    mix.copy('node_modules/bootstrap-sass/assets/fonts', elixir.config.publicPath + '/fonts');
+    mix.copy('node_modules/font-awesome/fonts', elixir.config.publicPath + '/fonts');
+
+    mix.copy('node_modules/simplemde/dist/simplemde.min.css', elixir.config.publicPath + '/css/simplemde.css');
+    mix.copy('node_modules/simplemde/dist/simplemde.min.js', elixir.config.publicPath + '/js/simplemde.js');
+    mix.copy('node_modules/jquery/dist/jquery.min.js', elixir.config.publicPath + '/js/jquery.js');
+    mix.copy('node_modules/bootstrap-sass/assets/javascripts/bootstrap.min.js', elixir.config.publicPath + '/js/bootstrap.js');
 
     mix.sass('backend.scss');
 });

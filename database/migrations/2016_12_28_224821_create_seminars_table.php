@@ -20,7 +20,7 @@ class CreateSeminarsTable extends Migration
             $table->string('services');
             $table->integer('maxMembers');
             $table->integer('duration');
-            $table->integer('price');
+            $table->float('price');
             $table->timestamps();
         });
     }

@@ -16,17 +16,17 @@ class PageTableSeeder extends Seeder
         Page::create(array(
             'title' => 'About',
             'uri' => 'about',
-            'content' => 'This is the about page.'
+            'pagecontent' => 'This is the about page.'
         ));
         Page::create(array(
             'title' => 'Contact',
             'uri' => 'contact',
-            'content' => 'This is the contact page.'
+            'pagecontent' => 'This is the contact page.'
         ));
         Page::create(array(
             'title' => 'FAQ',
             'uri' => 'faq',
-            'content' => 'This is the FAQ page.'
+            'pagecontent' => 'This is the FAQ page.'
         ));
     }
 }

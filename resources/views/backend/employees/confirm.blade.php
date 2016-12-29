@@ -1,8 +1,6 @@
 @extends('layouts.backend')
 
-@section('title', 'Deleting '.$employee->lastname.' '.$employee->firstname)
-
-@section('heading', 'Deleting '.$employee->lastname.' '.$employee->firstname)
+@section('title', 'Deleting '.$employee->getName())
 
 @section('content')
     {{ Form::open([

@@ -2,16 +2,16 @@
 
 @section('title', 'Seminars')
 
-@section('heading', 'Seminars')
-
 @section('content')
-    <a href="#" class="btn btn-primary">Create new Seminar</a>
+    <a href="/admin/seminars/create" class="btn btn-primary">Create New Seminar</a>
     <table class="table table-hover">
         <thead>
         <tr>
             <th>Title</th>
             <th>Description</th>
             <th>Maximum Participants</th>
+            <th>Duration</th>
+            <th>Price</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>
@@ -34,10 +34,18 @@
                         {{ $seminar->maxMembers }}
                     </td>
                     <td>
-                        <a href="/admin/seminars/<?php echo $seminar->id ?>/edit"><span class="glyphicon glyphicon-edit"></span></a>
+                        {{ $seminar->duration }} minutes
                     </td>
                     <td>
-                        <a href="/admin/seminars/<?php echo $seminar->id ?>/confirm"><span class="glyphicon glyphicon-remove"></span></a>
+                        {{ $seminar->price }} €
+                    </td>
+                    <td>
+                        <a href="/admin/seminars/<?php echo $seminar->id ?>/edit"><span
+                                    class="glyphicon glyphicon-edit"></span></a>
+                    </td>
+                    <td>
+                        <a href="/admin/seminars/<?php echo $seminar->id ?>/confirm"><span
+                                    class="glyphicon glyphicon-remove"></span></a>
                     </td>
                 </tr>
             @endforeach

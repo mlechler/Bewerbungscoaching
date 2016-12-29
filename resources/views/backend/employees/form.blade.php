@@ -1,8 +1,6 @@
 @extends('layouts.backend')
 
-@section('title', $employee->exists ? 'Editing '.$employee->getName() : 'Create new Employee')
-
-@section('heading', $employee->exists ? 'Editing '.$employee->getName() : 'Create new Employee')
+@section('title', $employee->exists ? 'Editing '.$employee->getName() : 'Create New Employee')
 
 @section('content')
     {{ Form::model($employee, [
@@ -50,6 +48,7 @@
         {{ Form::password('password_confirmation', ['class' => 'form-control']) }}
     </div>
 
-    {{ Form::submit($employee->exists ? 'Save Employee' : 'Create new Employee', ['class' => 'btn btn-primary']) }}
+    {{ Form::submit($employee->exists ? 'Save Employee' : 'Create New Employee', ['class' => 'btn btn-success']) }}
+    <a href="/admin/employees" class="btn btn-danger">Cancel</a>
     {{ Form::close() }}
 @endsection

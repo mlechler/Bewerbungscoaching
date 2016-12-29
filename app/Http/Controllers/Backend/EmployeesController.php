@@ -50,6 +50,7 @@ class EmployeesController extends Controller
     public function edit($id)
     {
         $employee = Employee::findOrFail($id);
+
         return view('backend.employees.form', compact('employee'));
     }
 
@@ -75,6 +76,7 @@ class EmployeesController extends Controller
     public function confirm(Requests\DeleteEmployeeRequest $request, $id)
     {
         $employee = Employee::findOrFail($id);
+
         return view('backend.employees.confirm', compact('employee'));
     }
 

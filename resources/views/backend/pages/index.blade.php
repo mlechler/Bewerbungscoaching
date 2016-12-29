@@ -2,10 +2,8 @@
 
 @section('title', 'Pages')
 
-@section('heading', 'Pages')
-
 @section('content')
-    <a href="/admin/pages/create" class="btn btn-primary">Create new Page</a>
+    <a href="/admin/pages/create" class="btn btn-primary">Create New Page</a>
     <table class="table table-hover">
         <thead>
         <tr>

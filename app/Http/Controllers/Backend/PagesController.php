@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Page;
 use Illuminate\Http\Request;
+use App\Http\Requests;
 
 class PagesController extends Controller
 {
@@ -23,33 +24,55 @@ class PagesController extends Controller
         return view('backend.pages.index', compact('pages'));
     }
 
-    public function create()
+    public function create(Page $page)
     {
-
+        return view('backend.pages.form', compact('page'));
     }
 
-    public function store()
+    public function store(Requests\StorePageRequest $request)
     {
+        Page::create(array(
+            'title' => $request->title,
+            'uri' => $request->uri,
+            'name' => $request->name,
+            'pagecontent' => $request->pagecontent
+        ));
 
+        return redirect('/admin/pages')->with('status', 'Page has been created.');
     }
 
-    public function edit()
+    public function edit($id)
     {
+        $page = Page::findOrFail($id);
 
+        return view('backend.pages.form', compact('page'));
     }
 
-    public function update()
+    public function update(Requests\UpdatePageRequest $request, $id)
     {
+        $page = Page::findOrFail($id);
 
+        $page->fill(array(
+            'title' => $request->title,
+            'uri' => $request->uri,
+            'name' => $request->name,
+            'pagecontent' => $request->pagecontent
+        ))->save();
+
+        return redirect('/admin/pages')->with('status', 'Page has been updated.');
     }
 
-    public function confirm()
+    public function confirm($id)
     {
+        $page = Page::findOrFail($id);
 
+        return view('backend.pages.confirm', compact('page'));
     }
 
-    public function destroy()
+    public function destroy($id)
     {
+        Page::destroy($id);
 
+        return redirect('/admin/pages')->with('status', 'Page has been deleted.');
     }
 }

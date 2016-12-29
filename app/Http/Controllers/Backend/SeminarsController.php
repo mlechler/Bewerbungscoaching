@@ -24,33 +24,59 @@ class SeminarsController extends Controller
         return view('backend.seminars.index', compact('seminars'));
     }
 
-    public function create()
+    public function create(Seminar $seminar)
     {
-
+        return view('backend.seminars.form', compact('seminar'));
     }
 
-    public function store()
+    public function store(Requests\StoreSeminarRequest $request)
     {
+        Seminar::create(array(
+            'title' => $request->title,
+            'description' => $request->description,
+            'services' => $request->services,
+            'maxMembers' => $request->maxMembers,
+            'duration' => $request->duration,
+            'price' => $request->price
+        ));
 
+        return redirect('/admin/seminars')->with('status', 'Seminar has been created.');
     }
 
-    public function edit()
+    public function edit($id)
     {
+        $seminar = Seminar::findOrFail($id);
 
+        return view('backend.seminars.form', compact('seminar'));
     }
 
-    public function update()
+    public function update(Requests\UpdateSeminarRequest $request, $id)
     {
+        $seminar = Seminar::findOrFail($id);
 
+        $seminar->fill(array(
+            'title' => $request->title,
+            'description' => $request->description,
+            'services' => $request->services,
+            'maxMembers' => $request->maxMembers,
+            'duration' => $request->duration,
+            'price' => $request->price
+        ))->save();
+
+        return redirect('/admin/seminars')->with('status', 'Seminar has been updated.');
     }
 
-    public function confirm()
+    public function confirm($id)
     {
+        $seminar = Seminar::findOrFail($id);
 
+        return view('backend.seminars.confirm', compact('seminar'));
     }
 
-    public function destroy()
+    public function destroy($id)
     {
+        Seminar::destroy($id);
 
+        return redirect('/admin/seminars')->with('status', 'Seminar has been deleted.');
     }
 }

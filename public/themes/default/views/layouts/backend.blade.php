@@ -7,15 +7,19 @@
         <title>@yield('title') &mdash; Bewerbungscoaching</title>
 
         <link rel="stylesheet" type="text/css" href="{{ theme('css/backend.css') }}">
+        <script src="{{ theme('js/simplemde.js') }}"></script>
+        <script src="{{ theme('js/jquery.js') }}"></script>
+        <script src="{{ theme('js/bootstrap.js') }}"></script>
     </head>
     <body>
         <nav class="navbar navbar-static-top navbar-inverse">
             <div class="container">
-                <div class="navbar-header"><a href="/admin" class="navbar-brand">Bewerbungscoaching</a></div>
+                <div class="navbar-header"><a href="/" class="navbar-brand">Bewerbungscoaching</a></div>
                 <ul class="nav navbar-nav">
+                    <li><a href="/admin">Dashboard</a></li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle">Users <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
+                        <a class="dropdown-toggle" id="usersMenu" data-toggle="dropdown">Users <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="usersMenu">
                             <li><a href="/admin/employees">Employees</a></li>
                             <li><a href="/admin/members">Members</a></li>
                         </ul>
@@ -32,7 +36,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h3>@yield('heading')</h3>
+                    <h3>@yield('title')</h3>
 
                     @if($errors->any())
                         <div class="alert alert-danger">
@@ -53,6 +57,5 @@
                 </div>
             </div>
         </div>
-
     </body>
 </html>

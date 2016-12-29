@@ -80,6 +80,7 @@ class MembersController extends Controller
     public function confirm($id)
     {
         $member = Member::findOrFail($id);
+
         return view('backend.members.confirm', compact('member'));
     }
 
