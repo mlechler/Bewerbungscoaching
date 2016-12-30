@@ -139,6 +139,7 @@ return [
 
     'providers' => [
 
+        Baum\Providers\BaumServiceProvider::class,
         McCool\LaravelAutoPresenter\AutoPresenterServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
 

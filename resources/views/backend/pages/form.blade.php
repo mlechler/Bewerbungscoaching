@@ -27,6 +27,32 @@
         </p>
     </div>
 
+    <div class="form-group row">
+        <div class="col-md-12">
+            {{ Form::label('template') }}
+        </div>
+        <div class="col-md-4">
+            {{ Form::select('template', $templates, null, ['class' => 'form-control']) }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-12">
+            {{ Form::label('order') }}
+        </div>
+        <div class="col-md-2">
+            {{ Form::select('order', [
+                '' => '',
+                'before' => 'Before',
+                'after' => 'After',
+                'childOf' => 'Child Of'
+            ], null, ['class' => 'form-control']) }}
+        </div>
+        <div class="col-md-5">
+            {{ Form::select('orderPage', ['' => ''] + $orderPages->pluck('paddedTitle', 'id')->toArray(), null, ['class' => 'form-control']) }}
+        </div>
+    </div>
+
     <div class="form-group">
         {{ Form::label('pagecontent') }}
         {{ Form::textarea('pagecontent', null, ['class' => 'form-control']) }}

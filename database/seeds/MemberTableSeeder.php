@@ -7,7 +7,7 @@ class MemberTableSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('members')->delete();
+        DB::table('members')->truncate();
         Member::create(array(
             'lastname' => 'Lechler',
             'firstname' => 'Marcel',

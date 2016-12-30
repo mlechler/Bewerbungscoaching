@@ -7,7 +7,7 @@ class SeminarTableSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('seminars')->delete();
+        DB::table('seminars')->truncate();
         Seminar::create(array(
             'title' => 'Seminar 1',
             'description' => 'This is the best seminar ever!',

@@ -2,9 +2,15 @@
 
 return [
 
-  'theme' => [
+    'theme' => [
 
-      'folder' => 'themes',
-      'active' => 'default'
-  ]
+        'folder' => 'themes',
+        'active' => 'default'
+    ],
+
+    'templates' => [
+
+        'page' => App\Templates\PageTemplate::class
+
+    ]
 ];

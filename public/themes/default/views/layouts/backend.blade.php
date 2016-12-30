@@ -18,7 +18,7 @@
                 <ul class="nav navbar-nav">
                     <li><a href="{{ route('backend.dashboard') }}">Dashboard</a></li>
                     <li class="dropdown">
-                        <a class="dropdown-toggle" id="usersMenu" data-toggle="dropdown">Users <span class="caret"></span></a>
+                        <a class="dropdown-toggle" role="button" id="usersMenu" data-toggle="dropdown">Users <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="usersMenu">
                             <li><a href="{{ route('employees.index') }}">Employees</a></li>
                             <li><a href="{{ route('members.index') }}">Members</a></li>

@@ -7,7 +7,7 @@ class EmployeeTableSeeder extends Seeder
 {
     public function run()
     {
-        DB::table('employees')->delete();
+        DB::table('employees')->truncate();
         Employee::create(array(
             'lastname' => 'Lechler',
             'firstname' => 'Marcel',
