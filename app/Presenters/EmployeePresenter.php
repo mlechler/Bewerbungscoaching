@@ -10,4 +10,9 @@ class EmployeePresenter extends BasePresenter
     {
         return ($this->lastname.' '.$this->firstname);
     }
+
+    public function formatBirthday()
+    {
+        return $this->birthday->format('d.m.Y');
+    }
 }

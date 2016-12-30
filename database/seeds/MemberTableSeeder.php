@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Member;
+use Carbon\Carbon;
 
 class MemberTableSeeder extends Seeder
 {
@@ -11,7 +12,7 @@ class MemberTableSeeder extends Seeder
         Member::create(array(
             'lastname' => 'Lechler',
             'firstname' => 'Marcel',
-            'birthday' => '28.06.1995',
+            'birthday' => Carbon::createFromDate(1995, 6, 28),
             'phone' => '123/456',
             'mobile' => '456/789',
             'email' => 'marcel.lechler@gmail.de',
@@ -24,7 +25,7 @@ class MemberTableSeeder extends Seeder
         Member::create(array(
             'lastname' => 'L',
             'firstname' => 'Marcel',
-            'birthday' => '28.06.1995',
+            'birthday' => Carbon::createFromDate(1995, 6, 28),
             'phone' => '123/456',
             'mobile' => '456/7890',
             'email' => 'scrat007@gmx.de',

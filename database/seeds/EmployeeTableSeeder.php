@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Employee;
+use Carbon\Carbon;
 
 class EmployeeTableSeeder extends Seeder
 {
@@ -11,7 +12,7 @@ class EmployeeTableSeeder extends Seeder
         Employee::create(array(
             'lastname' => 'Lechler',
             'firstname' => 'Marcel',
-            'birthday' => '28.06.1995',
+            'birthday' => Carbon::createFromDate(1995, 6, 28),
             'phone' => '123/456',
             'mobile' => '456/789',
             'email' => 'marcel.lechler@gmx.de',
@@ -21,7 +22,7 @@ class EmployeeTableSeeder extends Seeder
         Employee::create(array(
             'lastname' => 'L',
             'firstname' => 'Marcel',
-            'birthday' => '28.06.1995',
+            'birthday' => Carbon::createFromDate(1995, 6, 28),
             'phone' => '123/456',
             'mobile' => '456/7890',
             'email' => 'scrat007@gmx.de',

@@ -88,6 +88,11 @@ class PagesController extends Controller
 
     public function destroy($id)
     {
+        $page = Page::findOrFail($id);
+
+        foreach ($page->children as $child) {
+            $child->makeRoot();
+        }
         Page::destroy($id);
 
         return redirect(route('pages.index'))->with('status', 'Page has been deleted.');

@@ -18,6 +18,9 @@ Route::resource('admin/seminars', 'Backend\SeminarsController');
 Route::get('admin/pages/{id}/confirm', ['as' => 'backend.pages.confirm', 'uses' => 'Backend\PagesController@confirm']);
 Route::resource('admin/pages', 'Backend\PagesController');
 
+Route::get('admin/blog/{id}/confirm', ['as' => 'backend.blog.confirm', 'uses' => 'Backend\BlogController@confirm']);
+Route::resource('admin/blog', 'Backend\BlogController');
+
 
 Route::get('/', function () {
     return view('welcome');

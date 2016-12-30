@@ -26,6 +26,7 @@
                     </li>
                     <li><a href="{{ route('seminars.index') }}">Seminars</a></li>
                     <li><a href="{{ route('pages.index') }}">Pages</a></li>
+                    <li><a href="{{ route('blog.index') }}">Blog Posts</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><span class="navbar-text">Hello, {{ $admin->firstname }}</span></li>
