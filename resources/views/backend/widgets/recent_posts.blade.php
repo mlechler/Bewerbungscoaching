@@ -6,7 +6,7 @@
                 <a href="{{ route('blog.edit', $post->id) }}" class="pull-right"><span class="glyphicon glyphicon-edit"></span></a>
             </h4>
 
-            {{ $post->excerptHtml() }}
+            {!! $post->excerptHtml() !!}
         </li>
     @endforeach
 </ul>

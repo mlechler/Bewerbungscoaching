@@ -4,25 +4,25 @@ namespace App\Presenters;
 
 use App\Post;
 use McCool\LaravelAutoPresenter\BasePresenter;
-use League\CommonMark\Converter;
+use League\CommonMark\CommonMarkConverter;
 
 class PostPresenter extends BasePresenter
 {
-    public function __construct($resource, Converter $converter)
+    public function __construct($resource, CommonMarkConverter $markdown)
     {
-        $this->converter = $converter;
+        $this->markdown = $markdown;
 
         parent::__construct($resource);
     }
 
     public function excerptHtml()
     {
-        return $this->excerpt ? $this->converter->convertToHtml($this->excerpt) : null;
+        return ($this->excerpt ? $this->markdown->convertToHtml($this->excerpt) : null);
     }
 
     public function bodyHtml()
     {
-        return $this->body ? $this->converter->convertToHtml($this->body) : null;
+        return ($this->body ? $this->markdown->convertToHtml($this->body) : null);
     }
 
     public function getName()

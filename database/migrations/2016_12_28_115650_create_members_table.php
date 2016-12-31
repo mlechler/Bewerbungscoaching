@@ -26,6 +26,7 @@ class CreateMembersTable extends Migration
             $table->string('university');
             $table->string('courseofstudies');
             $table->string('password');
+            $table->timestamp('last_login_at')->nullable();
             $table->timestamps();
         });
     }

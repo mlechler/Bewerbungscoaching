@@ -23,6 +23,7 @@ class CreateEmployeesTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('remember_token');
+            $table->timestamp('last_login_at')->nullable();
             $table->timestamps();
         });
     }
