@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Post;
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BlogController extends Controller
 {
@@ -32,7 +33,7 @@ class BlogController extends Controller
     public function store(Requests\StorePostRequest $request)
     {
         Post::create(array(
-            'author_id' => auth()->user()->id,
+            'author_id' => Auth::id(),
             'title' => $request->title,
             'slug' => $request->slug,
             'body' => $request->body,

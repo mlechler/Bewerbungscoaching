@@ -139,6 +139,8 @@ return [
 
     'providers' => [
 
+        GrahamCampbell\Markdown\MarkdownServiceProvider::class,
+        Arrilot\Widgets\ServiceProvider::class,
         Baum\Providers\BaumServiceProvider::class,
         McCool\LaravelAutoPresenter\AutoPresenterServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
@@ -230,7 +232,9 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'Form' => Collective\Html\FormFacade::class,
-        'Html' => Collective\Html\HtmlFacade::class
+        'Html' => Collective\Html\HtmlFacade::class,
+        'Widget' => Arrilot\Widgets\Facade::class,
+        'Markdown' => GrahamCampbell\Markdown\Facades\Markdown::class
 
     ],
 
