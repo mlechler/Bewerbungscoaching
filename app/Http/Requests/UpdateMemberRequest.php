@@ -27,10 +27,10 @@ class UpdateMemberRequest extends FormRequest
         return [
             'lastname' => ['required'],
             'firstname' => ['required'],
-            'birthday' => ['required'],
+            'birthday' => ['required', 'date_format:Y-m-d'],
             'phone' => ['required'],
-            'mobile' => ['required', 'unique:members,mobile,'.$id],
-            'email' => ['required', 'email', 'unique:members,email,'.$id],
+            'mobile' => ['required', 'unique:employees', 'unique:members,mobile,'.$id],
+            'email' => ['required', 'email', 'unique:employees', 'unique:members,email,'.$id],
             'password' => ['required_with:password_confirmation','confirmed']
         ];
     }

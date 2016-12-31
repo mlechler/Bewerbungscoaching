@@ -2,12 +2,19 @@
 
 namespace App\Presenters;
 
+use App\Post;
 use McCool\LaravelAutoPresenter\BasePresenter;
 
 class PostPresenter extends BasePresenter
 {
     public function getName()
     {
+        if($this->author == null) {
+            $post = Post::findOrFail($this->id);
+
+            $post->fill(array('author_id' => null))->save();
+            return 'Author not found';
+        }
         return ($this->author->lastname . ' ' . $this->author->firstname);
     }
 

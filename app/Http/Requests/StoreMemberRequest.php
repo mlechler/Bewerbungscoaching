@@ -26,10 +26,10 @@ class StoreMemberRequest extends FormRequest
         return [
             'lastname' => ['required'],
             'firstname' => ['required'],
-            'birthday' => ['required'],
+            'birthday' => ['required', 'date_format:Y-m-d'],
             'phone' => ['required'],
-            'mobile' => ['required', 'unique:members'],
-            'email' => ['required', 'email', 'unique:members'],
+            'mobile' => ['required', 'unique:members', 'unique:employees'],
+            'email' => ['required', 'email', 'unique:members', 'unique:employees'],
             'password' => ['required','confirmed']
         ];
     }

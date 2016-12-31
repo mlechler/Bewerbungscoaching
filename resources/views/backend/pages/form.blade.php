@@ -13,18 +13,16 @@
         {{ Form::text('title', null, ['class' => 'form-control']) }}
     </div>
 
-    <div class="form-group">
-        {{ Form::label('uri', 'URI') }}
-        {{ Form::text('uri', null, ['class' => 'form-control']) }}
-    </div>
+    <div class="form-group row">
+        <div class="col-md-6">
+            {{ Form::label('uri', 'URI') }}
+            {{ Form::text('uri', null, ['class' => 'form-control']) }}
+        </div>
 
-    <div class="form-group">
-        {{ Form::label('name') }}
-        {{ Form::text('name', null, ['class' => 'form-control']) }}
-
-        <p class="help-block">
-            This name is used to generate links to the page.
-        </p>
+        <div class="col-md-6">
+            {{ Form::label('name') }}
+            {{ Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'This name is used to generate links to the page.']) }}
+        </div>
     </div>
 
     <div class="form-group row">

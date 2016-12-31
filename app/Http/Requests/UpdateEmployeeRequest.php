@@ -28,7 +28,7 @@ class UpdateEmployeeRequest extends FormRequest
         return [
             'lastname' => ['required'],
             'firstname' => ['required'],
-            'birthday' => ['required'],
+            'birthday' => ['required', 'date_format:Y-m-d'],
             'phone' => ['required'],
             'mobile' => ['required', 'unique:employees,mobile,'.$id],
             'email' => ['required', 'email', 'unique:employees,email,'.$id],

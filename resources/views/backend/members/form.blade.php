@@ -71,4 +71,13 @@
     {{ Form::submit($member->exists ? 'Save Member' : 'Create new Member', ['class' => 'btn btn-success']) }}
     <a href="{{ route('members.index') }}" class="btn btn-danger">Cancel</a>
     {{ Form::close() }}
+
+    <script>
+        $('input[name=birthday]').datetimepicker({
+            allowInputToggle: true,
+            format: 'YYYY-MM-DD',
+            showClear: true,
+            defaultDate: '{{ old('birthday', $member->birthday) }}'
+        });
+    </script>
 @endsection

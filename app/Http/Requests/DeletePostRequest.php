@@ -4,8 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Post;
 
-class DeleteEmployeeRequest extends FormRequest
+class DeletePostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +15,12 @@ class DeleteEmployeeRequest extends FormRequest
      */
     public function authorize()
     {
-        if($this->route('employee') == Auth::id()) {
+        $post = Post::findOrFail($this->route('blog'));
+
+        if ($post->author_id != Auth::id()) {
+            if($post->author_id == null) {
+                return true;
+            }
             return false;
         }
 
@@ -23,8 +29,8 @@ class DeleteEmployeeRequest extends FormRequest
 
     public function forbiddenresponse()
     {
-        return redirect(route('employees.index'))->withErrors([
-           'error' => 'You are not able to delete yourself.'
+        return redirect(route('blog.index'))->withErrors([
+            'error' => 'You are not able to delete the blog post of another person.'
         ]);
     }
 

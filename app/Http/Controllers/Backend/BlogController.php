@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Post;
-use Illuminate\Http\Request;
 use App\Http\Requests;
+use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
@@ -29,21 +29,19 @@ class BlogController extends Controller
         return view('backend.blog.form', compact('post'));
     }
 
-    /*public function store(Requests\StorePageRequest $request)
+    public function store(Requests\StorePostRequest $request)
     {
-        $post = Post::create(array(
-            'author_id' => $request->author_id,
+        Post::create(array(
+            'author_id' => auth()->user()->id,
             'title' => $request->title,
-            'uri' => $request->uri,
-            'name' => $request->name,
-            'pagecontent' => $request->pagecontent,
-            'template' => $request->template
+            'slug' => $request->slug,
+            'body' => $request->body,
+            'excerpt' => $request->excerpt,
+            'published_at' => $request->published_at
         ));
 
-        $this->updatePageOrder($page, $request);
-
-        return redirect(route('pages.index'))->with('status', 'Page has been created.');
-    }*/
+        return redirect(route('blog.index'))->with('status', 'Blog Post has been created.');
+    }
 
     public function edit($id)
     {
@@ -52,33 +50,29 @@ class BlogController extends Controller
         return view('backend.blog.form', compact('post'));
     }
 
-    /*public function update(Requests\UpdatePageRequest $request, $id)
+    public function update(Requests\UpdatePostRequest $request, $id)
     {
-        $page = Page::findOrFail($id);
+        $post = Post::findOrFail($id);
 
-        if ($response = $this->updatePageOrder($page, $request)) {
-            return $response;
-        }
-
-        $page->fill(array(
+        $post->fill(array(
             'title' => $request->title,
-            'uri' => $request->uri,
-            'name' => $request->name,
-            'pagecontent' => $request->pagecontent,
-            'template' => $request->template
+            'slug' => $request->slug,
+            'body' => $request->body,
+            'excerpt' => $request->excerpt,
+            'published_at' => $request->published_at
         ))->save();
 
-        return redirect(route('pages.index'))->with('status', 'Page has been updated.');
-    }*/
+        return redirect(route('blog.index'))->with('status', 'Blog Post has been updated.');
+    }
 
-    public function confirm($id)
+    public function confirm(Requests\DeletePostRequest $request, $id)
     {
         $post = Post::findOrFail($id);
 
         return view('backend.blog.confirm', compact('post'));
     }
 
-    public function destroy($id)
+    public function destroy(Requests\DeletePostRequest $request, $id)
     {
         Post::destroy($id);
 

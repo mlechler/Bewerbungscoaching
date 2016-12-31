@@ -7,9 +7,7 @@
         <title>@yield('title') &mdash; Bewerbungscoaching</title>
 
         <link rel="stylesheet" type="text/css" href="{{ theme('css/backend.css') }}">
-        <script src="{{ theme('js/simplemde.js') }}"></script>
-        <script src="{{ theme('js/jquery.js') }}"></script>
-        <script src="{{ theme('js/bootstrap.js') }}"></script>
+        <script src="{{ theme('js/all.js') }}"></script>
     </head>
     <body>
         <nav class="navbar navbar-static-top navbar-inverse">
@@ -43,7 +41,11 @@
                         <div class="alert alert-danger">
                             <ul>
                                 @foreach($errors->all() as $error)
+                                    @if($errors->count() == 1)
+                                        {{ $error }}
+                                    @else
                                     <li>{{ $error }}</li>
+                                    @endif
                                 @endforeach
                             </ul>
                         </div>

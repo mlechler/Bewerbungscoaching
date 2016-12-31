@@ -51,4 +51,13 @@
     {{ Form::submit($employee->exists ? 'Save Employee' : 'Create New Employee', ['class' => 'btn btn-success']) }}
     <a href="{{ route('employees.index') }}" class="btn btn-danger">Cancel</a>
     {{ Form::close() }}
+
+    <script>
+        $('input[name=birthday]').datetimepicker({
+            allowInputToggle: true,
+            format: 'YYYY-MM-DD',
+            showClear: true,
+            defaultDate: '{{ old('birthday', $employee->birthday) }}'
+        });
+    </script>
 @endsection

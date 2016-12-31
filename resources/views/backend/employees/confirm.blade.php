@@ -9,7 +9,7 @@
     ]) }}
 
     <div class="alert alert-danger">
-        <strong>Warning!</strong> You are about to delete a employee. This action cannot be undone. Are you sure you
+        <strong>Warning!</strong> You are about to delete an employee. This action cannot be undone. Are you sure you
         want to continue?
     </div>
 
