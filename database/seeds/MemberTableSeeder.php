@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\Member;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class MemberTableSeeder extends Seeder
 {
@@ -20,7 +21,8 @@ class MemberTableSeeder extends Seeder
             'employer' => 'HPE',
             'university' => 'DHBW',
             'courseofstudies' => 'AI',
-            'password' => Hash::make('awesome')
+            'password' => Hash::make('awesome'),
+            'remember_token' => Auth::viaRemember()
         ));
         Member::create(array(
             'lastname' => 'L',
@@ -33,7 +35,8 @@ class MemberTableSeeder extends Seeder
             'employer' => 'HPE',
             'university' => 'DHBW',
             'courseofstudies' => 'AI',
-            'password' => Hash::make('awesome')
+            'password' => Hash::make('awesome'),
+            'remember_token' => Auth::viaRemember()
         ));
     }
 }

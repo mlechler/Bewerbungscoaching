@@ -28,7 +28,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/member/home';
+    protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
@@ -49,8 +49,9 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:members',
+            'lastname' => 'required|max:255',
+            'firstname' => 'required|max:255',
+            'email' => 'required|email|max:255|unique:members|unique:employees',
             'password' => 'required|min:6|confirmed',
         ]);
     }
@@ -64,9 +65,18 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return Member::create([
-            'name' => $data['name'],
+            'lastname' => $data['lastname'],
+            'firstname' => $data['firstname'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'birthday' => $data['birthday'],
+            'phone' => $data['phone'],
+            'mobile' => $data['mobile'],
+            'job' => $data['job'],
+            'employer' => $data['employer'],
+            'university' => $data['university'],
+            'courseofstudies' => $data['courseofstudies'],
+            'remember_token' => Auth::viaRemember()
         ]);
     }
 
@@ -77,7 +87,7 @@ class RegisterController extends Controller
      */
     public function showRegistrationForm()
     {
-        return view('member.auth.register');
+        return view('auth.member.register');
     }
 
     /**

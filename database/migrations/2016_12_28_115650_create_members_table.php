@@ -21,11 +21,12 @@ class CreateMembersTable extends Migration
             $table->string('phone');
             $table->string('mobile')->unique();
             $table->string('email')->unique();
-            $table->string('job');
-            $table->string('employer');
-            $table->string('university');
-            $table->string('courseofstudies');
+            $table->string('job')->nullable();
+            $table->string('employer')->nullable();
+            $table->string('university')->nullable();
+            $table->string('courseofstudies')->nullable();
             $table->string('password');
+            $table->string('remember_token');
             $table->timestamp('last_login_at')->nullable();
             $table->timestamps();
         });

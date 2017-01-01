@@ -7,6 +7,7 @@
         <title>@yield('title') &mdash; Bewerbungscoaching</title>
 
         <link rel="stylesheet" type="text/css" href="{{ theme('css/backend.css') }}">
+        <script src="{{ theme('js/all.js') }}"></script>
     </head>
     <body>
         <div class="container">

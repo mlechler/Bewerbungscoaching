@@ -1,1 +1,1 @@
-Logged in
+<a href="/member/logout">Logout</a>

@@ -61,11 +61,11 @@ class LoginController extends Controller
     {
         return Auth::guard('employee');
     }
+
     public function logout()
     {
         $this->guard()->logout();
 
         return redirect('/employee/login');
     }
-
 }

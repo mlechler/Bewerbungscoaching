@@ -14,7 +14,7 @@ Route::group(['prefix' => 'employee'], function () {
 Route::group(['prefix' => 'member'], function () {
     Route::get('/login', 'MemberAuth\LoginController@showLoginForm');
     Route::post('/login', 'MemberAuth\LoginController@login');
-    Route::post('/logout', 'MemberAuth\LoginController@logout');
+    Route::get('/logout', 'MemberAuth\LoginController@logout');
 
     Route::get('/register', 'MemberAuth\RegisterController@showRegistrationForm');
     Route::post('/register', 'MemberAuth\RegisterController@register');
