@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Notifications\MemberResetPassword;
 use App\Presenters\MemberPresenter;
 use McCool\LaravelAutoPresenter\HasPresenter;
 use Illuminate\Notifications\Notifiable;
@@ -19,5 +20,10 @@ class Member extends Authenticatable implements HasPresenter
     public function getPresenterClass()
     {
         return MemberPresenter::class;
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new MemberResetPassword($token));
     }
 }
