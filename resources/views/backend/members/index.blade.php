@@ -32,11 +32,11 @@
                         {{ $member->email }}
                     </td>
                     <td>
-                        <a href="/admin/members/<?php echo $member->id ?>/edit"><span
+                        <a href="/backend/members/<?php echo $member->id ?>/edit"><span
                                     class="glyphicon glyphicon-edit"></span></a>
                     </td>
                     <td>
-                        <a href="/admin/members/<?php echo $member->id ?>/confirm"><span
+                        <a href="/backend/members/<?php echo $member->id ?>/confirm"><span
                                     class="glyphicon glyphicon-remove"></span></a>
                     </td>
                 </tr>

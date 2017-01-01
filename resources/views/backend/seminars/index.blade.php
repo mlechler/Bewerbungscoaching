@@ -19,7 +19,7 @@
         <tbody>
         @if($seminars->isEmpty())
             <tr>
-                <td colspan="5" align="center">There are no seminars.</td>
+                <td colspan="7" align="center">There are no seminars.</td>
             </tr>
         @else
             @foreach($seminars as $seminar)
@@ -40,11 +40,11 @@
                         {{ $seminar->price }} €
                     </td>
                     <td>
-                        <a href="/admin/seminars/<?php echo $seminar->id ?>/edit"><span
+                        <a href="/backend/seminars/<?php echo $seminar->id ?>/edit"><span
                                     class="glyphicon glyphicon-edit"></span></a>
                     </td>
                     <td>
-                        <a href="/admin/seminars/<?php echo $seminar->id ?>/confirm"><span
+                        <a href="/backend/seminars/<?php echo $seminar->id ?>/confirm"><span
                                     class="glyphicon glyphicon-remove"></span></a>
                     </td>
                 </tr>

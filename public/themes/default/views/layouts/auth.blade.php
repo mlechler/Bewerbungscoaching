@@ -15,7 +15,7 @@
                 <div class="col-md-6">
                     <div class="panel panel-{{$errors->any() ? 'danger' : 'default'}}">
                         <div class="panel-heading">
-                            <h2 class="panel-title">@yield('heading')</h2>
+                            <h2 class="panel-title">@yield('title')</h2>
                         </div>
                         <div class="panel-body">
                             @yield('content')

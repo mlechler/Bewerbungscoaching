@@ -18,7 +18,7 @@
         <tbody>
         @if($pages->isEmpty())
             <tr>
-                <td colspan="5" align="center">There are no pages.</td>
+                <td colspan="6" align="center">There are no pages.</td>
             </tr>
         @else
             @foreach($pages as $page)
@@ -36,11 +36,11 @@
                         {{ $page->template or 'None' }}
                     </td>
                     <td>
-                        <a href="/admin/pages/<?php echo $page->id ?>/edit"><span
+                        <a href="/backend/pages/<?php echo $page->id ?>/edit"><span
                                     class="glyphicon glyphicon-edit"></span></a>
                     </td>
                     <td>
-                        <a href="/admin/pages/<?php echo $page->id ?>/confirm"><span
+                        <a href="/backend/pages/<?php echo $page->id ?>/confirm"><span
                                     class="glyphicon glyphicon-remove"></span></a>
                     </td>
                 </tr>

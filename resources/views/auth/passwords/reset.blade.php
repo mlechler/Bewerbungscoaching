@@ -2,8 +2,6 @@
 
 @section('title', 'Reset Password')
 
-@section('heading','Reset Password')
-
 @section('content')
 
     @if (session('status'))

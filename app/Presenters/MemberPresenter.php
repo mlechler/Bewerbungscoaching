@@ -10,4 +10,14 @@ class MemberPresenter extends BasePresenter
     {
         return ($this->lastname.' '.$this->firstname);
     }
+
+    public function formatBirthday()
+    {
+        return $this->birthday->format('d.m.Y');
+    }
+
+    public function lastLoginDifference()
+    {
+        return $this->last_login_at->diffForHumans();
+    }
 }

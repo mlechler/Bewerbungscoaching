@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\Employee;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class EmployeeTableSeeder extends Seeder
 {

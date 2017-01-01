@@ -28,14 +28,16 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><span class="navbar-text">Hello, {{ $admin->firstname }}</span></li>
-                    <li><a href="/auth/logout">Logout</a></li>
+                    <li><a href="/employee/logout">Logout</a></li>
                 </ul>
             </div>
         </nav>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h3>@yield('title')</h3>
+                    @if($__env->yieldContent('title') != 'Dashboard')
+                        <h3>@yield('title')</h3>
+                    @endif
 
                     @if($errors->any())
                         <div class="alert alert-danger">

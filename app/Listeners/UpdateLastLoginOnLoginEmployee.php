@@ -6,10 +6,9 @@ use Carbon\Carbon;
 
 class UpdateLastLoginOnLoginEmployee
 {
-    public function handle($user, $remember)
+    public function handle($event)
     {
-        $user->fill(array(
-            'last_login_at' => Carbon::now()
-        ))->save();
+        $event->user->last_login_at = Carbon::now();
+        $event->user->save();
     }
 }

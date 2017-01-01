@@ -1,27 +1,54 @@
 <?php
 
-Auth::routes();
+Route::group(['prefix' => 'employee'], function () {
+    Route::get('/login', 'EmployeeAuth\LoginController@showLoginForm');
+    Route::post('/login', 'EmployeeAuth\LoginController@login');
+    Route::get('/logout', 'EmployeeAuth\LoginController@logout');
 
-Route::get('auth/logout', 'Auth\LoginController@logout');
+    Route::post('/password/email', 'EmployeeAuth\ForgotPasswordController@sendResetLinkEmail');
+    Route::post('/password/reset', 'EmployeeAuth\ResetPasswordController@reset');
+    Route::get('/password/reset', 'EmployeeAuth\ForgotPasswordController@showLinkRequestForm');
+    Route::get('/password/reset/{token}', 'EmployeeAuth\ResetPasswordController@showResetForm');
+});
 
-Route::get('admin', ['as' => 'backend.dashboard', 'uses' => 'Backend\DashboardController@index']);
+Route::group(['prefix' => 'member'], function () {
+    Route::get('/login', 'MemberAuth\LoginController@showLoginForm');
+    Route::post('/login', 'MemberAuth\LoginController@login');
+    Route::post('/logout', 'MemberAuth\LoginController@logout');
 
-Route::get('admin/employees/{employee}/confirm', ['as' => 'backend.employees.confirm', 'uses' => 'Backend\EmployeesController@confirm']);
-Route::resource('admin/employees', 'Backend\EmployeesController');
+    Route::get('/register', 'MemberAuth\RegisterController@showRegistrationForm');
+    Route::post('/register', 'MemberAuth\RegisterController@register');
 
-Route::get('admin/members/{member}/confirm', ['as' => 'backend.members.confirm', 'uses' => 'Backend\MembersController@confirm']);
-Route::resource('admin/members', 'Backend\MembersController');
+    Route::post('/password/email', 'MemberAuth\ForgotPasswordController@sendResetLinkEmail');
+    Route::post('/password/reset', 'MemberAuth\ResetPasswordController@reset');
+    Route::get('/password/reset', 'MemberAuth\ForgotPasswordController@showLinkRequestForm');
+    Route::get('/password/reset/{token}', 'MemberAuth\ResetPasswordController@showResetForm');
+});
 
-Route::get('admin/seminars/{seminar}/confirm', ['as' => 'backend.seminars.confirm', 'uses' => 'Backend\SeminarsController@confirm']);
-Route::resource('admin/seminars', 'Backend\SeminarsController');
+Route::group(['prefix' => 'backend'], function () {
+    Route::get('/', ['as' => 'backend.dashboard', 'uses' => 'Backend\DashboardController@index']);
 
-Route::get('admin/pages/{page}/confirm', ['as' => 'backend.pages.confirm', 'uses' => 'Backend\PagesController@confirm']);
-Route::resource('admin/pages', 'Backend\PagesController');
+    Route::get('/employees/{employee}/confirm', ['as' => 'backend.employees.confirm', 'uses' => 'Backend\EmployeesController@confirm']);
+    Route::resource('/employees', 'Backend\EmployeesController');
 
-Route::get('admin/blog/{blog}/confirm', ['as' => 'backend.blog.confirm', 'uses' => 'Backend\BlogController@confirm']);
-Route::resource('admin/blog', 'Backend\BlogController');
+    Route::get('/members/{member}/confirm', ['as' => 'backend.members.confirm', 'uses' => 'Backend\MembersController@confirm']);
+    Route::resource('/members', 'Backend\MembersController');
 
+    Route::get('/seminars/{seminar}/confirm', ['as' => 'backend.seminars.confirm', 'uses' => 'Backend\SeminarsController@confirm']);
+    Route::resource('/seminars', 'Backend\SeminarsController');
+
+    Route::get('/pages/{page}/confirm', ['as' => 'backend.pages.confirm', 'uses' => 'Backend\PagesController@confirm']);
+    Route::resource('/pages', 'Backend\PagesController');
+
+    Route::get('/blog/{blog}/confirm', ['as' => 'backend.blog.confirm', 'uses' => 'Backend\BlogController@confirm']);
+    Route::resource('/blog', 'Backend\BlogController');
+});
 
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/home', function () {
+  return view('home');
+});
+

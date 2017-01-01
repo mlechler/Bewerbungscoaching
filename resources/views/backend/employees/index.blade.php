@@ -27,11 +27,11 @@
                     {{ $employee->email }}
                 </td>
                 <td>
-                    <a href="/admin/employees/<?php echo $employee->id ?>/edit"><span
+                    <a href="/backend/employees/<?php echo $employee->id ?>/edit"><span
                                 class="glyphicon glyphicon-edit"></span></a>
                 </td>
                 <td>
-                    <a href="/admin/employees/<?php echo $employee->id ?>/confirm"><span
+                    <a href="/backend/employees/<?php echo $employee->id ?>/confirm"><span
                                 class="glyphicon glyphicon-remove"></span></a>
                 </td>
             </tr>

@@ -16,30 +16,36 @@
         </tr>
         </thead>
         <tbody>
-        @foreach($posts as $post)
-            <tr class="{{ $post->publishedHighlight() }}">
-                <td>
-                    {{ $post->title }}
-                </td>
-                <td>
-                    {{ $post->slug }}
-                </td>
-                <td>
-                    {{ $post->getName() }}
-                </td>
-                <td>
-                    {{ $post->publishedDate() }}
-                </td>
-                <td>
-                    <a href="/admin/blog/<?php echo $post->id ?>/edit"><span
-                                class="glyphicon glyphicon-edit"></span></a>
-                </td>
-                <td>
-                    <a href="/admin/blog/<?php echo $post->id ?>/confirm"><span
-                                class="glyphicon glyphicon-remove"></span></a>
-                </td>
+        @if($posts->isEmpty())
+            <tr>
+                <td colspan="6" align="center">There are no blog posts.</td>
             </tr>
-        @endforeach
+        @else
+            @foreach($posts as $post)
+                <tr class="{{ $post->publishedHighlight() }}">
+                    <td>
+                        {{ $post->title }}
+                    </td>
+                    <td>
+                        {{ $post->slug }}
+                    </td>
+                    <td>
+                        {{ $post->getName() }}
+                    </td>
+                    <td>
+                        {{ $post->publishedDate() }}
+                    </td>
+                    <td>
+                        <a href="/backend/blog/<?php echo $post->id ?>/edit"><span
+                                    class="glyphicon glyphicon-edit"></span></a>
+                    </td>
+                    <td>
+                        <a href="/backend/blog/<?php echo $post->id ?>/confirm"><span
+                                    class="glyphicon glyphicon-remove"></span></a>
+                    </td>
+                </tr>
+            @endforeach
+        @endif
         </tbody>
     </table>
 

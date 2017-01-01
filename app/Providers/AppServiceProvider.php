@@ -27,6 +27,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        if ($this->app->environment() == 'local') {
+            $this->app->register('Hesto\MultiAuth\MultiAuthServiceProvider');
+        }
+
         $this->app->singleton('theme.finder', function ($app) {
             $finder = new ThemeViewFinder($app['files'], $app['config']['view.paths']);
 
