@@ -80,6 +80,15 @@
         {{ Form::text('courseofstudies', null, ['class' => 'form-control']) }}
     </div>
 
+    <div class="form-group row">
+        <div class="col-md-12">
+            {{ Form::label('role') }}
+        </div>
+        <div class="col-md-4">
+            {{ Form::select('role_id', $roles, null, ['class' => 'form-control']) }}
+        </div>
+    </div>
+
     <div class="form-group">
         {{ Form::label('password') }}
         {{ Form::password('password', ['class' => 'form-control']) }}

@@ -46,8 +46,6 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'user' => \App\Http\Middleware\RedirectIfNotUser::class,
-        'user.guest' => \App\Http\Middleware\RedirectIfUser::class,
         'member' => \App\Http\Middleware\RedirectIfNotMember::class,
         'member.guest' => \App\Http\Middleware\RedirectIfMember::class,
         'employee' => \App\Http\Middleware\RedirectIfNotEmployee::class,
@@ -58,6 +56,5 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'employee' => \App\Http\Middleware\RedirectIfNotEmployee::class
     ];
 }

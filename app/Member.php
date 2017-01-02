@@ -13,7 +13,7 @@ class Member extends Authenticatable implements HasPresenter
     use Notifiable;
 
     protected $table = 'members';
-    protected $fillable = ['lastname', 'firstname', 'birthday', 'phone', 'mobile', 'email', 'adress_id', 'job', 'employer', 'university', 'courseofstudies', 'password', 'remember_token'];
+    protected $fillable = ['lastname', 'firstname', 'birthday', 'phone', 'mobile', 'email', 'adress_id', 'role_id', 'job', 'employer', 'university', 'courseofstudies', 'password', 'remember_token'];
     protected $hidden = ['password', 'remember_token'];
     protected $dates = ['birthday', 'last_login_at'];
 
@@ -30,5 +30,10 @@ class Member extends Authenticatable implements HasPresenter
     public function adress()
     {
         return $this->belongsTo(Adress::class);
+    }
+
+    public function roles()
+    {
+        return $this->belongsTo(Role::class);
     }
 }

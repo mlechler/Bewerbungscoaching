@@ -27,7 +27,7 @@
                     <li><a href="{{ route('blog.index') }}">Blog Posts</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><span class="navbar-text">Hello, {{ $admin->firstname }}</span></li>
+                    <li><span class="navbar-text">Hello, {{ $backendUser->firstname }}</span></li>
                     <li><a href="/employee/logout">Logout</a></li>
                 </ul>
             </div>

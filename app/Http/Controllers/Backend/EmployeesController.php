@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Employee;
 use App\Adress;
+use App\Role;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -30,7 +31,10 @@ class EmployeesController extends Controller
     public function create(Employee $employee)
     {
         $adress = null;
-        return view('backend.employees.form', compact('employee', 'adress'));
+
+        $roles = ['' => ''] + Role::all()->pluck('display_name', 'id')->toArray();
+
+        return view('backend.employees.form', compact('employee', 'adress', 'roles'));
     }
 
     public function store(Requests\StoreEmployeeRequest $request)
@@ -55,6 +59,7 @@ class EmployeesController extends Controller
             'mobile' => $request->mobile,
             'email' => $request->email,
             'adress_id' => $adress->id,
+            'role_id' => $request->role_id,
             'password' => Hash::make($request->password),
             'remember_token' => Auth::viaRemember()
         ));
@@ -65,9 +70,12 @@ class EmployeesController extends Controller
     public function edit($id)
     {
         $employee = Employee::findOrFail($id);
+
         $adress = Adress::whereId($employee->adress_id)->first();
 
-        return view('backend.employees.form', compact('employee', 'adress'));
+        $roles = ['' => ''] + Role::all()->pluck('display_name', 'id')->toArray();
+
+        return view('backend.employees.form', compact('employee', 'adress', 'roles'));
     }
 
     public function update(Requests\UpdateEmployeeRequest $request, $id)
@@ -94,6 +102,7 @@ class EmployeesController extends Controller
             'mobile' => $request->mobile,
             'email' => $request->email,
             'adress_id' => $adress->id,
+            'role_id' => $request->role_id,
             'password' => Hash::make($request->password),
             'remember_token' => Auth::viaRemember()
         ))->save();

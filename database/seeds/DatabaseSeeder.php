@@ -19,5 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call('PageTableSeeder');
         $this->call('PostTableSeeder');
         $this->call('AdressTableSeeder');
+        $this->call('RoleTableSeeder');
     }
 }

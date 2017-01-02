@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Member;
 use App\Adress;
+use App\Role;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -30,7 +31,10 @@ class MembersController extends Controller
     public function create(Member $member)
     {
         $adress = null;
-        return view('backend.members.form', compact('member', 'adress'));
+
+        $roles = ['' => ''] + Role::all()->pluck('display_name', 'id')->toArray();
+
+        return view('backend.members.form', compact('member', 'adress', 'roles'));
     }
 
     public function store(Requests\StoreMemberRequest $request)
@@ -55,6 +59,7 @@ class MembersController extends Controller
             'mobile' => $request->mobile,
             'email' => $request->email,
             'adress_id' => $adress->id,
+            'role_id' => $request->role_id,
             'job' => $request->job,
             'employer' => $request->employer,
             'university' => $request->university,
@@ -69,8 +74,12 @@ class MembersController extends Controller
     public function edit($id)
     {
         $member = Member::findOrFail($id);
+
         $adress = Adress::whereId($member->adress_id)->first();
-        return view('backend.members.form', compact('member', 'adress'));
+
+        $roles = ['' => ''] + Role::all()->pluck('display_name', 'id')->toArray();
+
+        return view('backend.members.form', compact('member', 'adress', 'roles'));
     }
 
     public function update(Requests\UpdateMemberRequest $request, $id)
@@ -97,6 +106,7 @@ class MembersController extends Controller
             'mobile' => $request->mobile,
             'email' => $request->email,
             'adress_id' => $adress->id,
+            'role_id' => $request->role_id,
             'job' => $request->job,
             'employer' => $request->employer,
             'university' => $request->university,

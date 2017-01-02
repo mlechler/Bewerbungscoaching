@@ -26,6 +26,7 @@ class CreateMembersTable extends Migration
             $table->string('employer')->nullable();
             $table->string('university')->nullable();
             $table->string('courseofstudies')->nullable();
+            $table->integer('role_id');
             $table->string('password');
             $table->string('remember_token');
             $table->timestamp('last_login_at')->nullable();
