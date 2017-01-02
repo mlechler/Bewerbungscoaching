@@ -18,5 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call('SeminarTableSeeder');
         $this->call('PageTableSeeder');
         $this->call('PostTableSeeder');
+        $this->call('AdressTableSeeder');
     }
 }

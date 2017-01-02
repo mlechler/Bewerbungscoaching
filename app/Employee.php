@@ -13,7 +13,7 @@ class Employee extends Authenticatable implements HasPresenter
     use Notifiable;
 
     protected $table = 'employees';
-    protected $fillable = ['lastname', 'firstname', 'birthday', 'phone', 'mobile', 'email', 'password', 'remember_token'];
+    protected $fillable = ['lastname', 'firstname', 'birthday', 'phone', 'mobile', 'email', 'adress_id', 'password', 'remember_token'];
     protected $hidden = ['password', 'remember_token'];
     protected $dates = ['birthday', 'last_login_at'];
 
@@ -25,5 +25,10 @@ class Employee extends Authenticatable implements HasPresenter
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new EmployeeResetPassword($token));
+    }
+
+    public function adress()
+    {
+        return $this->belongsTo(Adress::class);
     }
 }

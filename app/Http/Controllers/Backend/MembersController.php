@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Member;
+use App\Adress;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -28,11 +29,24 @@ class MembersController extends Controller
 
     public function create(Member $member)
     {
-        return view('backend.members.form', compact('member'));
+        $adress = null;
+        return view('backend.members.form', compact('member', 'adress'));
     }
 
     public function store(Requests\StoreMemberRequest $request)
     {
+        $adress = Adress::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
+
+        if (!$adress) {
+            $newadress = Adress::create(array(
+                'zip' => $request->zip,
+                'city' => $request->city,
+                'street' => $request->street,
+                'housenumber' => $request->housenumber
+            ));
+            $adress = $newadress;
+        }
+
         Member::create(array(
             'lastname' => $request->lastname,
             'firstname' => $request->firstname,
@@ -40,11 +54,13 @@ class MembersController extends Controller
             'phone' => $request->phone,
             'mobile' => $request->mobile,
             'email' => $request->email,
+            'adress_id' => $adress->id,
             'job' => $request->job,
             'employer' => $request->employer,
             'university' => $request->university,
             'courseofstudies' => $request->courseofstudies,
-            'password' => Hash::make($request->password)
+            'password' => Hash::make($request->password),
+            'remember_token' => Auth::viaRemember()
         ));
 
         return redirect(route('members.index'))->with('status', 'Member has been created.');
@@ -53,11 +69,24 @@ class MembersController extends Controller
     public function edit($id)
     {
         $member = Member::findOrFail($id);
-        return view('backend.members.form', compact('member'));
+        $adress = Adress::whereId($member->adress_id)->first();
+        return view('backend.members.form', compact('member', 'adress'));
     }
 
     public function update(Requests\UpdateMemberRequest $request, $id)
     {
+        $adress = Adress::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
+
+        if (!$adress) {
+            $newadress = Adress::create(array(
+                'zip' => $request->zip,
+                'city' => $request->city,
+                'street' => $request->street,
+                'housenumber' => $request->housenumber
+            ));
+            $adress = $newadress;
+        }
+
         $member = Member::findOrFail($id);
 
         $member->fill(array(
@@ -67,11 +96,13 @@ class MembersController extends Controller
             'phone' => $request->phone,
             'mobile' => $request->mobile,
             'email' => $request->email,
+            'adress_id' => $adress->id,
             'job' => $request->job,
             'employer' => $request->employer,
             'university' => $request->university,
             'courseofstudies' => $request->courseofstudies,
-            'password' => Hash::make($request->password)
+            'password' => Hash::make($request->password),
+            'remember_token' => Auth::viaRemember()
         ))->save();
 
         return redirect(route('members.index'))->with('status', 'Member has been updated.');

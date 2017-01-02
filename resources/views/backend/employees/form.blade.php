@@ -38,6 +38,28 @@
         {{ Form::text('email', null, ['class' => 'form-control']) }}
     </div>
 
+    <div class="form-group row">
+        <div class="col-md-2">
+            {{ Form::label('zip_code') }}
+            {{ Form::text('zip', $adress ? $adress->zip : null, ['class' => 'form-control']) }}
+        </div>
+
+        <div class="col-md-4">
+            {{ Form::label('city') }}
+            {{ Form::text('city', $adress ? $adress->city : null, ['class' => 'form-control']) }}
+        </div>
+
+        <div class="col-md-4">
+            {{ Form::label('street') }}
+            {{ Form::text('street', $adress ? $adress->street : null, ['class' => 'form-control']) }}
+        </div>
+
+        <div class="col-md-2">
+            {{ Form::label('housenumber') }}
+            {{ Form::text('housenumber', $adress ? $adress->housenumber : null, ['class' => 'form-control']) }}
+        </div>
+    </div>
+
     <div class="form-group">
         {{ Form::label('password') }}
         {{ Form::password('password', ['class' => 'form-control']) }}
