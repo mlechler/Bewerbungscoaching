@@ -5,7 +5,8 @@
 @section('content')
     {{ Form::model($member, [
     'method' => $member->exists ? 'put' : 'post',
-    'route' => $member->exists ? ['members.update', $member->id] :['members.store']
+    'route' => $member->exists ? ['members.update', $member->id] :['members.store'],
+    'enctype' => 'multipart/form-data'
     ]) }}
 
     <div class="form-group">
@@ -97,6 +98,23 @@
     <div class="form-group">
         {{ Form::label('password_confirmation') }}
         {{ Form::password('password_confirmation', ['class' => 'form-control']) }}
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-12">
+            {{ Form::label('files') }}
+            <br>
+            @if($files != null)
+                @foreach($files as $file)
+                    {{ $file }}
+                    <br>
+                @endforeach
+            @endif
+        </div>
+        <div class="col-md-5">
+            <br>
+            {{ Form::file('file', null, ['class' => 'form-control']) }}
+        </div>
     </div>
 
     {{ Form::submit($member->exists ? 'Save Member' : 'Create new Member', ['class' => 'btn btn-success']) }}

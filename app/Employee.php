@@ -37,4 +37,9 @@ class Employee extends Authenticatable implements HasPresenter
     {
         return $this->belongsTo(Role::class);
     }
+
+    public function employeeFile()
+    {
+        return $this->hasMany(Employeefile::class);
+    }
 }

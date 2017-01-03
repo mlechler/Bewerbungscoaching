@@ -36,4 +36,9 @@ class Member extends Authenticatable implements HasPresenter
     {
         return $this->belongsTo(Role::class);
     }
+
+    public function memberFiles()
+    {
+        return $this->hasMany(Memberfile::class);
+    }
 }

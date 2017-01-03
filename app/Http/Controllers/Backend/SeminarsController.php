@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Seminar;
+use App\Seminarfile;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 
@@ -26,12 +27,14 @@ class SeminarsController extends Controller
 
     public function create(Seminar $seminar)
     {
-        return view('backend.seminars.form', compact('seminar'));
+        $files = null;
+
+        return view('backend.seminars.form', compact('seminar', 'files'));
     }
 
     public function store(Requests\StoreSeminarRequest $request)
     {
-        Seminar::create(array(
+        $seminar = Seminar::create(array(
             'title' => $request->title,
             'description' => $request->description,
             'services' => $request->services,
@@ -40,6 +43,10 @@ class SeminarsController extends Controller
             'price' => $request->price
         ));
 
+        if ($request->hasFile('file')) {
+            $this->storeFile($seminar->id);
+        }
+
         return redirect(route('seminars.index'))->with('status', 'Seminar has been created.');
     }
 
@@ -47,7 +54,9 @@ class SeminarsController extends Controller
     {
         $seminar = Seminar::findOrFail($id);
 
-        return view('backend.seminars.form', compact('seminar'));
+        $files = Seminarfile::where('seminar_id', '=', $seminar->id)->pluck('name', 'id')->toArray();
+
+        return view('backend.seminars.form', compact('seminar', 'files'));
     }
 
     public function update(Requests\UpdateSeminarRequest $request, $id)
@@ -62,6 +71,10 @@ class SeminarsController extends Controller
             'duration' => $request->duration,
             'price' => $request->price
         ))->save();
+
+        if ($request->hasFile('file')) {
+            $this->storeFile($seminar->id);
+        }
 
         return redirect(route('seminars.index'))->with('status', 'Seminar has been updated.');
     }
@@ -78,5 +91,30 @@ class SeminarsController extends Controller
         Seminar::destroy($id);
 
         return redirect(route('seminars.index'))->with('status', 'Seminar has been deleted.');
+    }
+
+    public function storeFile($seminar_id)
+    {
+        $fileName = $_FILES['file']['name'];
+        $tmpName = $_FILES['file']['tmp_name'];
+        $fileSize = $_FILES['file']['size'];
+        $fileType = $_FILES['file']['type'];
+
+        $fp = fopen($tmpName, 'r');
+        $fileContent = fread($fp, fileSize($tmpName));
+        $fileContent = addslashes($fileContent);
+        fclose($fp);
+
+        if (!get_magic_quotes_gpc()) {
+            $fileName = addslashes($fileName);
+        }
+
+        Seminarfile::create(array(
+            'name' => $fileName,
+            'type' => $fileType,
+            'size' => $fileSize,
+            'content' => $fileContent,
+            'seminar_id' => $seminar_id
+        ));
     }
 }

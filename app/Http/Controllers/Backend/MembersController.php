@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Member;
 use App\Adress;
+use App\Memberfile;
 use App\Role;
 use App\Http\Requests;
 use Illuminate\Http\Request;
@@ -32,9 +33,11 @@ class MembersController extends Controller
     {
         $adress = null;
 
+        $files = null;
+
         $roles = ['' => ''] + Role::all()->pluck('display_name', 'id')->toArray();
 
-        return view('backend.members.form', compact('member', 'adress', 'roles'));
+        return view('backend.members.form', compact('member', 'adress', 'roles', 'files'));
     }
 
     public function store(Requests\StoreMemberRequest $request)
@@ -51,7 +54,7 @@ class MembersController extends Controller
             $adress = $newadress;
         }
 
-        Member::create(array(
+        $member = Member::create(array(
             'lastname' => $request->lastname,
             'firstname' => $request->firstname,
             'birthday' => $request->birthday,
@@ -68,6 +71,10 @@ class MembersController extends Controller
             'remember_token' => Auth::viaRemember()
         ));
 
+        if ($request->hasFile('file')) {
+            $this->storeFile($member->id);
+        }
+
         return redirect(route('members.index'))->with('status', 'Member has been created.');
     }
 
@@ -79,7 +86,9 @@ class MembersController extends Controller
 
         $roles = ['' => ''] + Role::all()->pluck('display_name', 'id')->toArray();
 
-        return view('backend.members.form', compact('member', 'adress', 'roles'));
+        $files = Memberfile::where('member_id', '=', $member->id)->pluck('name', 'id')->toArray();
+
+        return view('backend.members.form', compact('member', 'adress', 'roles', 'files'));
     }
 
     public function update(Requests\UpdateMemberRequest $request, $id)
@@ -115,6 +124,10 @@ class MembersController extends Controller
             'remember_token' => Auth::viaRemember()
         ))->save();
 
+        if ($request->hasFile('file')) {
+            $this->storeFile($member->id);
+        }
+
         return redirect(route('members.index'))->with('status', 'Member has been updated.');
     }
 
@@ -130,5 +143,31 @@ class MembersController extends Controller
         Member::destroy($id);
 
         return redirect(route('members.index'))->with('status', 'Member has been deleted.');
+    }
+
+    public function storeFile($member_id)
+    {
+        $fileName = $_FILES['file']['name'];
+        $tmpName = $_FILES['file']['tmp_name'];
+        $fileSize = $_FILES['file']['size'];
+        $fileType = $_FILES['file']['type'];
+
+        $fp = fopen($tmpName, 'r');
+        $fileContent = fread($fp, fileSize($tmpName));
+        $fileContent = addslashes($fileContent);
+        fclose($fp);
+
+        if (!get_magic_quotes_gpc()) {
+            $fileName = addslashes($fileName);
+        }
+
+        Memberfile::create(array(
+            'name' => $fileName,
+            'type' => $fileType,
+            'size' => $fileSize,
+            'content' => $fileContent,
+            'checked' => false,
+            'member_id' => $member_id
+        ));
     }
 }
