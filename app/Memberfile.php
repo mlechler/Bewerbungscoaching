@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Memberfile extends Model
 {
     protected $table = 'memberfiles';
-    protected $fillable = ['name', 'type', 'size', 'content', 'checked', 'member_id'];
+    protected $fillable = ['name', 'type', 'size', 'path', 'checked', 'member_id'];
 
     public function member()
     {

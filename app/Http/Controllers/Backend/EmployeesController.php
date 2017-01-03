@@ -6,6 +6,7 @@ use App\Employee;
 use App\Adress;
 use App\Employeefile;
 use App\Role;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -67,10 +68,10 @@ class EmployeesController extends Controller
             'remember_token' => Auth::viaRemember()
         ));
 
-        if ($request->hasFile('file')) {
-            $this->storeFile($employee->id);
+        if ($request->hasFile('files')) {
+            $files = $request->file('files');
+            $this->storeFiles($files, $employee->id);
         }
-
 
         return redirect(route('employees.index'))->with('status', 'Employee has been created.');
     }
@@ -117,8 +118,9 @@ class EmployeesController extends Controller
             'remember_token' => Auth::viaRemember()
         ))->save();
 
-        if ($request->hasFile('file')) {
-            $this->storeFile($employee->id);
+        if ($request->hasFile('files')) {
+            $files = $request->file('files');
+            $this->storeFiles($files, $employee->id);
         }
 
         return redirect(route('employees.index'))->with('status', 'Employee has been updated.');
@@ -136,32 +138,51 @@ class EmployeesController extends Controller
     {
         Employee::destroy($id);
 
+        $this->deleteFiles($id);
+
         return redirect(route('employees.index'))->with('status', 'Employee has been deleted.');
     }
 
-    public function storeFile($employee_id)
+    public function storeFiles($files, $employee_id)
     {
-        $fileName = $_FILES['file']['name'];
-        $tmpName = $_FILES['file']['tmp_name'];
-        $fileSize = $_FILES['file']['size'];
-        $fileType = $_FILES['file']['type'];
+        foreach ($files as $file) {
+            $fileName = $file->getClientOriginalName();
+            $fileType = $file->getClientMimeType();
+            $destinationPath = config('app.fileDestinationPath') . '/employees/' . $employee_id . '/' . $fileName;
+            $uploaded = Storage::put($destinationPath, file_get_contents($file->getRealPath()));
 
-        $fp = fopen($tmpName, 'r');
-        $fileContent = fread($fp, fileSize($tmpName));
-        $fileContent = addslashes($fileContent);
-        fclose($fp);
+            if ($uploaded) {
+                $employeefile = Employeefile::where('path', '=', $destinationPath)->first();
 
-        if (!get_magic_quotes_gpc()) {
-            $fileName = addslashes($fileName);
+                if (!$employeefile) {
+                    Employeefile::create(array(
+                        'name' => $fileName,
+                        'path' => $destinationPath,
+                        'type' => $fileType,
+                        'size' => filesize($file),
+                        'employee_id' => $employee_id
+                    ));
+                }
+            }
         }
-
-        Employeefile::create(array(
-            'name' => $fileName,
-            'type' => $fileType,
-            'size' => $fileSize,
-            'content' => $fileContent,
-            'employee_id' => $employee_id
-        ));
     }
 
+    public function deleteFiles($employee_id)
+    {
+        $employeefiles = Employeefile::where('employee_id', '=', $employee_id)->first();
+
+        foreach ($employeefiles as $employeefile) {
+            Employeefile::destroy($employeefile->id);
+            Storage::delete($employeefile->path);
+        }
+    }
+
+    public function deleteFile($file_id)
+    {
+        $employeefile = Employeefile::whereId($file_id)->first();
+        Employeefile::destroy($file_id);
+        Storage::delete($employeefile->path);
+
+        return redirect()->back()->with('status', 'File has been deleted.');
+    }
 }

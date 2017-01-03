@@ -6,6 +6,7 @@ use App\Member;
 use App\Adress;
 use App\Memberfile;
 use App\Role;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -71,8 +72,9 @@ class MembersController extends Controller
             'remember_token' => Auth::viaRemember()
         ));
 
-        if ($request->hasFile('file')) {
-            $this->storeFile($member->id);
+        if ($request->hasFile('files')) {
+            $files = $request->file('files');
+            $this->storeFiles($files, $member->id);
         }
 
         return redirect(route('members.index'))->with('status', 'Member has been created.');
@@ -124,8 +126,9 @@ class MembersController extends Controller
             'remember_token' => Auth::viaRemember()
         ))->save();
 
-        if ($request->hasFile('file')) {
-            $this->storeFile($member->id);
+        if ($request->hasFile('files')) {
+            $files = $request->file('files');
+            $this->storeFiles($files, $member->id);
         }
 
         return redirect(route('members.index'))->with('status', 'Member has been updated.');
@@ -142,32 +145,52 @@ class MembersController extends Controller
     {
         Member::destroy($id);
 
+        $this->deleteFiles($id);
+
         return redirect(route('members.index'))->with('status', 'Member has been deleted.');
     }
 
-    public function storeFile($member_id)
+    public function storeFiles($files, $member_id)
     {
-        $fileName = $_FILES['file']['name'];
-        $tmpName = $_FILES['file']['tmp_name'];
-        $fileSize = $_FILES['file']['size'];
-        $fileType = $_FILES['file']['type'];
+        foreach ($files as $file) {
+            $fileName = $file->getClientOriginalName();
+            $fileType = $file->getClientMimeType();
+            $destinationPath = config('app.fileDestinationPath') . '/members/' . $member_id . '/' . $fileName;
+            $uploaded = Storage::put($destinationPath, file_get_contents($file->getRealPath()));
 
-        $fp = fopen($tmpName, 'r');
-        $fileContent = fread($fp, fileSize($tmpName));
-        $fileContent = addslashes($fileContent);
-        fclose($fp);
+            if ($uploaded) {
+                $memberfile = Memberfile::where('path', '=', $destinationPath)->first();
 
-        if (!get_magic_quotes_gpc()) {
-            $fileName = addslashes($fileName);
+                if (!$memberfile) {
+                    Memberfile::create(array(
+                        'name' => $fileName,
+                        'path' => $destinationPath,
+                        'type' => $fileType,
+                        'size' => filesize($file),
+                        'member_id' => $member_id,
+                        'checked' => false
+                    ));
+                }
+            }
         }
+    }
 
-        Memberfile::create(array(
-            'name' => $fileName,
-            'type' => $fileType,
-            'size' => $fileSize,
-            'content' => $fileContent,
-            'checked' => false,
-            'member_id' => $member_id
-        ));
+    public function deleteFiles($member_id)
+    {
+        $memberfiles = Memberfile::all()->where('seminar_id', '=', $member_id);
+
+        foreach ($memberfiles as $memberfile) {
+            Memberfile::destroy($memberfile->id);
+            Storage::delete($memberfile->path);
+        }
+    }
+
+    public function deleteFile($file_id)
+    {
+        $memberfile = Memberfile::whereId($file_id)->first();
+        Memberfile::destroy($file_id);
+        Storage::delete($memberfile->path);
+
+        return redirect()->back()->with('status', 'File has been deleted.');
     }
 }

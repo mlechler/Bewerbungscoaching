@@ -16,14 +16,13 @@ class CreateMemberfilesTable extends Migration
         Schema::create('memberfiles', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('path');
             $table->string('type');
             $table->string('size');
-            $table->boolean('checked');
             $table->integer('member_id');
+            $table->boolean('checked');
             $table->timestamps();
         });
-
-        DB::statement("ALTER TABLE memberfiles ADD content MEDIUMBLOB NOT NULL");
     }
 
     /**

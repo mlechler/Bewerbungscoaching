@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Seminar;
 use App\Seminarfile;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 
@@ -43,8 +44,10 @@ class SeminarsController extends Controller
             'price' => $request->price
         ));
 
-        if ($request->hasFile('file')) {
-            $this->storeFile($seminar->id);
+        if ($request->hasFile('files')) {
+            $files = $request->file('files');
+            $this->storeFiles($files, $seminar->id);
+
         }
 
         return redirect(route('seminars.index'))->with('status', 'Seminar has been created.');
@@ -72,8 +75,9 @@ class SeminarsController extends Controller
             'price' => $request->price
         ))->save();
 
-        if ($request->hasFile('file')) {
-            $this->storeFile($seminar->id);
+        if ($request->hasFile('files')) {
+            $files = $request->file('files');
+            $this->storeFiles($files, $seminar->id);
         }
 
         return redirect(route('seminars.index'))->with('status', 'Seminar has been updated.');
@@ -90,31 +94,51 @@ class SeminarsController extends Controller
     {
         Seminar::destroy($id);
 
+        $this->deleteFiles($id);
+
         return redirect(route('seminars.index'))->with('status', 'Seminar has been deleted.');
     }
 
-    public function storeFile($seminar_id)
+    public function storeFiles($files, $seminar_id)
     {
-        $fileName = $_FILES['file']['name'];
-        $tmpName = $_FILES['file']['tmp_name'];
-        $fileSize = $_FILES['file']['size'];
-        $fileType = $_FILES['file']['type'];
+        foreach ($files as $file) {
+            $fileName = $file->getClientOriginalName();
+            $fileType = $file->getClientMimeType();
+            $destinationPath = config('app.fileDestinationPath') . '/seminars/' . $seminar_id . '/' . $fileName;
+            $uploaded = Storage::put($destinationPath, file_get_contents($file->getRealPath()));
 
-        $fp = fopen($tmpName, 'r');
-        $fileContent = fread($fp, fileSize($tmpName));
-        $fileContent = addslashes($fileContent);
-        fclose($fp);
+            if ($uploaded) {
+                $seminarfile = Seminarfile::where('path', '=', $destinationPath)->first();
 
-        if (!get_magic_quotes_gpc()) {
-            $fileName = addslashes($fileName);
+                if (!$seminarfile) {
+                    Seminarfile::create(array(
+                        'name' => $fileName,
+                        'path' => $destinationPath,
+                        'type' => $fileType,
+                        'size' => filesize($file),
+                        'seminar_id' => $seminar_id
+                    ));
+                }
+            }
         }
+    }
 
-        Seminarfile::create(array(
-            'name' => $fileName,
-            'type' => $fileType,
-            'size' => $fileSize,
-            'content' => $fileContent,
-            'seminar_id' => $seminar_id
-        ));
+    public function deleteFiles($seminar_id)
+    {
+        $seminarfiles = Seminarfile::all()->where('seminar_id', '=', $seminar_id);
+
+        foreach ($seminarfiles as $seminarfile) {
+            Seminarfile::destroy($seminarfile->id);
+            Storage::delete($seminarfile->path);
+        }
+    }
+
+    public function deleteFile($file_id)
+    {
+        $seminarfile = Seminarfile::whereId($file_id)->first();
+        Seminarfile::destroy($file_id);
+        Storage::delete($seminarfile->path);
+
+        return redirect()->back()->with('status', 'File has been deleted.');
     }
 }

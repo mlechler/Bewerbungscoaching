@@ -16,13 +16,12 @@ class CreateSeminarfilesTable extends Migration
         Schema::create('seminarfiles', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('path');
             $table->string('type');
             $table->string('size');
             $table->integer('seminar_id');
             $table->timestamps();
         });
-
-        DB::statement("ALTER TABLE seminarfiles ADD content MEDIUMBLOB NOT NULL");
     }
 
     /**

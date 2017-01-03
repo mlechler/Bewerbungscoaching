@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Seminarfile extends Model
 {
     protected $table = 'seminarfiles';
-    protected $fillable = ['name', 'type', 'size', 'content','seminar_id'];
+    protected $fillable = ['name', 'path', 'type', 'size','seminar_id'];
 
     public function seminar()
     {

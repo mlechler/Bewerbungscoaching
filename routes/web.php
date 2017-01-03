@@ -29,12 +29,15 @@ Route::group(['prefix' => 'backend'], function () {
     Route::get('/', ['as' => 'backend.dashboard', 'uses' => 'Backend\DashboardController@index']);
 
     Route::get('/employees/{employee}/confirm', ['as' => 'backend.employees.confirm', 'uses' => 'Backend\EmployeesController@confirm']);
+    Route::get('/employees/files/{file}/delete', 'Backend\EmployeesController@deleteFile');
     Route::resource('/employees', 'Backend\EmployeesController');
 
     Route::get('/members/{member}/confirm', ['as' => 'backend.members.confirm', 'uses' => 'Backend\MembersController@confirm']);
+    Route::get('/members/files/{file}/delete', 'Backend\MembersController@deleteFile');
     Route::resource('/members', 'Backend\MembersController');
 
     Route::get('/seminars/{seminar}/confirm', ['as' => 'backend.seminars.confirm', 'uses' => 'Backend\SeminarsController@confirm']);
+    Route::get('/seminars/files/{file}/delete', 'Backend\SeminarsController@deleteFile');
     Route::resource('/seminars', 'Backend\SeminarsController');
 
     Route::get('/pages/{page}/confirm', ['as' => 'backend.pages.confirm', 'uses' => 'Backend\PagesController@confirm']);

@@ -23,14 +23,26 @@ class StoreEmployeeRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'lastname' => ['required'],
             'firstname' => ['required'],
             'birthday' => ['required', 'date_format:Y-m-d'],
             'phone' => ['required'],
             'mobile' => ['required', 'unique:employees'],
             'email' => ['required', 'email', 'unique:employees'],
-            'password' => ['required','confirmed']
+            'password' => ['required', 'confirmed'],
+            'files' => ['array']
         ];
+
+        $files = $this->file('files');
+
+        if (!empty($files)) {
+            foreach ($files as $key => $file) // add individual rules to each image
+            {
+                $rules[sprintf('files.%d', $key)] = ['required', 'mimes:' . config('app.allowedFileTypes'), 'max:' . config('app.maxFileSize')];
+            }
+        }
+
+        return $rules;
     }
 }

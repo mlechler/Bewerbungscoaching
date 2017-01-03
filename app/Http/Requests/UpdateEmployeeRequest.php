@@ -25,14 +25,26 @@ class UpdateEmployeeRequest extends FormRequest
     public function rules()
     {
         $id = $this->route('employee');
-        return [
+        $rules = [
             'lastname' => ['required'],
             'firstname' => ['required'],
             'birthday' => ['required', 'date_format:Y-m-d'],
             'phone' => ['required'],
-            'mobile' => ['required', 'unique:employees,mobile,'.$id],
-            'email' => ['required', 'email', 'unique:employees,email,'.$id],
-            'password' => ['required_with:password_confirmation','confirmed']
+            'mobile' => ['required', 'unique:employees,mobile,' . $id],
+            'email' => ['required', 'email', 'unique:employees,email,' . $id],
+            'password' => ['required_with:password_confirmation', 'confirmed'],
+            'files' => ['array']
         ];
+
+        $files = $this->file('files');
+
+        if (!empty($files)) {
+            foreach ($files as $key => $file) // add individual rules to each image
+            {
+                $rules[sprintf('files.%d', $key)] = ['required', 'mimes:' . config('app.allowedFileTypes'), 'max:' . config('app.maxFileSize')];
+            }
+        }
+
+        return $rules;
     }
 }

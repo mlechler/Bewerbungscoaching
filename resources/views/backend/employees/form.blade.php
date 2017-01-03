@@ -82,18 +82,23 @@
 
     <div class="form-group row">
         <div class="col-md-12">
-            {{ Form::label('files') }}
+            {{ Form::label('files_(Only_PNG_or_PDF)') }}
             <br>
             @if($files != null)
                 @foreach($files as $file)
-                    {{ $file }}
+                    <div class="col-md-2">
+                        {{ $file }}
+                    </div>
+                    <div class="col-md-1">
+                        <a href="/backend/employees/files/<?php echo array_search($file, $files) ?>/delete"><span
+                                    class="glyphicon glyphicon-remove"></span></a></div>
                     <br>
                 @endforeach
             @endif
         </div>
         <div class="col-md-5">
             <br>
-            {{ Form::file('file', null, ['class' => 'form-control']) }}
+            {{ Form::file('files[]', ['multiple' => 'multiple'], ['class' => 'form-control']) }}
         </div>
     </div>
 

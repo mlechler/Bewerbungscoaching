@@ -16,13 +16,12 @@ class CreateEmployeefilesTable extends Migration
         Schema::create('employeefiles', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->string('path');
             $table->string('type');
             $table->string('size');
             $table->integer('employee_id');
             $table->timestamps();
         });
-
-        DB::statement("ALTER TABLE employeefiles ADD content MEDIUMBLOB NOT NULL");
     }
 
     /**
