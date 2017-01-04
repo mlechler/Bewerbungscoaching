@@ -184,7 +184,7 @@ class EmployeesController extends Controller
 
     public function deleteFiles($employee_id)
     {
-        $employeefiles = Employeefile::where('employee_id', '=', $employee_id)->first();
+        $employeefiles = Employeefile::all()->where('employee_id', '=', $employee_id);
 
         foreach ($employeefiles as $employeefile) {
             Employeefile::destroy($employeefile->id);

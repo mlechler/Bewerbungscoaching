@@ -160,7 +160,7 @@ class MembersController extends Controller
 
         $roles = ['' => ''] + Role::all()->pluck('display_name', 'id')->toArray();
 
-        $files = Memberfile::where('member_id', '=', $member->id)->pluck('name', 'id')->toArray();
+        $files = Memberfile::where('member_id', '=', $member->id)->get();
 
         return view('backend.members.detail', compact('member', 'adress', 'roles', 'files'));
     }
@@ -185,6 +185,15 @@ class MembersController extends Controller
                         'member_id' => $member_id,
                         'checked' => false
                     ));
+                } elseif($memberfile) {
+                    $memberfile->fill(array(
+                        'name' => $fileName,
+                        'path' => $destinationPath,
+                        'type' => $fileType,
+                        'size' => filesize($file),
+                        'member_id' => $member_id,
+                        'checked' => true
+                    ))->save();
                 }
             }
         }
@@ -192,7 +201,7 @@ class MembersController extends Controller
 
     public function deleteFiles($member_id)
     {
-        $memberfiles = Memberfile::all()->where('seminar_id', '=', $member_id);
+        $memberfiles = Memberfile::all()->where('member_id', '=', $member_id);
 
         foreach ($memberfiles as $memberfile) {
             Memberfile::destroy($memberfile->id);
@@ -207,5 +216,15 @@ class MembersController extends Controller
         Storage::delete($memberfile->path);
 
         return redirect()->back()->with('status', 'File has been deleted.');
+    }
+
+    public function uploadCheckedFiles(Request $request, $id)
+    {
+        if ($request->hasFile('checkedFiles')) {
+            $checkedFiles = $request->file('checkedFiles');
+            $this->storeFiles($checkedFiles, $id);
+        }
+
+        return redirect()->back()->with('status', 'Checked Files has been uploaded.');
     }
 }

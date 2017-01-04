@@ -3,6 +3,11 @@
 @section('title', 'Details of '.$member->getName())
 
 @section('content')
+    {{ Form::model($member, [
+     'method' => 'post',
+     'route' => ['backend.members.uploadCheckedFile', $member->id],
+     'enctype' => 'multipart/form-data'
+     ]) }}
     <table class="table table-hover">
         <tbody>
         <tr>
@@ -107,11 +112,33 @@
             </td>
             <td>
                 @foreach($files as $file)
-                    {{ $file }}
+                    <div class="row">
+                        <div class="col-md-5">
+                            {{ $file->name }}
+                            <br>
+                            <!-- <label class="custom-file-upload"> -->
+                                {{ Form::file('checkedFiles['.$file->id.']', null, ['class' => 'form-control']) }}
+                            <!--    Upload checked file
+                            </label>
+                            <span class="file-selected">Nothing selected</span> -->
+                            <br><br>
+                        </div>
+                        <div class="col-md-2">
+                            <span class="glyphicon glyphicon-{{ $file->checked ? 'ok' : 'remove' }}"></span>
+                            {{ $file->checked ? 'checked' : 'not checked' }}
+                        </div>
+                    </div>
                 @endforeach
+                @if(!$files->isEmpty())
+                    <p class="help-block">
+                        The checked files have to have the same name as the original one.
+                    </p>
+                @endif
             </td>
         </tr>
         </tbody>
     </table>
+    {{ Form::submit('Upload Checked Files', ['class' => 'btn btn-success']) }}
     <a href="{{ route('members.index') }}" class="btn btn-danger">Back</a>
+    {{ Form::close() }}
 @endsection
