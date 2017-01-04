@@ -79,4 +79,11 @@ class BlogController extends Controller
 
         return redirect(route('blog.index'))->with('status', 'Blog post has been deleted.');
     }
+
+    public function detail($id)
+    {
+        $post = Post::findOrFail($id);
+
+        return view('backend.blog.detail', compact('post'));
+    }
 }

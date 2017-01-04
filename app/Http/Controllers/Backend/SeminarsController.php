@@ -99,6 +99,15 @@ class SeminarsController extends Controller
         return redirect(route('seminars.index'))->with('status', 'Seminar has been deleted.');
     }
 
+    public function detail($id)
+    {
+        $seminar = Seminar::findOrFail($id);
+
+        $files = Seminarfile::where('seminar_id', '=', $seminar->id)->pluck('name', 'id')->toArray();
+
+        return view('backend.seminars.detail', compact('seminar', 'files'));
+    }
+
     public function storeFiles($files, $seminar_id)
     {
         foreach ($files as $file) {

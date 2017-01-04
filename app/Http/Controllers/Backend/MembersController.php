@@ -27,7 +27,9 @@ class MembersController extends Controller
     {
         $members = Member::paginate(10);
 
-        return view('backend.members.index', compact('members'));
+        $roles = ['' => ''] + Role::all()->pluck('display_name', 'id')->toArray();
+
+        return view('backend.members.index', compact('members', 'roles'));
     }
 
     public function create(Member $member)
@@ -148,6 +150,19 @@ class MembersController extends Controller
         $this->deleteFiles($id);
 
         return redirect(route('members.index'))->with('status', 'Member has been deleted.');
+    }
+
+    public function detail($id)
+    {
+        $member = Member::findOrFail($id);
+
+        $adress = Adress::whereId($member->adress_id)->first();
+
+        $roles = ['' => ''] + Role::all()->pluck('display_name', 'id')->toArray();
+
+        $files = Memberfile::where('member_id', '=', $member->id)->pluck('name', 'id')->toArray();
+
+        return view('backend.members.detail', compact('member', 'adress', 'roles', 'files'));
     }
 
     public function storeFiles($files, $member_id)

@@ -7,9 +7,9 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th>Lastname</th>
-            <th>Firstname</th>
+            <th>Name</th>
             <th>Email</th>
+            <th>Role</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>
@@ -18,13 +18,13 @@
         @foreach($employees as $employee)
             <tr>
                 <td>
-                    {{ $employee->lastname }}
-                </td>
-                <td>
-                    {{ $employee->firstname }}
+                    <a href="/backend/employees/<?php echo $employee->id ?>/detail">{{ $employee->getName() }}</a>
                 </td>
                 <td>
                     {{ $employee->email }}
+                </td>
+                <td>
+                    {{ $roles[$employee->role_id] }}
                 </td>
                 <td>
                     <a href="/backend/employees/<?php echo $employee->id ?>/edit"><span

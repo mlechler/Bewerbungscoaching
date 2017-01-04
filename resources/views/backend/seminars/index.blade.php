@@ -25,7 +25,7 @@
             @foreach($seminars as $seminar)
                 <tr>
                     <td>
-                        {{ $seminar->title }}
+                        <a href="/backend/seminars/<?php echo $seminar->id ?>/detail">{{ $seminar->title }}</a>
                     </td>
                     <td>
                         {{ $seminar->description }}

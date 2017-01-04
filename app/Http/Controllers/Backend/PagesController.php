@@ -98,6 +98,13 @@ class PagesController extends Controller
         return redirect(route('pages.index'))->with('status', 'Page has been deleted.');
     }
 
+    public function detail($id)
+    {
+        $page = Page::findOrFail($id);
+
+        return view('backend.pages.detail', compact('page'));
+    }
+
     protected function getPageTemplates()
     {
         $templates = config('cms.templates');

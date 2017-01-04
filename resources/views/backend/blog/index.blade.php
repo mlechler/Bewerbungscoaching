@@ -24,7 +24,7 @@
             @foreach($posts as $post)
                 <tr class="{{ $post->publishedHighlight() }}">
                     <td>
-                        {{ $post->title }}
+                        <a href="/backend/blog/<?php echo $post->id ?>/detail">{{ $post->title }}</a>
                     </td>
                     <td>
                         {{ $post->slug }}

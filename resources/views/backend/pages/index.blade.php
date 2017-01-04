@@ -24,7 +24,7 @@
             @foreach($pages as $page)
                 <tr>
                     <td>
-                        {{ $page->linkToPaddedTitle() }}
+                        <a href="/backend/pages/<?php echo $page->id ?>/detail">{{ $page->linkToPaddedTitle() }}</a>
                     </td>
                     <td>
                         <a href="{{ url($page->uri) }}">{{ $page->prettyURI() }}</a>

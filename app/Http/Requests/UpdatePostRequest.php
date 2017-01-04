@@ -26,7 +26,7 @@ class UpdatePostRequest extends FormRequest
     public function forbiddenresponse()
     {
         return redirect(route('blog.index'))->withErrors([
-            'error' => 'You are not able to delete the blog post of another person.'
+            'error' => 'You are not able to edit the blog post of another person.'
         ]);
     }
 

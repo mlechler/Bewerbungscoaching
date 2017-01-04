@@ -27,7 +27,9 @@ class EmployeesController extends Controller
     {
         $employees = Employee::paginate(10);
 
-        return view('backend.employees.index', compact('employees'));
+        $roles = ['' => ''] + Role::all()->pluck('display_name', 'id')->toArray();
+
+        return view('backend.employees.index', compact('employees', 'roles'));
     }
 
     public function create(Employee $employee)
@@ -141,6 +143,19 @@ class EmployeesController extends Controller
         $this->deleteFiles($id);
 
         return redirect(route('employees.index'))->with('status', 'Employee has been deleted.');
+    }
+
+    public function detail($id)
+    {
+        $employee = Employee::findOrFail($id);
+
+        $adress = Adress::whereId($employee->adress_id)->first();
+
+        $roles = ['' => ''] + Role::all()->pluck('display_name', 'id')->toArray();
+
+        $files = Employeefile::where('employee_id', '=', $employee->id)->pluck('name', 'id')->toArray();
+
+        return view('backend.employees.detail', compact('employee', 'adress', 'roles', 'files'));
     }
 
     public function storeFiles($files, $employee_id)

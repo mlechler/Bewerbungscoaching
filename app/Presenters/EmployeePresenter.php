@@ -16,6 +16,11 @@ class EmployeePresenter extends BasePresenter
         return $this->birthday->format('d.m.Y');
     }
 
+    public function formatAdress($adress)
+    {
+        return ($adress->zip.' '.$adress->city.', '.$adress->street.' '.$adress->housenumber);
+    }
+
     public function lastLoginDifference()
     {
         return $this->last_login_at->diffForHumans();

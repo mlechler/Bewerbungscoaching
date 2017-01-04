@@ -11038,6 +11038,10 @@ button.close {
   cursor: pointer;
 }
 
+body {
+  padding-bottom: 2rem;
+}
+
 .vertical-center {
   display: -webkit-box;
   display: flex;
@@ -11046,10 +11050,6 @@ button.close {
   align-items: center;
   -webkit-box-pack: center;
   justify-content: center;
-}
-
-body {
-  padding-bottom: 2rem;
 }
 
 .excerpt .CodeMirror {

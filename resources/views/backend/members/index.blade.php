@@ -7,8 +7,7 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th>Lastname</th>
-            <th>Firstname</th>
+            <th>Name</th>
             <th>Email</th>
             <th>Edit</th>
             <th>Delete</th>
@@ -23,10 +22,7 @@
             @foreach($members as $member)
                 <tr>
                     <td>
-                        {{ $member->lastname }}
-                    </td>
-                    <td>
-                        {{ $member->firstname }}
+                        <a href="/backend/members/<?php echo $member->id ?>/detail">{{ $member->getName() }}</a>
                     </td>
                     <td>
                         {{ $member->email }}
