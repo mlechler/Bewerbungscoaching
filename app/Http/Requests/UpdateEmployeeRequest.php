@@ -33,7 +33,11 @@ class UpdateEmployeeRequest extends FormRequest
             'mobile' => ['required', 'unique:employees,mobile,' . $id],
             'email' => ['required', 'email', 'unique:employees,email,' . $id],
             'password' => ['required_with:password_confirmation', 'confirmed'],
-            'files' => ['array']
+            'files' => ['array'],
+            'zip' => ['required'],
+            'city' => ['required'],
+            'street' => ['required'],
+            'housenumber' => ['required']
         ];
 
         $files = $this->file('files');

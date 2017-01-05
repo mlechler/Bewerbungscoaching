@@ -10,6 +10,7 @@ class Appointment extends Model implements HasPresenter
 {
     protected $table = 'seminarappointments';
     protected $fillable = ['date', 'time', 'employee_id', 'seminar_id', 'adress_id'];
+    protected $dates = ['date'];
 
     public function getPresenterClass()
     {

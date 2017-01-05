@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call('PostTableSeeder');
         $this->call('AdressTableSeeder');
         $this->call('RoleTableSeeder');
+        $this->call('AppointmentTableSeeder');
     }
 }

@@ -11,6 +11,7 @@
             <th>Employee</th>
             <th>Date</th>
             <th>Time</th>
+            <th>Participants</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>
@@ -18,22 +19,26 @@
         <tbody>
         @if($seminarappointments->isEmpty())
             <tr>
-                <td colspan="6" align="center">There are no appointments.</td>
+                <td colspan="7" align="center">There are no appointments.</td>
             </tr>
         @else
             @foreach($seminarappointments as $appointment)
                 <tr>
                     <td>
-                        <a href="/backend/seminarappointments/<?php echo $appointment->id ?>/detail">{{ $appointment->seminar->title }}</a>
+                        {{ $appointment->seminar->title }}
                     </td>
                     <td>
                         {{ $appointment->employee->getName() }}
                     </td>
                     <td>
-                        {{ $appointment->date }}
+                        {{ $appointment->formatDate() }}
                     </td>
                     <td>
-                        {{ $appointment->time }}
+                        {{ $appointment->formatTime() }}
+                    </td>
+                    <td>
+                        <a href="/backend/seminarappointments/<?php echo $appointment->id ?>/detail"><span
+                                    class="glyphicon glyphicon-user"></span>  0/{{ $appointment->seminar->maxMembers }}</a>
                     </td>
                     <td>
                         <a href="/backend/seminarappointments/<?php echo $appointment->id ?>/edit"><span

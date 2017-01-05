@@ -31,7 +31,11 @@ class StoreEmployeeRequest extends FormRequest
             'mobile' => ['required', 'unique:employees'],
             'email' => ['required', 'email', 'unique:employees'],
             'password' => ['required', 'confirmed'],
-            'files' => ['array']
+            'files' => ['array'],
+            'zip' => ['required'],
+            'city' => ['required'],
+            'street' => ['required'],
+            'housenumber' => ['required']
         ];
 
         $files = $this->file('files');
