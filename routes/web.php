@@ -44,6 +44,10 @@ Route::group(['prefix' => 'backend'], function () {
     Route::get('/seminars/files/{file}/delete', 'Backend\SeminarsController@deleteFile');
     Route::resource('/seminars', 'Backend\SeminarsController');
 
+    Route::get('/seminarappointments/{seminarappointment}/confirm', ['as' => 'backend.seminars.confirm', 'uses' => 'Backend\AppointmentsController@confirm']);
+    Route::get('/seminarappointments/{seminarappointment}/detail', ['as' => 'backend.seminars.detail', 'uses' => 'Backend\AppointmentsController@detail']);
+    Route::resource('/seminarappointments', 'Backend\AppointmentsController');
+
     Route::get('/pages/{page}/confirm', ['as' => 'backend.pages.confirm', 'uses' => 'Backend\PagesController@confirm']);
     Route::get('/pages/{page}/detail', ['as' => 'backend.pages.detail', 'uses' => 'Backend\PagesController@detail']);
     Route::resource('/pages', 'Backend\PagesController');

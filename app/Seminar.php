@@ -13,4 +13,9 @@ class Seminar extends Model
     {
         return $this->hasMany(Seminarfile::class);
     }
+
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
 }

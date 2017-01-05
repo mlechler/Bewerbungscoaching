@@ -27,20 +27,14 @@ class EmployeesController extends Controller
     {
         $employees = Employee::paginate(10);
 
-        $roles = ['' => ''] + Role::all()->pluck('display_name', 'id')->toArray();
-
-        return view('backend.employees.index', compact('employees', 'roles'));
+        return view('backend.employees.index', compact('employees'));
     }
 
     public function create(Employee $employee)
     {
-        $adress = null;
-
-        $files = null;
-
         $roles = ['' => ''] + Role::all()->pluck('display_name', 'id')->toArray();
 
-        return view('backend.employees.form', compact('employee', 'adress', 'roles', 'files'));
+        return view('backend.employees.form', compact('employee', 'roles'));
     }
 
     public function store(Requests\StoreEmployeeRequest $request)
@@ -82,13 +76,9 @@ class EmployeesController extends Controller
     {
         $employee = Employee::findOrFail($id);
 
-        $adress = Adress::whereId($employee->adress_id)->first();
-
         $roles = ['' => ''] + Role::all()->pluck('display_name', 'id')->toArray();
 
-        $files = Employeefile::where('employee_id', '=', $employee->id)->pluck('name', 'id')->toArray();
-
-        return view('backend.employees.form', compact('employee', 'adress', 'roles', 'files'));
+        return view('backend.employees.form', compact('employee', 'roles'));
     }
 
     public function update(Requests\UpdateEmployeeRequest $request, $id)
@@ -149,13 +139,7 @@ class EmployeesController extends Controller
     {
         $employee = Employee::findOrFail($id);
 
-        $adress = Adress::whereId($employee->adress_id)->first();
-
-        $roles = ['' => ''] + Role::all()->pluck('display_name', 'id')->toArray();
-
-        $files = Employeefile::where('employee_id', '=', $employee->id)->pluck('name', 'id')->toArray();
-
-        return view('backend.employees.detail', compact('employee', 'adress', 'roles', 'files'));
+        return view('backend.employees.detail', compact('employee'));
     }
 
     public function storeFiles($files, $employee_id)

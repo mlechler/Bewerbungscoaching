@@ -63,7 +63,7 @@
                 <h4>Adress</h4>
             </td>
             <td>
-                <h4>{{ $member->formatAdress($adress) }}</h4>
+                <h4>{{ $member->formatAdress($member->adress) }}</h4>
             </td>
         </tr>
         <tr>
@@ -103,7 +103,7 @@
                 <h4>Role</h4>
             </td>
             <td>
-                <h4>{{ $roles[$member->role_id] }}</h4>
+                <h4>{{ $member->role->display_name }}</h4>
             </td>
         </tr>
         <tr>
@@ -111,7 +111,7 @@
                 <h4>Files</h4>
             </td>
             <td>
-                @foreach($files as $file)
+                @foreach($member->memberFiles as $file)
                     <div class="row">
                         <div class="col-md-5">
                             {{ $file->name }}
@@ -129,7 +129,7 @@
                         </div>
                     </div>
                 @endforeach
-                @if(!$files->isEmpty())
+                @if(!$member->memberFiles->isEmpty())
                     <p class="help-block">
                         The checked files have to have the same name as the original one.
                     </p>

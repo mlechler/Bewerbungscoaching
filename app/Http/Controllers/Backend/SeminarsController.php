@@ -28,9 +28,7 @@ class SeminarsController extends Controller
 
     public function create(Seminar $seminar)
     {
-        $files = null;
-
-        return view('backend.seminars.form', compact('seminar', 'files'));
+        return view('backend.seminars.form', compact('seminar'));
     }
 
     public function store(Requests\StoreSeminarRequest $request)
@@ -57,9 +55,7 @@ class SeminarsController extends Controller
     {
         $seminar = Seminar::findOrFail($id);
 
-        $files = Seminarfile::where('seminar_id', '=', $seminar->id)->pluck('name', 'id')->toArray();
-
-        return view('backend.seminars.form', compact('seminar', 'files'));
+        return view('backend.seminars.form', compact('seminar'));
     }
 
     public function update(Requests\UpdateSeminarRequest $request, $id)
@@ -103,9 +99,7 @@ class SeminarsController extends Controller
     {
         $seminar = Seminar::findOrFail($id);
 
-        $files = Seminarfile::where('seminar_id', '=', $seminar->id)->pluck('name', 'id')->toArray();
-
-        return view('backend.seminars.detail', compact('seminar', 'files'));
+        return view('backend.seminars.detail', compact('seminar'));
     }
 
     public function storeFiles($files, $seminar_id)

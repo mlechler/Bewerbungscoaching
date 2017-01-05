@@ -27,20 +27,14 @@ class MembersController extends Controller
     {
         $members = Member::paginate(10);
 
-        $roles = ['' => ''] + Role::all()->pluck('display_name', 'id')->toArray();
-
-        return view('backend.members.index', compact('members', 'roles'));
+        return view('backend.members.index', compact('members'));
     }
 
     public function create(Member $member)
     {
-        $adress = null;
-
-        $files = null;
-
         $roles = ['' => ''] + Role::all()->pluck('display_name', 'id')->toArray();
 
-        return view('backend.members.form', compact('member', 'adress', 'roles', 'files'));
+        return view('backend.members.form', compact('member', 'roles'));
     }
 
     public function store(Requests\StoreMemberRequest $request)
@@ -86,13 +80,9 @@ class MembersController extends Controller
     {
         $member = Member::findOrFail($id);
 
-        $adress = Adress::whereId($member->adress_id)->first();
-
         $roles = ['' => ''] + Role::all()->pluck('display_name', 'id')->toArray();
 
-        $files = Memberfile::where('member_id', '=', $member->id)->pluck('name', 'id')->toArray();
-
-        return view('backend.members.form', compact('member', 'adress', 'roles', 'files'));
+        return view('backend.members.form', compact('member', 'roles'));
     }
 
     public function update(Requests\UpdateMemberRequest $request, $id)
@@ -156,13 +146,7 @@ class MembersController extends Controller
     {
         $member = Member::findOrFail($id);
 
-        $adress = Adress::whereId($member->adress_id)->first();
-
-        $roles = ['' => ''] + Role::all()->pluck('display_name', 'id')->toArray();
-
-        $files = Memberfile::where('member_id', '=', $member->id)->get();
-
-        return view('backend.members.detail', compact('member', 'adress', 'roles', 'files'));
+        return view('backend.members.detail', compact('member'));
     }
 
     public function storeFiles($files, $member_id)

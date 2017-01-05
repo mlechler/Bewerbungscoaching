@@ -58,8 +58,8 @@
                 <h4>Files</h4>
             </td>
             <td>
-                @foreach($files as $file)
-                    {{ $file }}
+                @foreach($seminar->seminarFiles as $file)
+                    {{ $file->name }}
                 @endforeach
             </td>
         </tr>

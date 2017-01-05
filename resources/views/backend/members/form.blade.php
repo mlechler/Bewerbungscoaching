@@ -42,22 +42,22 @@
     <div class="form-group row">
         <div class="col-md-2">
             {{ Form::label('zip_code') }}
-            {{ Form::text('zip', $adress ? $adress->zip : null, ['class' => 'form-control']) }}
+            {{ Form::text('zip', $member->adress ? $member->adress->zip : null, ['class' => 'form-control']) }}
         </div>
 
         <div class="col-md-4">
             {{ Form::label('city') }}
-            {{ Form::text('city', $adress ? $adress->city : null, ['class' => 'form-control']) }}
+            {{ Form::text('city', $member->adress ? $member->adress->city : null, ['class' => 'form-control']) }}
         </div>
 
         <div class="col-md-4">
             {{ Form::label('street') }}
-            {{ Form::text('street', $adress ? $adress->street : null, ['class' => 'form-control']) }}
+            {{ Form::text('street', $member->adress ? $member->adress->street : null, ['class' => 'form-control']) }}
         </div>
 
         <div class="col-md-2">
             {{ Form::label('housenumber') }}
-            {{ Form::text('housenumber', $adress ? $adress->housenumber : null, ['class' => 'form-control']) }}
+            {{ Form::text('housenumber', $member->adress ? $member->adress->housenumber : null, ['class' => 'form-control']) }}
         </div>
     </div>
 
@@ -104,13 +104,13 @@
         <div class="col-md-12">
             {{ Form::label('files_(Only_PNG_or_PDF)') }}
             <br>
-            @if($files != null)
-                @foreach($files as $file)
+            @if(!$member->memberFiles->isEmpty())
+                @foreach($member->memberFiles as $file)
                     <div class="col-md-2">
-                        {{ $file }}
+                        {{ $file->name }}
                     </div>
                     <div class="col-md-1">
-                        <a href="/backend/members/files/<?php echo array_search($file, $files) ?>/delete"><span
+                        <a href="/backend/members/files/<?php echo $file->id ?>/delete"><span
                                     class="glyphicon glyphicon-remove"></span></a></div>
                     <br>
                 @endforeach

@@ -49,13 +49,13 @@
         <div class="col-md-12">
             {{ Form::label('files_(Only_PNG_or_PDF)') }}
             <br>
-            @if($files != null)
-                @foreach($files as $file)
+            @if(!$seminar->seminarFiles->isEmpty())
+                @foreach($seminar->seminarFiles as $file)
                     <div class="col-md-2">
-                        {{ $file }}
+                        {{ $file->name }}
                     </div>
                     <div class="col-md-1">
-                        <a href="/backend/seminars/files/<?php echo array_search($file, $files) ?>/delete"><span
+                        <a href="/backend/seminars/files/<?php echo $file->id ?>/delete"><span
                                     class="glyphicon glyphicon-remove"></span></a></div>
                     <br>
                 @endforeach

@@ -58,7 +58,7 @@
                 <h4>Adress</h4>
             </td>
             <td>
-                <h4>{{ $employee->formatAdress($adress) }}</h4>
+                <h4>{{ $employee->formatAdress($employee->adress) }}</h4>
             </td>
         </tr>
         <tr>
@@ -66,7 +66,7 @@
                 <h4>Role</h4>
             </td>
             <td>
-                <h4>{{ $roles[$employee->role_id] }}</h4>
+                <h4>{{ $employee->role->display_name }}</h4>
             </td>
         </tr>
         <tr>
@@ -74,8 +74,8 @@
                 <h4>Files</h4>
             </td>
             <td>
-                @foreach($files as $file)
-                    {{ $file }}
+                @foreach($employee->employeeFiles as $file)
+                    {{ $file->name }}
                 @endforeach
             </td>
         </tr>

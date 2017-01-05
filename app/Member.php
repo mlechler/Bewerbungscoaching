@@ -32,7 +32,7 @@ class Member extends Authenticatable implements HasPresenter
         return $this->belongsTo(Adress::class);
     }
 
-    public function roles()
+    public function role()
     {
         return $this->belongsTo(Role::class);
     }

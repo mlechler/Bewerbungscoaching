@@ -24,7 +24,7 @@
                     {{ $employee->email }}
                 </td>
                 <td>
-                    {{ $roles[$employee->role_id] }}
+                    {{ $employee->role->display_name }}
                 </td>
                 <td>
                     <a href="/backend/employees/<?php echo $employee->id ?>/edit"><span

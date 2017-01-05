@@ -22,7 +22,13 @@
                             <li><a href="{{ route('members.index') }}">Members</a></li>
                         </ul>
                     </li>
-                    <li><a href="{{ route('seminars.index') }}">Seminars</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" role="button" id="seminarsMenu" data-toggle="dropdown">Seminars <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="seminarsMenu">
+                            <li><a href="{{ route('seminars.index') }}">Overview Seminars</a></li>
+                            <li><a href="{{ route('seminarappointments.index') }}">Overview Appointments</a></li>
+                        </ul>
+                    </li>
                     <li><a href="{{ route('pages.index') }}">Pages</a></li>
                     <li><a href="{{ route('blog.index') }}">Blog Posts</a></li>
                 </ul>
