@@ -28,7 +28,7 @@
                         <a href="/backend/seminars/<?php echo $seminar->id ?>/detail">{{ $seminar->title }}</a>
                     </td>
                     <td>
-                        {{ $seminar->description }}
+                        {{ $seminar->getShortDescription($seminar->description) }}
                     </td>
                     <td>
                         {{ $seminar->maxMembers }}

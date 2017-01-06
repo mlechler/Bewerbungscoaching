@@ -6,6 +6,7 @@ use App\Appointment;
 use App\Seminar;
 use App\Employee;
 use App\Adress;
+use App\Booking;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\App;
@@ -116,13 +117,17 @@ class AppointmentsController extends Controller
 
     public function detail($id)
     {
-        $seminarappointment = Appointment::with('employee')->findOrFail($id);
+        $seminarappointment = Appointment::with('employee', 'members')->findOrFail($id);
 
         return view('backend.seminarappointments.detail', compact('seminarappointment'));
     }
 
-    public function showParticipants()
+    public function removeParticipant($appointment_id, $member_id)
     {
+        $booking = Booking::where('appointment_id', '=', $appointment_id)->where('member_id', '=', $member_id)->first();
 
+        Booking::destroy($booking->id);
+
+        return redirect()->back()->with('status', 'Participant has been removed.');
     }
 }

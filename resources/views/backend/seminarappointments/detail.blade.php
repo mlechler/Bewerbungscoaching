@@ -50,7 +50,17 @@
                 <h4>Participants</h4>
             </td>
             <td>
-                <h4>VALUE</h4>
+                @foreach($seminarappointment->members as $member)
+                    <div class="row">
+                        <div class="col-md-3">
+                            {{ $member->getName() }}
+                        </div>
+                        <div class="col-md-2">
+                            <a href="/backend/seminarappointments/<?php echo $seminarappointment->id ?>/removeParticipant/<?php echo $member->id ?>"><span
+                                        class="glyphicon glyphicon-remove"></span></a>
+                        </div>
+                    </div>
+                @endforeach
             </td>
         </tr>
         </tbody>

@@ -25,8 +25,4 @@ class EmployeePresenter extends BasePresenter
     {
         return $this->last_login_at->diffForHumans();
     }
-
-    public function test(){
-        return 'test';
-    }
 }

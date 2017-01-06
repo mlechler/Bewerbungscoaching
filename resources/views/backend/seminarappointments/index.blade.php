@@ -38,7 +38,7 @@
                     </td>
                     <td>
                         <a href="/backend/seminarappointments/<?php echo $appointment->id ?>/detail"><span
-                                    class="glyphicon glyphicon-user"></span>  0/{{ $appointment->seminar->maxMembers }}</a>
+                                    class="glyphicon glyphicon-user"></span>  {{ $appointment->members->count() }}/{{ $appointment->seminar->maxMembers }}</a>
                     </td>
                     <td>
                         <a href="/backend/seminarappointments/<?php echo $appointment->id ?>/edit"><span

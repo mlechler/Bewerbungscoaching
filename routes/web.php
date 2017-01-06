@@ -46,6 +46,7 @@ Route::group(['prefix' => 'backend'], function () {
 
     Route::get('/seminarappointments/{seminarappointment}/confirm', ['as' => 'backend.seminars.confirm', 'uses' => 'Backend\AppointmentsController@confirm']);
     Route::get('/seminarappointments/{seminarappointment}/detail', ['as' => 'backend.seminars.detail', 'uses' => 'Backend\AppointmentsController@detail']);
+    Route::get('/seminarappointments/{seminarappointment}/removeParticipant/{participant}', 'Backend\AppointmentsController@removeParticipant');
     Route::resource('/seminarappointments', 'Backend\AppointmentsController');
 
     Route::get('/pages/{page}/confirm', ['as' => 'backend.pages.confirm', 'uses' => 'Backend\PagesController@confirm']);
