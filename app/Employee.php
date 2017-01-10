@@ -43,8 +43,18 @@ class Employee extends Authenticatable implements HasPresenter
         return $this->hasMany(Employeefile::class);
     }
 
+    public function employeeFreeTimes()
+    {
+        return $this->hasMany(Employeefreetime::class);
+    }
+
     public function appointments()
     {
         return $this->hasMany(Appointment::class);
+    }
+
+    public function individualCoachings()
+    {
+        return $this->hasMany(Individualcoaching::class);
     }
 }

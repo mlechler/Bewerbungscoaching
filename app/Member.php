@@ -46,4 +46,9 @@ class Member extends Authenticatable implements HasPresenter
     {
         return $this->belongsToMany(Appointment::class, 'seminarbookings')->withPivot('price_incl_discount', 'paid');
     }
+
+    public function individualCoachings()
+    {
+        return $this->hasMany(Individualcoaching::class);
+    }
 }
