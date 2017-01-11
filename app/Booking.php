@@ -18,4 +18,9 @@ class Booking extends Model
     {
         return $this->belongsTo(Appointment::class);
     }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
 }
