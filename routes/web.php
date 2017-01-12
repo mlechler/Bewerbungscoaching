@@ -49,8 +49,12 @@ Route::group(['prefix' => 'backend'], function () {
     Route::get('/seminarappointments/{seminarappointment}/removeParticipant/{participant}', 'Backend\AppointmentsController@removeParticipant');
     Route::resource('/seminarappointments', 'Backend\AppointmentsController');
 
-    Route::get('/pages/{page}/confirm', ['as' => 'backend.pages.confirm', 'uses' => 'Backend\PagesController@confirm']);
-    Route::get('/pages/{page}/detail', ['as' => 'backend.pages.detail', 'uses' => 'Backend\PagesController@detail']);
+    Route::get('/individualcoachings/{individualcoaching}/confirm', ['as' => 'backend.pages.confirm', 'uses' => 'Backend\IndividualCoachingsController@confirm']);
+    Route::get('/individualcoachings/{individualcoaching}/detail', ['as' => 'backend.pages.detail', 'uses' => 'Backend\IndividualCoachingsController@detail']);
+    Route::resource('/individualcoachings', 'Backend\IndividualCoachingsController');
+
+    Route::get('/pages/{page}/confirm', ['as' => 'backend.individualcoachings.confirm', 'uses' => 'Backend\PagesController@confirm']);
+    Route::get('/pages/{page}/detail', ['as' => 'backend.individualcoachings.detail', 'uses' => 'Backend\PagesController@detail']);
     Route::resource('/pages', 'Backend\PagesController');
 
     Route::get('/blog/{blog}/confirm', ['as' => 'backend.blog.confirm', 'uses' => 'Backend\BlogController@confirm']);

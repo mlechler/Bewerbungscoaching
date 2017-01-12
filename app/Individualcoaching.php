@@ -2,12 +2,20 @@
 
 namespace App;
 
+use App\Presenters\IndividualCoachingPresenter;
 use Illuminate\Database\Eloquent\Model;
+use McCool\LaravelAutoPresenter\HasPresenter;
 
-class Individualcoaching extends Model
+class Individualcoaching extends Model implements HasPresenter
 {
-    protected $table = 'individualcoaching';
-    protected $fillable = ['description', 'services', 'date', 'time', 'duration', 'price', 'trial', 'paid', 'member_id', 'employee_id'];
+    protected $table = 'individualcoachings';
+    protected $fillable = ['services', 'date', 'time', 'duration', 'price', 'trial', 'paid', 'member_id', 'employee_id'];
+    protected $dates = ['date'];
+
+    public function getPresenterClass()
+    {
+        return IndividualCoachingPresenter::class;
+    }
 
     public function employee()
     {

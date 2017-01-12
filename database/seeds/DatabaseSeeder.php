@@ -22,5 +22,6 @@ class DatabaseSeeder extends Seeder
         $this->call('RoleTableSeeder');
         $this->call('AppointmentTableSeeder');
         $this->call('BookingTableSeeder');
+        $this->call('IndividualcoachingTableSeeder');
     }
 }

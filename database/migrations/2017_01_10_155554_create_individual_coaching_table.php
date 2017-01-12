@@ -13,9 +13,8 @@ class CreateIndividualCoachingTable extends Migration
      */
     public function up()
     {
-        Schema::create('individualcoaching', function (Blueprint $table) {
+        Schema::create('individualcoachings', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('description');
             $table->string('services');
             $table->date('date');
             $table->time('time');
@@ -36,6 +35,6 @@ class CreateIndividualCoachingTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('individualcoaching');
+        Schema::dropIfExists('individualcoachings');
     }
 }

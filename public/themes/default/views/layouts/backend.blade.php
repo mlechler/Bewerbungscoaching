@@ -29,6 +29,7 @@
                             <li><a href="{{ route('seminarappointments.index') }}">Overview Appointments</a></li>
                         </ul>
                     </li>
+                    <li><a href="{{ route('individualcoachings.index') }}">Individual Coaching</a></li>
                     <li><a href="{{ route('pages.index') }}">Pages</a></li>
                     <li><a href="{{ route('blog.index') }}">Blog Posts</a></li>
                 </ul>

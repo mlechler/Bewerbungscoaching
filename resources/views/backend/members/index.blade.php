@@ -16,7 +16,7 @@
         <tbody>
         @if($members->isEmpty())
             <tr>
-                <td colspan="5" align="center">There are no members.</td>
+                <td colspan="4" align="center">There are no members.</td>
             </tr>
         @else
             @foreach($members as $member)
