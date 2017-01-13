@@ -19,12 +19,11 @@ body {
   cursor: pointer;
 }*/
 
-
 .dropdown-submenu {
   position: relative;
 }
 
-.dropdown-submenu>.dropdown-menu {
+.dropdown-submenu > .dropdown-menu {
   top: 0;
   left: 100%;
   margin-top: -6px;
@@ -34,11 +33,11 @@ body {
   border-radius: 0 6px 6px 6px;
 }
 
-.dropdown-submenu:hover>.dropdown-menu {
+.dropdown-submenu:hover > .dropdown-menu {
   display: block;
 }
 
-.dropdown-submenu>a:after {
+.dropdown-submenu > a:after {
   display: block;
   content: " ";
   float: right;
@@ -52,7 +51,7 @@ body {
   margin-right: -10px;
 }
 
-.dropdown-submenu:hover>a:after {
+.dropdown-submenu:hover > a:after {
   border-left-color: #fff;
 }
 
@@ -60,7 +59,7 @@ body {
   float: none;
 }
 
-.dropdown-submenu.pull-left>.dropdown-menu {
+.dropdown-submenu.pull-left > .dropdown-menu {
   left: -100%;
   margin-left: 10px;
   -webkit-border-radius: 6px 0 6px 6px;
@@ -68,8 +67,30 @@ body {
   border-radius: 6px 0 6px 6px;
 }
 
-.taskFinished{
-  float:right;
+.taskFinished {
+  float: right;
+}
+
+.has-feedback .form-control {
+  padding-right: 34px;
+}
+
+.has-feedback-left .form-control {
+  padding-right: 12px;
+  padding-left: 34px;
+}
+
+.has-feedback-left .form-control-feedback {
+  left: 0;
+  top: 19px;
+}
+
+.form-control-feedback {
+  line-height: 34px !important;
+}
+
+.deleteFiles {
+  float: right;
 }
 
 .vertical-center {

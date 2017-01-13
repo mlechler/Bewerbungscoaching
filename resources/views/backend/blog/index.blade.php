@@ -11,6 +11,7 @@
             <th>Slug</th>
             <th>Author</th>
             <th>Published</th>
+            <th>Details</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>
@@ -18,13 +19,13 @@
         <tbody>
         @if($posts->isEmpty())
             <tr>
-                <td colspan="6" align="center">There are no blog posts.</td>
+                <td colspan="7" align="center">There are no blog posts.</td>
             </tr>
         @else
             @foreach($posts as $post)
                 <tr class="{{ $post->publishedHighlight() }}">
                     <td>
-                        <a href="/backend/blog/<?php echo $post->id ?>/detail">{{ $post->title }}</a>
+                        {{ $post->title }}
                     </td>
                     <td>
                         {{ $post->slug }}
@@ -34,6 +35,10 @@
                     </td>
                     <td>
                         {{ $post->publishedDate() }}
+                    </td>
+                    <td>
+                        <a href="/backend/blog/<?php echo $post->id ?>/detail"><span
+                                    class="glyphicon glyphicon-info-sign"></span></a>
                     </td>
                     <td>
                         <a href="/backend/blog/<?php echo $post->id ?>/edit"><span

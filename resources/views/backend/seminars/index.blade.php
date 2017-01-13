@@ -12,6 +12,7 @@
             <th>Maximum Participants</th>
             <th>Duration</th>
             <th>Price</th>
+            <th>Details</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>
@@ -19,13 +20,13 @@
         <tbody>
         @if($seminars->isEmpty())
             <tr>
-                <td colspan="7" align="center">There are no seminars.</td>
+                <td colspan="8" align="center">There are no seminars.</td>
             </tr>
         @else
             @foreach($seminars as $seminar)
                 <tr>
                     <td>
-                        <a href="/backend/seminars/<?php echo $seminar->id ?>/detail">{{ $seminar->title }}</a>
+                        {{ $seminar->title }}
                     </td>
                     <td>
                         {{ $seminar->getShortDescription($seminar->description) }}
@@ -38,6 +39,10 @@
                     </td>
                     <td>
                         {{ $seminar->price }} €
+                    </td>
+                    <td>
+                        <a href="/backend/seminars/<?php echo $seminar->id ?>/detail"><span
+                                    class="glyphicon glyphicon-info-sign"></span></a>
                     </td>
                     <td>
                         <a href="/backend/seminars/<?php echo $seminar->id ?>/edit"><span

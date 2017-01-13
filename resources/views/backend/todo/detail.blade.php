@@ -21,7 +21,7 @@
                 <h4>{{ $task->creator->getName() }}</h4>
             </td>
         </tr>
-        <tr>
+        <tr class="{{ $task->finishedHighlight() }}">
             <td>
                 <h4>Finished</h4>
             </td>

@@ -11,6 +11,7 @@
             <th>URI</th>
             <th>Name</th>
             <th>Template</th>
+            <th>Details</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>
@@ -18,13 +19,13 @@
         <tbody>
         @if($pages->isEmpty())
             <tr>
-                <td colspan="6" align="center">There are no pages.</td>
+                <td colspan="7" align="center">There are no pages.</td>
             </tr>
         @else
             @foreach($pages as $page)
                 <tr>
                     <td>
-                        <a href="/backend/pages/<?php echo $page->id ?>/detail">{{ $page->linkToPaddedTitle() }}</a>
+                        {{ $page->linkToPaddedTitle() }}
                     </td>
                     <td>
                         <a href="{{ url($page->uri) }}">{{ $page->prettyURI() }}</a>
@@ -34,6 +35,10 @@
                     </td>
                     <td>
                         {{ $page->template or 'None' }}
+                    </td>
+                    <td>
+                        <a href="/backend/pages/<?php echo $page->id ?>/detail"><span
+                                    class="glyphicon glyphicon-info-sign"></span></a>
                     </td>
                     <td>
                         <a href="/backend/pages/<?php echo $page->id ?>/edit"><span

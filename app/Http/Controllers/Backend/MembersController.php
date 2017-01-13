@@ -6,6 +6,7 @@ use App\Member;
 use App\Adress;
 use App\Memberfile;
 use App\Role;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests;
 use Illuminate\Http\Request;
@@ -169,7 +170,7 @@ class MembersController extends Controller
                         'member_id' => $member_id,
                         'checked' => false
                     ));
-                } elseif($memberfile) {
+                } elseif ($memberfile) {
                     $memberfile->fill(array(
                         'name' => $fileName,
                         'path' => $destinationPath,
@@ -181,6 +182,17 @@ class MembersController extends Controller
                 }
             }
         }
+    }
+
+    public function deleteAllFiles()
+    {
+        $date = Carbon::now()->subMonths(3)->format('Y-m-d');
+        $files = Memberfile::where('updated_at', '<=', $date)->get();
+
+        foreach ($files as $file) {
+            Memberfile::destroy($file->id);
+        }
+        return redirect(route('members.index'))->with('status', 'Files have been deleted.');
     }
 
     public function deleteFiles($member_id)

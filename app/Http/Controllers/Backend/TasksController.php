@@ -91,6 +91,6 @@ class TasksController extends Controller
             'finished' => true
         ))->save();
 
-        return redirect(route('backend.dashboard'))->with('status', 'Task has been closed.');
+        return redirect()->back()->with('status', 'Task has been closed.');
     }
 }

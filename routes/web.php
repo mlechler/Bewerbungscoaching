@@ -37,6 +37,7 @@ Route::group(['prefix' => 'backend'], function () {
     Route::get('/members/{member}/detail', ['as' => 'backend.members.detail', 'uses' => 'Backend\MembersController@detail']);
     Route::post('/members/{member}/uploadCheckedFile', ['as' => 'backend.members.uploadCheckedFile', 'uses' => 'Backend\MembersController@uploadCheckedFiles']);
     Route::get('/members/files/{file}/delete', 'Backend\MembersController@deleteFile');
+    Route::get('/members/delete', 'Backend\MembersController@deleteAllFiles');
     Route::resource('/members', 'Backend\MembersController');
 
     Route::get('/seminars/{seminar}/confirm', ['as' => 'backend.seminars.confirm', 'uses' => 'Backend\SeminarsController@confirm']);

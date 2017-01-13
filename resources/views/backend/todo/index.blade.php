@@ -10,6 +10,7 @@
             <th>Title</th>
             <th>Description</th>
             <th>Creator</th>
+            <th>Details</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>
@@ -17,19 +18,23 @@
         <tbody>
         @if($tasks->isEmpty())
             <tr>
-                <td colspan="5" align="center">There are no tasks.</td>
+                <td colspan="6" align="center">There are no tasks.</td>
             </tr>
         @else
             @foreach($tasks as $task)
                 <tr class="{{ $task->finishedHighlight() }}">
                     <td>
-                        <a href="/backend/todo/<?php echo $task->id ?>/detail">{{ $task->title }}</a>
+                        {{ $task->title }}
                     </td>
                     <td>
                         {{ $task->getShortDescription($task->description) }}
                     </td>
                     <td>
                         {{ $task->creator->getName() }}
+                    </td>
+                    <td>
+                        <a href="/backend/todo/<?php echo $task->id ?>/detail"><span
+                                    class="glyphicon glyphicon-info-sign"></span></a>
                     </td>
                     <td>
                         <a href="/backend/todo/<?php echo $task->id ?>/edit"><span
