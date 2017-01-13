@@ -15,7 +15,9 @@
         "league/commonmark": "^0.15.3",
         "graham-campbell/markdown": "^7.0",
         "hesto/multi-auth": "^1.0",
-        "zizaco/entrust": "^1.7"
+        "zizaco/entrust": "^1.7",
+        "erusev/parsedown": "^1.6",
+        "alfredo-ramos/parsedown-extra-laravel": "^0.5.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

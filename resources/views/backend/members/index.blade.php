@@ -9,6 +9,7 @@
         <tr>
             <th>Name</th>
             <th>Email</th>
+            <th>All Files Checked?</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>
@@ -16,7 +17,7 @@
         <tbody>
         @if($members->isEmpty())
             <tr>
-                <td colspan="4" align="center">There are no members.</td>
+                <td colspan="5" align="center">There are no members.</td>
             </tr>
         @else
             @foreach($members as $member)
@@ -26,6 +27,13 @@
                     </td>
                     <td>
                         {{ $member->email }}
+                    </td>
+                    <td>
+                        @if($member->memberFiles->isEmpty())
+                            No Files Uploaded
+                        @else
+                            <span class="glyphicon glyphicon-certificate {{ $member->getUncheckedFiles() }}"></span>
+                        @endif
                     </td>
                     <td>
                         <a href="/backend/members/<?php echo $member->id ?>/edit"><span

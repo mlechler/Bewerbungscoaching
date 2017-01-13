@@ -143,7 +143,7 @@ return [
 
     'providers' => [
 
-        GrahamCampbell\Markdown\MarkdownServiceProvider::class,
+        AlfredoRamos\ParsedownExtra\ParsedownExtraServiceProvider::class,
         Arrilot\Widgets\ServiceProvider::class,
         Baum\Providers\BaumServiceProvider::class,
         McCool\LaravelAutoPresenter\AutoPresenterServiceProvider::class,
@@ -238,7 +238,7 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Widget' => Arrilot\Widgets\Facade::class,
-        'Markdown' => GrahamCampbell\Markdown\Facades\Markdown::class
+        'Markdown' => AlfredoRamos\ParsedownExtra\Facades\ParsedownExtra::class
 
     ],
 

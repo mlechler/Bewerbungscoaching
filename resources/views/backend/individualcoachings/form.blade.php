@@ -49,7 +49,7 @@
 
     <div class="form-group">
         {{ Form::label('trial') }}
-        {{ Form::checkbox('trial', $coaching->trial, null, ['class' => 'form-control']) }}
+        {{ Form::checkbox('trial', null) }}
     </div>
 
     {{ Form::submit($coaching->exists ? 'Save Coaching' : 'Create new Coaching', ['class' => 'btn btn-success']) }}
@@ -67,6 +67,12 @@
             allowInputToggle: true,
             format: 'HH:mm',
             showClear: true
+        });
+        $('#trial').on('change', function () {
+            if ($(this).is(':checked')) {
+                document.getElementById('price').value = 0;
+                document.getElementById('duration').value = 1;
+            }
         });
     </script>
 @endsection

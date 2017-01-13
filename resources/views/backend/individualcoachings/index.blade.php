@@ -11,6 +11,7 @@
             <th>Member</th>
             <th>Date</th>
             <th>Time</th>
+            <th>Details</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>
@@ -18,11 +19,11 @@
         <tbody>
         @if($coachings->isEmpty())
             <tr>
-                <td colspan="6" align="center">There are no coachings.</td>
+                <td colspan="7" align="center">There are no coachings.</td>
             </tr>
         @else
             @foreach($coachings as $coaching)
-                <tr>
+                <tr class="{{ $coaching->trialHighlight() }}">
                     <td>
                         {{ $coaching->employee->getName() }}
                     </td>
@@ -34,6 +35,10 @@
                     </td>
                     <td>
                         {{ $coaching->formatTime() }}
+                    </td>
+                    <td>
+                        <a href="/backend/individualcoachings/<?php echo $coaching->id ?>/detail"><span
+                                    class="glyphicon glyphicon-info-sign"></span></a>
                     </td>
                     <td>
                         <a href="/backend/individualcoachings/<?php echo $coaching->id ?>/edit"><span

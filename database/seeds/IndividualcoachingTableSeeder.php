@@ -29,7 +29,7 @@ class IndividualcoachingTableSeeder extends Seeder
             'services' => 'Interview',
             'date' => Carbon::createFromDate(2017, 01, 05),
             'time' => Carbon::createFromTime(9, 00, 00),
-            'duration' => 5,
+            'duration' => 1,
             'price' => 0,
             'trial' => true,
             'paid' => true,

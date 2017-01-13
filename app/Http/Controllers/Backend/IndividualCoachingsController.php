@@ -47,7 +47,7 @@ class IndividualCoachingsController extends Controller
             'trial' => $request->trial == 'on' ? true : false,
             'employee_id' => $request->employee_id,
             'member_id' => $request->member_id,
-            'paid' => false
+            'paid' => $request->trial == 'on' ? true : false,
         ));
 
         return redirect(route('individualcoachings.index'))->with('status', 'Coaching has been created.');

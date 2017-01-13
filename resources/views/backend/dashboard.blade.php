@@ -5,16 +5,19 @@
 @section('content')
     <div class="row">
         <div class="col-md-6">
-            @widget('recentPosts')
+            {{ Widget::run('todo') }}
         </div>
         <div class="col-md-6">
-            @widget('recentEmployees')
-            @widget('recentMembers')
+            {{ Widget::run('recentEmployees') }}
+            {{ Widget::run('recentMembers') }}
         </div>
     </div>
     <div class="row">
         <div class="col-md-6">
-            @widget('paypalTransactions')
+            {{ Widget::run('recentPosts') }}
+        </div>
+        <div class="col-md-6">
+            {{ Widget::run('paypalTransactions')}}
         </div>
     </div>
 @endsection

@@ -23,15 +23,23 @@
                         </ul>
                     </li>
                     <li class="dropdown">
-                        <a class="dropdown-toggle" role="button" id="seminarsMenu" data-toggle="dropdown">Seminars <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="seminarsMenu">
-                            <li><a href="{{ route('seminars.index') }}">Overview Seminars</a></li>
-                            <li><a href="{{ route('seminarappointments.index') }}">Overview Appointments</a></li>
+                        <a class="dropdown-toggle" role="button" id="productsMenu" data-toggle="dropdown">Products <span class="caret"></span></a>
+                        <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="productsMenu">
+                            <li class="dropdown-submenu">
+                                <a href="">Seminars</a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="seminarsMenu">
+                                    <li><a href="{{ route('seminars.index') }}">Overview Seminars</a></li>
+                                    <li><a href="{{ route('seminarappointments.index') }}">Overview Appointments</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="{{ route('individualcoachings.index') }}">Individual Coaching</a></li>
+                            <li><a href="#">Application Packages</a></li>
+                            <li><a href="#">Application Layouts</a></li>
                         </ul>
                     </li>
-                    <li><a href="{{ route('individualcoachings.index') }}">Individual Coaching</a></li>
                     <li><a href="{{ route('pages.index') }}">Pages</a></li>
                     <li><a href="{{ route('blog.index') }}">Blog Posts</a></li>
+                    <li><a href="{{ route('todo.index') }}">Tasks</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><span class="navbar-text">Hello, {{ $backendUser->firstname }}</span></li>

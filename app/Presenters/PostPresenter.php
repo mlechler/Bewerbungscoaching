@@ -4,25 +4,18 @@ namespace App\Presenters;
 
 use App\Post;
 use McCool\LaravelAutoPresenter\BasePresenter;
-use League\CommonMark\CommonMarkConverter;
+use AlfredoRamos\ParsedownExtra\Facades\ParsedownExtra as Markdown;
 
 class PostPresenter extends BasePresenter
 {
-    public function __construct($resource, CommonMarkConverter $markdown)
-    {
-        $this->markdown = $markdown;
-
-        parent::__construct($resource);
-    }
-
     public function excerptHtml()
     {
-        return ($this->excerpt ? $this->markdown->convertToHtml($this->excerpt) : null);
+        return ($this->excerpt ? Markdown::parse($this->excerpt) : null);
     }
 
     public function bodyHtml()
     {
-        return ($this->body ? $this->markdown->convertToHtml($this->body) : null);
+        return ($this->body ? Markdown::parse($this->body) : null);
     }
 
     public function getName()
@@ -50,7 +43,7 @@ class PostPresenter extends BasePresenter
         if($this->published_at && $this->published_at->isFuture()){
             return 'info';
         } elseif(! $this->published_at){
-            return 'warning';
+            return 'danger';
         }
     }
 }

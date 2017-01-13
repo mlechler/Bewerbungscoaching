@@ -23,5 +23,6 @@ class DatabaseSeeder extends Seeder
         $this->call('AppointmentTableSeeder');
         $this->call('BookingTableSeeder');
         $this->call('IndividualcoachingTableSeeder');
+        $this->call('TaskTableSeeder');
     }
 }

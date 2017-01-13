@@ -28,6 +28,14 @@ class Employee extends Authenticatable implements HasPresenter
         $this->notify(new EmployeeResetPassword($token));
     }
 
+    public function posts(){
+        return $this->hasMany(Post::class);
+    }
+
+    public function tasks(){
+        return $this->hasMany(Task::class);
+    }
+
     public function adress()
     {
         return $this->belongsTo(Adress::class);

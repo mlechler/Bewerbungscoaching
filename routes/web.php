@@ -60,6 +60,11 @@ Route::group(['prefix' => 'backend'], function () {
     Route::get('/blog/{blog}/confirm', ['as' => 'backend.blog.confirm', 'uses' => 'Backend\BlogController@confirm']);
     Route::get('/blog/{blog}/detail', ['as' => 'backend.blog.detail', 'uses' => 'Backend\BlogController@detail']);
     Route::resource('/blog', 'Backend\BlogController');
+
+    Route::get('/todo/{todo}/confirm', ['as' => 'backend.todo.confirm', 'uses' => 'Backend\TasksController@confirm']);
+    Route::get('/todo/{todo}/detail', ['as' => 'backend.todo.detail', 'uses' => 'Backend\TasksController@detail']);
+    Route::get('/todo/{todo}/finished', 'Backend\TasksController@taskFinished');
+    Route::resource('/todo', 'Backend\TasksController');
 });
 
 Route::get('/', function () {
