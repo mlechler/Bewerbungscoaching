@@ -28,7 +28,7 @@ class StoreCoachingRequest extends FormRequest
             'date' => ['required', 'date_format:Y-m-d'],
             'time' => ['required', 'date_format:H:i'],
             'duration' => ['required'],
-            'price' => ['required'],
+            'price_incl_discount' => ['required'],
             'employee_id' => ['required'],
             'member_id' => ['required'],
         ];

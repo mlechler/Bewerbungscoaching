@@ -62,6 +62,10 @@ Route::group(['prefix' => 'backend'], function () {
     Route::get('/memberdiscounts/{memberdiscount}/detail', ['as' => 'backend.memberdiscounts.detail', 'uses' => 'Backend\MemberdiscountsController@detail']);
     Route::resource('/memberdiscounts', 'Backend\MemberdiscountsController');
 
+    Route::get('/invoices/{invoice}/confirm', ['as' => 'backend.invoices.confirm', 'uses' => 'Backend\InvoicesController@confirm']);
+    Route::get('/invoices/{invoice}/detail', ['as' => 'backend.invoices.detail', 'uses' => 'Backend\InvoicesController@detail']);
+    Route::resource('/invoices', 'Backend\InvoicesController');
+
     Route::get('/pages/{page}/confirm', ['as' => 'backend.pages.confirm', 'uses' => 'Backend\PagesController@confirm']);
     Route::get('/pages/{page}/detail', ['as' => 'backend.pages.detail', 'uses' => 'Backend\PagesController@detail']);
     Route::resource('/pages', 'Backend\PagesController');

@@ -50,7 +50,7 @@
                 <h4>Price</h4>
             </td>
             <td>
-                <h4>{{ $coaching->price }} €</h4>
+                <h4>{{ $coaching->price_incl_discount }} €</h4>
             </td>
         </tr>
         <tr>

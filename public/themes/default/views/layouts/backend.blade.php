@@ -44,7 +44,7 @@
                             <li><a href="{{ route('memberdiscounts.index') }}">Overview Memberdiscounts</a></li>
                         </ul>
                     </li>
-
+                    <li><a href="{{ route('invoices.index') }}">Invoices</a></li>
                     <li><a href="{{ route('pages.index') }}">Pages</a></li>
                     <li><a href="{{ route('blog.index') }}">Blog Posts</a></li>
                     <li><a href="{{ route('todo.index') }}">Tasks</a></li>

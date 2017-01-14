@@ -16,8 +16,8 @@ class CreateInvoicesTable extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('member_id');
-            $table->integer('individualcoaching_id');
-            $table->integer('booking_id');
+            $table->integer('individualcoaching_id')->nullable();
+            $table->integer('booking_id')->nullable();
             $table->float('totalprice');
             $table->date('date');
             $table->timestamps();

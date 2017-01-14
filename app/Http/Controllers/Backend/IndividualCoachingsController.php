@@ -43,7 +43,7 @@ class IndividualCoachingsController extends Controller
             'date' => $request->date,
             'time' => $request->time,
             'duration' => $request->duration,
-            'price' => $request->price,
+            'price_incl_discount' => $request->price,
             'trial' => $request->trial == 'on' ? true : false,
             'employee_id' => $request->employee_id,
             'member_id' => $request->member_id,
@@ -73,7 +73,7 @@ class IndividualCoachingsController extends Controller
             'date' => $request->date,
             'time' => $request->time,
             'duration' => $request->duration,
-            'price' => $request->price,
+            'price_incl_discount' => $request->price,
             'trial' => $request->trial == 'on' ? true : false,
             'employee_id' => $request->employee_id,
             'member_id' => $request->member_id

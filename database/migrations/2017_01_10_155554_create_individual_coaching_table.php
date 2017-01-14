@@ -19,7 +19,7 @@ class CreateIndividualCoachingTable extends Migration
             $table->date('date');
             $table->time('time');
             $table->integer('duration');
-            $table->float('price');
+            $table->float('price_incl_discount');
             $table->boolean('trial');
             $table->boolean('paid');
             $table->integer('employee_id');
