@@ -29,7 +29,7 @@
                 <h4>{{ $post->slug}}</h4>
             </td>
         </tr>
-        <tr class="{{ $post->publishedHighlight() }}">
+        <tr>
             <td>
                 <h4>Published At</h4>
             </td>

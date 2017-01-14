@@ -26,7 +26,7 @@ class MembersController extends Controller
 
     public function index()
     {
-        $members = Member::paginate(10);
+        $members = Member::orderBy('lastname')->paginate(10);
 
         return view('backend.members.index', compact('members'));
     }

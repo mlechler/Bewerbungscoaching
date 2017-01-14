@@ -15,11 +15,18 @@ class AppointmentPresenter extends BasePresenter
     public function formatTime()
     {
         $time = Carbon::parse($this->time);
-        return $time->format('H:i').' - '.$time->addHours($this->seminar->duration)->format('H:i');
+        return $time->format('H:i') . ' - ' . $time->addHours($this->seminar->duration)->format('H:i');
     }
 
     public function formatAdress($adress)
     {
-        return ($adress->zip.' '.$adress->city.', '.$adress->street.' '.$adress->housenumber);
+        return ($adress->zip . ' ' . $adress->city . ', ' . $adress->street . ' ' . $adress->housenumber);
+    }
+
+    public function overHighlight()
+    {
+        if ($this->date < Carbon::now()) {
+            return 'danger';
+        }
     }
 }

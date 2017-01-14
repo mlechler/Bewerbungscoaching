@@ -23,7 +23,7 @@
             </tr>
         @else
             @foreach($seminarappointments as $appointment)
-                <tr>
+                <tr class="{{ $appointment->overHighlight() }}">
                     <td>
                         {{ $appointment->seminar->title }}
                     </td>

@@ -24,7 +24,7 @@ class AppointmentsController extends Controller
 
     public function index()
     {
-        $seminarappointments = Appointment::with('employee')->paginate(10);
+        $seminarappointments = Appointment::with('employee')->orderBy('created_at', 'desc')->paginate(10);
 
         return view('backend.seminarappointments.index', compact('seminarappointments'));
     }

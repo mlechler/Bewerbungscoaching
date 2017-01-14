@@ -22,7 +22,7 @@ class IndividualCoachingsController extends Controller
 
     public function index()
     {
-        $coachings = Individualcoaching::with('employee', 'member')->paginate(10);
+        $coachings = Individualcoaching::with('employee', 'member')->orderBy('created_at', 'desc')->paginate(10);
 
         return view('backend.individualcoachings.index', compact('coachings'));
     }

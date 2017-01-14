@@ -21,7 +21,7 @@ class SeminarsController extends Controller
 
     public function index()
     {
-        $seminars = Seminar::paginate(10);
+        $seminars = Seminar::orderBy('title')->paginate(10);
 
         return view('backend.seminars.index', compact('seminars'));
     }

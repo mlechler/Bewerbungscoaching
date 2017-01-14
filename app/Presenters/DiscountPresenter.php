@@ -3,7 +3,6 @@
 namespace App\Presenters;
 
 use McCool\LaravelAutoPresenter\BasePresenter;
-use AlfredoRamos\ParsedownExtra\Facades\ParsedownExtra as Markdown;
 
 class DiscountPresenter extends BasePresenter
 {

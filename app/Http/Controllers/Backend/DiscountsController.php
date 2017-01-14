@@ -19,7 +19,7 @@ class DiscountsController extends Controller
 
     public function index()
     {
-        $discounts = Discount::paginate(10);
+        $discounts = Discount::orderBy('title')->paginate(10);
 
         return view('backend.discounts.index', compact('discounts'));
     }

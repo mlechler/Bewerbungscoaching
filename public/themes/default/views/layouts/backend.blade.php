@@ -37,7 +37,14 @@
                             <li><a href="#">Application Layouts</a></li>
                         </ul>
                     </li>
-                    <li><a href="{{ route('discounts.index') }}">Discounts</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" role="button" id="discountsMenu" data-toggle="dropdown">Discounts <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="discountsMenu">
+                            <li><a href="{{ route('discounts.index') }}">Overview Discounts</a></li>
+                            <li><a href="{{ route('memberdiscounts.index') }}">Overview Memberdiscounts</a></li>
+                        </ul>
+                    </li>
+
                     <li><a href="{{ route('pages.index') }}">Pages</a></li>
                     <li><a href="{{ route('blog.index') }}">Blog Posts</a></li>
                     <li><a href="{{ route('todo.index') }}">Tasks</a></li>
