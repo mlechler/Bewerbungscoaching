@@ -15,7 +15,7 @@ class AppointmentPresenter extends BasePresenter
     public function formatTime()
     {
         $time = Carbon::parse($this->time);
-        return $time->format('H:i').' - '.$time->addMinutes($this->seminar->duration)->format('H:i');
+        return $time->format('H:i').' - '.$time->addHours($this->seminar->duration)->format('H:i');
     }
 
     public function formatAdress($adress)

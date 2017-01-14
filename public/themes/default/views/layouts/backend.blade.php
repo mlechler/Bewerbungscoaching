@@ -37,6 +37,7 @@
                             <li><a href="#">Application Layouts</a></li>
                         </ul>
                     </li>
+                    <li><a href="{{ route('discounts.index') }}">Discounts</a></li>
                     <li><a href="{{ route('pages.index') }}">Pages</a></li>
                     <li><a href="{{ route('blog.index') }}">Blog Posts</a></li>
                     <li><a href="{{ route('todo.index') }}">Tasks</a></li>

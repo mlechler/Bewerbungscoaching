@@ -6,9 +6,9 @@ use McCool\LaravelAutoPresenter\BasePresenter;
 
 class SeminarPresenter extends BasePresenter
 {
-    public function getShortDescription($description)
+    public function getShortDescription()
     {
-        $pieces = explode(" ", $description);
+        $pieces = explode(" ", $this->description);
         return (implode(" ", array_splice($pieces, 0, 5)).' ...');
     }
 }

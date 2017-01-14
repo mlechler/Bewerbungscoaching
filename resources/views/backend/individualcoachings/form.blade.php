@@ -39,12 +39,12 @@
 
     <div class="form-group">
         {{ Form::label('duration') }}
-        {{ Form::number('duration', null, ['class' => 'form-control', 'step' => '0.5']) }}
+        {{ Form::number('duration', null, ['class' => 'form-control', 'step' => '0.5', 'min' => 0]) }}
     </div>
 
     <div class="form-group">
         {{ Form::label('price') }}
-        {{ Form::number('price', null, ['class' => 'form-control', 'step' => '0.01']) }}
+        {{ Form::number('price', null, ['class' => 'form-control', 'step' => '0.01', 'min' => 0]) }}
     </div>
 
     <div class="form-group">

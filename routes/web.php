@@ -50,12 +50,16 @@ Route::group(['prefix' => 'backend'], function () {
     Route::get('/seminarappointments/{seminarappointment}/removeParticipant/{participant}', 'Backend\AppointmentsController@removeParticipant');
     Route::resource('/seminarappointments', 'Backend\AppointmentsController');
 
-    Route::get('/individualcoachings/{individualcoaching}/confirm', ['as' => 'backend.pages.confirm', 'uses' => 'Backend\IndividualCoachingsController@confirm']);
-    Route::get('/individualcoachings/{individualcoaching}/detail', ['as' => 'backend.pages.detail', 'uses' => 'Backend\IndividualCoachingsController@detail']);
+    Route::get('/individualcoachings/{individualcoaching}/confirm', ['as' => 'backend.individualcoachings.confirm', 'uses' => 'Backend\IndividualCoachingsController@confirm']);
+    Route::get('/individualcoachings/{individualcoaching}/detail', ['as' => 'backend.individualcoachings.detail', 'uses' => 'Backend\IndividualCoachingsController@detail']);
     Route::resource('/individualcoachings', 'Backend\IndividualCoachingsController');
 
-    Route::get('/pages/{page}/confirm', ['as' => 'backend.individualcoachings.confirm', 'uses' => 'Backend\PagesController@confirm']);
-    Route::get('/pages/{page}/detail', ['as' => 'backend.individualcoachings.detail', 'uses' => 'Backend\PagesController@detail']);
+    Route::get('/discounts/{discount}/confirm', ['as' => 'backend.discounts.confirm', 'uses' => 'Backend\DiscountsController@confirm']);
+    Route::get('/discounts/{discount}/detail', ['as' => 'backend.discounts.detail', 'uses' => 'Backend\DiscountsController@detail']);
+    Route::resource('/discounts', 'Backend\DiscountsController');
+
+    Route::get('/pages/{page}/confirm', ['as' => 'backend.pages.confirm', 'uses' => 'Backend\PagesController@confirm']);
+    Route::get('/pages/{page}/detail', ['as' => 'backend.pages.detail', 'uses' => 'Backend\PagesController@detail']);
     Route::resource('/pages', 'Backend\PagesController');
 
     Route::get('/blog/{blog}/confirm', ['as' => 'backend.blog.confirm', 'uses' => 'Backend\BlogController@confirm']);

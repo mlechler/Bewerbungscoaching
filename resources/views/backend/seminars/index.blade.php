@@ -29,13 +29,13 @@
                         {{ $seminar->title }}
                     </td>
                     <td>
-                        {{ $seminar->getShortDescription($seminar->description) }}
+                        {{ $seminar->getShortDescription() }}
                     </td>
                     <td>
                         {{ $seminar->maxMembers }}
                     </td>
                     <td>
-                        {{ $seminar->duration }} minutes
+                        {{ $seminar->duration }} hours
                     </td>
                     <td>
                         {{ $seminar->price }} €

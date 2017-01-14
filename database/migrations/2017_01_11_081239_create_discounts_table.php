@@ -15,6 +15,7 @@ class CreateDiscountsTable extends Migration
     {
         Schema::create('discounts', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('title');
             $table->float('amount');
             $table->boolean('percentage');
             $table->string('service');

@@ -13,7 +13,7 @@ class SeminarTableSeeder extends Seeder
             'description' => 'This is the best seminar ever!',
             'services' => 'Catering',
             'maxMembers' => 12,
-            'duration' => 360,
+            'duration' => 6,
             'price' => 99
         ));
         Seminar::create(array(
@@ -21,7 +21,7 @@ class SeminarTableSeeder extends Seeder
             'description' => 'This is even better!',
             'services' => 'Catering, Document review',
             'maxMembers' => 12,
-            'duration' => 360,
+            'duration' => 6,
             'price' => 199
         ));
     }

@@ -6,7 +6,7 @@
     <a href="{{ route('members.create') }}" class="btn btn-primary">Create New Member</a>
     <div class="deleteFiles">
         <a href="/backend/members/delete" class="btn btn-danger"
-           title="Delete all Files, which are older than three months.">Delete Files</a>
+           title="Delete all Files, which are older than three months.">Delete Old Files</a>
     </div>
     {{ Form::open() }}
     <div class="form-group has-feedback has-feedback-left">

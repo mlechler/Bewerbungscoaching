@@ -34,7 +34,7 @@
                 <h4>Duration</h4>
             </td>
             <td>
-                <h4>{{ $seminar->duration }} minutes</h4>
+                <h4>{{ $seminar->duration }} hours</h4>
             </td>
         </tr>
         <tr>

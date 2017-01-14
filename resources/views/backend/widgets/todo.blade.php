@@ -11,7 +11,9 @@
                     <a href="/backend/todo/<?php echo $task->id ?>/detail">{{ $task->title }}</a>
 
                     <div class="taskFinished">
-                        <a href="/backend/todo/<?php echo $task->id ?>/finished"><span class="glyphicon glyphicon-ok"></span></a>
+                        <a href="/backend/todo/<?php echo $task->id ?>/finished"><span
+                                    class="glyphicon glyphicon-ok"></span></a>
+                        <a href="{{ route('todo.edit', $task->id) }}"><span class="glyphicon glyphicon-edit"></span></a>
                     </div>
                 </h4>
 
