@@ -21,14 +21,14 @@
                 @if($invoice->booking)
                     <h4>Seminarbooking</h4>
                     <h5>{{ $invoice->booking->appointment->seminar->title}}</h5>
-                    <h5>{{ $invoice->booking->appointment->date }}</h5>
-                    <h5>{{ $invoice->booking->appointment->time }}</h5>
+                    <h5>{{ $invoice->booking->formatDate() }}</h5>
+                    <h5>{{ $invoice->booking->formatTime() }}</h5>
                 @endif
                 @if($invoice->individualcoaching)
                     <h4>Individual Coaching</h4>
                     <h5>{{ $invoice->individualcoaching->services }}</h5>
-                    <h5>{{ $invoice->individualcoaching->date }}</h5>
-                    <h5>{{ $invoice->individualcoaching->time }}</h5>
+                    <h5>{{ $invoice->individualcoaching->formatDate() }}</h5>
+                    <h5>{{ $invoice->individualcoaching->formatTime() }}</h5>
                 @endif
             </td>
         </tr>

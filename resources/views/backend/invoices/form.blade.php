@@ -15,6 +15,17 @@
         </div>
     </div>
 
+    <div class="form-group row">
+        <div class="col-md-6">
+            {{ Form::label('individual_coaching') }}
+            {{ Form::select('individualcoaching_id', $coachings, null, ['class' => 'form-control']) }}
+        </div>
+        <div class="col-md-6">
+            {{ Form::label('booking') }}
+            {{ Form::select('booking_id', $bookings, null, ['class' => 'form-control']) }}
+        </div>
+    </div>
+
     {{ Form::submit($invoice->exists ? 'Save Invoice' : 'Create New Invoice', ['class' => 'btn btn-success']) }}
     <a href="{{ route('invoices.index') }}" class="btn btn-danger">Cancel</a>
     {{ Form::close() }}

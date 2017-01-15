@@ -2,12 +2,19 @@
 
 namespace App;
 
+use App\Presenters\BookingPresenter;
 use Illuminate\Database\Eloquent\Model;
+use McCool\LaravelAutoPresenter\HasPresenter;
 
-class Booking extends Model
+class Booking extends Model implements HasPresenter
 {
     protected $table = 'seminarbookings';
     protected $fillable = ['member_id', 'appointment_id', 'paid', 'price_incl_discount'];
+
+    public function getPresenterClass()
+    {
+        return BookingPresenter::class;
+    }
 
     public function member()
     {

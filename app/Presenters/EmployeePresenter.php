@@ -8,7 +8,7 @@ class EmployeePresenter extends BasePresenter
 {
     public function getName()
     {
-        return ($this->lastname.' '.$this->firstname);
+        return ($this->lastname . ', ' . $this->firstname);
     }
 
     public function formatBirthday()
@@ -18,7 +18,7 @@ class EmployeePresenter extends BasePresenter
 
     public function formatAdress($adress)
     {
-        return ($adress->zip.' '.$adress->city.', '.$adress->street.' '.$adress->housenumber);
+        return ($adress->zip . ' ' . $adress->city . ', ' . $adress->street . ' ' . $adress->housenumber);
     }
 
     public function lastLoginDifference()

@@ -30,6 +30,7 @@
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="seminarsMenu">
                                     <li><a href="{{ route('seminars.index') }}">Overview Seminars</a></li>
                                     <li><a href="{{ route('seminarappointments.index') }}">Overview Appointments</a></li>
+                                    <li><a href="{{ route('seminarbookings.index') }}">Overview Bookings</a></li>
                                 </ul>
                             </li>
                             <li><a href="{{ route('individualcoachings.index') }}">Individual Coaching</a></li>

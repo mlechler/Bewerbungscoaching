@@ -31,9 +31,13 @@ class MemberdiscountsController extends Controller
 
     public function create(Memberdiscount $memberdiscount)
     {
-        $members = ['' => ''] + Member::all()->pluck('lastname', 'id')->toArray();
-
         $discounts = ['' => ''] + Discount::all()->pluck('title', 'id')->toArray();
+
+        $mem = Member::select('lastname', 'firstname')->get();
+        $members = [0 => ''];
+        foreach ($mem as $member) {
+            array_push($members, $member->lastname.', '.$member->firstname);
+        }
 
         return view('backend.memberdiscounts.form', compact('memberdiscount', 'members', 'discounts'));
     }
@@ -56,9 +60,13 @@ class MemberdiscountsController extends Controller
     {
         $memberdiscount = Memberdiscount::findOrFail($id);
 
-        $members = ['' => ''] + Member::all()->pluck('lastname', 'id')->toArray();
-
         $discounts = ['' => ''] + Discount::all()->pluck('title', 'id')->toArray();
+
+        $mem = Member::select('lastname', 'firstname')->get();
+        $members = [0 => ''];
+        foreach ($mem as $member) {
+            array_push($members, $member->lastname.', '.$member->firstname);
+        }
 
         return view('backend.memberdiscounts.form', compact('memberdiscount', 'members', 'discounts'));
     }

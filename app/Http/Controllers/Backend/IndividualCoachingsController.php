@@ -29,9 +29,17 @@ class IndividualCoachingsController extends Controller
 
     public function create(Individualcoaching $coaching)
     {
-        $employees = ['' => ''] + Employee::all()->pluck('lastname', 'id')->toArray();
+        $emp = Employee::select('lastname', 'firstname')->get();
+        $employees = [0 => ''];
+        foreach ($emp as $employee) {
+            array_push($employees, $employee->lastname.', '.$employee->firstname);
+        }
 
-        $members = ['' => ''] + Member::all()->pluck('lastname', 'id')->toArray();
+        $mem = Member::select('lastname', 'firstname')->get();
+        $members = [0 => ''];
+        foreach ($mem as $member) {
+            array_push($members, $member->lastname.', '.$member->firstname);
+        }
 
         return view('backend.individualcoachings.form', compact('coaching', 'employees', 'members'));
     }
@@ -43,7 +51,7 @@ class IndividualCoachingsController extends Controller
             'date' => $request->date,
             'time' => $request->time,
             'duration' => $request->duration,
-            'price_incl_discount' => $request->price,
+            'price_incl_discount' => $request->price_incl_discount,
             'trial' => $request->trial == 'on' ? true : false,
             'employee_id' => $request->employee_id,
             'member_id' => $request->member_id,
@@ -57,9 +65,17 @@ class IndividualCoachingsController extends Controller
     {
         $coaching = Individualcoaching::findOrFail($id);
 
-        $members = ['' => ''] + Member::all()->pluck('lastname', 'id')->toArray();
+        $emp = Employee::select('lastname', 'firstname')->get();
+        $employees = [0 => ''];
+        foreach ($emp as $employee) {
+            array_push($employees, $employee->lastname.', '.$employee->firstname);
+        }
 
-        $employees = ['' => ''] + Employee::all()->pluck('lastname', 'id')->toArray();
+        $mem = Member::select('lastname', 'firstname')->get();
+        $members = [0 => ''];
+        foreach ($mem as $member) {
+            array_push($members, $member->lastname.', '.$member->firstname);
+        }
 
         return view('backend.individualcoachings.form', compact('coaching', 'employees', 'members'));
     }
@@ -73,7 +89,7 @@ class IndividualCoachingsController extends Controller
             'date' => $request->date,
             'time' => $request->time,
             'duration' => $request->duration,
-            'price_incl_discount' => $request->price,
+            'price_incl_discount' => $request->price_incl_discount,
             'trial' => $request->trial == 'on' ? true : false,
             'employee_id' => $request->employee_id,
             'member_id' => $request->member_id

@@ -39,12 +39,12 @@
 
     <div class="form-group">
         {{ Form::label('duration') }}
-        {{ Form::number('duration', null, ['class' => 'form-control', 'step' => '0.5', 'min' => 0]) }}
+        {{ Form::number('duration', null, ['class' => 'form-control', 'id' => 'duration', 'step' => '0.5', 'min' => 0]) }}
     </div>
 
     <div class="form-group">
         {{ Form::label('price') }}
-        {{ Form::number('price_incl_discount', null, ['class' => 'form-control', 'step' => '0.01', 'min' => 0]) }}
+        {{ Form::number('price_incl_discount', null, ['class' => 'form-control', 'id' => 'price_incl_discount', 'step' => '0.01', 'min' => 0]) }}
     </div>
 
     <div class="form-group">
@@ -70,7 +70,7 @@
         });
         $('#trial').on('change', function () {
             if ($(this).is(':checked')) {
-                document.getElementById('price').value = 0;
+                document.getElementById('price_incl_discount').value = 0;
                 document.getElementById('duration').value = 1;
             }
         });

@@ -1,6 +1,6 @@
 @extends('layouts.backend')
 
-@section('title', 'Deleting ')
+@section('title', 'Deleting VALUE')
 
 @section('content')
     {{ Form::open([

@@ -27,7 +27,7 @@
                         {{ $invoice->member->getName() }}
                     </td>
                     <td>
-                        {{ $invoice->totalprice }}
+                        {{ $invoice->totalprice }} €
                     </td>
                     <td>
                         {{ $invoice->formatDate() }}

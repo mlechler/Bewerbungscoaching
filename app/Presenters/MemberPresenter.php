@@ -8,7 +8,7 @@ class MemberPresenter extends BasePresenter
 {
     public function getName()
     {
-        return ($this->lastname . ' ' . $this->firstname);
+        return ($this->lastname . ', ' . $this->firstname);
     }
 
     public function formatBirthday()

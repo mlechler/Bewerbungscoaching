@@ -45,10 +45,14 @@ Route::group(['prefix' => 'backend'], function () {
     Route::get('/seminars/files/{file}/delete', 'Backend\SeminarsController@deleteFile');
     Route::resource('/seminars', 'Backend\SeminarsController');
 
-    Route::get('/seminarappointments/{seminarappointment}/confirm', ['as' => 'backend.seminars.confirm', 'uses' => 'Backend\AppointmentsController@confirm']);
-    Route::get('/seminarappointments/{seminarappointment}/detail', ['as' => 'backend.seminars.detail', 'uses' => 'Backend\AppointmentsController@detail']);
+    Route::get('/seminarappointments/{seminarappointment}/confirm', ['as' => 'backend.seminarappointments.confirm', 'uses' => 'Backend\AppointmentsController@confirm']);
+    Route::get('/seminarappointments/{seminarappointment}/detail', ['as' => 'backend.seminarappointments.detail', 'uses' => 'Backend\AppointmentsController@detail']);
     Route::get('/seminarappointments/{seminarappointment}/removeParticipant/{participant}', 'Backend\AppointmentsController@removeParticipant');
     Route::resource('/seminarappointments', 'Backend\AppointmentsController');
+
+    Route::get('/seminarbookings/{seminarbooking}/confirm', ['as' => 'backend.seminarbookings.confirm', 'uses' => 'Backend\BookingsController@confirm']);
+    Route::get('/seminarbookings/{seminarbooking}/detail', ['as' => 'backend.seminarbookings.detail', 'uses' => 'Backend\BookingsController@detail']);
+    Route::resource('/seminarbookings', 'Backend\BookingsController');
 
     Route::get('/individualcoachings/{individualcoaching}/confirm', ['as' => 'backend.individualcoachings.confirm', 'uses' => 'Backend\IndividualCoachingsController@confirm']);
     Route::get('/individualcoachings/{individualcoaching}/detail', ['as' => 'backend.individualcoachings.detail', 'uses' => 'Backend\IndividualCoachingsController@detail']);
