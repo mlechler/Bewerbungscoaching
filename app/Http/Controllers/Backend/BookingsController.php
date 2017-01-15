@@ -38,7 +38,8 @@ class BookingsController extends Controller
         $app = Appointment::select('seminar_id', 'date', 'time')->get();
         $appointments = [0 => ''];
         foreach ($app as $appointment) {
-            array_push($appointments, $appointment->seminar->title.', '.$appointment->date.', '.$appointment->time);
+            $time = Carbon::parse($appointment->time);
+            array_push($appointments, $appointment->seminar->title.', '.$appointment->date->format('d.m.Y').', '.($time->format('H:i') . ' - ' . $time->addHours($appointment->seminar->duration)->format('H:i')));
         }
         return view('backend.seminarbookings.form', compact('seminarbooking', 'members', 'appointments'));
     }

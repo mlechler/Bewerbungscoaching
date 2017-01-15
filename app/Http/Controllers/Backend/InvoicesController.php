@@ -26,14 +26,20 @@ class InvoicesController extends Controller
         return view('backend.invoices.index', compact('invoices'));
     }
 
-    public function create()
+    public function create(Invoice $invoice)
     {
-        //
+        $mem = Member::select('lastname', 'firstname')->get();
+        $members = [0 => ''];
+        foreach ($mem as $member) {
+            array_push($members, $member->lastname.', '.$member->firstname);
+        }
+
+        return view('backend.invoices.form', compact('invoice', 'members'));
     }
 
     public function store()
     {
-        //
+        dd($_REQUEST['selectBoxType']);
     }
 
     public function edit()
