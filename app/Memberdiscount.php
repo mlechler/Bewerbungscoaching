@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Presenters\MemberdiscountPresenter;
+use App\Presenters\MemberDiscountPresenter;
 use Illuminate\Database\Eloquent\Model;
 use McCool\LaravelAutoPresenter\HasPresenter;
 
@@ -14,7 +14,7 @@ class Memberdiscount extends Model implements HasPresenter
 
     public function getPresenterClass()
     {
-        return MemberdiscountPresenter::class;
+        return MemberDiscountPresenter::class;
     }
 
     public function member()

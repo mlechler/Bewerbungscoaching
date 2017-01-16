@@ -32,7 +32,7 @@
         {{ Form::text('startdate', null, ['class' => 'form-control']) }}
     </div>
 
-    {{ Form::submit($memberdiscount->exists ? 'Save Memberdiscount' : 'Create New Memberdiscount', ['class' => 'btn btn-success']) }}
+    {{ Form::submit($memberdiscount->exists ? 'Save Memberdiscount' : 'Create New memberdDiscount', ['class' => 'btn btn-success']) }}
     <a href="{{ route('discounts.index') }}" class="btn btn-danger">Cancel</a>
     {{ Form::close() }}
 

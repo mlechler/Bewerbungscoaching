@@ -3,7 +3,8 @@
 return [
 
     'fileDestinationPath' => 'uploads',
-    'allowedFileTypes' => 'png,pdf',
+    'layoutDestinationPath' => 'layouts',
+    'allowedFileTypes' => 'png,pdf,docx',
     'maxFileSize' => 2000,
 
     /*

@@ -61,4 +61,9 @@ class Member extends Authenticatable implements HasPresenter
     {
         return $this->hasMany(Invoice::class);
     }
+
+    public function applicationlayouts()
+    {
+        return $this->belongsToMany(Applicationlayout::class, 'memberapplicationlayouts')->withPivot('price_incl_discount', 'paid');
+    }
 }

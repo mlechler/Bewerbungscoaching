@@ -58,6 +58,12 @@ Route::group(['prefix' => 'backend'], function () {
     Route::get('/individualcoachings/{individualcoaching}/detail', ['as' => 'backend.individualcoachings.detail', 'uses' => 'Backend\IndividualCoachingsController@detail']);
     Route::resource('/individualcoachings', 'Backend\IndividualCoachingsController');
 
+    Route::get('/applicationlayouts/{applicationlayout}/confirm', ['as' => 'backend.applicationlayouts.confirm', 'uses' => 'Backend\ApplicationLayoutsController@confirm']);
+    Route::get('/applicationlayouts/{applicationlayouts}/detail', ['as' => 'backend.applicationlayouts.detail', 'uses' => 'Backend\ApplicationLayoutsController@detail']);
+    Route::get('/applicationlayouts/files/{file}/deletepreview', 'Backend\ApplicationLayoutsController@deletePreviewFile');
+    Route::get('/applicationlayouts/files/{file}/deletelayout', 'Backend\ApplicationLayoutsController@deleteLayoutFile');
+    Route::resource('/applicationlayouts', 'Backend\ApplicationLayoutsController');
+
     Route::get('/discounts/{discount}/confirm', ['as' => 'backend.discounts.confirm', 'uses' => 'Backend\DiscountsController@confirm']);
     Route::get('/discounts/{discount}/detail', ['as' => 'backend.discounts.detail', 'uses' => 'Backend\DiscountsController@detail']);
     Route::resource('/discounts', 'Backend\DiscountsController');
