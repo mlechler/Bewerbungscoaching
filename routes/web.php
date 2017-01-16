@@ -64,6 +64,10 @@ Route::group(['prefix' => 'backend'], function () {
     Route::get('/applicationlayouts/files/{file}/deletelayout', 'Backend\ApplicationLayoutsController@deleteLayoutFile');
     Route::resource('/applicationlayouts', 'Backend\ApplicationLayoutsController');
 
+    Route::get('/layoutpurchases/{layoutpurchase}/confirm', ['as' => 'backend.layoutpurchases.confirm', 'uses' => 'Backend\LayoutPurchasesController@confirm']);
+    Route::get('/layoutpurchases/{layoutpurchase}/detail', ['as' => 'backend.layoutpurchases.detail', 'uses' => 'Backend\LayoutPurchasesController@detail']);
+    Route::resource('/layoutpurchases', 'Backend\LayoutPurchasesController');
+
     Route::get('/discounts/{discount}/confirm', ['as' => 'backend.discounts.confirm', 'uses' => 'Backend\DiscountsController@confirm']);
     Route::get('/discounts/{discount}/detail', ['as' => 'backend.discounts.detail', 'uses' => 'Backend\DiscountsController@detail']);
     Route::resource('/discounts', 'Backend\DiscountsController');

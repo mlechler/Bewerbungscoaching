@@ -20,7 +20,7 @@ class TasksController extends Controller
 
     public function index()
     {
-        $tasks = Task::with('creator')->orderBy('finished')->paginate(10);
+        $tasks = Task::with('creator')->orderBy('finished', 'desc')->paginate(10);
 
         return view('backend.todo.index', compact('tasks'));
     }

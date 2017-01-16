@@ -82,7 +82,7 @@
 
     <div class="form-group row">
         <div class="col-md-12">
-            {{ Form::label('files_(Only_PNG_or_PDF)') }}
+            {{ Form::label('files_(PNG,_PDF_or_DOCX)') }}
             <br>
             @if(!$employee->employeeFiles->isEmpty())
                 @foreach($employee->employeeFiles as $file)

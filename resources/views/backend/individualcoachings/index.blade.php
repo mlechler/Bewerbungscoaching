@@ -4,7 +4,14 @@
 
 @section('content')
     <a href="{{ route('individualcoachings.create') }}" class="btn btn-primary">Create New Coaching</a>
-    <table class="table table-hover">
+    {{ Form::open() }}
+    <div class="form-group has-feedback has-feedback-left">
+        <br>
+        {{ Form::text('searchInput', null, ['class' => 'form-control', 'id' => 'searchInput', 'onkeyup' => 'search()', 'placeholder' => 'Search for Employee or Member']) }}
+        <i class="form-control-feedback glyphicon glyphicon-search"></i>
+    </div>
+    {{ Form::close() }}
+    <table class="table table-hover" id="coachingTable">
         <thead>
         <tr>
             <th>Employee</th>
@@ -55,4 +62,32 @@
     </table>
 
     {{ $coachings->links() }}
+
+    <script>
+        function search() {
+            var input, filter, table, tr, td, i;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("coachingTable");
+            tr = table.getElementsByTagName("tr");
+
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        td = tr[i].getElementsByTagName("td")[1];
+                        if (td) {
+                            if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                                tr[i].style.display = "";
+                            } else {
+                                tr[i].style.display = "none";
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 @endsection

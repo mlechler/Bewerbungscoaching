@@ -46,7 +46,7 @@
 
     <div class="form-group row">
         <div class="col-md-12">
-            {{ Form::label('layout_file_(DOCX)') }}
+            {{ Form::label('layout_file_(PDF_or_DOCX)') }}
             <br>
             @if($layout->layout)
                 <div class="col-md-2">

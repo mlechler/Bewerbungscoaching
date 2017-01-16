@@ -18,6 +18,6 @@ class Applicationlayout extends Model implements HasPresenter
 
     public function members()
     {
-        return $this->belongsToMany(Member::class, 'memberapplicationlayouts')->withPivot('price_incl_discount', 'paid');
+        return $this->belongsToMany(Member::class, 'layoutpurchases')->withPivot('price_incl_discount', 'paid');
     }
 }

@@ -39,6 +39,7 @@
                                 <a href="">Application Layouts</a>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="applicationLayoutsMenu">
                                     <li><a href="{{ route('applicationlayouts.index') }}">Overview Application Layouts</a></li>
+                                    <li><a href="{{ route('layoutpurchases.index') }}">Overview Layout Purchases</a></li>
                                 </ul>
                             </li>
                         </ul>

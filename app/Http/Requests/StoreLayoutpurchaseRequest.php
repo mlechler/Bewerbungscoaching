@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreLayoutRequest extends FormRequest
+class StoreLayoutpurchaseRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,9 @@ class StoreLayoutRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required', 'unique:applicationlayouts'],
-            'description' => ['required'],
-            'price' => ['required'],
-            'preview' => ['mimes:' . config('app.allowedPreviewFileTypes'), 'max:' . config('app.maxFileSize')],
-            'layout' => ['mimes:' . config('app.allowedLayoutFileTypes'), 'max:' . config('app.maxFileSize')]
+            'member_id' => ['required'],
+            'applicationlayout_id' => ['required'],
+            'price_incl_discount' => ['required']
         ];
     }
 }

@@ -10,7 +10,7 @@
                 <h4>Member</h4>
             </td>
             <td>
-                <h4>{{ $memberdiscount->member->lastname }}</h4>
+                <h4>{{ $memberdiscount->member->getName() }}</h4>
             </td>
         </tr>
         <tr>

@@ -26,7 +26,7 @@ class PostPresenter extends BasePresenter
             $post->fill(array('author_id' => null))->save();
             return 'Author not found';
         }
-        return ($this->author->lastname . ' ' . $this->author->firstname);
+        return ($this->author->lastname . ', ' . $this->author->firstname);
     }
 
     public function publishedDate()

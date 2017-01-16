@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMemberApplicationlayoutsTable extends Migration
+class CreateLayoutpurchasesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateMemberApplicationlayoutsTable extends Migration
      */
     public function up()
     {
-        Schema::create('memberapplicationlayouts', function (Blueprint $table) {
+        Schema::create('layoutpurchases', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('member_id');
             $table->integer('applicationlayout_id');
@@ -30,6 +30,6 @@ class CreateMemberApplicationlayoutsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('memberapplicationlayouts');
+        Schema::dropIfExists('layoutpurchases');
     }
 }
