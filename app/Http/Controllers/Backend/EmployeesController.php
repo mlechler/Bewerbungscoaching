@@ -178,7 +178,7 @@ class EmployeesController extends Controller
 
     public function deleteFile($file_id)
     {
-        $employeefile = Employeefile::whereId($file_id)->first();
+        $employeefile = Employeefile::findOrFail($file_id);
         Employeefile::destroy($file_id);
         Storage::delete($employeefile->path);
 

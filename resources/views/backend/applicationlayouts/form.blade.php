@@ -64,7 +64,7 @@
         </div>
     </div>
 
-    {{ Form::submit($layout->exists ? 'Save Layout' : 'Create New Layout', ['class' => 'btn btn-success']) }}
+    {{ Form::submit($layout->exists ? 'Save Application Layout' : 'Create New Application Layout', ['class' => 'btn btn-success']) }}
     <a href="{{ route('applicationlayouts.index') }}" class="btn btn-danger">Cancel</a>
     {{ Form::close() }}
 

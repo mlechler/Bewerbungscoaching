@@ -36,7 +36,7 @@ class ApplicationLayoutsController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'price' => $request->price,
-            'path' => null,
+            'layout' => null,
             'preview' => null
         ));
 
@@ -138,7 +138,7 @@ class ApplicationLayoutsController extends Controller
 
     public function deletePreviewFile($id)
     {
-        $layout = Applicationlayout::whereId($id)->first();
+        $layout = Applicationlayout::findOrFail($id);
 
         $layout->fill(array(
             'preview' => null
@@ -151,7 +151,7 @@ class ApplicationLayoutsController extends Controller
 
     public function deleteLayoutFile($id)
     {
-        $layout = Applicationlayout::whereId($id)->first();
+        $layout = Applicationlayout::findOrFail($id);
 
         $layout->fill(array(
             'layout' => null

@@ -4,10 +4,13 @@ return [
 
     'fileDestinationPath' => 'uploads',
     'layoutDestinationPath' => 'layouts',
+    'packageDestinationPath' => 'packagepurchases',
     'allowedFileTypes' => 'png,pdf,docx',
     'allowedPreviewFileTypes' => 'png',
     'allowedLayoutFileTypes' => 'pdf,docx',
+    'allowedPackageFileTypes' => 'rar,zip',
     'maxFileSize' => 2000,
+    'maxPackageFileSize' => 30000,
 
     /*
     |--------------------------------------------------------------------------

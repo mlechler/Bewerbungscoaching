@@ -15,7 +15,7 @@
         </tr>
         <tr>
             <td>
-                <h4>Preview</h4>
+                <h4>Preview File</h4>
             </td>
             <td>
                 <h4>{{ $layout->getPreviewFilename() }}</h4>
@@ -23,7 +23,7 @@
         </tr>
         <tr>
             <td>
-                <h4>Path</h4>
+                <h4>Layout File</h4>
             </td>
             <td>
                 <h4>{{ $layout->getLayoutFilename() }}</h4>
@@ -42,7 +42,7 @@
                 <h4>Description</h4>
             </td>
             <td>
-                <h4>{{ $layout->description }}</h4>
+                <h4>{!! $layout->descriptionHtml() !!}</h4>
             </td>
         </tr>
         </tbody>

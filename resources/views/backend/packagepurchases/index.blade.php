@@ -1,54 +1,54 @@
 @extends('layouts.backend')
 
-@section('title', 'Tasks')
+@section('title', 'Package Purchases')
 
 @section('content')
-    <a href="{{ route('todo.create') }}" class="btn btn-primary">Create New Task</a>
+    <a href="{{ route('packagepurchases.create') }}" class="btn btn-primary">Create New Package Purchase</a>
     {{ Form::open() }}
     <div class="form-group has-feedback has-feedback-left">
         <br>
-        {{ Form::text('searchInput', null, ['class' => 'form-control', 'id' => 'searchInput', 'onkeyup' => 'search()', 'placeholder' => 'Search for Title or Creator']) }}
+        {{ Form::text('searchInput', null, ['class' => 'form-control', 'id' => 'searchInput', 'onkeyup' => 'search()', 'placeholder' => 'Search for Member or Package']) }}
         <i class="form-control-feedback glyphicon glyphicon-search"></i>
     </div>
     {{ Form::close() }}
-    <table class="table table-hover" id="taskTable">
+    <table class="table table-hover" id="packagepurchaseTable">
         <thead>
         <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Creator</th>
+            <th>Member</th>
+            <th>Package</th>
+            <th>Price</th>
             <th>Details</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>
         </thead>
         <tbody>
-        @if($tasks->isEmpty())
+        @if($packagepurchases->isEmpty())
             <tr>
-                <td colspan="6" align="center">There are no tasks.</td>
+                <td colspan="6" align="center">There are no package purchases.</td>
             </tr>
         @else
-            @foreach($tasks as $task)
-                <tr class="{{ $task->finishedHighlight() }}">
+            @foreach($packagepurchases as $packagepurchase)
+                <tr>
                     <td>
-                        {{ $task->title }}
+                        {{ $packagepurchase->member->getName() }}
                     </td>
                     <td>
-                        {!! $task->getShortDescription() !!}
+                        {{ $packagepurchase->applicationpackage->title }}
                     </td>
                     <td>
-                        {{ $task->creator->getName() }}
+                        {{ $packagepurchase->price_incl_discount }} €
                     </td>
                     <td>
-                        <a href="/backend/todo/<?php echo $task->id ?>/detail"><span
+                        <a href="/backend/packagepurchases/<?php echo $packagepurchase->id ?>/detail"><span
                                     class="glyphicon glyphicon-info-sign"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/todo/<?php echo $task->id ?>/edit"><span
+                        <a href="/backend/packagepurchases/<?php echo $packagepurchase->id ?>/edit"><span
                                     class="glyphicon glyphicon-edit"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/todo/<?php echo $task->id ?>/confirm"><span
+                        <a href="/backend/packagepurchases/<?php echo $packagepurchase->id ?>/confirm"><span
                                     class="glyphicon glyphicon-remove"></span></a>
                     </td>
                 </tr>
@@ -57,14 +57,14 @@
         </tbody>
     </table>
 
-    {{ $tasks->links() }}
+    {{ $packagepurchases->links() }}
 
     <script>
         function search() {
             var input, filter, table, tr, td, i;
             input = document.getElementById("searchInput");
             filter = input.value.toUpperCase();
-            table = document.getElementById("taskTable");
+            table = document.getElementById("packagepurchaseTable");
             tr = table.getElementsByTagName("tr");
 
             for (i = 0; i < tr.length; i++) {
@@ -73,7 +73,7 @@
                     if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
                         tr[i].style.display = "";
                     } else {
-                        td = tr[i].getElementsByTagName("td")[2];
+                        td = tr[i].getElementsByTagName("td")[1];
                         if (td) {
                             if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
                                 tr[i].style.display = "";

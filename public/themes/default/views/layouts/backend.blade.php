@@ -34,7 +34,14 @@
                                 </ul>
                             </li>
                             <li><a href="{{ route('individualcoachings.index') }}">Individual Coaching</a></li>
-                            <li><a href="#">Application Packages</a></li>
+                            <li class="dropdown-submenu">
+                                <a href="">Application Packages</a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="applicationPackagesMenu">
+                                    <li><a href="{{ route('applicationpackages.index') }}">Overview Application Packages</a></li>
+                                    <li><a href="{{ route('packagepurchases.index') }}">Overview Package Purchases</a></li>
+
+                                </ul>
+                            </li>
                             <li class="dropdown-submenu">
                                 <a href="">Application Layouts</a>
                                 <ul class="dropdown-menu" role="menu" aria-labelledby="applicationLayoutsMenu">

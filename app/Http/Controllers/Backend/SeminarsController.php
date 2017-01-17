@@ -138,7 +138,7 @@ class SeminarsController extends Controller
 
     public function deleteFile($file_id)
     {
-        $seminarfile = Seminarfile::whereId($file_id)->first();
+        $seminarfile = Seminarfile::findOrFail($file_id);
         Seminarfile::destroy($file_id);
         Storage::delete($seminarfile->path);
 

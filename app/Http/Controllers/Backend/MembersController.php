@@ -207,7 +207,7 @@ class MembersController extends Controller
 
     public function deleteFile($file_id)
     {
-        $memberfile = Memberfile::whereId($file_id)->first();
+        $memberfile = Memberfile::findOrFail($file_id);
         Memberfile::destroy($file_id);
         Storage::delete($memberfile->path);
 

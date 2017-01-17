@@ -1,16 +1,14 @@
 @extends('layouts.backend')
 
-@section('title', 'Seminars')
+@section('title', 'Application Packages')
 
 @section('content')
-    <a href="{{ route('seminars.create') }}" class="btn btn-primary">Create New Seminar</a>
+    <a href="{{ route('applicationpackages.create') }}" class="btn btn-primary">Create New Application Package</a>
     <table class="table table-hover">
         <thead>
         <tr>
             <th>Title</th>
             <th>Description</th>
-            <th>Maximum Participants</th>
-            <th>Duration</th>
             <th>Price</th>
             <th>Details</th>
             <th>Edit</th>
@@ -18,38 +16,32 @@
         </tr>
         </thead>
         <tbody>
-        @if($seminars->isEmpty())
+        @if($packages->isEmpty())
             <tr>
-                <td colspan="8" align="center">There are no seminars.</td>
+                <td colspan="6" align="center">There are no application packages.</td>
             </tr>
         @else
-            @foreach($seminars as $seminar)
+            @foreach($packages as $package)
                 <tr>
                     <td>
-                        {{ $seminar->title }}
+                        {{ $package->title }}
                     </td>
                     <td>
-                        {!! $seminar->getShortDescription() !!}
+                        {!! $package->getShortDescription() !!}
                     </td>
                     <td>
-                        {{ $seminar->maxMembers }}
+                        {{ $package->price }} €
                     </td>
                     <td>
-                        {{ $seminar->duration }} hours
-                    </td>
-                    <td>
-                        {{ $seminar->price }} €
-                    </td>
-                    <td>
-                        <a href="/backend/seminars/<?php echo $seminar->id ?>/detail"><span
+                        <a href="/backend/applicationpackages/<?php echo $package->id ?>/detail"><span
                                     class="glyphicon glyphicon-info-sign"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/seminars/<?php echo $seminar->id ?>/edit"><span
+                        <a href="/backend/applicationpackages/<?php echo $package->id ?>/edit"><span
                                     class="glyphicon glyphicon-edit"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/seminars/<?php echo $seminar->id ?>/confirm"><span
+                        <a href="/backend/applicationpackages/<?php echo $package->id ?>/confirm"><span
                                     class="glyphicon glyphicon-remove"></span></a>
                     </td>
                 </tr>
@@ -58,5 +50,5 @@
         </tbody>
     </table>
 
-    {{ $seminars->links() }}
+    {{ $packages->links() }}
 @endsection

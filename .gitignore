@@ -8,3 +8,4 @@ Homestead.yaml
 .env
 /resources/uploads
 /resources/layouts
+/resources/packagepurchases

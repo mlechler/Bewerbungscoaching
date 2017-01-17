@@ -7,10 +7,11 @@ use AlfredoRamos\ParsedownExtra\Facades\ParsedownExtra as Markdown;
 
 class TaskPresenter extends BasePresenter
 {
-    public function getShortDescription($description)
+    public function getShortDescription()
     {
-        $pieces = explode(" ", $description);
-        return (implode(" ", array_splice($pieces, 0, 10)) . ' ...');
+        $pieces = explode(" ", $this->descriptionHtml());
+        $append = count($pieces) <= 10 ? null : ' ...';
+        return (implode(" ", array_splice($pieces, 0, 10)) . $append);
     }
 
     public function finishedHighlight()

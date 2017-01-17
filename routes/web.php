@@ -58,8 +58,17 @@ Route::group(['prefix' => 'backend'], function () {
     Route::get('/individualcoachings/{individualcoaching}/detail', ['as' => 'backend.individualcoachings.detail', 'uses' => 'Backend\IndividualCoachingsController@detail']);
     Route::resource('/individualcoachings', 'Backend\IndividualCoachingsController');
 
+    Route::get('/applicationpackages/{applicationpackage}/confirm', ['as' => 'backend.applicationpackages.confirm', 'uses' => 'Backend\ApplicationPackagesController@confirm']);
+    Route::get('/applicationpackages/{applicationpackage}/detail', ['as' => 'backend.applicationpackages.detail', 'uses' => 'Backend\ApplicationPackagesController@detail']);
+    Route::resource('/applicationpackages', 'Backend\ApplicationPackagesController');
+
+    Route::get('/packagepurchases/{packagepurchase}/confirm', ['as' => 'backend.packagepurchases.confirm', 'uses' => 'Backend\PackagePurchasesController@confirm']);
+    Route::get('/packagepurchases/{packagepurchase}/detail', ['as' => 'backend.packagepurchases.detail', 'uses' => 'Backend\PackagePurchasesController@detail']);
+    Route::get('/packagepurchases/files/{file}/delete', 'Backend\PackagePurchasesController@deleteFile');
+    Route::resource('/packagepurchases', 'Backend\PackagePurchasesController');
+
     Route::get('/applicationlayouts/{applicationlayout}/confirm', ['as' => 'backend.applicationlayouts.confirm', 'uses' => 'Backend\ApplicationLayoutsController@confirm']);
-    Route::get('/applicationlayouts/{applicationlayouts}/detail', ['as' => 'backend.applicationlayouts.detail', 'uses' => 'Backend\ApplicationLayoutsController@detail']);
+    Route::get('/applicationlayouts/{applicationlayout}/detail', ['as' => 'backend.applicationlayouts.detail', 'uses' => 'Backend\ApplicationLayoutsController@detail']);
     Route::get('/applicationlayouts/files/{file}/deletepreview', 'Backend\ApplicationLayoutsController@deletePreviewFile');
     Route::get('/applicationlayouts/files/{file}/deletelayout', 'Backend\ApplicationLayoutsController@deleteLayoutFile');
     Route::resource('/applicationlayouts', 'Backend\ApplicationLayoutsController');
