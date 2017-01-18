@@ -120,6 +120,8 @@ class AppointmentsController extends Controller
     {
         Appointment::destroy($id);
 
+        $this->deleteBookings($id);
+
         return redirect(route('seminarappointments.index'))->with('status', 'Appointment has been deleted.');
     }
 
@@ -137,5 +139,14 @@ class AppointmentsController extends Controller
         Booking::destroy($booking->id);
 
         return redirect()->back()->with('status', 'Participant has been removed.');
+    }
+
+    public function deleteBookings($appointment_id)
+    {
+        $bookings = Booking::all()->where('appointment_id', '=', $appointment_id);
+
+        foreach ($bookings as $booking) {
+            Booking::destroy($booking->id);
+        }
     }
 }

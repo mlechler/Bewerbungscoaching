@@ -5,7 +5,7 @@
 @section('content')
     {{ Form::model($member, [
      'method' => 'post',
-     'route' => ['backend.members.uploadCheckedFile', $member->id],
+     'route' => ['members.uploadCheckedFile', $member->id],
      'enctype' => 'multipart/form-data'
      ]) }}
     <table class="table table-hover">

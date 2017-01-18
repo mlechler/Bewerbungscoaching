@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Appointment;
 use App\Employee;
 use App\Adress;
 use App\Employeefile;
+use App\Individualcoaching;
 use App\Role;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests;
@@ -131,6 +133,9 @@ class EmployeesController extends Controller
         Employee::destroy($id);
 
         $this->deleteFiles($id);
+//        $this->deleteFreetimes($id);
+        $this->deleteAppointments($id);
+        $this->deleteCoachings($id);
 
         return redirect(route('employees.index'))->with('status', 'Employee has been deleted.');
     }
@@ -171,17 +176,38 @@ class EmployeesController extends Controller
         $employeefiles = Employeefile::all()->where('employee_id', '=', $employee_id);
 
         foreach ($employeefiles as $employeefile) {
-            Employeefile::destroy($employeefile->id);
             Storage::delete($employeefile->path);
+
+            Employeefile::destroy($employeefile->id);
         }
     }
 
     public function deleteFile($file_id)
     {
         $employeefile = Employeefile::findOrFail($file_id);
-        Employeefile::destroy($file_id);
+
         Storage::delete($employeefile->path);
 
+        Employeefile::destroy($file_id);
+
         return redirect()->back()->with('status', 'File has been deleted.');
+    }
+
+    public function deleteAppointments($employee_id)
+    {
+        $appointments = Appointment::all()->where('employee_id', '=', $employee_id);
+
+        foreach ($appointments as $appointment) {
+            Appointment::destroy($appointment->id);
+        }
+    }
+
+    public function deleteCoachings($employee_id)
+    {
+        $coachings = Individualcoaching::all()->where('employee_id', '=', $employee_id);
+
+        foreach ($coachings as $coaching) {
+            Individualcoaching::destroy($coaching->id);
+        }
     }
 }

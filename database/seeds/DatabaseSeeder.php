@@ -26,5 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call('TaskTableSeeder');
         $this->call('DiscountTableSeeder');
         $this->call('InvoiceTableSeeder');
+        $this->call('PackageTableSeeder');
+        $this->call('LayoutTableSeeder');
     }
 }

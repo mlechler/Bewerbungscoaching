@@ -18,7 +18,7 @@
                 <h4>Creator</h4>
             </td>
             <td>
-                <h4>{{ $task->creator->getName() }}</h4>
+                <h4>{{ $task->getName() }}</h4>
             </td>
         </tr>
         <tr>
@@ -39,6 +39,6 @@
         </tr>
         </tbody>
     </table>
-    <a href="/backend/todo/<?php echo $task->id ?>/finished" class="btn btn-success">Task is finished</a>
+    <a href="{{ route('todo.finishedTask', $task->id) }}" class="btn btn-success">Task is finished</a>
     <a href="{{ route('todo.index') }}" class="btn btn-danger">Back</a>
 @endsection

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Applicationlayout;
+use App\Layoutpurchase;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Storage;
@@ -96,6 +97,8 @@ class ApplicationLayoutsController extends Controller
         Storage::delete($layout->layout);
         Applicationlayout::destroy($id);
 
+        $this->deletePurchases($id);
+
         return redirect(route('applicationlayouts.index'))->with('status', 'Application Layout has been deleted.');
     }
 
@@ -140,11 +143,11 @@ class ApplicationLayoutsController extends Controller
     {
         $layout = Applicationlayout::findOrFail($id);
 
+        Storage::delete($layout->preview);
+
         $layout->fill(array(
             'preview' => null
         ))->save();
-
-        Storage::delete($layout->preview);
 
         return redirect()->back()->with('status', 'File has been deleted.');
     }
@@ -153,12 +156,21 @@ class ApplicationLayoutsController extends Controller
     {
         $layout = Applicationlayout::findOrFail($id);
 
+        Storage::delete($layout->layout);
+
         $layout->fill(array(
             'layout' => null
         ))->save();
 
-        Storage::delete($layout->layout);
-
         return redirect()->back()->with('status', 'File has been deleted.');
+    }
+
+    public function deletePurchases($applicationlayout_id)
+    {
+        $purchases = Layoutpurchase::all()->where('applicationlayout_id', '=', $applicationlayout_id);
+
+        foreach ($purchases as $purchase) {
+            Layoutpurchase::destroy($purchase->id);
+        }
     }
 }

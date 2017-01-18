@@ -40,15 +40,15 @@
                         {{ $invoice->totalprice }} €
                     </td>
                     <td>
-                        <a href="/backend/invoices/<?php echo $invoice->id ?>/detail"><span
+                        <a href="{{ route('invoices.detail', $invoice->id) }}"><span
                                     class="glyphicon glyphicon-info-sign"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/invoices/<?php echo $invoice->id ?>/edit"><span
+                        <a href="{{ route('invoices.edit', $invoice->id) }}"><span
                                     class="glyphicon glyphicon-edit"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/invoices/<?php echo $invoice->id ?>/confirm"><span
+                        <a href="{{ route('invoices.confirm', $invoice->id) }}"><span
                                     class="glyphicon glyphicon-remove"></span></a>
                     </td>
                 </tr>

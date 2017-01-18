@@ -30,7 +30,6 @@ class LoginController extends Controller
      * @var string
      */
     public $redirectTo = '/backend';
-    public $redirectAfterLogout = '/employee/login';
 
     /**
      * Create a new controller instance.
@@ -66,6 +65,6 @@ class LoginController extends Controller
     {
         $this->guard()->logout();
 
-        return redirect('/employee/login');
+        return redirect(route('employee.login'));
     }
 }

@@ -90,7 +90,7 @@
                         {{ $file->name }}
                     </div>
                     <div class="col-md-1">
-                        <a href="/backend/employees/files/<?php echo $file->id ?>/delete"><span
+                        <a href="{{ route('employees.deleteFile', $file->id) }}"><span
                                     class="glyphicon glyphicon-remove"></span></a></div>
                     <br>
                 @endforeach

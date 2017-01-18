@@ -40,15 +40,15 @@
                         {{ $layoutpurchase->price_incl_discount }} €
                     </td>
                     <td>
-                        <a href="/backend/layoutpurchases/<?php echo $layoutpurchase->id ?>/detail"><span
+                        <a href="{{ route('layoutpurchases.detail', $layoutpurchase->id) }}"><span
                                     class="glyphicon glyphicon-info-sign"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/layoutpurchases/<?php echo $layoutpurchase->id ?>/edit"><span
+                        <a href="{{ route('layoutpurchases.edit', $layoutpurchase->id) }}"><span
                                     class="glyphicon glyphicon-edit"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/layoutpurchases/<?php echo $layoutpurchase->id ?>/confirm"><span
+                        <a href="{{ route('layoutpurchases.confirm', $layoutpurchase->id) }}"><span
                                     class="glyphicon glyphicon-remove"></span></a>
                     </td>
                 </tr>

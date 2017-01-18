@@ -28,15 +28,15 @@
                     {{ $employee->role->display_name }}
                 </td>
                 <td>
-                    <a href="/backend/employees/<?php echo $employee->id ?>/detail"><span
+                    <a href="{{ route('employees.detail', $employee->id) }}"><span
                                 class="glyphicon glyphicon-info-sign"></span></a>
                 </td>
                 <td>
-                    <a href="/backend/employees/<?php echo $employee->id ?>/edit"><span
+                    <a href="{{ route('employees.edit', $employee->id) }}"><span
                                 class="glyphicon glyphicon-edit"></span></a>
                 </td>
                 <td>
-                    <a href="/backend/employees/<?php echo $employee->id ?>/confirm"><span
+                    <a href="{{ route('employees.confirm', $employee->id) }}"><span
                                 class="glyphicon glyphicon-remove"></span></a>
                 </td>
             </tr>

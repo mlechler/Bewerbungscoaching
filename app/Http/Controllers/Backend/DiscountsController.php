@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Discount;
+use App\Memberdiscount;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 
@@ -73,6 +74,8 @@ class DiscountsController extends Controller
     {
         Discount::destroy($id);
 
+        $this->deleteMemberDiscounts($id);
+
         return redirect(route('discounts.index'))->with('status', 'Discount has been deleted.');
     }
 
@@ -81,5 +84,14 @@ class DiscountsController extends Controller
         $discount = Discount::findOrFail($id);
 
         return view('backend.discounts.detail', compact('discount'));
+    }
+
+    public function deleteMemberDiscounts($discount_id)
+    {
+        $discounts = Memberdiscount::all()->where('discount_id', '=', $discount_id);
+
+        foreach ($discounts as $discount) {
+            Memberdiscount::destroy($discount->id);
+        }
     }
 }

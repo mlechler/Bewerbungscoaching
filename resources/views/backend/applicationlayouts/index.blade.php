@@ -33,15 +33,15 @@
                         {{ $layout->price }} €
                     </td>
                     <td>
-                        <a href="/backend/applicationlayouts/<?php echo $layout->id ?>/detail"><span
+                        <a href="{{ route('applicationlayouts.detail', $layout->id) }}"><span
                                     class="glyphicon glyphicon-info-sign"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/applicationlayouts/<?php echo $layout->id ?>/edit"><span
+                        <a href="{{ route('applicationlayouts.edit', $layout->id) }}"><span
                                     class="glyphicon glyphicon-edit"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/applicationlayouts/<?php echo $layout->id ?>/confirm"><span
+                        <a href="{{ route('applicationlayouts.confirm', $layout->id) }}"><span
                                     class="glyphicon glyphicon-remove"></span></a>
                     </td>
                 </tr>

@@ -44,15 +44,15 @@
                         {{ $post->publishedDate() }}
                     </td>
                     <td>
-                        <a href="/backend/blog/<?php echo $post->id ?>/detail"><span
+                        <a href="{{ route('blog.detail', $post->id) }}"><span
                                     class="glyphicon glyphicon-info-sign"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/blog/<?php echo $post->id ?>/edit"><span
+                        <a href="{{ route('blog.edit', $post->id) }}"><span
                                     class="glyphicon glyphicon-edit"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/blog/<?php echo $post->id ?>/confirm"><span
+                        <a href="{{ route('blog.confirm', $post->id) }}"><span
                                     class="glyphicon glyphicon-remove"></span></a>
                     </td>
                 </tr>

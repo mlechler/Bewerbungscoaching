@@ -56,7 +56,7 @@
                             {{ $member->getName() }}
                         </div>
                         <div class="col-md-2">
-                            <a href="/backend/seminarappointments/<?php echo $seminarappointment->id ?>/removeParticipant/<?php echo $member->id ?>"><span
+                            <a href="{{ route('seminarappointments.removeParticipant', $seminarappointment->id, $member->id) }}"><span
                                         class="glyphicon glyphicon-remove"></span></a>
                         </div>
                     </div>

@@ -2,6 +2,7 @@
 
 namespace App\Presenters;
 
+use App\Task;
 use McCool\LaravelAutoPresenter\BasePresenter;
 use AlfredoRamos\ParsedownExtra\Facades\ParsedownExtra as Markdown;
 
@@ -26,5 +27,16 @@ class TaskPresenter extends BasePresenter
     public function descriptionHtml()
     {
         return ($this->description ? Markdown::parse($this->description) : null);
+    }
+
+    public function getName()
+    {
+        if($this->creator == null) {
+            $task = Task::findOrFail($this->id);
+
+            $task->fill(array('creator_id' => null))->save();
+            return 'Creator not found';
+        }
+        return ($this->creator->lastname . ', ' . $this->creator->firstname);
     }
 }

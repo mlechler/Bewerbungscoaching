@@ -44,15 +44,15 @@
                         {{ $appointment->formatTime() }}
                     </td>
                     <td>
-                        <a href="/backend/seminarappointments/<?php echo $appointment->id ?>/detail"><span
-                                    class="glyphicon glyphicon-user"></span>  {{ $appointment->members->count() }}/{{ $appointment->seminar->maxMembers }}</a>
+                        <a href="{{ route('seminarappointments.detail', $appointment->id) }}"><span
+                                    class="glyphicon glyphicon-info-sign"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/seminarappointments/<?php echo $appointment->id ?>/edit"><span
+                        <a href="{{ route('seminarappointments.edit', $appointment->id) }}"><span
                                     class="glyphicon glyphicon-edit"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/seminarappointments/<?php echo $appointment->id ?>/confirm"><span
+                        <a href="{{ route('seminarappointments.confirm', $appointment->id) }}"><span
                                     class="glyphicon glyphicon-remove"></span></a>
                     </td>
                 </tr>

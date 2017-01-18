@@ -9,8 +9,9 @@
     ]) }}
 
     <div class="alert alert-danger">
-        <strong>Warning!</strong> You are about to delete an application package. This action cannot be undone. Are you sure you
-        want to continue?
+        <strong>Warning!</strong> You are about to delete an Application Package. All Files and Informations belonging to this Application Package will be deleted. This action cannot be undone.
+        <br>
+        Are you sure you want to continue?
     </div>
 
     {{ Form::submit('Yes, delete this application package!', ['class' => 'btn btn-danger']) }}

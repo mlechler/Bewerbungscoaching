@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Booking;
+use App\Individualcoaching;
+use App\Layoutpurchase;
 use App\Member;
 use App\Adress;
+use App\Memberdiscount;
 use App\Memberfile;
+use App\Packagepurchase;
 use App\Role;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
@@ -139,6 +144,11 @@ class MembersController extends Controller
         Member::destroy($id);
 
         $this->deleteFiles($id);
+        $this->deleteBookings($id);
+        $this->deleteCoachings($id);
+        $this->deleteDiscounts($id);
+        $this->deleteLayouts($id);
+        $this->deletePackages($id);
 
         return redirect(route('members.index'))->with('status', 'Member has been deleted.');
     }
@@ -184,34 +194,23 @@ class MembersController extends Controller
         }
     }
 
-    public function deleteAllFiles()
+    public function deleteAllFiles(Requests\DeleteAllMemberFilesRequest $request)
     {
-        $date = Carbon::now()->subMonths(3)->format('Y-m-d');
+        switch($request->timerange){
+            case 'one': $date = Carbon::now()->subMonths(1)->format('Y-m-d');
+                break;
+            case 'three': $date = Carbon::now()->subMonths(3)->format('Y-m-d');
+                break;
+            case 'six': $date = Carbon::now()->subMonths(6)->format('Y-m-d');
+                break;
+        }
+
         $files = Memberfile::where('updated_at', '<=', $date)->get();
 
         foreach ($files as $file) {
             Memberfile::destroy($file->id);
         }
         return redirect(route('members.index'))->with('status', 'Files have been deleted.');
-    }
-
-    public function deleteFiles($member_id)
-    {
-        $memberfiles = Memberfile::all()->where('member_id', '=', $member_id);
-
-        foreach ($memberfiles as $memberfile) {
-            Memberfile::destroy($memberfile->id);
-            Storage::delete($memberfile->path);
-        }
-    }
-
-    public function deleteFile($file_id)
-    {
-        $memberfile = Memberfile::findOrFail($file_id);
-        Memberfile::destroy($file_id);
-        Storage::delete($memberfile->path);
-
-        return redirect()->back()->with('status', 'File has been deleted.');
     }
 
     public function uploadCheckedFiles(Request $request, $id)
@@ -222,5 +221,74 @@ class MembersController extends Controller
         }
 
         return redirect()->back()->with('status', 'Checked Files has been uploaded.');
+    }
+
+    public function deleteFiles($member_id)
+    {
+        $memberfiles = Memberfile::all()->where('member_id', '=', $member_id);
+
+        foreach ($memberfiles as $memberfile) {
+            Storage::delete($memberfile->path);
+
+            Memberfile::destroy($memberfile->id);
+        }
+    }
+
+    public function deleteFile($file_id)
+    {
+        $memberfile = Memberfile::findOrFail($file_id);
+
+        Storage::delete($memberfile->path);
+
+        Memberfile::destroy($file_id);
+
+        return redirect()->back()->with('status', 'File has been deleted.');
+    }
+
+    public function deleteBookings($member_id)
+    {
+        $bookings = Booking::all()->where('member_id', '=', $member_id);
+
+        foreach ($bookings as $booking) {
+            Booking::destroy($booking->id);
+        }
+    }
+
+    public function deleteCoachings($member_id)
+    {
+        $coachings = Individualcoaching::all()->where('member_id', '=', $member_id);
+
+        foreach ($coachings as $coaching) {
+            Individualcoaching::destroy($coaching->id);
+        }
+    }
+
+    public function deleteDiscounts($member_id)
+    {
+        $discounts = Memberdiscount::all()->where('member_id', '=', $member_id);
+
+        foreach ($discounts as $discount) {
+            Memberdiscount::destroy($discount->id);
+        }
+    }
+
+    public function deleteLayouts($member_id)
+    {
+        $layouts = Layoutpurchase::all()->where('member_id', '=', $member_id);
+
+        foreach ($layouts as $layout) {
+            Layoutpurchase::destroy($layout->id);
+        }
+    }
+
+    public function deletePackages($member_id)
+    {
+        $packages = Packagepurchase::all()->where('member_id', '=', $member_id);
+
+        foreach ($packages as $package) {
+            Storage::delete($package->path);
+
+            Packagepurchase::destroy($package->id);
+        }
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Applicationpackage;
+use App\Packagepurchase;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 
@@ -71,6 +72,8 @@ class ApplicationPackagesController extends Controller
     {
         Applicationpackage::destroy($id);
 
+        $this->deletePurchases($id);
+
         return redirect(route('applicationpackages.index'))->with('status', 'Application Package has been deleted.');
     }
 
@@ -81,31 +84,12 @@ class ApplicationPackagesController extends Controller
         return view('backend.applicationpackages.detail', compact('package'));
     }
 
-    /*public function storeFile($packageFile, $package_id)
+    public function deletePurchases($applicationpackage_id)
     {
-            $fileName = $packageFile->getClientOriginalName();
-            $destinationPath = config('app.packageDestinationPath') . '/' . $package_id . '/' . $fileName;
-            $uploaded = Storage::put($destinationPath, file_get_contents($packageFile->getRealPath()));
+        $purchases = Packagepurchase::all()->where('applicationpackage_id', '=', $applicationpackage_id);
 
-        if ($uploaded) {
-            $package = Applicationpackage::findOrFail($package_id);
-
-            $package->fill(array(
-                'path' => $destinationPath
-            ))->save();
+        foreach ($purchases as $purchase) {
+            Packagepurchase::destroy($purchase->id);
         }
     }
-
-    public function deleteFile($id)
-    {
-        $package = Applicationpackage::whereId($id)->first();
-
-        $package->fill(array(
-            'path' => null
-        ))->save();
-
-        Storage::delete($package->path);
-
-        return redirect()->back()->with('status', 'File has been deleted.');
-    }*/
 }

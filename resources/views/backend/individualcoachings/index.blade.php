@@ -44,15 +44,15 @@
                         {{ $coaching->formatTime() }}
                     </td>
                     <td>
-                        <a href="/backend/individualcoachings/<?php echo $coaching->id ?>/detail"><span
+                        <a href="{{ route('individualcoachings.detail', $coaching->id) }}"><span
                                     class="glyphicon glyphicon-info-sign"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/individualcoachings/<?php echo $coaching->id ?>/edit"><span
+                        <a href="{{ route('individualcoachings.edit', $coaching->id) }}"><span
                                     class="glyphicon glyphicon-edit"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/individualcoachings/<?php echo $coaching->id ?>/confirm"><span
+                        <a href="{{ route('individualcoachings.confirm', $coaching->id) }}"><span
                                     class="glyphicon glyphicon-remove"></span></a>
                     </td>
                 </tr>

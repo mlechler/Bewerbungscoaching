@@ -9,11 +9,12 @@
     ]) }}
 
     <div class="alert alert-danger">
-        <strong>Warning!</strong> You are about to delete an invoice. This action cannot be undone. Are you sure you
-        want to continue?
+        <strong>Warning!</strong> You are about to delete an Invoice. All Files and Informations belonging to this Invoice will be deleted. This action cannot be undone.
+        <br>
+        Are you sure you want to continue?
     </div>
 
-    {{ Form::submit('Yes, delete this invoice!', ['class' => 'btn btn-danger']) }}
+    {{ Form::submit('Yes, delete this Invoice!', ['class' => 'btn btn-danger']) }}
     <a href="{{ route('invoices.index') }}" class="btn btn-success">
         <strong>No, get me out of here!</strong>
     </a>

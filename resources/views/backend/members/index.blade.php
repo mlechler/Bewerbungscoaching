@@ -3,11 +3,29 @@
 @section('title', 'Members')
 
 @section('content')
-    <a href="{{ route('members.create') }}" class="btn btn-primary">Create New Member</a>
-    <div class="deleteFiles">
-        <a href="/backend/members/delete" class="btn btn-danger"
-           title="Delete all Files, which are older than three months.">Delete Old Files</a>
+
+    <div class="form-group row ">
+        <div class="col-md-8">
+            <a href="{{ route('members.create') }}" class="btn btn-primary">Create New Member</a>
+        </div>
+        {{ Form::open([
+        'method' => 'post',
+        'route' => 'members.deleteAllFiles'
+        ]) }}
+        <div class="col-md-2 deleteFiles">
+            {{ Form::select('timerange', [
+                '' => '',
+                'one' => 'one Month',
+                'three' => 'three Months',
+                'six' => 'six Months'
+            ], null, ['class' => 'form-control']) }}
+        </div>
+        <div class="col-md-2 deleteFiles">
+            {{ Form::submit('Delete Files, older than', ['class' => 'btn btn-danger']) }}
+        </div>
+        {{ Form::close() }}
     </div>
+
     {{ Form::open() }}
     <div class="form-group has-feedback has-feedback-left">
         <br>
@@ -48,15 +66,15 @@
                         @endif
                     </td>
                     <td>
-                        <a href="/backend/members/<?php echo $member->id ?>/detail"><span
+                        <a href="{{ route('members.detail', $member->id) }}"><span
                                     class="glyphicon glyphicon-info-sign"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/members/<?php echo $member->id ?>/edit"><span
+                        <a href="{{ route('members.edit', $member->id) }}"><span
                                     class="glyphicon glyphicon-edit"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/members/<?php echo $member->id ?>/confirm"><span
+                        <a href="{{ route('members.confirm', $member->id) }}"><span
                                     class="glyphicon glyphicon-remove"></span></a>
                     </td>
                 </tr>

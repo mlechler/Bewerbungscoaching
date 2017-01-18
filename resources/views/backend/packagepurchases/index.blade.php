@@ -40,15 +40,15 @@
                         {{ $packagepurchase->price_incl_discount }} €
                     </td>
                     <td>
-                        <a href="/backend/packagepurchases/<?php echo $packagepurchase->id ?>/detail"><span
+                        <a href="{{ route('packagepurchases.detail', $packagepurchase->id) }}"><span
                                     class="glyphicon glyphicon-info-sign"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/packagepurchases/<?php echo $packagepurchase->id ?>/edit"><span
+                        <a href="{{ route('packagepurchases.edit', $packagepurchase->id) }}"><span
                                     class="glyphicon glyphicon-edit"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/packagepurchases/<?php echo $packagepurchase->id ?>/confirm"><span
+                        <a href="{{ route('packagepurchases.confirm', $packagepurchase->id) }}"><span
                                     class="glyphicon glyphicon-remove"></span></a>
                     </td>
                 </tr>

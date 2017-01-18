@@ -41,15 +41,15 @@
                         {{ $seminar->price }} €
                     </td>
                     <td>
-                        <a href="/backend/seminars/<?php echo $seminar->id ?>/detail"><span
+                        <a href="{{ route('seminars.detail', $seminar->id) }}"><span
                                     class="glyphicon glyphicon-info-sign"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/seminars/<?php echo $seminar->id ?>/edit"><span
+                        <a href="{{ route('seminars.edit', $seminar->id) }}"><span
                                     class="glyphicon glyphicon-edit"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/seminars/<?php echo $seminar->id ?>/confirm"><span
+                        <a href="{{ route('seminars.confirm', $seminar->id) }}"><span
                                     class="glyphicon glyphicon-remove"></span></a>
                     </td>
                 </tr>

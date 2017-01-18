@@ -1,8 +1,8 @@
 <?php
 
 Route::group(['prefix' => 'employee'], function () {
-    Route::get('/login', 'EmployeeAuth\LoginController@showLoginForm');
-    Route::post('/login', 'EmployeeAuth\LoginController@login');
+    Route::get('/login', ['as' => 'employee.login', 'uses' => 'EmployeeAuth\LoginController@showLoginForm']);
+    Route::post('/login', ['as' => 'employee.login', 'uses' => 'EmployeeAuth\LoginController@login']);
     Route::get('/logout', 'EmployeeAuth\LoginController@logout');
 
     Route::post('/password/email', 'EmployeeAuth\ForgotPasswordController@sendResetLinkEmail');
@@ -28,78 +28,78 @@ Route::group(['prefix' => 'member'], function () {
 Route::group(['prefix' => 'backend'], function () {
     Route::get('/', ['as' => 'backend.dashboard', 'uses' => 'Backend\DashboardController@index']);
 
-    Route::get('/employees/{employee}/confirm', ['as' => 'backend.employees.confirm', 'uses' => 'Backend\EmployeesController@confirm']);
-    Route::get('/employees/{employee}/detail', ['as' => 'backend.employees.detail', 'uses' => 'Backend\EmployeesController@detail']);
-    Route::get('/employees/files/{file}/delete', 'Backend\EmployeesController@deleteFile');
+    Route::get('/employees/{employee}/confirm', ['as' => 'employees.confirm', 'uses' => 'Backend\EmployeesController@confirm']);
+    Route::get('/employees/{employee}/detail', ['as' => 'employees.detail', 'uses' => 'Backend\EmployeesController@detail']);
+    Route::get('/employees/files/{file}/delete', ['as' => 'employees.deleteFile', 'uses' => 'Backend\EmployeesController@deleteFile']);
     Route::resource('/employees', 'Backend\EmployeesController');
 
-    Route::get('/members/{member}/confirm', ['as' => 'backend.members.confirm', 'uses' => 'Backend\MembersController@confirm']);
-    Route::get('/members/{member}/detail', ['as' => 'backend.members.detail', 'uses' => 'Backend\MembersController@detail']);
-    Route::post('/members/{member}/uploadCheckedFile', ['as' => 'backend.members.uploadCheckedFile', 'uses' => 'Backend\MembersController@uploadCheckedFiles']);
-    Route::get('/members/files/{file}/delete', 'Backend\MembersController@deleteFile');
-    Route::get('/members/delete', 'Backend\MembersController@deleteAllFiles');
+    Route::get('/members/{member}/confirm', ['as' => 'members.confirm', 'uses' => 'Backend\MembersController@confirm']);
+    Route::get('/members/{member}/detail', ['as' => 'members.detail', 'uses' => 'Backend\MembersController@detail']);
+    Route::post('/members/{member}/uploadCheckedFile', ['as' => 'members.uploadCheckedFile', 'uses' => 'Backend\MembersController@uploadCheckedFiles']);
+    Route::get('/members/files/{file}/delete', ['as' => 'members.deleteFile', 'uses' => 'Backend\MembersController@deleteFile']);
+    Route::post('/members/delete', ['as' => 'members.deleteAllFiles', 'uses' =>'Backend\MembersController@deleteAllFiles']);
     Route::resource('/members', 'Backend\MembersController');
 
-    Route::get('/seminars/{seminar}/confirm', ['as' => 'backend.seminars.confirm', 'uses' => 'Backend\SeminarsController@confirm']);
-    Route::get('/seminars/{seminar}/detail', ['as' => 'backend.seminars.detail', 'uses' => 'Backend\SeminarsController@detail']);
-    Route::get('/seminars/files/{file}/delete', 'Backend\SeminarsController@deleteFile');
+    Route::get('/seminars/{seminar}/confirm', ['as' => 'seminars.confirm', 'uses' => 'Backend\SeminarsController@confirm']);
+    Route::get('/seminars/{seminar}/detail', ['as' => 'seminars.detail', 'uses' => 'Backend\SeminarsController@detail']);
+    Route::get('/seminars/files/{file}/delete', ['as' => 'seminars.deleteFile', 'uses' => 'Backend\SeminarsController@deleteFile']);
     Route::resource('/seminars', 'Backend\SeminarsController');
 
-    Route::get('/seminarappointments/{seminarappointment}/confirm', ['as' => 'backend.seminarappointments.confirm', 'uses' => 'Backend\AppointmentsController@confirm']);
-    Route::get('/seminarappointments/{seminarappointment}/detail', ['as' => 'backend.seminarappointments.detail', 'uses' => 'Backend\AppointmentsController@detail']);
-    Route::get('/seminarappointments/{seminarappointment}/removeParticipant/{participant}', 'Backend\AppointmentsController@removeParticipant');
+    Route::get('/seminarappointments/{seminarappointment}/confirm', ['as' => 'seminarappointments.confirm', 'uses' => 'Backend\AppointmentsController@confirm']);
+    Route::get('/seminarappointments/{seminarappointment}/detail', ['as' => 'seminarappointments.detail', 'uses' => 'Backend\AppointmentsController@detail']);
+    Route::get('/seminarappointments/{seminarappointment}/removeParticipant/{participant}', ['as' => 'seminarappointments.removeParticipant', 'uses' => 'Backend\AppointmentsController@removeParticipant']);
     Route::resource('/seminarappointments', 'Backend\AppointmentsController');
 
-    Route::get('/seminarbookings/{seminarbooking}/confirm', ['as' => 'backend.seminarbookings.confirm', 'uses' => 'Backend\BookingsController@confirm']);
-    Route::get('/seminarbookings/{seminarbooking}/detail', ['as' => 'backend.seminarbookings.detail', 'uses' => 'Backend\BookingsController@detail']);
+    Route::get('/seminarbookings/{seminarbooking}/confirm', ['as' => 'seminarbookings.confirm', 'uses' => 'Backend\BookingsController@confirm']);
+    Route::get('/seminarbookings/{seminarbooking}/detail', ['as' => 'seminarbookings.detail', 'uses' => 'Backend\BookingsController@detail']);
     Route::resource('/seminarbookings', 'Backend\BookingsController');
 
-    Route::get('/individualcoachings/{individualcoaching}/confirm', ['as' => 'backend.individualcoachings.confirm', 'uses' => 'Backend\IndividualCoachingsController@confirm']);
-    Route::get('/individualcoachings/{individualcoaching}/detail', ['as' => 'backend.individualcoachings.detail', 'uses' => 'Backend\IndividualCoachingsController@detail']);
+    Route::get('/individualcoachings/{individualcoaching}/confirm', ['as' => 'individualcoachings.confirm', 'uses' => 'Backend\IndividualCoachingsController@confirm']);
+    Route::get('/individualcoachings/{individualcoaching}/detail', ['as' => 'individualcoachings.detail', 'uses' => 'Backend\IndividualCoachingsController@detail']);
     Route::resource('/individualcoachings', 'Backend\IndividualCoachingsController');
 
-    Route::get('/applicationpackages/{applicationpackage}/confirm', ['as' => 'backend.applicationpackages.confirm', 'uses' => 'Backend\ApplicationPackagesController@confirm']);
-    Route::get('/applicationpackages/{applicationpackage}/detail', ['as' => 'backend.applicationpackages.detail', 'uses' => 'Backend\ApplicationPackagesController@detail']);
+    Route::get('/applicationpackages/{applicationpackage}/confirm', ['as' => 'applicationpackages.confirm', 'uses' => 'Backend\ApplicationPackagesController@confirm']);
+    Route::get('/applicationpackages/{applicationpackage}/detail', ['as' => 'applicationpackages.detail', 'uses' => 'Backend\ApplicationPackagesController@detail']);
     Route::resource('/applicationpackages', 'Backend\ApplicationPackagesController');
 
-    Route::get('/packagepurchases/{packagepurchase}/confirm', ['as' => 'backend.packagepurchases.confirm', 'uses' => 'Backend\PackagePurchasesController@confirm']);
-    Route::get('/packagepurchases/{packagepurchase}/detail', ['as' => 'backend.packagepurchases.detail', 'uses' => 'Backend\PackagePurchasesController@detail']);
-    Route::get('/packagepurchases/files/{file}/delete', 'Backend\PackagePurchasesController@deleteFile');
+    Route::get('/packagepurchases/{packagepurchase}/confirm', ['as' => 'packagepurchases.confirm', 'uses' => 'Backend\PackagePurchasesController@confirm']);
+    Route::get('/packagepurchases/{packagepurchase}/detail', ['as' => 'packagepurchases.detail', 'uses' => 'Backend\PackagePurchasesController@detail']);
+    Route::get('/packagepurchases/files/{file}/delete', ['as' => 'packagepurchases.deleteFile', 'uses' => 'Backend\PackagePurchasesController@deleteFile']);
     Route::resource('/packagepurchases', 'Backend\PackagePurchasesController');
 
-    Route::get('/applicationlayouts/{applicationlayout}/confirm', ['as' => 'backend.applicationlayouts.confirm', 'uses' => 'Backend\ApplicationLayoutsController@confirm']);
-    Route::get('/applicationlayouts/{applicationlayout}/detail', ['as' => 'backend.applicationlayouts.detail', 'uses' => 'Backend\ApplicationLayoutsController@detail']);
-    Route::get('/applicationlayouts/files/{file}/deletepreview', 'Backend\ApplicationLayoutsController@deletePreviewFile');
-    Route::get('/applicationlayouts/files/{file}/deletelayout', 'Backend\ApplicationLayoutsController@deleteLayoutFile');
+    Route::get('/applicationlayouts/{applicationlayout}/confirm', ['as' => 'applicationlayouts.confirm', 'uses' => 'Backend\ApplicationLayoutsController@confirm']);
+    Route::get('/applicationlayouts/{applicationlayout}/detail', ['as' => 'applicationlayouts.detail', 'uses' => 'Backend\ApplicationLayoutsController@detail']);
+    Route::get('/applicationlayouts/files/{file}/deletepreview', ['as' => 'applicationlayouts.deletePreview', 'uses' => 'Backend\ApplicationLayoutsController@deletePreviewFile']);
+    Route::get('/applicationlayouts/files/{file}/deletelayout', ['as' => 'applicationlayouts.deleteLayout', 'uses' => 'Backend\ApplicationLayoutsController@deleteLayoutFile']);
     Route::resource('/applicationlayouts', 'Backend\ApplicationLayoutsController');
 
-    Route::get('/layoutpurchases/{layoutpurchase}/confirm', ['as' => 'backend.layoutpurchases.confirm', 'uses' => 'Backend\LayoutPurchasesController@confirm']);
-    Route::get('/layoutpurchases/{layoutpurchase}/detail', ['as' => 'backend.layoutpurchases.detail', 'uses' => 'Backend\LayoutPurchasesController@detail']);
+    Route::get('/layoutpurchases/{layoutpurchase}/confirm', ['as' => 'layoutpurchases.confirm', 'uses' => 'Backend\LayoutPurchasesController@confirm']);
+    Route::get('/layoutpurchases/{layoutpurchase}/detail', ['as' => 'layoutpurchases.detail', 'uses' => 'Backend\LayoutPurchasesController@detail']);
     Route::resource('/layoutpurchases', 'Backend\LayoutPurchasesController');
 
-    Route::get('/discounts/{discount}/confirm', ['as' => 'backend.discounts.confirm', 'uses' => 'Backend\DiscountsController@confirm']);
-    Route::get('/discounts/{discount}/detail', ['as' => 'backend.discounts.detail', 'uses' => 'Backend\DiscountsController@detail']);
+    Route::get('/discounts/{discount}/confirm', ['as' => 'discounts.confirm', 'uses' => 'Backend\DiscountsController@confirm']);
+    Route::get('/discounts/{discount}/detail', ['as' => 'discounts.detail', 'uses' => 'Backend\DiscountsController@detail']);
     Route::resource('/discounts', 'Backend\DiscountsController');
 
-    Route::get('/memberdiscounts/{memberdiscount}/confirm', ['as' => 'backend.memberdiscounts.confirm', 'uses' => 'Backend\MemberdiscountsController@confirm']);
-    Route::get('/memberdiscounts/{memberdiscount}/detail', ['as' => 'backend.memberdiscounts.detail', 'uses' => 'Backend\MemberdiscountsController@detail']);
+    Route::get('/memberdiscounts/{memberdiscount}/confirm', ['as' => 'memberdiscounts.confirm', 'uses' => 'Backend\MemberdiscountsController@confirm']);
+    Route::get('/memberdiscounts/{memberdiscount}/detail', ['as' => 'memberdiscounts.detail', 'uses' => 'Backend\MemberdiscountsController@detail']);
     Route::resource('/memberdiscounts', 'Backend\MemberdiscountsController');
 
-    Route::get('/invoices/{invoice}/confirm', ['as' => 'backend.invoices.confirm', 'uses' => 'Backend\InvoicesController@confirm']);
-    Route::get('/invoices/{invoice}/detail', ['as' => 'backend.invoices.detail', 'uses' => 'Backend\InvoicesController@detail']);
+    Route::get('/invoices/{invoice}/confirm', ['as' => 'invoices.confirm', 'uses' => 'Backend\InvoicesController@confirm']);
+    Route::get('/invoices/{invoice}/detail', ['as' => 'invoices.detail', 'uses' => 'Backend\InvoicesController@detail']);
     Route::resource('/invoices', 'Backend\InvoicesController');
 
-    Route::get('/pages/{page}/confirm', ['as' => 'backend.pages.confirm', 'uses' => 'Backend\PagesController@confirm']);
-    Route::get('/pages/{page}/detail', ['as' => 'backend.pages.detail', 'uses' => 'Backend\PagesController@detail']);
+    Route::get('/pages/{page}/confirm', ['as' => 'pages.confirm', 'uses' => 'Backend\PagesController@confirm']);
+    Route::get('/pages/{page}/detail', ['as' => 'pages.detail', 'uses' => 'Backend\PagesController@detail']);
     Route::resource('/pages', 'Backend\PagesController');
 
-    Route::get('/blog/{blog}/confirm', ['as' => 'backend.blog.confirm', 'uses' => 'Backend\BlogController@confirm']);
-    Route::get('/blog/{blog}/detail', ['as' => 'backend.blog.detail', 'uses' => 'Backend\BlogController@detail']);
+    Route::get('/blog/{blog}/confirm', ['as' => 'blog.confirm', 'uses' => 'Backend\BlogController@confirm']);
+    Route::get('/blog/{blog}/detail', ['as' => 'blog.detail', 'uses' => 'Backend\BlogController@detail']);
     Route::resource('/blog', 'Backend\BlogController');
 
-    Route::get('/todo/{todo}/confirm', ['as' => 'backend.todo.confirm', 'uses' => 'Backend\TasksController@confirm']);
-    Route::get('/todo/{todo}/detail', ['as' => 'backend.todo.detail', 'uses' => 'Backend\TasksController@detail']);
-    Route::get('/todo/{todo}/finished', 'Backend\TasksController@taskFinished');
+    Route::get('/todo/{todo}/confirm', ['as' => 'todo.confirm', 'uses' => 'Backend\TasksController@confirm']);
+    Route::get('/todo/{todo}/detail', ['as' => 'todo.detail', 'uses' => 'Backend\TasksController@detail']);
+    Route::get('/todo/{todo}/finished', ['as' => 'todo.finishedTask', 'uses' => 'Backend\TasksController@taskFinished']);
     Route::resource('/todo', 'Backend\TasksController');
 });
 

@@ -8,10 +8,10 @@
         @foreach($tasks as $task)
             <li class="list-group-item">
                 <h4>
-                    <a href="/backend/todo/<?php echo $task->id ?>/detail">{{ $task->title }}</a>
+                    <a href="{{ route('todo.detail', $task->id) }}">{{ $task->title }}</a>
 
                     <div class="taskFinished">
-                        <a href="/backend/todo/<?php echo $task->id ?>/finished"><span
+                        <a href="{{ route('todo.finishedTask', $task->id) }}"><span
                                     class="glyphicon glyphicon-ok"></span></a>
                         <a href="{{ route('todo.edit', $task->id) }}"><span class="glyphicon glyphicon-edit"></span></a>
                     </div>

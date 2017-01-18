@@ -40,15 +40,15 @@
                         {{ $memberdiscount->getValidity() }}
                     </td>
                     <td>
-                        <a href="/backend/memberdiscounts/<?php echo $memberdiscount->id ?>/detail"><span
+                        <a href="{{ route('memberdiscounts.detail', $memberdiscount->id) }}"><span
                                     class="glyphicon glyphicon-info-sign"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/memberdiscounts/<?php echo $memberdiscount->id ?>/edit"><span
+                        <a href="{{ route('memberdiscounts.edit', $memberdiscount->id) }}"><span
                                     class="glyphicon glyphicon-edit"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/memberdiscounts/<?php echo $memberdiscount->id ?>/confirm"><span
+                        <a href="{{ route('memberdiscounts.confirm', $memberdiscount->id) }}"><span
                                     class="glyphicon glyphicon-remove"></span></a>
                     </td>
                 </tr>

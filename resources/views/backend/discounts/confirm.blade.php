@@ -9,8 +9,9 @@
     ]) }}
 
     <div class="alert alert-danger">
-        <strong>Warning!</strong> You are about to delete a discount. This action cannot be undone. Are you sure you
-        want to continue?
+        <strong>Warning!</strong> You are about to delete a Discount. All Files and Informations belonging to this Discount will be deleted. This action cannot be undone.
+        <br>
+        Are you sure you want to continue?
     </div>
 
     {{ Form::submit('Yes, delete this discount!', ['class' => 'btn btn-danger']) }}

@@ -33,7 +33,7 @@
                     {{ $layout->getPreviewFilename() }}
                 </div>
                 <div class="col-md-1">
-                    <a href="/backend/applicationlayouts/files/<?php echo $layout->id ?>/deletepreview"><span
+                    <a href="{{ route('applicationlayouts.deletePreview', $layout->id) }}"><span
                                 class="glyphicon glyphicon-remove"></span></a></div>
                 <br>
             @endif
@@ -53,7 +53,7 @@
                     {{ $layout->getLayoutFilename() }}
                 </div>
                 <div class="col-md-1">
-                    <a href="/backend/applicationlayouts/files/<?php echo $layout->id ?>/deletelayout"><span
+                    <a href="{{ route('applicationlayouts.deleteLayout', $layout->id) }}"><span
                                 class="glyphicon glyphicon-remove"></span></a></div>
                 <br>
             @endif

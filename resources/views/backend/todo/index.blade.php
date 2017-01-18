@@ -37,18 +37,18 @@
                         {!! $task->getShortDescription() !!}
                     </td>
                     <td>
-                        {{ $task->creator->getName() }}
+                        {{ $task->getName() }}
                     </td>
                     <td>
-                        <a href="/backend/todo/<?php echo $task->id ?>/detail"><span
+                        <a href="{{ route('todo.detail', $task->id) }}"><span
                                     class="glyphicon glyphicon-info-sign"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/todo/<?php echo $task->id ?>/edit"><span
+                        <a href="{{ route('todo.edit', $task->id) }}"><span
                                     class="glyphicon glyphicon-edit"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/todo/<?php echo $task->id ?>/confirm"><span
+                        <a href="{{ route('todo.confirm', $task->id) }}"><span
                                     class="glyphicon glyphicon-remove"></span></a>
                     </td>
                 </tr>

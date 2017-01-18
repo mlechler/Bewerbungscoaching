@@ -48,7 +48,7 @@
                             {{ $packagepurchase->getFilename() }}
                         </div>
                         <div class="col-md-1">
-                            <a href="/backend/packagepurchases/files/<?php echo $packagepurchase->id ?>/delete"><span
+                            <a href="{{ route('packagepurchases.deleteFile', $packagepurchase->id) }}"><span
                                         class="glyphicon glyphicon-remove"></span></a></div>
                     </div>
                 @endif

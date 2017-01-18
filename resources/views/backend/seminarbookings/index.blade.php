@@ -40,15 +40,15 @@
                         {{ $booking->price_incl_discount }} €
                     </td>
                     <td>
-                        <a href="/backend/seminarbookings/<?php echo $booking->id ?>/detail"><span
-                                    class="glyphicon glyphicon-info-sign"></span>
+                        <a href="{{ route('seminarbookings.detail', $booking->id) }}"><span
+                                    class="glyphicon glyphicon-info-sign"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/seminarbookings/<?php echo $booking->id ?>/edit"><span
+                        <a href="{{ route('seminarbookings.edit', $booking->id) }}"><span
                                     class="glyphicon glyphicon-edit"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/seminarbookings/<?php echo $booking->id ?>/confirm"><span
+                        <a href="{{ route('seminarbookings.confirm', $booking->id) }}"><span
                                     class="glyphicon glyphicon-remove"></span></a>
                     </td>
                 </tr>

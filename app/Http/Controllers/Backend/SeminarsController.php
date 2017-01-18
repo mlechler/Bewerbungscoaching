@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Appointment;
+use App\Booking;
 use App\Seminar;
 use App\Seminarfile;
 use Illuminate\Support\Facades\Storage;
@@ -92,6 +94,8 @@ class SeminarsController extends Controller
 
         $this->deleteFiles($id);
 
+        $this->deleteAppointments($id);
+
         return redirect(route('seminars.index'))->with('status', 'Seminar has been deleted.');
     }
 
@@ -126,6 +130,15 @@ class SeminarsController extends Controller
         }
     }
 
+    public function deleteFile($file_id)
+    {
+        $seminarfile = Seminarfile::findOrFail($file_id);
+        Seminarfile::destroy($file_id);
+        Storage::delete($seminarfile->path);
+
+        return redirect()->back()->with('status', 'File has been deleted.');
+    }
+
     public function deleteFiles($seminar_id)
     {
         $seminarfiles = Seminarfile::all()->where('seminar_id', '=', $seminar_id);
@@ -136,12 +149,23 @@ class SeminarsController extends Controller
         }
     }
 
-    public function deleteFile($file_id)
+    public function deleteAppointments($seminar_id)
     {
-        $seminarfile = Seminarfile::findOrFail($file_id);
-        Seminarfile::destroy($file_id);
-        Storage::delete($seminarfile->path);
+        $appointments = Appointment::all()->where('seminar_id', '=', $seminar_id);
 
-        return redirect()->back()->with('status', 'File has been deleted.');
+        foreach ($appointments as $appointment) {
+            Appointment::destroy($appointment->id);
+            $this->deleteBookings($appointment->id);
+        }
     }
+
+    public function deleteBookings($appointment_id)
+    {
+        $bookings = Booking::all()->where('appointment_id', '=', $appointment_id);
+
+        foreach ($bookings as $booking) {
+            Booking::destroy($booking->id);
+        }
+    }
+
 }

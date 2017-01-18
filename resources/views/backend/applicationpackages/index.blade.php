@@ -33,15 +33,15 @@
                         {{ $package->price }} €
                     </td>
                     <td>
-                        <a href="/backend/applicationpackages/<?php echo $package->id ?>/detail"><span
+                        <a href="{{ route('applicationpackages.detail', $package->id) }}"><span
                                     class="glyphicon glyphicon-info-sign"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/applicationpackages/<?php echo $package->id ?>/edit"><span
+                        <a href="{{ route('applicationpackages.edit', $package->id) }}"><span
                                     class="glyphicon glyphicon-edit"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/applicationpackages/<?php echo $package->id ?>/confirm"><span
+                        <a href="{{ route('applicationpackages.confirm', $package->id) }}"><span
                                     class="glyphicon glyphicon-remove"></span></a>
                     </td>
                 </tr>

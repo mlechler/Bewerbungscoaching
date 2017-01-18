@@ -55,7 +55,7 @@
                         {{ $file->name }}
                     </div>
                     <div class="col-md-1">
-                        <a href="/backend/seminars/files/<?php echo $file->id ?>/delete"><span
+                        <a href="{{ route('seminars.deleteFile', $file->id) }}"><span
                                     class="glyphicon glyphicon-remove"></span></a></div>
                     <br>
                 @endforeach

@@ -33,15 +33,15 @@
                         {{ $discount->amount }} {{ $discount->getAmountType()}}
                     </td>
                     <td>
-                        <a href="/backend/discounts/<?php echo $discount->id ?>/detail"><span
+                        <a href="{{ route('discounts.detail', $discount->id) }}"><span
                                     class="glyphicon glyphicon-info-sign"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/discounts/<?php echo $discount->id ?>/edit"><span
+                        <a href="{{ route('discounts.edit', $discount->id) }}"><span
                                     class="glyphicon glyphicon-edit"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/discounts/<?php echo $discount->id ?>/confirm"><span
+                        <a href="{{ route('discounts.confirm', $discount->id) }}"><span
                                     class="glyphicon glyphicon-remove"></span></a>
                     </td>
                 </tr>

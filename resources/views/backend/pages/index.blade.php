@@ -37,15 +37,15 @@
                         {{ $page->template or 'None' }}
                     </td>
                     <td>
-                        <a href="/backend/pages/<?php echo $page->id ?>/detail"><span
+                        <a href="{{ route('pages.detail', $page->id) }}"><span
                                     class="glyphicon glyphicon-info-sign"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/pages/<?php echo $page->id ?>/edit"><span
+                        <a href="{{ route('pages.edit', $page->id) }}"><span
                                     class="glyphicon glyphicon-edit"></span></a>
                     </td>
                     <td>
-                        <a href="/backend/pages/<?php echo $page->id ?>/confirm"><span
+                        <a href="{{ route('pages.confirm', $page->id) }}"><span
                                     class="glyphicon glyphicon-remove"></span></a>
                     </td>
                 </tr>
