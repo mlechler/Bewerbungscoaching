@@ -29,10 +29,12 @@ class InvoicesController extends Controller
     public function create(Invoice $invoice)
     {
         $mem = Member::select('lastname', 'firstname')->get();
-        $members = [0 => ''];
+        $members = ['' => ''];
         foreach ($mem as $member) {
             array_push($members, $member->lastname.', '.$member->firstname);
         }
+        array_unshift($members,'');
+        unset($members[0]);
 
         return view('backend.invoices.form', compact('invoice', 'members'));
     }

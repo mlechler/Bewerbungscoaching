@@ -6,6 +6,7 @@ use App\Appointment;
 use App\Employee;
 use App\Adress;
 use App\Employeefile;
+use App\Employeefreetime;
 use App\Individualcoaching;
 use App\Role;
 use Illuminate\Support\Facades\Storage;
@@ -133,7 +134,7 @@ class EmployeesController extends Controller
         Employee::destroy($id);
 
         $this->deleteFiles($id);
-//        $this->deleteFreetimes($id);
+        $this->deleteFreetimes($id);
         $this->deleteAppointments($id);
         $this->deleteCoachings($id);
 
@@ -191,6 +192,15 @@ class EmployeesController extends Controller
         Employeefile::destroy($file_id);
 
         return redirect()->back()->with('status', 'File has been deleted.');
+    }
+
+    public function deleteFreetimes($employee_id)
+    {
+        $freetimes = Employeefreetime::all()->where('employee_id', '=', $employee_id);
+
+        foreach ($freetimes as $freetime) {
+            Employeefreetime::destroy($freetime->id);
+        }
     }
 
     public function deleteAppointments($employee_id)

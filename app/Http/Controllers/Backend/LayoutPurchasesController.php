@@ -29,10 +29,12 @@ class LayoutPurchasesController extends Controller
     public function create(Layoutpurchase $layoutpurchase)
     {
         $mem = Member::select('lastname', 'firstname')->get();
-        $members = [0 => ''];
+        $members = ['' => ''];
         foreach ($mem as $member) {
             array_push($members, $member->lastname.', '.$member->firstname);
         }
+        array_unshift($members,'');
+        unset($members[0]);
 
         $applicationlayouts = ['' => ''] + Applicationlayout::all()->pluck('title', 'id')->toArray();
 
@@ -56,10 +58,12 @@ class LayoutPurchasesController extends Controller
         $layoutpurchase = Layoutpurchase::findOrFail($id);
 
         $mem = Member::select('lastname', 'firstname')->get();
-        $members = [0 => ''];
+        $members = ['' => ''];
         foreach ($mem as $member) {
             array_push($members, $member->lastname.', '.$member->firstname);
         }
+        array_unshift($members,'');
+        unset($members[0]);
 
         $applicationlayouts = ['' => ''] + Applicationlayout::all()->pluck('title', 'id')->toArray();
 

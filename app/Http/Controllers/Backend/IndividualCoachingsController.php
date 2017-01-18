@@ -30,16 +30,20 @@ class IndividualCoachingsController extends Controller
     public function create(Individualcoaching $coaching)
     {
         $emp = Employee::select('lastname', 'firstname')->get();
-        $employees = [0 => ''];
+        $employees = ['' => ''];
         foreach ($emp as $employee) {
             array_push($employees, $employee->lastname.', '.$employee->firstname);
         }
+        array_unshift($employees,'');
+        unset($employees[0]);
 
         $mem = Member::select('lastname', 'firstname')->get();
-        $members = [0 => ''];
+        $members = ['' => ''];
         foreach ($mem as $member) {
             array_push($members, $member->lastname.', '.$member->firstname);
         }
+        array_unshift($members,'');
+        unset($members[0]);
 
         return view('backend.individualcoachings.form', compact('coaching', 'employees', 'members'));
     }
@@ -66,16 +70,20 @@ class IndividualCoachingsController extends Controller
         $coaching = Individualcoaching::findOrFail($id);
 
         $emp = Employee::select('lastname', 'firstname')->get();
-        $employees = [0 => ''];
+        $employees = ['' => ''];
         foreach ($emp as $employee) {
             array_push($employees, $employee->lastname.', '.$employee->firstname);
         }
+        array_unshift($employees,'');
+        unset($employees[0]);
 
         $mem = Member::select('lastname', 'firstname')->get();
-        $members = [0 => ''];
+        $members = ['' => ''];
         foreach ($mem as $member) {
             array_push($members, $member->lastname.', '.$member->firstname);
         }
+        array_unshift($members,'');
+        unset($members[0]);
 
         return view('backend.individualcoachings.form', compact('coaching', 'employees', 'members'));
     }

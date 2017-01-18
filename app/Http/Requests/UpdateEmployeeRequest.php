@@ -32,12 +32,13 @@ class UpdateEmployeeRequest extends FormRequest
             'phone' => ['required'],
             'mobile' => ['required', 'unique:employees,mobile,' . $id],
             'email' => ['required', 'email', 'unique:employees,email,' . $id],
-            'password' => ['required_with:password_confirmation', 'confirmed'],
             'files' => ['array'],
             'zip' => ['required'],
             'city' => ['required'],
             'street' => ['required'],
-            'housenumber' => ['required']
+            'housenumber' => ['required'],
+            'role_id' => ['required'],
+            'password' => ['required_with:password_confirmation', 'confirmed']
         ];
 
         $files = $this->file('files');

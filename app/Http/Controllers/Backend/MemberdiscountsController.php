@@ -34,10 +34,12 @@ class MemberdiscountsController extends Controller
         $discounts = ['' => ''] + Discount::all()->pluck('title', 'id')->toArray();
 
         $mem = Member::select('lastname', 'firstname')->get();
-        $members = [0 => ''];
+        $members = ['' => ''];
         foreach ($mem as $member) {
             array_push($members, $member->lastname.', '.$member->firstname);
         }
+        array_unshift($members,'');
+        unset($members[0]);
 
         return view('backend.memberdiscounts.form', compact('memberdiscount', 'members', 'discounts'));
     }
@@ -63,10 +65,12 @@ class MemberdiscountsController extends Controller
         $discounts = ['' => ''] + Discount::all()->pluck('title', 'id')->toArray();
 
         $mem = Member::select('lastname', 'firstname')->get();
-        $members = [0 => ''];
+        $members = ['' => ''];
         foreach ($mem as $member) {
             array_push($members, $member->lastname.', '.$member->firstname);
         }
+        array_unshift($members,'');
+        unset($members[0]);
 
         return view('backend.memberdiscounts.form', compact('memberdiscount', 'members', 'discounts'));
     }

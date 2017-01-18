@@ -30,17 +30,22 @@ class BookingsController extends Controller
     public function create(Booking $seminarbooking)
     {
         $mem = Member::select('lastname', 'firstname')->get();
-        $members = [0 => ''];
+        $members = ['' => ''];
         foreach ($mem as $member) {
             array_push($members, $member->lastname.', '.$member->firstname);
         }
+        array_unshift($members,'');
+        unset($members[0]);
 
         $app = Appointment::select('seminar_id', 'date', 'time')->get();
-        $appointments = [0 => ''];
+        $appointments = ['' => ''];
         foreach ($app as $appointment) {
             $time = Carbon::parse($appointment->time);
             array_push($appointments, $appointment->seminar->title.', '.$appointment->date->format('d.m.Y').', '.($time->format('H:i') . ' - ' . $time->addHours($appointment->seminar->duration)->format('H:i')));
         }
+        array_unshift($appointments,'');
+        unset($appointments[0]);
+
         return view('backend.seminarbookings.form', compact('seminarbooking', 'members', 'appointments'));
     }
 
@@ -61,17 +66,21 @@ class BookingsController extends Controller
         $seminarbooking = Booking::findOrFail($id);
 
         $mem = Member::select('lastname', 'firstname')->get();
-        $members = [0 => ''];
+        $members = ['' => ''];
         foreach ($mem as $member) {
             array_push($members, $member->lastname.', '.$member->firstname);
         }
+        array_unshift($members,'');
+        unset($members[0]);
 
         $app = Appointment::select('seminar_id', 'date', 'time')->get();
-        $appointments = [0 => ''];
+        $appointments = ['' => ''];
         foreach ($app as $appointment) {
             $time = Carbon::parse($appointment->time);
             array_push($appointments, $appointment->seminar->title.', '.$appointment->date->format('d.m.Y').', '.($time->format('H:i') . ' - ' . $time->addHours($appointment->seminar->duration)->format('H:i')));
         }
+        array_unshift($appointments,'');
+        unset($appointments[0]);
 
         return view('backend.seminarbookings.form', compact('seminarbooking', 'members', 'appointments'));
     }

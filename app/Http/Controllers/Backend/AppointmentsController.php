@@ -34,10 +34,12 @@ class AppointmentsController extends Controller
         $seminars = ['' => ''] + Seminar::all()->pluck('title', 'id')->toArray();
 
         $emp = Employee::select('lastname', 'firstname')->get();
-        $employees = [0 => ''];
+        $employees = ['' => ''];
         foreach ($emp as $employee) {
             array_push($employees, $employee->lastname.', '.$employee->firstname);
         }
+        array_unshift($employees,'');
+        unset($employees[0]);
 
         return view('backend.seminarappointments.form', compact('seminarappointment', 'seminars', 'employees'));
     }
@@ -74,10 +76,12 @@ class AppointmentsController extends Controller
         $seminars = ['' => ''] + Seminar::all()->pluck('title', 'id')->toArray();
 
         $emp = Employee::select('lastname', 'firstname')->get();
-        $employees = [0 => ''];
+        $employees = ['' => ''];
         foreach ($emp as $employee) {
             array_push($employees, $employee->lastname.', '.$employee->firstname);
         }
+        array_unshift($employees,'');
+        unset($employees[0]);
 
         return view('backend.seminarappointments.form', compact('seminarappointment', 'seminars', 'employees'));
     }

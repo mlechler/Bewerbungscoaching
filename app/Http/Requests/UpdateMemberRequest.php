@@ -31,12 +31,13 @@ class UpdateMemberRequest extends FormRequest
             'phone' => ['required'],
             'mobile' => ['required', 'unique:employees', 'unique:members,mobile,' . $id],
             'email' => ['required', 'email', 'unique:employees', 'unique:members,email,' . $id],
-            'password' => ['required_with:password_confirmation', 'confirmed'],
             'files' => ['array'],
             'zip' => ['required'],
             'city' => ['required'],
             'street' => ['required'],
-            'housenumber' => ['required']
+            'housenumber' => ['required'],
+            'role_id' => ['required'],
+            'password' => ['required_with:password_confirmation', 'confirmed']
         ];
 
         $files = $this->file('files');
@@ -49,5 +50,12 @@ class UpdateMemberRequest extends FormRequest
         }
 
         return $rules;
+    }
+
+    public function messages(){
+        return [
+            'lastname.required' => 'Lastname is required',
+            'email.email' => 'Email must be a valid Email'
+        ];
     }
 }
