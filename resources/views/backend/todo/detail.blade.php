@@ -34,7 +34,7 @@
                 <h4>Description</h4>
             </td>
             <td>
-                <h4>{{ $task->description }}</h4>
+                <h4>{!! $task->descriptionHtml() !!}</h4>
             </td>
         </tr>
         </tbody>

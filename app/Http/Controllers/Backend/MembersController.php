@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Booking;
+use App\Events\MemberfileUploaded;
+use App\Events\UploadMemberFile;
 use App\Individualcoaching;
 use App\Layoutpurchase;
 use App\Member;
@@ -11,6 +13,7 @@ use App\Memberdiscount;
 use App\Memberfile;
 use App\Packagepurchase;
 use App\Role;
+use App\Task;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests;
@@ -77,6 +80,8 @@ class MembersController extends Controller
         if ($request->hasFile('files')) {
             $files = $request->file('files');
             $this->storeFiles($files, $member->id);
+
+            event(new UploadMemberFile($member));
         }
 
         return redirect(route('members.index'))->with('status', 'Member has been created.');
@@ -127,6 +132,8 @@ class MembersController extends Controller
         if ($request->hasFile('files')) {
             $files = $request->file('files');
             $this->storeFiles($files, $member->id);
+
+            event(new UploadMemberFile($member));
         }
 
         return redirect(route('members.index'))->with('status', 'Member has been updated.');
@@ -196,12 +203,15 @@ class MembersController extends Controller
 
     public function deleteAllFiles(Requests\DeleteAllMemberFilesRequest $request)
     {
-        switch($request->timerange){
-            case 'one': $date = Carbon::now()->subMonths(1)->format('Y-m-d');
+        switch ($request->timerange) {
+            case 'one':
+                $date = Carbon::now()->subMonths(1)->format('Y-m-d');
                 break;
-            case 'three': $date = Carbon::now()->subMonths(3)->format('Y-m-d');
+            case 'three':
+                $date = Carbon::now()->subMonths(3)->format('Y-m-d');
                 break;
-            case 'six': $date = Carbon::now()->subMonths(6)->format('Y-m-d');
+            case 'six':
+                $date = Carbon::now()->subMonths(6)->format('Y-m-d');
                 break;
         }
 

@@ -14,11 +14,12 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         'Illuminate\Auth\Events\Login' => [
-            'App\Listeners\UpdateLastLoginOnLoginEmployee',
+            'App\Listeners\UpdateLastLoginOnLogin',
         ],
-        'when Member logs in' => [
-            'App\Listeners\UpdateLastLoginOnLoginMember',
-        ],
+        'App\Events\UploadMemberFile' => [
+            'App\Listeners\CreateTaskCheckMemberFiles',
+        ]
+
     ];
 
     /**

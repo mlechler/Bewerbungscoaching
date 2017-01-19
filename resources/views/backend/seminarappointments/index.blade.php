@@ -45,7 +45,7 @@
                     </td>
                     <td>
                         <a href="{{ route('seminarappointments.detail', $appointment->id) }}"><span
-                                    class="glyphicon glyphicon-info-sign"></span></a>
+                                    class="glyphicon glyphicon-info-sign"></span>  {{ $appointment->members->count()}}/{{ $appointment->seminar->maxMembers }}</a>
                     </td>
                     <td>
                         <a href="{{ route('seminarappointments.edit', $appointment->id) }}"><span

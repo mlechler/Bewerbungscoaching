@@ -4,7 +4,7 @@ namespace App\Listeners;
 
 use Carbon\Carbon;
 
-class UpdateLastLoginOnLoginEmployee
+class UpdateLastLoginOnLogin
 {
     public function handle($event)
     {
