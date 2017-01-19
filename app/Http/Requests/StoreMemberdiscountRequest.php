@@ -30,4 +30,14 @@ class StoreMemberdiscountRequest extends FormRequest
             'startdate' => ['required']
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'member_id.required' => 'Member is required',
+            'discount_id.required' => 'Discount is required',
+            'validity.required' => 'Validity is required',
+            'startdate.required' => 'Start Date is required'
+        ];
+    }
 }

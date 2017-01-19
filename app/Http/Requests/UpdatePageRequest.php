@@ -25,10 +25,22 @@ class UpdatePageRequest extends FormRequest
     {
         $id = $this->route('page');
         return [
-            'title' => ['required'],
+            'title' => ['required', 'unique:pages,title,'.$id],
             'uri' => ['required', 'unique:pages,uri,'.$id],
             'name' => ['unique:pages,name,'.$id],
             'pagecontent' => ['required']
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'title.required' => 'Title is required',
+            'title.unique' => 'Title has to be unique in Pages',
+            'uri.required' => 'URI is required',
+            'uri.unique' => 'URI has to be unique in Pages',
+            'name.unique' => 'Name has to be unique in Pages',
+            'pagecontent.required' => 'Pagecontent is required'
         ];
     }
 }

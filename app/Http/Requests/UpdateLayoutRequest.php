@@ -32,4 +32,18 @@ class UpdateLayoutRequest extends FormRequest
             'layout' => ['mimes:' . config('app.allowedLayoutFileTypes'), 'max:' . config('app.maxFileSize')]
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'title.required' => 'Title is required',
+            'title.unique' => 'Title has to be unique in Application Layouts',
+            'description.required' => 'Description is required',
+            'price.required' => 'Price is required',
+            'preview.mimes' => 'Wrong Filetype for Preview',
+            'preview.max' => 'Filesize exceeded for Preview',
+            'layout.mimes' => 'Wrong Filetype for Layout',
+            'layout.max' => 'Filesize exceeded for Layout',
+        ];
+    }
 }

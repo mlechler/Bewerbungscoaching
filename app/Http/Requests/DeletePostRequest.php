@@ -45,4 +45,11 @@ class DeletePostRequest extends FormRequest
             //
         ];
     }
+
+    public function messages()
+    {
+        return [
+            //
+        ];
+    }
 }

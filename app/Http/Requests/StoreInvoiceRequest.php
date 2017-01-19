@@ -27,4 +27,11 @@ class StoreInvoiceRequest extends FormRequest
             //
         ];
     }
+
+    public function messages()
+    {
+        return [
+            //
+        ];
+    }
 }

@@ -34,4 +34,18 @@ class StoreAppointmentRequest extends FormRequest
             'housenumber' => ['required']
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'employee_id.required' => 'Employee is required',
+            'seminar_id.required' => 'Seminar is required',
+            'date.required' => 'Date is required',
+            'time.required' => 'Time is required',
+            'zip.required' => 'Zip is required',
+            'city.required' => 'City is required',
+            'street.required' => 'Street is required',
+            'housenumber.required' => 'Housenumber is required'
+        ];
+    }
 }

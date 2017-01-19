@@ -29,4 +29,13 @@ class StoreBookingRequest extends FormRequest
             'price_incl_discount' => ['required']
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'member_id.required' => 'Member is required',
+            'appointment_id.required' => 'Appointment is required',
+            'price_incl_discount.required' => 'Price is required'
+        ];
+    }
 }

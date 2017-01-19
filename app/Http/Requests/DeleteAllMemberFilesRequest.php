@@ -27,4 +27,11 @@ class DeleteAllMemberFilesRequest extends FormRequest
             'timerange' => ['required']
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'timerange.required' => 'Timerange is required'
+        ];
+    }
 }

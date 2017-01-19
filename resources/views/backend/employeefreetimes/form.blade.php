@@ -24,14 +24,14 @@
 
     <div class="form-group row">
         <div class="col-md-6">
-            {{ Form::label('starttime') }}
+            {{ Form::label('start_time') }}
             {{ Form::text('starttime', null, ['class' => 'form-control']) }}
         </div>
     </div>
 
     <div class="form-group row">
         <div class="col-md-6">
-            {{ Form::label('endtime') }}
+            {{ Form::label('end_time') }}
             {{ Form::text('endtime', null, ['class' => 'form-control']) }}
         </div>
     </div>

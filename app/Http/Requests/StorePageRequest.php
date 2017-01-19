@@ -24,10 +24,22 @@ class StorePageRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required'],
+            'title' => ['required', 'unique:pages'],
             'uri' => ['required', 'unique:pages'],
             'name' => ['unique:pages'],
             'pagecontent' => ['required']
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'title.required' => 'Title is required',
+            'title.unique' => 'Title has to be unique in Pages',
+            'uri.required' => 'URI is required',
+            'uri.unique' => 'URI has to be unique in Pages',
+            'name.unique' => 'Name has to be unique in Pages',
+            'pagecontent.required' => 'Pagecontent is required'
         ];
     }
 }

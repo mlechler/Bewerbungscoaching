@@ -28,7 +28,7 @@
     </div>
 
     <div class="form-group">
-        {{ Form::label('startdate') }}
+        {{ Form::label('start_date') }}
         {{ Form::text('startdate', null, ['class' => 'form-control']) }}
     </div>
 

@@ -26,7 +26,19 @@ class StorePackagepurchaseRequest extends FormRequest
         return [
             'member_id' => ['required'],
             'applicationpackage_id' => ['required'],
-            'price_incl_discount' => ['required']
+            'price_incl_discount' => ['required'],
+            'package' => ['mimes:' . config('app.allowedPackageFileTypes'), 'max:' . config('app.maxPackageFileSize')]
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'member_id.required' => 'Member is required',
+            'applicationpackage_id.required' => 'Application Package is required',
+            'price_incl_discount.required' => 'Price is required',
+            'package.mimes' => 'Wrong Filetype',
+            'package.max' => 'Filesize exceeded'
         ];
     }
 }

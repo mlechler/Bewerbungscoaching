@@ -29,4 +29,13 @@ class StoreLayoutpurchaseRequest extends FormRequest
             'price_incl_discount' => ['required']
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'member_id.required' => 'Member is required',
+            'applicationlayout_id.required' => 'Application Layout is required',
+            'price_incl_discount.required' => 'Price is required'
+        ];
+    }
 }

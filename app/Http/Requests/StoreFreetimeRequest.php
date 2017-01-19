@@ -24,10 +24,20 @@ class StoreFreetimeRequest extends FormRequest
     public function rules()
     {
         return [
+            'employee_id' => ['required'],
             'date' => ['required'],
-            'endtime' => ['required'],
             'starttime' => ['required'],
-            'employee_id' => ['required']
+            'endtime' => ['required']
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'employee_id.required' => 'Employee is required',
+            'date.required' => 'Date is required',
+            'starttime.required' => 'Start Time is required',
+            'endtime.required' => 'End Time is required'
         ];
     }
 }

@@ -37,11 +37,22 @@ class UpdatePostRequest extends FormRequest
      */
     public function rules()
     {
+        $id = $this->route('blog');
         return [
-            'title' => ['required'],
+            'title' => ['required', 'unique:posts,title,'.$id],
             'slug' => ['required'],
             'published_at' => ['date_format:Y-m-d H:i:s'],
             'body' => ['required']
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'title.required' => 'Title is required',
+            'title.unique' => 'Title has to be unique in Blog Posts',
+            'slug.required' => 'Slug is required',
+            'body.required' => 'Body is required'
         ];
     }
 }

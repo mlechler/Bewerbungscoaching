@@ -27,4 +27,11 @@ class UpdateInvoiceRequest extends FormRequest
             //
         ];
     }
+
+    public function messages()
+    {
+        return [
+            //
+        ];
+    }
 }

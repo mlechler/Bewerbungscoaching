@@ -29,4 +29,14 @@ class StoreDiscountRequest extends FormRequest
             'amount' => ['required']
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'title.required' => 'Title is required',
+            'title.unique' => 'Title has to be unique in Discounts',
+            'service.required' => 'Service is required',
+            'amount.required' => 'Amount is required'
+        ];
+    }
 }

@@ -30,4 +30,14 @@ class UpdatePackageRequest extends FormRequest
             'price' => ['required']
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'title.required' => 'Title is required',
+            'title.unique' => 'Title has to be unique in Application Packages',
+            'description.required' => 'Description is required',
+            'price.required' => 'Price is required'
+        ];
+    }
 }

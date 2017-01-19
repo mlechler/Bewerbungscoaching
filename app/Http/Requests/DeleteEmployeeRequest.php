@@ -39,4 +39,11 @@ class DeleteEmployeeRequest extends FormRequest
             //
         ];
     }
+
+    public function messages()
+    {
+        return [
+            //
+        ];
+    }
 }
