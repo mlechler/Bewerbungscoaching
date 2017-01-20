@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Applicationpackage;
+use App\Events\PurchaseApplicationPackage;
 use App\Packagepurchase;
 use App\Member;
 use Illuminate\Http\Request;
@@ -55,7 +56,10 @@ class PackagePurchasesController extends Controller
         if ($request->hasFile('package')) {
             $packageFile = $request->file('package');
             $this->storeFile($packageFile, $packagepurchase);
+        } else {
+            event(new PurchaseApplicationPackage($packagepurchase));
         }
+
 
         return redirect(route('packagepurchases.index'))->with('status', 'Package Purchase has been created.');
     }
@@ -142,5 +146,17 @@ class PackagePurchasesController extends Controller
         ))->save();
 
         return redirect()->back()->with('status', 'File has been deleted.');
+    }
+
+    public function uploadPackageFile(Request $request, $id)
+    {
+        $purchase = Packagepurchase::findOrFail($id);
+
+        if ($request->hasFile('packageFile')) {
+            $packageFile = $request->file('packageFile');
+            $this->storeFile($packageFile, $purchase);
+        }
+
+        return redirect()->back()->with('status', 'Package has been uploaded.');
     }
 }

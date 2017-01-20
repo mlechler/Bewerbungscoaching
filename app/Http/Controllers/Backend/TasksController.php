@@ -93,4 +93,23 @@ class TasksController extends Controller
 
         return redirect()->back()->with('status', 'Task has been closed.');
     }
+
+    public function deleteAllFinishedTasks()
+    {
+        $tasks = Task::all()->where('finished', '=', true);
+
+        if (!$tasks->isEmpty()) {
+            foreach ($tasks as $task) {
+                Task::destroy($task->id);
+            }
+
+            return redirect(route('todo.index'))->with('status', 'Tasks have been deleted.');
+
+        } else {
+            return redirect(route('todo.index'))->withErrors([
+                'error' => 'No finished Tasks.'
+            ]);
+        }
+
+    }
 }

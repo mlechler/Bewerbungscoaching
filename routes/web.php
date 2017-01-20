@@ -39,7 +39,7 @@ Route::group(['prefix' => 'backend'], function () {
 
     Route::get('/members/{member}/confirm', ['as' => 'members.confirm', 'uses' => 'Backend\MembersController@confirm']);
     Route::get('/members/{member}/detail', ['as' => 'members.detail', 'uses' => 'Backend\MembersController@detail']);
-    Route::post('/members/{member}/uploadCheckedFile', ['as' => 'members.uploadCheckedFile', 'uses' => 'Backend\MembersController@uploadCheckedFiles']);
+    Route::post('/members/{member}/uploadcheckedfile', ['as' => 'members.uploadCheckedFile', 'uses' => 'Backend\MembersController@uploadCheckedFiles']);
     Route::get('/members/files/{file}/delete', ['as' => 'members.deleteFile', 'uses' => 'Backend\MembersController@deleteFile']);
     Route::post('/members/delete', ['as' => 'members.deleteAllFiles', 'uses' =>'Backend\MembersController@deleteAllFiles']);
     Route::resource('/members', 'Backend\MembersController');
@@ -68,6 +68,7 @@ Route::group(['prefix' => 'backend'], function () {
 
     Route::get('/packagepurchases/{packagepurchase}/confirm', ['as' => 'packagepurchases.confirm', 'uses' => 'Backend\PackagePurchasesController@confirm']);
     Route::get('/packagepurchases/{packagepurchase}/detail', ['as' => 'packagepurchases.detail', 'uses' => 'Backend\PackagePurchasesController@detail']);
+    Route::post('/packagepurchases/{packagepurchase}/uploadpackagefile', ['as' => 'packagepurchases.uploadPackageFile', 'uses' => 'Backend\PackagePurchasesController@uploadPackageFile']);
     Route::get('/packagepurchases/files/{file}/delete', ['as' => 'packagepurchases.deleteFile', 'uses' => 'Backend\PackagePurchasesController@deleteFile']);
     Route::resource('/packagepurchases', 'Backend\PackagePurchasesController');
 
@@ -104,6 +105,7 @@ Route::group(['prefix' => 'backend'], function () {
     Route::get('/todo/{todo}/confirm', ['as' => 'todo.confirm', 'uses' => 'Backend\TasksController@confirm']);
     Route::get('/todo/{todo}/detail', ['as' => 'todo.detail', 'uses' => 'Backend\TasksController@detail']);
     Route::get('/todo/{todo}/finished', ['as' => 'todo.finishedTask', 'uses' => 'Backend\TasksController@taskFinished']);
+    Route::post('/todo/delete', ['as' => 'todo.deleteAllFinishedTasks', 'uses' => 'Backend\TasksController@deleteAllFinishedTasks']);
     Route::resource('/todo', 'Backend\TasksController');
 });
 

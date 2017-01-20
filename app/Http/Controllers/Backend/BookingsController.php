@@ -4,10 +4,14 @@ namespace App\Http\Controllers\Backend;
 
 use App\Appointment;
 use App\Booking;
+use App\Events\MakeSeminarBooking;
+use App\Mail\BookingConfirmation;
 use App\Member;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Mail;
 
 class BookingsController extends Controller
 {
@@ -51,12 +55,14 @@ class BookingsController extends Controller
 
     public function store(Requests\StoreBookingRequest $request)
     {
-        Booking::create(array(
+        $booking = Booking::create(array(
             'member_id' => $request->member_id,
             'appointment_id' => $request->appointment_id,
             'price_incl_discount' => $request->price_incl_discount,
             'paid' => false
         ));
+
+        event(new MakeSeminarBooking($booking));
 
         return redirect(route('seminarbookings.index'))->with('status', 'Booking has been created.');
     }

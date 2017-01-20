@@ -30,7 +30,7 @@ class CreateTaskCheckMemberFiles
         Task::create(array(
             'title' => 'Check Files of ' . $event->member->lastname . ', ' . $event->member->firstname,
             'description' => '[' . $event->member->firstname . ' ' . $event->member->lastname . '](http://localhost:8000/backend/members/'
-                . $event->member->id . '/detail) uploaded new Files. Check these on mistakes and upload a improved version if necessary.',
+                . $event->member->id . '/detail) uploaded new Files. Check these on mistakes and upload an improved version if necessary.',
             'creator_id' => null,
             'finished' => false
         ));

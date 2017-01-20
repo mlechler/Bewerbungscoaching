@@ -11119,10 +11119,6 @@ body {
   line-height: 34px !important;
 }
 
-.deleteFiles {
-  float: right;
-}
-
 .vertical-center {
   display: -webkit-box;
   display: flex;
@@ -11136,12 +11132,6 @@ body {
 .excerpt .CodeMirror {
   height: 150px;
   min-height: 150px;
-}
-
-.radio-select {
-  position: fixed;
-  max-width: 100%;
-  top: 150px;
 }
 
 /*# sourceMappingURL=backend.css.map */

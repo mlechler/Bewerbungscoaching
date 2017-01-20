@@ -3,6 +3,11 @@
 @section('title', 'Details of VALUE')
 
 @section('content')
+    {{ Form::model($packagepurchase, [
+     'method' => 'post',
+     'route' => ['packagepurchases.uploadPackageFile', $packagepurchase->id],
+     'enctype' => 'multipart/form-data'
+     ]) }}
     <table class="table table-hover">
         <tbody>
         <tr>
@@ -51,10 +56,18 @@
                             <a href="{{ route('packagepurchases.deleteFile', $packagepurchase->id) }}"><span
                                         class="glyphicon glyphicon-remove"></span></a></div>
                     </div>
+                    <br>
                 @endif
+                <div class="row">
+                    <div class="col-md-3">
+                        {{ Form::file('packageFile', null, ['class' => 'form-control']) }}
+                    </div>
+                </div>
             </td>
         </tr>
         </tbody>
     </table>
+    {{ Form::submit('Upload Package File', ['class' => 'btn btn-success']) }}
     <a href="{{ route('packagepurchases.index') }}" class="btn btn-danger">Back</a>
+    {{ Form::close() }}
 @endsection

@@ -18,8 +18,14 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\UploadMemberFile' => [
             'App\Listeners\CreateTaskCheckMemberFiles',
-        ]
-
+        ],
+        'App\Events\PurchaseApplicationPackage' => [
+            'App\Listeners\CreateTaskCreatePackageForMember',
+        ],
+        'App\Events\MakeSeminarBooking' => [
+            'App\Listeners\SendBookingConfirmation',
+            'App\Listeners\SendBookingInvoice',
+        ],
     ];
 
     /**

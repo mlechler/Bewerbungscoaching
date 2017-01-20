@@ -33,7 +33,7 @@
             <td>
                 <h4>Description</h4>
             </td>
-            <td>
+            <td style="max-width: 100px">
                 <h4>{!! $task->descriptionHtml() !!}</h4>
             </td>
         </tr>

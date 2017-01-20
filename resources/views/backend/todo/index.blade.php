@@ -3,7 +3,21 @@
 @section('title', 'Tasks')
 
 @section('content')
-    <a href="{{ route('todo.create') }}" class="btn btn-primary">Create New Task</a>
+
+    <div class="form-group row ">
+        <div class="col-md-10">
+            <a href="{{ route('todo.create') }}" class="btn btn-primary">Create New Task</a>
+        </div>
+        {{ Form::open([
+        'method' => 'post',
+        'route' => 'todo.deleteAllFinishedTasks'
+        ]) }}
+        <div class="col-md-2">
+            {{ Form::submit('Delete Finished Tasks', ['class' => 'btn btn-danger']) }}
+        </div>
+        {{ Form::close() }}
+    </div>
+
     {{ Form::open() }}
     <div class="form-group has-feedback has-feedback-left">
         <br>
@@ -19,13 +33,14 @@
             <th>Creator</th>
             <th>Details</th>
             <th>Edit</th>
+            <th>Finish</th>
             <th>Delete</th>
         </tr>
         </thead>
         <tbody>
         @if($tasks->isEmpty())
             <tr>
-                <td colspan="6" align="center">There are no tasks.</td>
+                <td colspan="7" align="center">There are no tasks.</td>
             </tr>
         @else
             @foreach($tasks as $task)
@@ -46,6 +61,10 @@
                     <td>
                         <a href="{{ route('todo.edit', $task->id) }}"><span
                                     class="glyphicon glyphicon-edit"></span></a>
+                    </td>
+                    <td>
+                        <a href="{{ route('todo.finishedTask', $task->id) }}"><span
+                                    class="glyphicon glyphicon-ok"></span></a>
                     </td>
                     <td>
                         <a href="{{ route('todo.confirm', $task->id) }}"><span

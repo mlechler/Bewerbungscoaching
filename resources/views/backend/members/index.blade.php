@@ -13,15 +13,15 @@
         'route' => 'members.deleteAllFiles'
         ]) }}
         <div class="col-md-2 deleteFiles">
+            {{ Form::submit('Delete Files, older than', ['class' => 'btn btn-danger']) }}
+        </div>
+        <div class="col-md-2 deleteFiles">
             {{ Form::select('timerange', [
                 '' => '',
                 'one' => 'one Month',
                 'three' => 'three Months',
                 'six' => 'six Months'
             ], null, ['class' => 'form-control']) }}
-        </div>
-        <div class="col-md-2 deleteFiles">
-            {{ Form::submit('Delete Files, older than', ['class' => 'btn btn-danger']) }}
         </div>
         {{ Form::close() }}
     </div>
