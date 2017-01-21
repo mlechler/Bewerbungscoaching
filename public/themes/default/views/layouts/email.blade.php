@@ -69,12 +69,10 @@
                 </thead>
                 <tr>
                     <td align="center">
-                        <br>
                         You can contact us <a href="">here</a><br>
                         or call us via +49 1234 56789.
                     </td>
                     <td align="center">
-                        <br>
                         Follow us on <br>
                         <a href="https://www.facebook.com"><img src="https://cdn1.iconfinder.com/data/icons/logotypes/32/square-facebook-32.png"
                                                                 alt="Facebook" title="Facebook"/></a>
@@ -84,7 +82,6 @@
                                                                title="Youtube"/></a>
                     </td>
                     <td align="center">
-                        <br>
                         <a href="">Seminars</a><br>
                         <a href="">Individualcoaching</a><br>
                         <a href="">Application Layouts</a><br>

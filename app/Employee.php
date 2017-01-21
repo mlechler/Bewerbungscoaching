@@ -2,6 +2,9 @@
 
 namespace App;
 
+use App\Events\EmployeePasswordReset;
+use App\Events\ResetEmployeePassword;
+use App\Mail\PasswordReset;
 use App\Notifications\EmployeeResetPassword;
 use App\Presenters\EmployeePresenter;
 use Doctrine\Instantiator\Exception\UnexpectedValueException;
@@ -25,7 +28,7 @@ class Employee extends Authenticatable implements HasPresenter
 
     public function sendPasswordResetNotification($token)
     {
-        $this->notify(new EmployeeResetPassword($token));
+        event(new ResetEmployeePassword($_REQUEST['email'], $token));
     }
 
     public function posts(){

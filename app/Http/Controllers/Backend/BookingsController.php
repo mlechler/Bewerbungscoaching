@@ -7,11 +7,13 @@ use App\Booking;
 use App\Events\MakeSeminarBooking;
 use App\Mail\BookingConfirmation;
 use App\Member;
+use App\Notifications\SendBookingConfirmation;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 
 class BookingsController extends Controller
 {
@@ -63,6 +65,8 @@ class BookingsController extends Controller
         ));
 
         event(new MakeSeminarBooking($booking));
+
+//        Notification::send($booking->member, new SendBookingConfirmation($booking));
 
         return redirect(route('seminarbookings.index'))->with('status', 'Booking has been created.');
     }

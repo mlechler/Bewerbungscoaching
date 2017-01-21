@@ -8,7 +8,7 @@
     </tr>
     <tr>
         <td>
-            <br>Hi {{ $booking->member->firstname }},<br><br>
+            Hi {{ $booking->member->firstname }},<br><br>
 
             <div align="center">
                 your booking for a seminar from our company was successful. <br>

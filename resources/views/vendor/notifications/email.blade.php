@@ -98,7 +98,7 @@ $style = [
                                         <!-- Intro -->
                                         @foreach ($introLines as $line)
                                             <p style="{{ $style['paragraph'] }}">
-                                                {{ $line }}
+                                                {!! $line !!}
                                             </p>
                                         @endforeach
 
@@ -134,13 +134,13 @@ $style = [
                                         <!-- Outro -->
                                         @foreach ($outroLines as $line)
                                             <p style="{{ $style['paragraph'] }}">
-                                                {{ $line }}
+                                                {!! $line !!}
                                             </p>
                                         @endforeach
 
                                         <!-- Salutation -->
                                         <p style="{{ $style['paragraph'] }}">
-                                            Regards,<br>{{ config('app.name') }}
+                                            Best Regards,<br><strong>Marcel</strong> from {{ config('app.name') }}
                                         </p>
 
                                         <!-- Sub Copy -->

@@ -16,6 +16,12 @@ class EventServiceProvider extends ServiceProvider
         'Illuminate\Auth\Events\Login' => [
             'App\Listeners\UpdateLastLoginOnLogin',
         ],
+        'App\Events\ResetEmployeePassword' => [
+            'App\Listeners\SendEmployeePasswordReset'
+        ],
+        'App\Events\ResetMemberPassword' => [
+            'App\Listeners\SendMemberPasswordReset'
+        ],
         'App\Events\UploadMemberFile' => [
             'App\Listeners\CreateTaskCheckMemberFiles',
         ],
@@ -25,7 +31,7 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\MakeSeminarBooking' => [
             'App\Listeners\SendBookingConfirmation',
             'App\Listeners\SendBookingInvoice',
-        ],
+        ]
     ];
 
     /**

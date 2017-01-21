@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class BookingConfirmation extends Mailable
+class BookingInvoice extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -31,6 +31,6 @@ class BookingConfirmation extends Mailable
      */
     public function build()
     {
-        return $this->subject('Bookingconfirmation')->view('emails.bookingconfirmation');
+        return $this->subject('Bookinginvoice')->view('emails.bookinginvoice');
     }
 }

@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class BookingConfirmation extends Mailable
+class MemberPasswordReset extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -17,11 +17,11 @@ class BookingConfirmation extends Mailable
      *
      * @return void
      */
-    public $booking;
+    public $token;
 
-    public function __construct(Booking $booking)
+    public function __construct($token)
     {
-        $this->booking = $booking;
+        $this->token = $token;
     }
 
     /**
@@ -31,6 +31,6 @@ class BookingConfirmation extends Mailable
      */
     public function build()
     {
-        return $this->subject('Bookingconfirmation')->view('emails.bookingconfirmation');
+        return $this->subject('Member Password Reset')->view('emails.memberpasswordreset');
     }
 }
