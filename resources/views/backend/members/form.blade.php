@@ -35,7 +35,7 @@
     </div>
 
     <div class="form-group">
-        {{ Form::label(emails) }}
+        {{ Form::label('email') }}
         {{ Form::text('email', null, ['class' => 'form-control']) }}
     </div>
 
