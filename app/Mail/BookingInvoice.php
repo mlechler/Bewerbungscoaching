@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Booking;
+use App\Invoice;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -18,10 +19,12 @@ class BookingInvoice extends Mailable
      * @return void
      */
     public $booking;
+    public $invoice;
 
-    public function __construct(Booking $booking)
+    public function __construct(Booking $booking, Invoice $invoice)
     {
         $this->booking = $booking;
+        $this->invoice = $invoice;
     }
 
     /**

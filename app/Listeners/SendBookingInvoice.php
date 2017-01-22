@@ -29,6 +29,6 @@ class SendBookingInvoice
      */
     public function handle(MakeSeminarBooking $event)
     {
-        Mail::to($event->booking->member->email)->send(new BookingInvoice($event->booking));
+        Mail::to($event->booking->member->email)->send(new BookingInvoice($event->booking, $event->invoice));
     }
 }

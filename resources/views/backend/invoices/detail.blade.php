@@ -37,12 +37,7 @@
                 <h4>Total Price</h4>
             </td>
             <td>
-                @if($invoice->booking)
-                    <h4>{{ $invoice->booking->price_incl_discount }} €</h4>
-                @endif
-                @if($invoice->individualcoaching)
-                    <h4>{{ $invoice->individualcoaching->price_incl_discount }} €</h4>
-                @endif
+                <h4>{{ $invoice->totalprice }} €</h4>
             </td>
         </tr>
         <tr>
