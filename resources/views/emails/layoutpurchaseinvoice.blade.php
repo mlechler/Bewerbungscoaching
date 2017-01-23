@@ -88,6 +88,7 @@
                         1
                     </td>
                     <td>
+                        <strong>Application Layout</strong><br>
                         {{ $layoutpurchase->applicationlayout->title }}
                     </td>
                     <td align="right">
@@ -95,14 +96,15 @@
                     </td>
                     <td align="right">
                         <!-- If Member enters a discount use this, if Employee enters in Backend calculate, otherwise null -->
-                        -
+                        {{ $discount = 100 - round(($layoutpurchase->price_incl_discount * 100) / $layoutpurchase->applicationlayout->price) }}
+                        %
                     </td>
                     <td align="right">
-                        {{ $layoutpurchase->price_incl_discount }} €
+                        {{ number_format($layoutpurchase->applicationlayout->price,2) }} €
                     </td>
                     <td align="right"> <!-- If Member enters a discount calculate, if Employee enters use this-->
                         {{--{{ round(($booking->appointment->seminar->price * (100 - $discount)) / 100, 2) }} €--}}
-                        {{ $layoutpurchase->price_incl_discount }} €
+                        {{ number_format($layoutpurchase->price_incl_discount,2) }} €
                     </td>
                 </tr>
                 <tr>
@@ -115,7 +117,7 @@
                         Price
                     </td>
                     <td colspan="2" align="right">
-                        {{ $layoutpurchase->price_incl_discount }} €
+                        {{ number_format($layoutpurchase->applicationlayout->price,2) }} €
                     </td>
                 </tr>
                 <tr>
@@ -124,7 +126,7 @@
                     </td>
                     <td colspan="2" align="right">
                         <!-- If Member enters a discount use this, if Employee enters calculate, otherwise null-->
-                        -
+                        {{ number_format($layoutpurchase->price_incl_discount - $layoutpurchase->applicationlayout->price,2) }} €
                     </td>
                 </tr>
                 <tr>
@@ -139,7 +141,7 @@
                     </td>
                     <td colspan="2" align="right">
                         <!-- If Member enters a discount calculate, if Employee enters use this-->
-                        <strong>{{ $layoutpurchase->price_incl_discount }} €</strong>
+                        <strong>{{ number_format($layoutpurchase->price_incl_discount,2) }} €</strong>
                     </td>
                 </tr>
                 <tr>
@@ -161,7 +163,7 @@
                         VAT
                     </td>
                     <td colspan="2" align="right">
-                        {{ $layoutpurchase->price_incl_discount - $price_without_vat }} €
+                        {{ number_format($layoutpurchase->price_incl_discount - $price_without_vat,2) }} €
                     </td>
                 </tr>
             </table>

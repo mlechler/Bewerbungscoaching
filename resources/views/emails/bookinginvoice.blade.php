@@ -88,6 +88,7 @@
                         1
                     </td>
                     <td>
+                        <strong>Seminar</strong><br>
                         {{ $booking->appointment->seminar->title }}
                         , {{ date_format($booking->appointment->date, 'd.m.Y') }}
                         , {{ \Carbon\Carbon::parse($booking->appointment->time)->format('H:i') }}
@@ -102,11 +103,11 @@
                         %
                     </td>
                     <td align="right">
-                        {{ $booking->appointment->seminar->price }} €
+                        {{ number_format($booking->appointment->seminar->price,2) }} €
                     </td>
                     <td align="right"> <!-- If Member enters a discount calculate, if Employee enters use this-->
                         {{--{{ round(($booking->appointment->seminar->price * (100 - $discount)) / 100, 2) }} €--}}
-                        {{ $booking->price_incl_discount }}
+                        {{ number_format($booking->price_incl_discount,2) }}
                     </td>
                 </tr>
                 <tr>
@@ -119,7 +120,7 @@
                         Price
                     </td>
                     <td colspan="2" align="right">
-                        {{ $booking->appointment->seminar->price }} €
+                        {{ number_format($booking->appointment->seminar->price,2) }} €
                     </td>
                 </tr>
                 <tr>
@@ -128,7 +129,7 @@
                     </td>
                     <td colspan="2" align="right">
                         <!-- If Member enters a discount use this, if Employee enters calculate, otherwise null-->
-                        {{ $booking->appointment->seminar->price - $booking->price_incl_discount }} €
+                        {{ number_format($booking->price_incl_discount - $booking->appointment->seminar->price,2) }} €
                     </td>
                 </tr>
                 <tr>
@@ -143,7 +144,7 @@
                     </td>
                     <td colspan="2" align="right">
                         <!-- If Member enters a discount calculate, if Employee enters use this-->
-                        <strong>{{ $booking->price_incl_discount }} €</strong>
+                        <strong>{{ number_format($booking->price_incl_discount,2) }} €</strong>
                     </td>
                 </tr>
                 <tr>
@@ -165,7 +166,7 @@
                         VAT
                     </td>
                     <td colspan="2" align="right">
-                        {{ $booking->price_incl_discount - $price_without_vat }} €
+                        {{ number_format($booking->price_incl_discount - $price_without_vat,2) }} €
                     </td>
                 </tr>
             </table>

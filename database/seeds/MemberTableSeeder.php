@@ -16,7 +16,7 @@ class MemberTableSeeder extends Seeder
             'birthday' => Carbon::createFromDate(1995, 6, 28),
             'phone' => '123/456',
             'mobile' => '456/7891',
-            'email' => 'marcel.lechler@gmail.de',
+            'email' => 'scrat007@gmx.de',
             'adress_id' => 1,
             'role_id' => 3,
             'job' => 'student',

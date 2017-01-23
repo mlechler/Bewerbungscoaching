@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Appointment;
+use App\Events\ChangeAppointmentDateTime;
 use App\Seminar;
 use App\Employee;
 use App\Adress;
 use App\Booking;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\App;
@@ -102,6 +104,9 @@ class AppointmentsController extends Controller
 
         $seminarappointment = Appointment::findOrFail($id);
 
+        $olddate = $seminarappointment->date;
+        $oldtime = Carbon::parse($seminarappointment->time)->format('H:i');
+
         $seminarappointment->fill(array(
             'date' => $request->date,
             'time' => $request->time,
@@ -109,6 +114,14 @@ class AppointmentsController extends Controller
             'seminar_id' => $request->seminar_id,
             'adress_id' => $adress->id
         ))->save();
+
+        if($olddate != $seminarappointment->date || $oldtime != $seminarappointment->time)
+        {
+            $participants = Booking::select('member_id')->where('appointment_id','=',$seminarappointment->id)->get();
+            foreach($participants as $participant){
+                event(new ChangeAppointmentDateTime($participant->member, $olddate, $oldtime, $seminarappointment));
+            }
+        }
 
         return redirect(route('seminarappointments.index'))->with('status', 'Appointment has been updated.');
     }

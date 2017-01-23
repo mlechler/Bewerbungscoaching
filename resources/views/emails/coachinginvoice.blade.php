@@ -88,6 +88,7 @@
                         1
                     </td>
                     <td>
+                        <strong>Individual Coaching</strong><br>
                         {{ $coaching->services }}
                         , {{ date_format($coaching->date, 'd.m.Y') }}
                         , {{ \Carbon\Carbon::parse($coaching->time)->format('H:i') }}
