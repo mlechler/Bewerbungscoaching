@@ -73,8 +73,8 @@ class BookingsController extends Controller
             'member_id' => $request->member_id,
             'individualcoaching_id' => null,
             'booking_id' => $booking->id,
-            'package_id' => null,
-            'layout_id' => null,
+            'packagepurchase_id' => null,
+            'layoutpurchase_id' => null,
             'totalprice' => $price,
             'date' => Carbon::now()
         ));

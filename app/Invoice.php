@@ -9,7 +9,7 @@ use McCool\LaravelAutoPresenter\HasPresenter;
 class Invoice extends Model implements HasPresenter
 {
     protected $table = 'invoices';
-    protected $fillable = ['member_id', 'individualcoaching_id', 'booking_id', 'package_id', 'layout_id', 'date', 'totalprice'];
+    protected $fillable = ['member_id', 'individualcoaching_id', 'booking_id', 'packagepurchase_id', 'layoutpurchase_id', 'date', 'totalprice'];
     protected $dates = ['date'];
 
     public function getPresenterClass()
@@ -31,4 +31,15 @@ class Invoice extends Model implements HasPresenter
     {
         return $this->belongsTo(Booking::class);
     }
+
+    public function packagepurchase()
+    {
+        return $this->belongsTo(Packagepurchase::class);
+    }
+
+    public function layoutpurchase()
+    {
+        return $this->belongsTo(Layoutpurchase::class);
+    }
 }
+

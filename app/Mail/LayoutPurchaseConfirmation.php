@@ -2,13 +2,13 @@
 
 namespace App\Mail;
 
-use App\Booking;
+use App\Layoutpurchase;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class BookingConfirmation extends Mailable
+class LayoutPurchaseConfirmation extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -17,11 +17,11 @@ class BookingConfirmation extends Mailable
      *
      * @return void
      */
-    public $booking;
+    public $layoutpurchase;
 
-    public function __construct(Booking $booking)
+    public function __construct(Layoutpurchase $layoutpurchase)
     {
-        $this->booking = $booking;
+        $this->layoutpurchase = $layoutpurchase;
     }
 
     /**
@@ -31,6 +31,6 @@ class BookingConfirmation extends Mailable
      */
     public function build()
     {
-        return $this->subject('Booking Confirmation')->view('emails.bookingconfirmation');
+        return $this->subject('Application Layout Purchase Confirmation')->view('emails.layoutpurchaseconfirmation');
     }
 }

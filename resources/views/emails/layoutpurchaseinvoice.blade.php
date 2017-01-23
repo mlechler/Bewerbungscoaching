@@ -19,10 +19,10 @@
             </p>
 
             <p>
-                {{ $booking->member->firstname }} {{ $booking->member->lastname }}<br>
-                {{ $booking->member->adress->street }} {{ $booking->member->adress->housenumber }}<br><br>
+                {{ $layoutpurchase->member->firstname }} {{ $layoutpurchase->member->lastname }}<br>
+                {{ $layoutpurchase->member->adress->street }} {{ $layoutpurchase->member->adress->housenumber }}<br><br>
 
-                <strong>D-{{ $booking->member->adress->zip }} {{ $booking->member->adress->city }}</strong>
+                <strong>D-{{ $layoutpurchase->member->adress->zip }} {{ $layoutpurchase->member->adress->city }}</strong>
             </p>
         </td>
     </tr>
@@ -41,13 +41,13 @@
     </tr>
     <tr>
         <td colspan="2">
-            <br><strong>Hi {{ $booking->member->firstname }},</strong><br>
-            According to your booking we calculate the following order:
+            <br><strong>Hi {{ $layoutpurchase->member->firstname }},</strong><br>
+            According to your purchase we calculate the following order:
         <td>
     </tr>
     <tr>
         <td colspan="2" align="right">
-            <strong>Customer ID: {{ $booking->member->id }}</strong>
+            <strong>Customer ID: {{ $layoutpurchase->member->id }}</strong>
         </td>
     </tr>
     <tr>
@@ -88,25 +88,21 @@
                         1
                     </td>
                     <td>
-                        {{ $booking->appointment->seminar->title }}
-                        , {{ date_format($booking->appointment->date, 'd.m.Y') }}
-                        , {{ \Carbon\Carbon::parse($booking->appointment->time)->format('H:i') }}
-                        - {{ \Carbon\Carbon::parse($booking->appointment->time)->addHours($booking->appointment->seminar->duration)->format('H:i') }}
+                        {{ $layoutpurchase->applicationlayout->title }}
                     </td>
                     <td align="right">
                         19 %
                     </td>
                     <td align="right">
                         <!-- If Member enters a discount use this, if Employee enters in Backend calculate, otherwise null -->
-                        {{ $discount = 100 - round(($booking->price_incl_discount * 100) / $booking->appointment->seminar->price) }}
-                        %
+                        -
                     </td>
                     <td align="right">
-                        {{ $booking->appointment->seminar->price }} €
+                        {{ $layoutpurchase->price_incl_discount }} €
                     </td>
                     <td align="right"> <!-- If Member enters a discount calculate, if Employee enters use this-->
                         {{--{{ round(($booking->appointment->seminar->price * (100 - $discount)) / 100, 2) }} €--}}
-                        {{ $booking->price_incl_discount }}
+                        {{ $layoutpurchase->price_incl_discount }} €
                     </td>
                 </tr>
                 <tr>
@@ -119,7 +115,7 @@
                         Price
                     </td>
                     <td colspan="2" align="right">
-                        {{ $booking->appointment->seminar->price }} €
+                        {{ $layoutpurchase->price_incl_discount }} €
                     </td>
                 </tr>
                 <tr>
@@ -128,7 +124,7 @@
                     </td>
                     <td colspan="2" align="right">
                         <!-- If Member enters a discount use this, if Employee enters calculate, otherwise null-->
-                        {{ $booking->appointment->seminar->price - $booking->price_incl_discount }} €
+                        -
                     </td>
                 </tr>
                 <tr>
@@ -143,7 +139,7 @@
                     </td>
                     <td colspan="2" align="right">
                         <!-- If Member enters a discount calculate, if Employee enters use this-->
-                        <strong>{{ $booking->price_incl_discount }} €</strong>
+                        <strong>{{ $layoutpurchase->price_incl_discount }} €</strong>
                     </td>
                 </tr>
                 <tr>
@@ -157,7 +153,7 @@
                         Total without VAT
                     </td>
                     <td colspan="2" align="right">
-                        {{ $price_without_vat = round($booking->price_incl_discount * 0.81,2) }} €
+                        {{ $price_without_vat = round($layoutpurchase->price_incl_discount * 0.81,2) }} €
                     </td>
                 </tr>
                 <tr style="font-size: 11px">
@@ -165,7 +161,7 @@
                         VAT
                     </td>
                     <td colspan="2" align="right">
-                        {{ $booking->price_incl_discount - $price_without_vat }} €
+                        {{ $layoutpurchase->price_incl_discount - $price_without_vat }} €
                     </td>
                 </tr>
             </table>

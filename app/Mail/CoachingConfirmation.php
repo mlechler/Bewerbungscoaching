@@ -2,13 +2,13 @@
 
 namespace App\Mail;
 
-use App\Booking;
+use App\Individualcoaching;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class BookingConfirmation extends Mailable
+class CoachingConfirmation extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -17,11 +17,11 @@ class BookingConfirmation extends Mailable
      *
      * @return void
      */
-    public $booking;
+    public $coaching;
 
-    public function __construct(Booking $booking)
+    public function __construct(Individualcoaching $coaching)
     {
-        $this->booking = $booking;
+        $this->coaching = $coaching;
     }
 
     /**
@@ -31,6 +31,6 @@ class BookingConfirmation extends Mailable
      */
     public function build()
     {
-        return $this->subject('Booking Confirmation')->view('emails.bookingconfirmation');
+        return $this->subject('Individual Coaching Confirmation')->view('emails.coachingconfirmation');
     }
 }

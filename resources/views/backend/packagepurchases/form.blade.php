@@ -25,7 +25,7 @@
 
     <div class="form-group row">
         <div class="col-md-6">
-            {{ Form::label('price') }}
+            {{ Form::label('price_inclusive_discount') }}
             {{ Form::number('price_incl_discount', null, ['class' => 'form-control', 'step' => '0.01', 'min' => 0]) }}
         </div>
     </div>
@@ -50,7 +50,7 @@
         </div>
     </div>
 
-    {{ Form::submit($packagepurchase->exists ? 'Save Package Purchase' : 'Create New package Purchase', ['class' => 'btn btn-success']) }}
+    {{ Form::submit($packagepurchase->exists ? 'Save Package Purchase' : 'Create New Package Purchase', ['class' => 'btn btn-success']) }}
     <a href="{{ route('packagepurchases.index') }}" class="btn btn-danger">Cancel</a>
     {{ Form::close() }}
 @endsection

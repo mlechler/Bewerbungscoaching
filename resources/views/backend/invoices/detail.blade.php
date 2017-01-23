@@ -30,6 +30,14 @@
                     <h5>{{ $invoice->individualcoaching->formatDate() }}</h5>
                     <h5>{{ $invoice->individualcoaching->formatTime() }}</h5>
                 @endif
+                @if($invoice->packagepurchase)
+                    <h4>Application Package</h4>
+                    <h5>{{ $invoice->packagepurchase->applicationpackage->title }}</h5>
+                @endif
+                @if($invoice->layoutpurchase)
+                    <h4>Application Layout</h4>
+                    <h5>{{ $invoice->layoutpurchase->applicationlayout->title }}</h5>
+                @endif
             </td>
         </tr>
         <tr>

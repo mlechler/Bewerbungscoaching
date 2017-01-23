@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Events\MakeCoachingBooking;
 use App\Individualcoaching;
 use App\Employee;
+use App\Invoice;
 use App\Member;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\App;
@@ -50,7 +53,7 @@ class IndividualCoachingsController extends Controller
 
     public function store(Requests\StoreCoachingRequest $request)
     {
-        Individualcoaching::create(array(
+        $coaching = Individualcoaching::create(array(
             'services' => $request->services,
             'date' => $request->date,
             'time' => $request->time,
@@ -61,6 +64,18 @@ class IndividualCoachingsController extends Controller
             'member_id' => $request->member_id,
             'paid' => $request->trial == 'on' ? true : false,
         ));
+
+        $invoice = Invoice::create(array(
+            'member_id' => $request->member_id,
+            'individualcoaching_id' => $coaching->id,
+            'booking_id' => null,
+            'packagepurchase_id' => null,
+            'layoutpurchase_id' => null,
+            'totalprice' => $request->price_incl_discount,
+            'date' => Carbon::now()
+        ));
+
+        event(new MakeCoachingBooking($coaching, $invoice));
 
         return redirect(route('individualcoachings.index'))->with('status', 'Coaching has been created.');
     }

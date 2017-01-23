@@ -31,7 +31,19 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\MakeSeminarBooking' => [
             'App\Listeners\SendBookingConfirmation',
             'App\Listeners\SendBookingInvoice',
-        ]
+        ],
+        'App\Events\MakeCoachingBooking' => [
+            'App\Listeners\SendCoachingConfirmation',
+            'App\Listeners\SendCoachingInvoice',
+        ],
+        'App\Events\MakePackagePurchase' => [
+            'App\Listeners\SendPackagePurchaseConfirmation',
+            'App\Listeners\SendPackagePurchaseInvoice',
+        ],
+        'App\Events\MakeLayoutPurchase' => [
+            'App\Listeners\SendLayoutPurchaseConfirmation',
+            'App\Listeners\SendLayoutPurchaseInvoice',
+        ],
     ];
 
     /**

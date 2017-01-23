@@ -18,8 +18,8 @@ class CreateInvoicesTable extends Migration
             $table->integer('member_id');
             $table->integer('individualcoaching_id')->nullable();
             $table->integer('booking_id')->nullable();
-            $table->integer('package_id')->nullable();
-            $table->integer('layout_id')->nullable();
+            $table->integer('packagepurchase_id')->nullable();
+            $table->integer('layoutpurchase_id')->nullable();
             $table->float('totalprice');
             $table->date('date');
             $table->timestamps();

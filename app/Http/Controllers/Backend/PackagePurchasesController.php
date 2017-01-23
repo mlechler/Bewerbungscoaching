@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Applicationpackage;
+use App\Events\MakePackagePurchase;
 use App\Events\PurchaseApplicationPackage;
+use App\Invoice;
 use App\Packagepurchase;
 use App\Member;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Storage;
@@ -45,10 +48,13 @@ class PackagePurchasesController extends Controller
 
     public function store(Requests\StorePackagepurchaseRequest $request)
     {
+        $package = Applicationpackage::findOrFail($request->applicationpackage_id);
+        $price = $request->price_incl_discount > $package->price ? $package->price : $request->price_incl_discount;
+
         $packagepurchase = Packagepurchase::create(array(
             'member_id' => $request->member_id,
             'applicationpackage_id' => $request->applicationpackage_id,
-            'price_incl_discount' => $request->price_incl_discount,
+            'price_incl_discount' => $price,
             'paid' => false,
             'path' => null
         ));
@@ -59,6 +65,18 @@ class PackagePurchasesController extends Controller
         } else {
             event(new PurchaseApplicationPackage($packagepurchase));
         }
+
+        $invoice = Invoice::create(array(
+            'member_id' => $request->member_id,
+            'individualcoaching_id' => null,
+            'booking_id' => null,
+            'packagepurchase_id' => $packagepurchase->id,
+            'layoutpurchase_id' => null,
+            'totalprice' => $price,
+            'date' => Carbon::now()
+        ));
+
+        event(new MakePackagePurchase($packagepurchase, $invoice));
 
 
         return redirect(route('packagepurchases.index'))->with('status', 'Package Purchase has been created.');
@@ -85,16 +103,25 @@ class PackagePurchasesController extends Controller
     {
         $packagepurchase = Packagepurchase::findOrFail($id);
 
+        $package = Applicationpackage::findOrFail($request->applicationpackage_id);
+        $price = $request->price_incl_discount > $package->price ? $package->price : $request->price_incl_discount;
+
         $packagepurchase->fill(array(
             'member_id' => $request->member_id,
             'applicationpackage_id' => $request->applicationpackage_id,
-            'price_incl_discount' => $request->price_incl_discount
+            'price_incl_discount' => $price
         ))->save();
 
         if ($request->hasFile('package')) {
             $packageFile = $request->file('package');
             $this->storeFile($packageFile, $packagepurchase);
         }
+
+        $invoice = Invoice::where('member_id', '=', $request->member_id)->where('packagepurchase_id', '=', $packagepurchase->id)->where('created_at', '=', $packagepurchase->created_at)->first();
+
+        $invoice->fill(array(
+            'totalprice' => $price
+        ))->save();
 
         return redirect(route('packagepurchases.index'))->with('status', 'Package Purchase has been updated.');
     }

@@ -34,6 +34,6 @@ class BookingInvoice extends Mailable
      */
     public function build()
     {
-        return $this->subject('Bookinginvoice')->view('emails.bookinginvoice');
+        return $this->subject('Booking Invoice')->view('emails.bookinginvoice');
     }
 }

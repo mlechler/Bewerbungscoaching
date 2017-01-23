@@ -25,4 +25,9 @@ class Layoutpurchase extends Model implements HasPresenter
     {
         return $this->belongsTo(Applicationlayout::class);
     }
+
+    public function invoice()
+    {
+        return $this->belongsTo(Invoice::class);
+    }
 }

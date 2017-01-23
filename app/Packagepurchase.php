@@ -25,4 +25,9 @@ class Packagepurchase extends Model implements HasPresenter
     {
         return $this->belongsTo(Applicationpackage::class);
     }
+
+    public function invoice()
+    {
+        return $this->belongsTo(Invoice::class);
+    }
 }

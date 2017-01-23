@@ -43,7 +43,7 @@
     </div>
 
     <div class="form-group">
-        {{ Form::label('price') }}
+        {{ Form::label('price_inclusive_discount') }}
         {{ Form::number('price_incl_discount', null, ['class' => 'form-control', 'id' => 'price_incl_discount', 'step' => '0.01', 'min' => 0]) }}
     </div>
 

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Applicationlayout;
+use App\Events\MakeLayoutPurchase;
+use App\Invoice;
 use App\Layoutpurchase;
 use App\Member;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 
@@ -43,12 +46,27 @@ class LayoutPurchasesController extends Controller
 
     public function store(Requests\StoreLayoutpurchaseRequest $request)
     {
-        Layoutpurchase::create(array(
+        $layout = Applicationlayout::findOrFail($request->applicationlayout_id);
+        $price = $request->price_incl_discount > $layout->price ? $layout->price : $request->price_incl_discount;
+
+        $layoutpurchase = Layoutpurchase::create(array(
             'member_id' => $request->member_id,
             'applicationlayout_id' => $request->applicationlayout_id,
-            'price_incl_discount' => $request->price_incl_discount,
+            'price_incl_discount' => $price,
             'paid' => false
         ));
+
+        $invoice = Invoice::create(array(
+            'member_id' => $request->member_id,
+            'individualcoaching_id' => null,
+            'booking_id' => null,
+            'packagepurchase_id' => null,
+            'layoutpurchase_id' => $layoutpurchase->id,
+            'totalprice' => $price,
+            'date' => Carbon::now()
+        ));
+
+        event(new MakeLayoutPurchase($layoutpurchase, $invoice));
 
         return redirect(route('layoutpurchases.index'))->with('status', 'Layout Purchase has been created.');
     }
@@ -74,10 +92,19 @@ class LayoutPurchasesController extends Controller
     {
         $layoutpurchase = Layoutpurchase::findOrFail($id);
 
+        $layout = Applicationlayout::findOrFail($request->applicationlayout_id);
+        $price = $request->price_incl_discount > $layout->price ? $layout->price : $request->price_incl_discount;
+
         $layoutpurchase->fill(array(
             'member_id' => $request->member_id,
             'applicationlayout_id' => $request->applicationlayout_id,
-            'price_incl_discount' => $request->price_incl_discount
+            'price_incl_discount' => $price
+        ))->save();
+
+        $invoice = Invoice::where('member_id', '=', $request->member_id)->where('layoutpurchase_id', '=', $layoutpurchase->id)->where('created_at', '=', $layoutpurchase->created_at)->first();
+
+        $invoice->fill(array(
+            'totalprice' => $price
         ))->save();
 
         return redirect(route('layoutpurchases.index'))->with('status', 'Layout Purchase has been updated.');
