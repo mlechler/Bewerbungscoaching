@@ -35,6 +35,6 @@ class CoachingInvoice extends Mailable
      */
     public function build()
     {
-        return $this->subject('Coaching Invoice')->view('emails.coachinginvoice');
+        return $this->subject('Individual Coaching Invoice')->view('emails.coachinginvoice');
     }
 }

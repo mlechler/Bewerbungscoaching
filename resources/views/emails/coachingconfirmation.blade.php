@@ -29,6 +29,12 @@
                 <strong>Employee: {{ $coaching->employee->firstname }} {{ $coaching->employee->lastname }}</strong><br>
             </div>
             <br><br>
+            The adress for this individual coaching is:<br><br>
+
+            <div align="center">
+                <strong>{{ $coaching->adress->zip }}  {{ $coaching->adress->city }}</strong><br>
+                <strong>{{ $coaching->adress->street }}  {{ $coaching->adress->housenumber }}</strong><br><br>
+            </div>
 
             <div align="center">
                 If you have received this booking incorrectly, please contact us. <br>

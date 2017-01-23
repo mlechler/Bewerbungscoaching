@@ -63,7 +63,7 @@
                 <h4>Adress</h4>
             </td>
             <td>
-                <h4>{{ $member->formatAdress($member->adress) }}</h4>
+                <h4>{{ $member->formatAdress() }}</h4>
             </td>
         </tr>
         <tr>

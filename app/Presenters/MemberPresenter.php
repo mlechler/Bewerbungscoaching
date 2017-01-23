@@ -16,9 +16,9 @@ class MemberPresenter extends BasePresenter
         return $this->birthday->format('d.m.Y');
     }
 
-    public function formatAdress($adress)
+    public function formatAdress()
     {
-        return ($adress->zip . ' ' . $adress->city . ', ' . $adress->street . ' ' . $adress->housenumber);
+        return ($this->adress->zip . ' ' . $this->adress->city . ', ' . $this->adress->street . ' ' . $this->adress->housenumber);
     }
 
     public function lastLoginDifference()

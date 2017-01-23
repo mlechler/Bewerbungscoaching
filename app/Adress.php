@@ -18,4 +18,14 @@ class Adress extends Model
     {
         return $this->hasMany(Member::class);
     }
+
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
+
+    public function individualCoachings()
+    {
+        return $this->hasMany(Individualcoaching::class);
+    }
 }

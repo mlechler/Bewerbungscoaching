@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Adress;
 use App\Events\MakeCoachingBooking;
 use App\Individualcoaching;
 use App\Employee;
@@ -53,6 +54,18 @@ class IndividualCoachingsController extends Controller
 
     public function store(Requests\StoreCoachingRequest $request)
     {
+        $adress = Adress::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
+
+        if (!$adress) {
+            $newadress = Adress::create(array(
+                'zip' => $request->zip,
+                'city' => $request->city,
+                'street' => $request->street,
+                'housenumber' => $request->housenumber
+            ));
+            $adress = $newadress;
+        }
+
         $coaching = Individualcoaching::create(array(
             'services' => $request->services,
             'date' => $request->date,
@@ -62,6 +75,7 @@ class IndividualCoachingsController extends Controller
             'trial' => $request->trial == 'on' ? true : false,
             'employee_id' => $request->employee_id,
             'member_id' => $request->member_id,
+            'adress_id' => $adress->id,
             'paid' => $request->trial == 'on' ? true : false,
         ));
 
@@ -105,6 +119,18 @@ class IndividualCoachingsController extends Controller
 
     public function update(Requests\UpdateCoachingRequest $request, $id)
     {
+        $adress = Adress::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
+
+        if (!$adress) {
+            $newadress = Adress::create(array(
+                'zip' => $request->zip,
+                'city' => $request->city,
+                'street' => $request->street,
+                'housenumber' => $request->housenumber
+            ));
+            $adress = $newadress;
+        }
+
         $coaching = Individualcoaching::findOrFail($id);
 
         $coaching->fill(array(
@@ -115,7 +141,8 @@ class IndividualCoachingsController extends Controller
             'price_incl_discount' => $request->price_incl_discount,
             'trial' => $request->trial == 'on' ? true : false,
             'employee_id' => $request->employee_id,
-            'member_id' => $request->member_id
+            'member_id' => $request->member_id,
+            'adress_id' => $adress->id
         ))->save();
 
         return redirect(route('individualcoachings.index'))->with('status', 'Coaching has been updated.');

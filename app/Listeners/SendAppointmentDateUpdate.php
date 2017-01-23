@@ -8,7 +8,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
 
-class SendAppointmentUpdate
+class SendAppointmentDateUpdate
 {
     /**
      * Create the event listener.
@@ -28,6 +28,6 @@ class SendAppointmentUpdate
      */
     public function handle(ChangeAppointmentDateTime $event)
     {
-        Mail::to($event->participant->email)->send(new AppointmentUpdate($event->participant, $event->olddate, $event->oldtime, $event->seminarappointment));
+        Mail::to($event->participant->email)->send(new AppointmentDateUpdate($event->participant, $event->olddate, $event->oldtime, $event->seminarappointment));
     }
 }

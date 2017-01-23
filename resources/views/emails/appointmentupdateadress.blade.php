@@ -11,22 +11,20 @@
             Hi {{ $participant->firstname }},<br><br>
 
             <div align="center">
-                the date for <strong>{{ $seminarappointment->seminar->title }}</strong> has changed. <br>
+                the adress for <strong>{{ $seminarappointment->seminar->title }}</strong> has changed. <br>
                 Following you can see the changes. <br>
             <br><br>
-            Old date:
+            Old adress:
             <br><br>
 
-                <strong>{{ date_format($olddate, 'd.m.Y') }}</strong><br>
-                <strong>{{ $oldtime }}
-                    - {{ \Carbon\Carbon::parse($oldtime)->addHours($seminarappointment->seminar->duration)->format('H:i') }}</strong><br>
+                <strong>{{ $oldadress->zip }} {{ $oldadress->city }}</strong><br>
+                <strong>{{ $oldadress->street }} {{ $oldadress->housenumber }}</strong><br>
             <br><br>
-            New date:
+            New adress:
             <br><br>
 
-                <strong>{{ date_format($seminarappointment->date, 'd.m.Y') }}</strong><br>
-                <strong>{{ \Carbon\Carbon::parse($seminarappointment->time)->format('H:i') }}
-                    - {{ \Carbon\Carbon::parse($seminarappointment->time)->addHours($seminarappointment->seminar->duration)->format('H:i') }}</strong><br>
+                <strong>{{ $seminarappointment->adress->zip }}  {{ $seminarappointment->adress->city }}</strong><br>
+                <strong>{{ $seminarappointment->adress->street }}  {{ $seminarappointment->adress->housenumber }}</strong><br>
             <br><br>
             Please notice this changes.<br><br>
 

@@ -47,6 +47,14 @@
         </tr>
         <tr>
             <td>
+                <h4>Adress</h4>
+            </td>
+            <td>
+                <h4>{{ $coaching->formatAdress() }}</h4>
+            </td>
+        </tr>
+        <tr>
+            <td>
                 <h4>Price</h4>
             </td>
             <td>

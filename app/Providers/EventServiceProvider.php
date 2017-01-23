@@ -45,7 +45,10 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\SendLayoutPurchaseInvoice',
         ],
         'App\Events\ChangeAppointmentDateTime' => [
-            'App\Listeners\SendAppointmentUpdate',
+            'App\Listeners\SendAppointmentDateUpdate',
+        ],
+        'App\Events\ChangeAppointmentAdress' => [
+            'App\Listeners\SendAppointmentAdressUpdate',
         ],
     ];
 

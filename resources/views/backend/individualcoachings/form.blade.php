@@ -52,6 +52,28 @@
         {{ Form::checkbox('trial', null) }}
     </div>
 
+    <div class="form-group row">
+        <div class="col-md-2">
+            {{ Form::label('zip_code') }}
+            {{ Form::text('zip', $coaching->adress ? $coaching->adress->zip : null, ['class' => 'form-control']) }}
+        </div>
+
+        <div class="col-md-4">
+            {{ Form::label('city') }}
+            {{ Form::text('city', $coaching->adress ? $coaching->adress->city : null, ['class' => 'form-control']) }}
+        </div>
+
+        <div class="col-md-4">
+            {{ Form::label('street') }}
+            {{ Form::text('street', $coaching->adress ? $coaching->adress->street : null, ['class' => 'form-control']) }}
+        </div>
+
+        <div class="col-md-2">
+            {{ Form::label('housenumber') }}
+            {{ Form::text('housenumber', $coaching->adress ? $coaching->adress->housenumber : null, ['class' => 'form-control']) }}
+        </div>
+    </div>
+
     {{ Form::submit($coaching->exists ? 'Save Coaching' : 'Create new Coaching', ['class' => 'btn btn-success']) }}
     <a href="{{ route('individualcoachings.index') }}" class="btn btn-danger">Cancel</a>
     {{ Form::close() }}

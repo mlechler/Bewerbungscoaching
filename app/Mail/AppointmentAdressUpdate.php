@@ -4,13 +4,12 @@ namespace App\Mail;
 
 use App\Appointment;
 use App\Member;
-use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class AppointmentUpdate extends Mailable
+class AppointmentAdressUpdate extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -19,17 +18,14 @@ class AppointmentUpdate extends Mailable
      *
      * @return void
      */
-
     public $participant;
-    public $olddate;
-    public $oldtime;
+    public $oldadress;
     public $seminarappointment;
 
-    public function __construct(Member $participant, $olddate, $oldtime, Appointment $seminarappointment)
+    public function __construct(Member $participant, $oldadress, Appointment $seminarappointment)
     {
         $this->participant = $participant;
-        $this->olddate = $olddate;
-        $this->oldtime = $oldtime;
+        $this->oldadress = $oldadress;
         $this->seminarappointment = $seminarappointment;
     }
 
@@ -40,6 +36,6 @@ class AppointmentUpdate extends Mailable
      */
     public function build()
     {
-        return $this->subject('Appointment Update')->view('emails.appointmentupdatedatetime');
+        return $this->subject('Appointment Update')->view('emails.appointmentupdateadress');
     }
 }

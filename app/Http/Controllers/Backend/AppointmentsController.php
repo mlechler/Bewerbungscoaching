@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Appointment;
+use App\Events\ChangeAppointmentAdress;
 use App\Events\ChangeAppointmentDateTime;
 use App\Seminar;
 use App\Employee;
@@ -106,6 +107,7 @@ class AppointmentsController extends Controller
 
         $olddate = $seminarappointment->date;
         $oldtime = Carbon::parse($seminarappointment->time)->format('H:i');
+        $oldadress_id = $seminarappointment->adress_id;
 
         $seminarappointment->fill(array(
             'date' => $request->date,
@@ -120,6 +122,14 @@ class AppointmentsController extends Controller
             $participants = Booking::select('member_id')->where('appointment_id','=',$seminarappointment->id)->get();
             foreach($participants as $participant){
                 event(new ChangeAppointmentDateTime($participant->member, $olddate, $oldtime, $seminarappointment));
+            }
+        }
+        if($oldadress_id != $seminarappointment->adress_id)
+        {
+            $oldadress = Adress::findOrFail($oldadress_id);
+            $participants = Booking::select('member_id')->where('appointment_id','=',$seminarappointment->id)->get();
+            foreach($participants as $participant){
+                event(new ChangeAppointmentAdress($participant->member, $oldadress, $seminarappointment));
             }
         }
 

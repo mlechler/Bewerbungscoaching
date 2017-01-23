@@ -24,6 +24,7 @@ class CreateIndividualCoachingTable extends Migration
             $table->boolean('paid');
             $table->integer('employee_id');
             $table->integer('member_id');
+            $table->integer('adress_id');
             $table->timestamps();
         });
     }
