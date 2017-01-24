@@ -24,7 +24,7 @@ class IndividualcoachingTableSeeder extends Seeder
             'paid' => true,
             'employee_id' => 1,
             'member_id' => 1,
-            'adress_id' => 1
+            'address_id' => 1
         ));
         Individualcoaching::create(array(
             'services' => 'Interview',
@@ -36,7 +36,7 @@ class IndividualcoachingTableSeeder extends Seeder
             'paid' => true,
             'employee_id' => 1,
             'member_id' => 2,
-            'adress_id' => 2
+            'address_id' => 2
         ));
     }
 }

@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class AppointmentAdressUpdate extends Mailable
+class AppointmentAddressUpdate extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -19,13 +19,13 @@ class AppointmentAdressUpdate extends Mailable
      * @return void
      */
     public $participant;
-    public $oldadress;
+    public $oldaddress;
     public $seminarappointment;
 
-    public function __construct(Member $participant, $oldadress, Appointment $seminarappointment)
+    public function __construct(Member $participant, $oldaddress, Appointment $seminarappointment)
     {
         $this->participant = $participant;
-        $this->oldadress = $oldadress;
+        $this->oldaddress = $oldaddress;
         $this->seminarappointment = $seminarappointment;
     }
 
@@ -36,6 +36,6 @@ class AppointmentAdressUpdate extends Mailable
      */
     public function build()
     {
-        return $this->subject('Appointment Update')->view('emails.appointmentupdateadress');
+        return $this->subject('Appointment Update')->view('emails.appointmentupdateaddress');
     }
 }

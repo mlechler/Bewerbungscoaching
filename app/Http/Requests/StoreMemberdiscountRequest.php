@@ -26,8 +26,8 @@ class StoreMemberdiscountRequest extends FormRequest
         return [
             'member_id' => ['required'],
             'discount_id' => ['required'],
-            'validity' => ['required'],
-            'startdate' => ['required']
+            'startdate' => ['required'],
+            'code' => ['required']
         ];
     }
 
@@ -36,8 +36,8 @@ class StoreMemberdiscountRequest extends FormRequest
         return [
             'member_id.required' => 'Member is required',
             'discount_id.required' => 'Discount is required',
-            'validity.required' => 'Validity is required',
-            'startdate.required' => 'Start Date is required'
+            'startdate.required' => 'Start Date is required',
+            'code.required' => 'Code is required',
         ];
     }
 }

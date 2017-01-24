@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Appointment;
 use App\Employee;
-use App\Adress;
+use App\Address;
 use App\Employeefile;
 use App\Employeefreetime;
 use App\Individualcoaching;
@@ -42,16 +42,16 @@ class EmployeesController extends Controller
 
     public function store(Requests\StoreEmployeeRequest $request)
     {
-        $adress = Adress::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
+        $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 
-        if (!$adress) {
-            $newadress = Adress::create(array(
+        if (!$address) {
+            $newaddress = Address::create(array(
                 'zip' => $request->zip,
                 'city' => $request->city,
                 'street' => $request->street,
                 'housenumber' => $request->housenumber
             ));
-            $adress = $newadress;
+            $address = $newaddress;
         }
 
         $employee = Employee::create(array(
@@ -61,7 +61,7 @@ class EmployeesController extends Controller
             'phone' => $request->phone,
             'mobile' => $request->mobile,
             'email' => $request->email,
-            'adress_id' => $adress->id,
+            'address_id' => $address->id,
             'role_id' => $request->role_id,
             'password' => Hash::make($request->password),
             'remember_token' => Auth::viaRemember()
@@ -86,16 +86,16 @@ class EmployeesController extends Controller
 
     public function update(Requests\UpdateEmployeeRequest $request, $id)
     {
-        $adress = Adress::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
+        $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 
-        if (!$adress) {
-            $newadress = Adress::create(array(
+        if (!$address) {
+            $newaddress = Address::create(array(
                 'zip' => $request->zip,
                 'city' => $request->city,
                 'street' => $request->street,
                 'housenumber' => $request->housenumber
             ));
-            $adress = $newadress;
+            $address = $newaddress;
         }
 
         $employee = Employee::findOrFail($id);
@@ -107,7 +107,7 @@ class EmployeesController extends Controller
             'phone' => $request->phone,
             'mobile' => $request->mobile,
             'email' => $request->email,
-            'adress_id' => $adress->id,
+            'address_id' => $address->id,
             'role_id' => $request->role_id,
             'password' => Hash::make($request->password),
             'remember_token' => Auth::viaRemember()

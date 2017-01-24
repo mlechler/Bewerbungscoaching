@@ -9,7 +9,7 @@ use McCool\LaravelAutoPresenter\HasPresenter;
 class Memberdiscount extends Model implements HasPresenter
 {
     protected $table = 'memberdiscounts';
-    protected $fillable = ['member_id', 'discount_id', 'validity', 'startdate', 'expired', 'cashedin'];
+    protected $fillable = ['member_id', 'discount_id', 'validity', 'permanent', 'startdate', 'code', 'expired', 'cashedin'];
     protected $dates = ['startdate'];
 
     public function getPresenterClass()

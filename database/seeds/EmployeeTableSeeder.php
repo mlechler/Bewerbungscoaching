@@ -17,7 +17,7 @@ class EmployeeTableSeeder extends Seeder
             'phone' => '123/456',
             'mobile' => '456/789',
             'email' => 'marcel.lechler@gmx.de',
-            'adress_id' => 1,
+            'address_id' => 1,
             'role_id' => 1,
             'password' => Hash::make('awesome'),
             'remember_token' => Auth::viaRemember()
@@ -29,7 +29,7 @@ class EmployeeTableSeeder extends Seeder
             'phone' => '123/456',
             'mobile' => '456/7890',
             'email' => 'scrat007@gmx.de',
-            'adress_id' => 2,
+            'address_id' => 2,
             'role_id' => 2,
             'password' => Hash::make('awesome'),
             'remember_token' => Auth::viaRemember()

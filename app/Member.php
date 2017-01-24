@@ -14,7 +14,7 @@ class Member extends Authenticatable implements HasPresenter
     use Notifiable;
 
     protected $table = 'members';
-    protected $fillable = ['lastname', 'firstname', 'birthday', 'phone', 'mobile', 'email', 'adress_id', 'role_id', 'job', 'employer', 'university', 'courseofstudies', 'password', 'remember_token'];
+    protected $fillable = ['lastname', 'firstname', 'birthday', 'phone', 'mobile', 'email', 'address_id', 'role_id', 'job', 'employer', 'university', 'courseofstudies', 'password', 'remember_token'];
     protected $hidden = ['password', 'remember_token'];
     protected $dates = ['birthday', 'last_login_at'];
 
@@ -28,9 +28,9 @@ class Member extends Authenticatable implements HasPresenter
         event(new ResetMemberPassword($_REQUEST['email'], $token));
     }
 
-    public function adress()
+    public function address()
     {
-        return $this->belongsTo(Adress::class);
+        return $this->belongsTo(Address::class);
     }
 
     public function role()

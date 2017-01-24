@@ -29,11 +29,11 @@
                 <strong>Employee: {{ $coaching->employee->firstname }} {{ $coaching->employee->lastname }}</strong><br>
             </div>
             <br><br>
-            The adress for this individual coaching is:<br><br>
+            The address for this individual coaching is:<br><br>
 
             <div align="center">
-                <strong>{{ $coaching->adress->zip }}  {{ $coaching->adress->city }}</strong><br>
-                <strong>{{ $coaching->adress->street }}  {{ $coaching->adress->housenumber }}</strong><br><br>
+                <strong>{{ $coaching->address->zip }}  {{ $coaching->address->city }}</strong><br>
+                <strong>{{ $coaching->address->street }}  {{ $coaching->address->housenumber }}</strong><br><br>
             </div>
 
             <div align="center">

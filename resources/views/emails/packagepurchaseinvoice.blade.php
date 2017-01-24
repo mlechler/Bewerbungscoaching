@@ -20,9 +20,9 @@
 
             <p>
                 {{ $packagepurchase->member->firstname }} {{ $packagepurchase->member->lastname }}<br>
-                {{ $packagepurchase->member->adress->street }} {{ $packagepurchase->member->adress->housenumber }}<br><br>
+                {{ $packagepurchase->member->address->street }} {{ $packagepurchase->member->address->housenumber }}<br><br>
 
-                <strong>D-{{ $packagepurchase->member->adress->zip }} {{ $packagepurchase->member->adress->city }}</strong>
+                <strong>D-{{ $packagepurchase->member->address->zip }} {{ $packagepurchase->member->address->city }}</strong>
             </p>
         </td>
     </tr>

@@ -55,22 +55,22 @@
     <div class="form-group row">
         <div class="col-md-2">
             {{ Form::label('zip_code') }}
-            {{ Form::text('zip', $coaching->adress ? $coaching->adress->zip : null, ['class' => 'form-control']) }}
+            {{ Form::text('zip', $coaching->address ? $coaching->address->zip : null, ['class' => 'form-control']) }}
         </div>
 
         <div class="col-md-4">
             {{ Form::label('city') }}
-            {{ Form::text('city', $coaching->adress ? $coaching->adress->city : null, ['class' => 'form-control']) }}
+            {{ Form::text('city', $coaching->address ? $coaching->address->city : null, ['class' => 'form-control']) }}
         </div>
 
         <div class="col-md-4">
             {{ Form::label('street') }}
-            {{ Form::text('street', $coaching->adress ? $coaching->adress->street : null, ['class' => 'form-control']) }}
+            {{ Form::text('street', $coaching->address ? $coaching->address->street : null, ['class' => 'form-control']) }}
         </div>
 
         <div class="col-md-2">
             {{ Form::label('housenumber') }}
-            {{ Form::text('housenumber', $coaching->adress ? $coaching->adress->housenumber : null, ['class' => 'form-control']) }}
+            {{ Form::text('housenumber', $coaching->address ? $coaching->address->housenumber : null, ['class' => 'form-control']) }}
         </div>
     </div>
 

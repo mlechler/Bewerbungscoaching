@@ -18,9 +18,9 @@ class IndividualCoachingPresenter extends BasePresenter
         return $time->format('H:i').' - '.$time->addHours($this->duration)->format('H:i');
     }
 
-    public function formatAdress()
+    public function formatAddress()
     {
-        return ($this->adress->zip . ' ' . $this->adress->city . ', ' . $this->adress->street . ' ' . $this->adress->housenumber);
+        return ($this->address->zip . ' ' . $this->address->city . ', ' . $this->address->street . ' ' . $this->address->housenumber);
     }
 
     public function trialHighlight(){

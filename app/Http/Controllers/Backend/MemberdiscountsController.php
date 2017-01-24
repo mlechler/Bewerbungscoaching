@@ -22,7 +22,7 @@ class MemberdiscountsController extends Controller
 
     public function index()
     {
-        $memberdiscounts = Memberdiscount::with('member', 'discount')->orderBy('created_at', 'desc')->paginate(10);
+        $memberdiscounts = Memberdiscount::with('member', 'discount')->orderBy('expired')->paginate(10);
 
         $this->checkExpiration();
 
@@ -36,9 +36,9 @@ class MemberdiscountsController extends Controller
         $mem = Member::select('lastname', 'firstname')->get();
         $members = ['' => ''];
         foreach ($mem as $member) {
-            array_push($members, $member->lastname.', '.$member->firstname);
+            array_push($members, $member->lastname . ', ' . $member->firstname);
         }
-        array_unshift($members,'');
+        array_unshift($members, '');
         unset($members[0]);
 
         return view('backend.memberdiscounts.form', compact('memberdiscount', 'members', 'discounts'));
@@ -50,7 +50,9 @@ class MemberdiscountsController extends Controller
             'member_id' => $request->member_id,
             'discount_id' => $request->discount_id,
             'validity' => $request->validity,
+            'permanent' => $request->permanent == 'on' ? true : false,
             'startdate' => $request->startdate,
+            'code' => $request->code,
             'expired' => false,
             'cashedin' => false
         ));
@@ -67,9 +69,9 @@ class MemberdiscountsController extends Controller
         $mem = Member::select('lastname', 'firstname')->get();
         $members = ['' => ''];
         foreach ($mem as $member) {
-            array_push($members, $member->lastname.', '.$member->firstname);
+            array_push($members, $member->lastname . ', ' . $member->firstname);
         }
-        array_unshift($members,'');
+        array_unshift($members, '');
         unset($members[0]);
 
         return view('backend.memberdiscounts.form', compact('memberdiscount', 'members', 'discounts'));
@@ -83,7 +85,9 @@ class MemberdiscountsController extends Controller
             'member_id' => $request->member_id,
             'discount_id' => $request->discount_id,
             'validity' => $request->validity,
-            'startdate' => $request->startdate
+            'permanent' => $request->permanent == 'on' ? true : false,
+            'startdate' => $request->startdate,
+            'code' => $request->code
         ))->save();
 
         return redirect(route('memberdiscounts.index'))->with('status', 'Memberdiscount has been updated.');
@@ -115,10 +119,16 @@ class MemberdiscountsController extends Controller
         $memberdiscounts = Memberdiscount::all();
 
         foreach ($memberdiscounts as $memberdiscount) {
-            if ($memberdiscount->startdate->addDays($memberdiscount->validity) < Carbon::now()){
-                $memberdiscount->fill(array(
-                    'expired' => true
-                ))->save();
+            if ($memberdiscount->startdate->addDays($memberdiscount->validity) < Carbon::now()) {
+                if ($memberdiscount->permanent) {
+                    $memberdiscount->fill(array(
+                        'expired' => false
+                    ))->save();
+                } else {
+                    $memberdiscount->fill(array(
+                        'expired' => true
+                    ))->save();
+                }
             }
         }
     }

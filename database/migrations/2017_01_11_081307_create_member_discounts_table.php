@@ -17,8 +17,10 @@ class CreateMemberDiscountsTable extends Migration
             $table->increments('id');
             $table->integer('member_id');
             $table->integer('discount_id');
-            $table->integer('validity');
+            $table->integer('validity')->nullable();
+            $table->boolean('permanent');
             $table->date('startdate');
+            $table->string('code');
             $table->boolean('expired');
             $table->boolean('cashedin');
             $table->timestamps();

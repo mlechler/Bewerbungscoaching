@@ -23,10 +23,10 @@
         </tr>
         <tr>
             <td>
-                <h4>Adress</h4>
+                <h4>Address</h4>
             </td>
             <td>
-                <h4>{{ $seminarappointment->formatAdress($seminarappointment->adress) }}</h4>
+                <h4>{{ $seminarappointment->formatAddress() }}</h4>
             </td>
         </tr>
         <tr>

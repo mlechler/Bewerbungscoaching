@@ -11,7 +11,7 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class ChangeAppointmentAdress
+class ChangeAppointmentAddress
 {
     use InteractsWithSockets, SerializesModels;
 
@@ -22,13 +22,13 @@ class ChangeAppointmentAdress
      */
 
     public $participant;
-    public $oldadress;
+    public $oldaddress;
     public $seminarappointment;
 
-    public function __construct(Member $participant, $oldadress, Appointment $seminarappointment)
+    public function __construct(Member $participant, $oldaddress, Appointment $seminarappointment)
     {
         $this->participant = $participant;
-        $this->oldadress = $oldadress;
+        $this->oldaddress = $oldaddress;
         $this->seminarappointment = $seminarappointment;
     }
 

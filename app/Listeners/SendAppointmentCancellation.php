@@ -2,13 +2,13 @@
 
 namespace App\Listeners;
 
-use App\Events\ChangeAppointmentAdress;
-use App\Mail\AppointmentAdressUpdate;
+use App\Events\CancelAppointment;
+use App\Mail\AppointmentCancellation;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
 
-class SendAppointmentAdressUpdate
+class SendAppointmentCancellation
 {
     /**
      * Create the event listener.
@@ -23,11 +23,11 @@ class SendAppointmentAdressUpdate
     /**
      * Handle the event.
      *
-     * @param  ChangeAppointmentAdress  $event
+     * @param  CancelAppointment  $event
      * @return void
      */
-    public function handle(ChangeAppointmentAdress $event)
+    public function handle(CancelAppointment $event)
     {
-        Mail::to($event->participant->email)->send(new AppointmentAdressUpdate($event->participant, $event->oldadress, $event->seminarappointment));
+        Mail::to($event->participant->email)->send(new AppointmentCancellation($event->participant, $event->seminarappointment));
     }
 }

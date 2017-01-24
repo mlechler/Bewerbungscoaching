@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Booking;
-use App\Events\MemberfileUploaded;
 use App\Events\UploadMemberFile;
 use App\Individualcoaching;
 use App\Layoutpurchase;
 use App\Member;
-use App\Adress;
+use App\Address;
 use App\Memberdiscount;
 use App\Memberfile;
 use App\Packagepurchase;
@@ -48,16 +47,16 @@ class MembersController extends Controller
 
     public function store(Requests\StoreMemberRequest $request)
     {
-        $adress = Adress::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
+        $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 
-        if (!$adress) {
-            $newadress = Adress::create(array(
+        if (!$address) {
+            $newaddress = Address::create(array(
                 'zip' => $request->zip,
                 'city' => $request->city,
                 'street' => $request->street,
                 'housenumber' => $request->housenumber
             ));
-            $adress = $newadress;
+            $address = $newaddress;
         }
 
         $member = Member::create(array(
@@ -67,7 +66,7 @@ class MembersController extends Controller
             'phone' => $request->phone,
             'mobile' => $request->mobile,
             'email' => $request->email,
-            'adress_id' => $adress->id,
+            'address_id' => $address->id,
             'role_id' => $request->role_id,
             'job' => $request->job,
             'employer' => $request->employer,
@@ -98,16 +97,16 @@ class MembersController extends Controller
 
     public function update(Requests\UpdateMemberRequest $request, $id)
     {
-        $adress = Adress::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
+        $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 
-        if (!$adress) {
-            $newadress = Adress::create(array(
+        if (!$address) {
+            $newaddress = Address::create(array(
                 'zip' => $request->zip,
                 'city' => $request->city,
                 'street' => $request->street,
                 'housenumber' => $request->housenumber
             ));
-            $adress = $newadress;
+            $address = $newaddress;
         }
 
         $member = Member::findOrFail($id);
@@ -119,7 +118,7 @@ class MembersController extends Controller
             'phone' => $request->phone,
             'mobile' => $request->mobile,
             'email' => $request->email,
-            'adress_id' => $adress->id,
+            'address_id' => $address->id,
             'role_id' => $request->role_id,
             'job' => $request->job,
             'employer' => $request->employer,

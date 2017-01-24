@@ -21,7 +21,7 @@ class CreateMembersTable extends Migration
             $table->string('phone');
             $table->string('mobile')->unique();
             $table->string('email')->unique();
-            $table->integer('adress_id');
+            $table->integer('address_id');
             $table->string('job')->nullable();
             $table->string('employer')->nullable();
             $table->string('university')->nullable();

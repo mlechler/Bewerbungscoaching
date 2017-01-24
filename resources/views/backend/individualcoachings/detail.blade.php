@@ -47,10 +47,10 @@
         </tr>
         <tr>
             <td>
-                <h4>Adress</h4>
+                <h4>Address</h4>
             </td>
             <td>
-                <h4>{{ $coaching->formatAdress() }}</h4>
+                <h4>{{ $coaching->formatAddress() }}</h4>
             </td>
         </tr>
         <tr>

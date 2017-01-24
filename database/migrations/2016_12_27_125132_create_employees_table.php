@@ -21,7 +21,7 @@ class CreateEmployeesTable extends Migration
             $table->string('phone');
             $table->string('mobile')->unique();
             $table->string('email')->unique();
-            $table->integer('adress_id');
+            $table->integer('address_id');
             $table->integer('role_id');
             $table->string('password');
             $table->string('remember_token');

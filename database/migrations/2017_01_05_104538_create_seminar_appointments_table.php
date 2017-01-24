@@ -19,7 +19,7 @@ class CreateSeminarAppointmentsTable extends Migration
             $table->time('time');
             $table->integer('employee_id');
             $table->integer('seminar_id');
-            $table->integer('adress_id');
+            $table->integer('address_id');
             $table->timestamps();
         });
     }

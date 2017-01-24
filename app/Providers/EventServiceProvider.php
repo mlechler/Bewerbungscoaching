@@ -47,8 +47,11 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\ChangeAppointmentDateTime' => [
             'App\Listeners\SendAppointmentDateUpdate',
         ],
-        'App\Events\ChangeAppointmentAdress' => [
-            'App\Listeners\SendAppointmentAdressUpdate',
+        'App\Events\ChangeAppointmentAddress' => [
+            'App\Listeners\SendAppointmentAddressUpdate',
+        ],
+        'App\Events\CancelAppointment' => [
+            'App\Listeners\SendAppointmentCancellation',
         ],
     ];
 
