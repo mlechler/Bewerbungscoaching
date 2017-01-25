@@ -2,11 +2,10 @@
 
 namespace App\Mail;
 
-use App\Packagepurchase;
+use App\PackagePurchase;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class PackagePurchaseConfirmation extends Mailable
 {
@@ -19,7 +18,7 @@ class PackagePurchaseConfirmation extends Mailable
      */
     public $packagepurchase;
 
-    public function __construct(Packagepurchase $packagepurchase)
+    public function __construct(PackagePurchase $packagepurchase)
     {
         $this->packagepurchase = $packagepurchase;
     }

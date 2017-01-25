@@ -6,7 +6,7 @@ use App\Presenters\ApplicationLayoutPresenter;
 use Illuminate\Database\Eloquent\Model;
 use McCool\LaravelAutoPresenter\HasPresenter;
 
-class Applicationlayout extends Model implements HasPresenter
+class ApplicationLayout extends Model implements HasPresenter
 {
     protected $table = 'applicationlayouts';
     protected $fillable = ['title', 'description', 'preview', 'layout', 'price'];

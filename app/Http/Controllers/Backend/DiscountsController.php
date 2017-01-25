@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Backend;
 
 use App\Discount;
 use App\MemberDiscount;
-use Illuminate\Http\Request;
 use App\Http\Requests;
 
 class DiscountsController extends Controller

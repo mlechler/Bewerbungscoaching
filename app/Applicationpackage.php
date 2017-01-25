@@ -6,7 +6,7 @@ use App\Presenters\ApplicationPackagePresenter;
 use Illuminate\Database\Eloquent\Model;
 use McCool\LaravelAutoPresenter\HasPresenter;
 
-class Applicationpackage extends Model implements HasPresenter
+class ApplicationPackage extends Model implements HasPresenter
 {
     protected $table = 'applicationpackages';
     protected $fillable = ['title', 'description', 'price'];

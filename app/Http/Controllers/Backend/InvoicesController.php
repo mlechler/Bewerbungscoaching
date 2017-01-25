@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Booking;
-use App\Individualcoaching;
 use App\Invoice;
 use App\Member;
-use Illuminate\Http\Request;
+use App\Http\Requests;
 
 class InvoicesController extends Controller
 {

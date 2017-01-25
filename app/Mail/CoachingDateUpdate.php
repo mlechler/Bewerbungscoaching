@@ -2,11 +2,10 @@
 
 namespace App\Mail;
 
-use App\Individualcoaching;
+use App\IndividualCoaching;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class CoachingDateUpdate extends Mailable
 {
@@ -21,7 +20,7 @@ class CoachingDateUpdate extends Mailable
     public $oldtime;
     public $coaching;
 
-    public function __construct(Individualcoaching $coaching, $olddate, $oldtime)
+    public function __construct(IndividualCoaching $coaching, $olddate, $oldtime)
     {
         $this->olddate = $olddate;
         $this->oldtime = $oldtime;

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLayoutpurchasesTable extends Migration
+class CreateLayoutPurchasesTable extends Migration
 {
     /**
      * Run the migrations.

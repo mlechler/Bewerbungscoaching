@@ -7,20 +7,18 @@ use App\Events\CancelCoaching;
 use App\Events\ChangeCoachingAddress;
 use App\Events\ChangeCoachingDateTime;
 use App\Events\MakeCoachingBooking;
-use App\Individualcoaching;
+use App\IndividualCoaching;
 use App\Employee;
 use App\Invoice;
 use App\Member;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use App\Http\Requests;
-use Illuminate\Support\Facades\App;
 
 class IndividualCoachingsController extends Controller
 {
     protected $coachings;
 
-    public function __construct(Individualcoaching $coachings)
+    public function __construct(IndividualCoaching $coachings)
     {
         $this->coachings = $coachings;
 
@@ -29,12 +27,12 @@ class IndividualCoachingsController extends Controller
 
     public function index()
     {
-        $coachings = Individualcoaching::with('employee', 'member')->orderBy('created_at', 'desc')->paginate(10);
+        $coachings = IndividualCoaching::with('employee', 'member')->orderBy('created_at', 'desc')->paginate(10);
 
         return view('backend.individualcoachings.index', compact('coachings'));
     }
 
-    public function create(Individualcoaching $coaching)
+    public function create(IndividualCoaching $coaching)
     {
         $emp = Employee::select('lastname', 'firstname')->get();
         $employees = ['' => ''];
@@ -69,7 +67,7 @@ class IndividualCoachingsController extends Controller
             $address = $newaddress;
         }
 
-        $coaching = Individualcoaching::create(array(
+        $coaching = IndividualCoaching::create(array(
             'services' => $request->services,
             'date' => $request->date,
             'time' => $request->time,
@@ -99,7 +97,7 @@ class IndividualCoachingsController extends Controller
 
     public function edit($id)
     {
-        $coaching = Individualcoaching::findOrFail($id);
+        $coaching = IndividualCoaching::findOrFail($id);
 
         $emp = Employee::select('lastname', 'firstname')->get();
         $employees = ['' => ''];
@@ -134,7 +132,7 @@ class IndividualCoachingsController extends Controller
             $address = $newaddress;
         }
 
-        $coaching = Individualcoaching::findOrFail($id);
+        $coaching = IndividualCoaching::findOrFail($id);
 
         $olddate = $coaching->date;
         $oldtime = Carbon::parse($coaching->time)->format('H:i');
@@ -166,25 +164,25 @@ class IndividualCoachingsController extends Controller
 
     public function confirm($id)
     {
-        $coaching = Individualcoaching::findOrFail($id);
+        $coaching = IndividualCoaching::findOrFail($id);
 
         return view('backend.individualcoachings.confirm', compact('coaching'));
     }
 
     public function destroy($id)
     {
-        $coaching = Individualcoaching::findOrFail($id);
+        $coaching = IndividualCoaching::findOrFail($id);
 
         event(new CancelCoaching($coaching));
 
-        Individualcoaching::destroy($id);
+        IndividualCoaching::destroy($id);
 
         return redirect(route('individualcoachings.index'))->with('status', 'Coaching has been deleted.');
     }
 
     public function detail($id)
     {
-        $coaching = Individualcoaching::with('employee', 'member')->findOrFail($id);
+        $coaching = IndividualCoaching::with('employee', 'member')->findOrFail($id);
 
         return view('backend.individualcoachings.detail', compact('coaching'));
     }

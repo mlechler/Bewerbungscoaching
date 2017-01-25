@@ -3,11 +3,10 @@
 namespace App\Mail;
 
 use App\Invoice;
-use App\Layoutpurchase;
+use App\LayoutPurchase;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class LayoutPurchaseInvoice extends Mailable
 {
@@ -21,7 +20,7 @@ class LayoutPurchaseInvoice extends Mailable
     public $layoutpurchase;
     public $invoice;
 
-    public function __construct(Layoutpurchase $layoutpurchase, Invoice $invoice)
+    public function __construct(LayoutPurchase $layoutpurchase, Invoice $invoice)
     {
         $this->layoutpurchase = $layoutpurchase;
         $this->invoice = $invoice;

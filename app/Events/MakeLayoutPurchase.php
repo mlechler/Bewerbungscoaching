@@ -3,13 +3,11 @@
 namespace App\Events;
 
 use App\Invoice;
-use App\Layoutpurchase;
+use App\LayoutPurchase;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class MakeLayoutPurchase
 {
@@ -22,7 +20,7 @@ class MakeLayoutPurchase
      *
      * @return void
      */
-    public function __construct(Layoutpurchase $layoutpurchase, Invoice $invoice)
+    public function __construct(LayoutPurchase $layoutpurchase, Invoice $invoice)
     {
         $this->layoutpurchase = $layoutpurchase;
         $this->invoice = $invoice;

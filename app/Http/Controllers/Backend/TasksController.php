@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Task;
-use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
 

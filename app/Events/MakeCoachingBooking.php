@@ -2,14 +2,12 @@
 
 namespace App\Events;
 
-use App\Individualcoaching;
+use App\IndividualCoaching;
 use App\Invoice;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class MakeCoachingBooking
 {
@@ -22,7 +20,7 @@ class MakeCoachingBooking
      *
      * @return void
      */
-    public function __construct(Individualcoaching $coaching, Invoice $invoice)
+    public function __construct(IndividualCoaching $coaching, Invoice $invoice)
     {
         $this->coaching = $coaching;
         $this->invoice = $invoice;

@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Applicationlayout;
-use App\Layoutpurchase;
-use Illuminate\Http\Request;
+use App\ApplicationLayout;
+use App\LayoutPurchase;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Storage;
 
@@ -12,7 +11,7 @@ class ApplicationLayoutsController extends Controller
 {
     protected $layouts;
 
-    public function __construct(Applicationlayout $layouts)
+    public function __construct(ApplicationLayout $layouts)
     {
         $this->layouts = $layouts;
 
@@ -21,19 +20,19 @@ class ApplicationLayoutsController extends Controller
 
     public function index()
     {
-        $layouts = Applicationlayout::orderBy('title')->paginate(10);
+        $layouts = ApplicationLayout::orderBy('title')->paginate(10);
 
         return view('backend.applicationlayouts.index', compact('layouts'));
     }
 
-    public function create(Applicationlayout $layout)
+    public function create(ApplicationLayout $layout)
     {
         return view('backend.applicationlayouts.form', compact('layout'));
     }
 
     public function store(Requests\StoreLayoutRequest $request)
     {
-        $layout = Applicationlayout::create(array(
+        $layout = ApplicationLayout::create(array(
             'title' => $request->title,
             'description' => $request->description,
             'price' => $request->price,
@@ -52,7 +51,7 @@ class ApplicationLayoutsController extends Controller
 
     public function edit($id)
     {
-        $layout = Applicationlayout::findOrFail($id);
+        $layout = ApplicationLayout::findOrFail($id);
 
         return view('backend.applicationlayouts.form', compact('layout'));
     }
@@ -61,7 +60,7 @@ class ApplicationLayoutsController extends Controller
     {
         $previewFile = null;
         $layoutFile = null;
-        $layout = Applicationlayout::findOrFail($id);
+        $layout = ApplicationLayout::findOrFail($id);
 
         $layout->fill(array(
             'title' => $request->title,
@@ -84,18 +83,18 @@ class ApplicationLayoutsController extends Controller
 
     public function confirm($id)
     {
-        $layout = Applicationlayout::findOrFail($id);
+        $layout = ApplicationLayout::findOrFail($id);
 
         return view('backend.applicationlayouts.confirm', compact('layout'));
     }
 
     public function destroy($id)
     {
-        $layout = Applicationlayout::whereId($id)->first();
+        $layout = ApplicationLayout::whereId($id)->first();
 
         Storage::delete($layout->preview);
         Storage::delete($layout->layout);
-        Applicationlayout::destroy($id);
+        ApplicationLayout::destroy($id);
 
         $this->deletePurchases($id);
 
@@ -104,7 +103,7 @@ class ApplicationLayoutsController extends Controller
 
     public function detail($id)
     {
-        $layout = Applicationlayout::findOrFail($id);
+        $layout = ApplicationLayout::findOrFail($id);
 
         return view('backend.applicationlayouts.detail', compact('layout'));
     }
@@ -124,14 +123,14 @@ class ApplicationLayoutsController extends Controller
             $uploadedLayout = Storage::put($layoutDestinationPath, file_get_contents($layoutFile->getRealPath()));
         }
         if ($uploadedPreview) {
-            $layout = Applicationlayout::findOrFail($layout_id);
+            $layout = ApplicationLayout::findOrFail($layout_id);
 
             $layout->fill(array(
                 'preview' => $previewDestinationPath
             ))->save();
         }
         if ($uploadedLayout) {
-            $layout = Applicationlayout::findOrFail($layout_id);
+            $layout = ApplicationLayout::findOrFail($layout_id);
 
             $layout->fill(array(
                 'layout' => $layoutDestinationPath
@@ -141,7 +140,7 @@ class ApplicationLayoutsController extends Controller
 
     public function deletePreviewFile($id)
     {
-        $layout = Applicationlayout::findOrFail($id);
+        $layout = ApplicationLayout::findOrFail($id);
 
         Storage::delete($layout->preview);
 
@@ -154,7 +153,7 @@ class ApplicationLayoutsController extends Controller
 
     public function deleteLayoutFile($id)
     {
-        $layout = Applicationlayout::findOrFail($id);
+        $layout = ApplicationLayout::findOrFail($id);
 
         Storage::delete($layout->layout);
 
@@ -167,10 +166,10 @@ class ApplicationLayoutsController extends Controller
 
     public function deletePurchases($applicationlayout_id)
     {
-        $purchases = Layoutpurchase::all()->where('applicationlayout_id', '=', $applicationlayout_id);
+        $purchases = LayoutPurchase::all()->where('applicationlayout_id', '=', $applicationlayout_id);
 
         foreach ($purchases as $purchase) {
-            Layoutpurchase::destroy($purchase->id);
+            LayoutPurchase::destroy($purchase->id);
         }
     }
 }

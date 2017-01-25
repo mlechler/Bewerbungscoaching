@@ -2,13 +2,11 @@
 
 namespace App\Events;
 
-use App\Packagepurchase;
+use App\PackagePurchase;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class PurchaseApplicationPackage
 {
@@ -20,7 +18,7 @@ class PurchaseApplicationPackage
      *
      * @return void
      */
-    public function __construct(Packagepurchase $purchase)
+    public function __construct(PackagePurchase $purchase)
     {
         $this->purchase = $purchase;
     }

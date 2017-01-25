@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call('RoleTableSeeder');
         $this->call('AppointmentTableSeeder');
         $this->call('BookingTableSeeder');
-        $this->call('IndividualcoachingTableSeeder');
+        $this->call('IndividualCoachingTableSeeder');
         $this->call('TaskTableSeeder');
         $this->call('DiscountTableSeeder');
         $this->call('InvoiceTableSeeder');

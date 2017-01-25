@@ -2,13 +2,11 @@
 
 namespace App\Events;
 
-use App\Individualcoaching;
+use App\IndividualCoaching;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class ChangeCoachingAddress
 {
@@ -22,7 +20,7 @@ class ChangeCoachingAddress
     public $oldaddress;
     public $coaching;
 
-    public function __construct(Individualcoaching $coaching, $oldaddress)
+    public function __construct(IndividualCoaching $coaching, $oldaddress)
     {
         $this->oldaddress = $oldaddress;
         $this->coaching = $coaching;

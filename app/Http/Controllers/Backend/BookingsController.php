@@ -6,16 +6,10 @@ use App\Appointment;
 use App\Booking;
 use App\Events\MakeSeminarBooking;
 use App\Invoice;
-use App\Mail\BookingConfirmation;
 use App\Member;
-use App\Notifications\SendBookingConfirmation;
 use App\Seminar;
-use Illuminate\Http\Request;
 use App\Http\Requests;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Notification;
 
 class BookingsController extends Controller
 {

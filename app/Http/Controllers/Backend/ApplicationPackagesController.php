@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Applicationpackage;
-use App\Packagepurchase;
-use Illuminate\Http\Request;
+use App\ApplicationPackage;
+use App\PackagePurchase;
 use App\Http\Requests;
 
 class ApplicationPackagesController extends Controller
 {
     protected $packages;
 
-    public function __construct(Applicationpackage $packages)
+    public function __construct(ApplicationPackage $packages)
     {
         $this->packages = $packages;
 
@@ -20,19 +19,19 @@ class ApplicationPackagesController extends Controller
 
     public function index()
     {
-        $packages = Applicationpackage::orderBy('title')->paginate(10);
+        $packages = ApplicationPackage::orderBy('title')->paginate(10);
 
         return view('backend.applicationpackages.index', compact('packages'));
     }
 
-    public function create(Applicationpackage $package)
+    public function create(ApplicationPackage $package)
     {
         return view('backend.applicationpackages.form', compact('package'));
     }
 
     public function store(Requests\StorePackageRequest $request)
     {
-        Applicationpackage::create(array(
+        ApplicationPackage::create(array(
             'title' => $request->title,
             'description' => $request->description,
             'price' => $request->price
@@ -43,14 +42,14 @@ class ApplicationPackagesController extends Controller
 
     public function edit($id)
     {
-        $package = Applicationpackage::findOrFail($id);
+        $package = ApplicationPackage::findOrFail($id);
 
         return view('backend.applicationpackages.form', compact('package'));
     }
 
     public function update(Requests\UpdatePackageRequest $request, $id)
     {
-        $package = Applicationpackage::findOrFail($id);
+        $package = ApplicationPackage::findOrFail($id);
 
         $package->fill(array(
             'title' => $request->title,
@@ -63,14 +62,14 @@ class ApplicationPackagesController extends Controller
 
     public function confirm($id)
     {
-        $package = Applicationpackage::findOrFail($id);
+        $package = ApplicationPackage::findOrFail($id);
 
         return view('backend.applicationpackages.confirm', compact('package'));
     }
 
     public function destroy($id)
     {
-        Applicationpackage::destroy($id);
+        ApplicationPackage::destroy($id);
 
         $this->deletePurchases($id);
 
@@ -79,17 +78,17 @@ class ApplicationPackagesController extends Controller
 
     public function detail($id)
     {
-        $package = Applicationpackage::findOrFail($id);
+        $package = ApplicationPackage::findOrFail($id);
 
         return view('backend.applicationpackages.detail', compact('package'));
     }
 
     public function deletePurchases($applicationpackage_id)
     {
-        $purchases = Packagepurchase::all()->where('applicationpackage_id', '=', $applicationpackage_id);
+        $purchases = PackagePurchase::all()->where('applicationpackage_id', '=', $applicationpackage_id);
 
         foreach ($purchases as $purchase) {
-            Packagepurchase::destroy($purchase->id);
+            PackagePurchase::destroy($purchase->id);
         }
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Applicationpackage;
+use App\ApplicationPackage;
 
 class PackageTableSeeder extends Seeder
 {
@@ -13,12 +13,12 @@ class PackageTableSeeder extends Seeder
     public function run()
     {
         DB::table('applicationpackages')->truncate();
-        Applicationpackage::create(array(
+        ApplicationPackage::create(array(
             'title' => 'Package 1',
             'description' => 'This is Package 1!',
             'price' => 19.99
         ));
-        Applicationpackage::create(array(
+        ApplicationPackage::create(array(
             'title' => 'Package 2',
             'description' => 'This is Package 2!',
             'price' => 29.99

@@ -24,7 +24,7 @@ class Invoice extends Model implements HasPresenter
 
     public function individualcoaching()
     {
-        return $this->belongsTo(Individualcoaching::class);
+        return $this->belongsTo(IndividualCoaching::class);
     }
 
     public function booking()
@@ -34,12 +34,12 @@ class Invoice extends Model implements HasPresenter
 
     public function packagepurchase()
     {
-        return $this->belongsTo(Packagepurchase::class);
+        return $this->belongsTo(PackagePurchase::class);
     }
 
     public function layoutpurchase()
     {
-        return $this->belongsTo(Layoutpurchase::class);
+        return $this->belongsTo(LayoutPurchase::class);
     }
 }
 

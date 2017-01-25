@@ -4,8 +4,6 @@ namespace App\Listeners;
 
 use App\Events\MakeLayoutPurchase;
 use App\Mail\LayoutPurchaseInvoice;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
 
 class SendLayoutPurchaseInvoice

@@ -4,11 +4,9 @@ namespace App\Mail;
 
 use App\Appointment;
 use App\Member;
-use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class AppointmentDateUpdate extends Mailable
 {

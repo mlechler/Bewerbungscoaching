@@ -11,9 +11,7 @@ use App\Employee;
 use App\Address;
 use App\Booking;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use App\Http\Requests;
-use Illuminate\Support\Facades\App;
 
 class AppointmentsController extends Controller
 {

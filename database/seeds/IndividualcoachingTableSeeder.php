@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Individualcoaching;
+use App\IndividualCoaching;
 use Carbon\Carbon;
 
-class IndividualcoachingTableSeeder extends Seeder
+class IndividualCoachingTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,7 +14,7 @@ class IndividualcoachingTableSeeder extends Seeder
     public function run()
     {
         DB::table('individualcoachings')->truncate();
-        Individualcoaching::create(array(
+        IndividualCoaching::create(array(
             'services' => 'Interview, Document Review',
             'date' => Carbon::createFromDate(2017, 01, 05),
             'time' => Carbon::createFromTime(9, 00, 00),
@@ -26,7 +26,7 @@ class IndividualcoachingTableSeeder extends Seeder
             'member_id' => 1,
             'address_id' => 1
         ));
-        Individualcoaching::create(array(
+        IndividualCoaching::create(array(
             'services' => 'Interview',
             'date' => Carbon::createFromDate(2017, 01, 05),
             'time' => Carbon::createFromTime(9, 00, 00),

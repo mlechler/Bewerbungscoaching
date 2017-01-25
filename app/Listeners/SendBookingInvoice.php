@@ -4,9 +4,6 @@ namespace App\Listeners;
 
 use App\Events\MakeSeminarBooking;
 use App\Mail\BookingInvoice;
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
 
 class SendBookingInvoice

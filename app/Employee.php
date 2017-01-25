@@ -2,12 +2,8 @@
 
 namespace App;
 
-use App\Events\EmployeePasswordReset;
 use App\Events\ResetEmployeePassword;
-use App\Mail\PasswordReset;
-use App\Notifications\EmployeeResetPassword;
 use App\Presenters\EmployeePresenter;
-use Doctrine\Instantiator\Exception\UnexpectedValueException;
 use McCool\LaravelAutoPresenter\HasPresenter;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -51,12 +47,12 @@ class Employee extends Authenticatable implements HasPresenter
 
     public function employeeFiles()
     {
-        return $this->hasMany(Employeefile::class);
+        return $this->hasMany(EmployeeFile::class);
     }
 
     public function employeeFreeTimes()
     {
-        return $this->hasMany(Employeefreetime::class);
+        return $this->hasMany(EmployeeFreeTime::class);
     }
 
     public function appointments()
@@ -66,6 +62,6 @@ class Employee extends Authenticatable implements HasPresenter
 
     public function individualCoachings()
     {
-        return $this->hasMany(Individualcoaching::class);
+        return $this->hasMany(IndividualCoaching::class);
     }
 }

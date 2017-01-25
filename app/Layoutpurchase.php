@@ -6,7 +6,7 @@ use App\Presenters\LayoutPurchasePresenter;
 use Illuminate\Database\Eloquent\Model;
 use McCool\LaravelAutoPresenter\HasPresenter;
 
-class Layoutpurchase extends Model implements HasPresenter
+class LayoutPurchase extends Model implements HasPresenter
 {
     protected $table = 'layoutpurchases';
     protected $fillable = ['member_id', 'applicationlayout_id', 'paid', 'price_incl_discount'];
@@ -23,7 +23,7 @@ class Layoutpurchase extends Model implements HasPresenter
 
     public function applicationlayout()
     {
-        return $this->belongsTo(Applicationlayout::class);
+        return $this->belongsTo(ApplicationLayout::class);
     }
 
     public function invoice()

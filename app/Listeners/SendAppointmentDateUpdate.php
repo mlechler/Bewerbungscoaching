@@ -3,9 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\ChangeAppointmentDateTime;
-use App\Mail\AppointmentUpdate;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Mail\AppointmentDateUpdate;
 use Illuminate\Support\Facades\Mail;
 
 class SendAppointmentDateUpdate

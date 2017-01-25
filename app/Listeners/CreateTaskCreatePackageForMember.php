@@ -4,8 +4,6 @@ namespace App\Listeners;
 
 use App\Events\PurchaseApplicationPackage;
 use App\Task;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class CreateTaskCreatePackageForMember
 {

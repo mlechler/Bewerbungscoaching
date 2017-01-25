@@ -4,8 +4,6 @@ namespace App\Listeners;
 
 use App\Events\MakeSeminarBooking;
 use App\Mail\BookingConfirmation;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
 
 class SendBookingConfirmation

@@ -26,6 +26,6 @@ class Address extends Model
 
     public function individualCoachings()
     {
-        return $this->hasMany(Individualcoaching::class);
+        return $this->hasMany(IndividualCoaching::class);
     }
 }

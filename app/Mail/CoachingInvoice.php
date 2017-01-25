@@ -2,12 +2,11 @@
 
 namespace App\Mail;
 
-use App\Individualcoaching;
+use App\IndividualCoaching;
 use App\Invoice;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class CoachingInvoice extends Mailable
 {
@@ -22,7 +21,7 @@ class CoachingInvoice extends Mailable
     public $coaching;
     public $invoice;
 
-    public function __construct(Individualcoaching $coaching, Invoice $invoice)
+    public function __construct(IndividualCoaching $coaching, Invoice $invoice)
     {
         $this->coaching = $coaching;
         $this->invoice = $invoice;

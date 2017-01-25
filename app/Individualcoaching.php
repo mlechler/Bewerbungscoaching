@@ -6,7 +6,7 @@ use App\Presenters\IndividualCoachingPresenter;
 use Illuminate\Database\Eloquent\Model;
 use McCool\LaravelAutoPresenter\HasPresenter;
 
-class Individualcoaching extends Model implements HasPresenter
+class IndividualCoaching extends Model implements HasPresenter
 {
     protected $table = 'individualcoachings';
     protected $fillable = ['services', 'date', 'time', 'duration', 'price_incl_discount', 'trial', 'paid', 'member_id', 'employee_id', 'address_id'];

@@ -3,13 +3,11 @@
 namespace App\Events;
 
 use App\Invoice;
-use App\Packagepurchase;
+use App\PackagePurchase;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class MakePackagePurchase
 {
@@ -22,12 +20,8 @@ class MakePackagePurchase
      */
     public $packagepurchase;
     public $invoice;
-    /**
-     * Create a new event instance.
-     *
-     * @return void
-     */
-    public function __construct(Packagepurchase $packagepurchase, Invoice $invoice)
+
+    public function __construct(PackagePurchase $packagepurchase, Invoice $invoice)
     {
         $this->packagepurchase = $packagepurchase;
         $this->invoice = $invoice;

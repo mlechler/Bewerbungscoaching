@@ -2,13 +2,11 @@
 
 namespace App\Events;
 
-use App\Individualcoaching;
+use App\IndividualCoaching;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class ChangeCoachingDateTime
 {
@@ -23,7 +21,7 @@ class ChangeCoachingDateTime
     public $oldtime;
     public $coaching;
 
-    public function __construct(Individualcoaching $coaching, $olddate, $oldtime)
+    public function __construct(IndividualCoaching $coaching, $olddate, $oldtime)
     {
         $this->olddate = $olddate;
         $this->oldtime = $oldtime;
