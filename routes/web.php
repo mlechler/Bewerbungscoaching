@@ -33,9 +33,9 @@ Route::group(['prefix' => 'backend'], function () {
     Route::get('/employees/files/{file}/delete', ['as' => 'employees.deleteFile', 'uses' => 'Backend\EmployeesController@deleteFile']);
     Route::resource('/employees', 'Backend\EmployeesController');
 
-    Route::get('/employeefreetimes/{employeefreetime}/confirm', ['as' => 'employeefreetimes.confirm', 'uses' => 'Backend\FreetimeController@confirm']);
-    Route::get('/employeefreetimes/{employeefreetime}/detail', ['as' => 'employeefreetimes.detail', 'uses' => 'Backend\FreetimeController@detail']);
-    Route::resource('/employeefreetimes', 'Backend\FreetimeController');
+    Route::get('/employeefreetimes/{employeefreetime}/confirm', ['as' => 'employeefreetimes.confirm', 'uses' => 'Backend\EmployeeFreeTimesController@confirm']);
+    Route::get('/employeefreetimes/{employeefreetime}/detail', ['as' => 'employeefreetimes.detail', 'uses' => 'Backend\EmployeeFreeTimesController@detail']);
+    Route::resource('/employeefreetimes', 'Backend\EmployeeFreeTimesController');
 
     Route::get('/members/{member}/confirm', ['as' => 'members.confirm', 'uses' => 'Backend\MembersController@confirm']);
     Route::get('/members/{member}/detail', ['as' => 'members.detail', 'uses' => 'Backend\MembersController@detail']);
