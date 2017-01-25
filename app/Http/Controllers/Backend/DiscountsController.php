@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Discount;
-use App\Memberdiscount;
+use App\MemberDiscount;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 
@@ -88,10 +88,10 @@ class DiscountsController extends Controller
 
     public function deleteMemberDiscounts($discount_id)
     {
-        $discounts = Memberdiscount::all()->where('discount_id', '=', $discount_id);
+        $discounts = MemberDiscount::all()->where('discount_id', '=', $discount_id);
 
         foreach ($discounts as $discount) {
-            Memberdiscount::destroy($discount->id);
+            MemberDiscount::destroy($discount->id);
         }
     }
 }

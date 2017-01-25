@@ -6,10 +6,10 @@ use App\Presenters\MemberDiscountPresenter;
 use Illuminate\Database\Eloquent\Model;
 use McCool\LaravelAutoPresenter\HasPresenter;
 
-class Memberdiscount extends Model implements HasPresenter
+class MemberDiscount extends Model implements HasPresenter
 {
     protected $table = 'memberdiscounts';
-    protected $fillable = ['member_id', 'discount_id', 'validity', 'permanent', 'startdate', 'code', 'expired', 'cashedin'];
+    protected $fillable = ['member_id', 'discount_id', 'validity', 'permanent', 'startdate', 'code', 'expired', 'expirationMailSend', 'cashedin'];
     protected $dates = ['startdate'];
 
     public function getPresenterClass()

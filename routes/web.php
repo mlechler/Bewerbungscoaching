@@ -86,9 +86,9 @@ Route::group(['prefix' => 'backend'], function () {
     Route::get('/discounts/{discount}/detail', ['as' => 'discounts.detail', 'uses' => 'Backend\DiscountsController@detail']);
     Route::resource('/discounts', 'Backend\DiscountsController');
 
-    Route::get('/memberdiscounts/{memberdiscount}/confirm', ['as' => 'memberdiscounts.confirm', 'uses' => 'Backend\MemberdiscountsController@confirm']);
-    Route::get('/memberdiscounts/{memberdiscount}/detail', ['as' => 'memberdiscounts.detail', 'uses' => 'Backend\MemberdiscountsController@detail']);
-    Route::resource('/memberdiscounts', 'Backend\MemberdiscountsController');
+    Route::get('/memberdiscounts/{memberdiscount}/confirm', ['as' => 'memberdiscounts.confirm', 'uses' => 'Backend\MemberDiscountsController@confirm']);
+    Route::get('/memberdiscounts/{memberdiscount}/detail', ['as' => 'memberdiscounts.detail', 'uses' => 'Backend\MemberDiscountsController@detail']);
+    Route::resource('/memberdiscounts', 'Backend\MemberDiscountsController');
 
     Route::get('/invoices/{invoice}/confirm', ['as' => 'invoices.confirm', 'uses' => 'Backend\InvoicesController@confirm']);
     Route::get('/invoices/{invoice}/detail', ['as' => 'invoices.detail', 'uses' => 'Backend\InvoicesController@detail']);

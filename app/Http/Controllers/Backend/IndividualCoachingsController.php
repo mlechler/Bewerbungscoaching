@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Address;
+use App\Events\CancelCoaching;
+use App\Events\ChangeCoachingAddress;
+use App\Events\ChangeCoachingDateTime;
 use App\Events\MakeCoachingBooking;
 use App\Individualcoaching;
 use App\Employee;
@@ -36,17 +39,17 @@ class IndividualCoachingsController extends Controller
         $emp = Employee::select('lastname', 'firstname')->get();
         $employees = ['' => ''];
         foreach ($emp as $employee) {
-            array_push($employees, $employee->lastname.', '.$employee->firstname);
+            array_push($employees, $employee->lastname . ', ' . $employee->firstname);
         }
-        array_unshift($employees,'');
+        array_unshift($employees, '');
         unset($employees[0]);
 
         $mem = Member::select('lastname', 'firstname')->get();
         $members = ['' => ''];
         foreach ($mem as $member) {
-            array_push($members, $member->lastname.', '.$member->firstname);
+            array_push($members, $member->lastname . ', ' . $member->firstname);
         }
-        array_unshift($members,'');
+        array_unshift($members, '');
         unset($members[0]);
 
         return view('backend.individualcoachings.form', compact('coaching', 'employees', 'members'));
@@ -101,17 +104,17 @@ class IndividualCoachingsController extends Controller
         $emp = Employee::select('lastname', 'firstname')->get();
         $employees = ['' => ''];
         foreach ($emp as $employee) {
-            array_push($employees, $employee->lastname.', '.$employee->firstname);
+            array_push($employees, $employee->lastname . ', ' . $employee->firstname);
         }
-        array_unshift($employees,'');
+        array_unshift($employees, '');
         unset($employees[0]);
 
         $mem = Member::select('lastname', 'firstname')->get();
         $members = ['' => ''];
         foreach ($mem as $member) {
-            array_push($members, $member->lastname.', '.$member->firstname);
+            array_push($members, $member->lastname . ', ' . $member->firstname);
         }
-        array_unshift($members,'');
+        array_unshift($members, '');
         unset($members[0]);
 
         return view('backend.individualcoachings.form', compact('coaching', 'employees', 'members'));
@@ -133,6 +136,10 @@ class IndividualCoachingsController extends Controller
 
         $coaching = Individualcoaching::findOrFail($id);
 
+        $olddate = $coaching->date;
+        $oldtime = Carbon::parse($coaching->time)->format('H:i');
+        $oldaddress_id = $coaching->address_id;
+
         $coaching->fill(array(
             'services' => $request->services,
             'date' => $request->date,
@@ -144,6 +151,15 @@ class IndividualCoachingsController extends Controller
             'member_id' => $request->member_id,
             'address_id' => $address->id
         ))->save();
+
+        if ($olddate != $coaching->date || $oldtime != $coaching->time) {
+            event(new ChangeCoachingDateTime($coaching, $olddate, $oldtime));
+        }
+
+        if ($oldaddress_id != $coaching->address_id) {
+            $oldaddress = Address::findOrFail($oldaddress_id);
+            event(new ChangeCoachingAddress($coaching, $oldaddress));
+        }
 
         return redirect(route('individualcoachings.index'))->with('status', 'Coaching has been updated.');
     }
@@ -157,6 +173,10 @@ class IndividualCoachingsController extends Controller
 
     public function destroy($id)
     {
+        $coaching = Individualcoaching::findOrFail($id);
+
+        event(new CancelCoaching($coaching));
+
         Individualcoaching::destroy($id);
 
         return redirect(route('individualcoachings.index'))->with('status', 'Coaching has been deleted.');

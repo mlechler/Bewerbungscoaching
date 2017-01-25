@@ -9,12 +9,12 @@
     ]) }}
 
     <div class="alert alert-danger">
-        <strong>Warning!</strong> You are about to delete a Memberdiscount. All Files and Informations belonging to this Memberdisount will be deleted. This action cannot be undone.
+        <strong>Warning!</strong> You are about to delete a Member Discount. All Files and Informations belonging to this Member Discount will be deleted. This action cannot be undone.
         <br>
         Are you sure you want to continue?
     </div>
 
-    {{ Form::submit('Yes, delete this Memberdiscount!', ['class' => 'btn btn-danger']) }}
+    {{ Form::submit('Yes, delete this Member Discount!', ['class' => 'btn btn-danger']) }}
     <a href="{{ route('memberdiscounts.index') }}" class="btn btn-success">
         <strong>No, get me out of here!</strong>
     </a>

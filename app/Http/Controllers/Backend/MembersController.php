@@ -8,7 +8,7 @@ use App\Individualcoaching;
 use App\Layoutpurchase;
 use App\Member;
 use App\Address;
-use App\Memberdiscount;
+use App\MemberDiscount;
 use App\Memberfile;
 use App\Packagepurchase;
 use App\Role;
@@ -274,10 +274,10 @@ class MembersController extends Controller
 
     public function deleteDiscounts($member_id)
     {
-        $discounts = Memberdiscount::all()->where('member_id', '=', $member_id);
+        $discounts = MemberDiscount::all()->where('member_id', '=', $member_id);
 
         foreach ($discounts as $discount) {
-            Memberdiscount::destroy($discount->id);
+            MemberDiscount::destroy($discount->id);
         }
     }
 

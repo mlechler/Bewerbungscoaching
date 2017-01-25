@@ -22,6 +22,7 @@ class CreateMemberDiscountsTable extends Migration
             $table->date('startdate');
             $table->string('code');
             $table->boolean('expired');
+            $table->boolean('expirationMailSend');
             $table->boolean('cashedin');
             $table->timestamps();
         });

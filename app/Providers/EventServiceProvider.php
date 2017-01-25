@@ -25,6 +25,12 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\UploadMemberFile' => [
             'App\Listeners\CreateTaskCheckMemberFiles',
         ],
+        'App\Events\MakeMemberDiscount' => [
+            'App\Listeners\SendMemberDiscountCode',
+        ],
+        'App\Events\ExpireMemberDiscount' => [
+            'App\Listeners\SendMemberDiscountExpiration',
+        ],
         'App\Events\PurchaseApplicationPackage' => [
             'App\Listeners\CreateTaskCreatePackageForMember',
         ],
@@ -47,11 +53,20 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\ChangeAppointmentDateTime' => [
             'App\Listeners\SendAppointmentDateUpdate',
         ],
+        'App\Events\ChangeCoachingDateTime' => [
+            'App\Listeners\SendCoachingDateUpdate',
+        ],
         'App\Events\ChangeAppointmentAddress' => [
             'App\Listeners\SendAppointmentAddressUpdate',
         ],
+        'App\Events\ChangeCoachingAddress' => [
+            'App\Listeners\SendCoachingAddressUpdate',
+        ],
         'App\Events\CancelAppointment' => [
             'App\Listeners\SendAppointmentCancellation',
+        ],
+        'App\Events\CancelCoaching' => [
+            'App\Listeners\SendCoachingCancellation',
         ],
     ];
 

@@ -1,6 +1,6 @@
 @extends('layouts.backend')
 
-@section('title', $memberdiscount->exists ? 'Editing VALUE' : 'Create New Memberdiscount')
+@section('title', $memberdiscount->exists ? 'Editing VALUE' : 'Create New Member Discount')
 
 @section('content')
     {{ Form::model($memberdiscount, [
@@ -49,7 +49,7 @@
         </div>
     </div>
 
-    {{ Form::submit($memberdiscount->exists ? 'Save Memberdiscount' : 'Create New Memberdiscount', ['class' => 'btn btn-success']) }}
+    {{ Form::submit($memberdiscount->exists ? 'Save Member Discount' : 'Create New Member Discount', ['class' => 'btn btn-success']) }}
     <a href="{{ route('memberdiscounts.index') }}" class="btn btn-danger">Cancel</a>
     {{ Form::close() }}
 

@@ -65,7 +65,7 @@
                             class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="discountsMenu">
                     <li><a href="{{ route('discounts.index') }}">Overview Discounts</a></li>
-                    <li><a href="{{ route('memberdiscounts.index') }}">Overview Memberdiscounts</a></li>
+                    <li><a href="{{ route('memberdiscounts.index') }}">Overview Member Discounts</a></li>
                 </ul>
             </li>
             <li><a href="{{ route('invoices.index') }}">Invoices</a></li>

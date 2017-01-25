@@ -1,9 +1,9 @@
 @extends('layouts.backend')
 
-@section('title', 'Memberdiscounts')
+@section('title', 'Member Discounts')
 
 @section('content')
-    <a href="{{ route('memberdiscounts.create') }}" class="btn btn-primary">Create New Memberdiscount</a>
+    <a href="{{ route('memberdiscounts.create') }}" class="btn btn-primary">Create New Member Discount</a>
     {{ Form::open() }}
     <div class="form-group has-feedback has-feedback-left">
         <br>
@@ -25,7 +25,7 @@
         <tbody>
         @if($memberdiscounts->isEmpty())
             <tr>
-                <td colspan="6" align="center">There are no memberdiscounts.</td>
+                <td colspan="6" align="center">There are no member discounts.</td>
             </tr>
         @else
             @foreach($memberdiscounts as $memberdiscount)

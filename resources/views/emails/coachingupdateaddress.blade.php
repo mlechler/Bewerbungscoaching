@@ -3,15 +3,15 @@
 @section('content')
     <tr>
         <td align="center">
-            <h1>The Appointment was changed!</h1>
+            <h1>The Individual Coaching was changed!</h1>
         </td>
     </tr>
     <tr>
         <td>
-            Hi {{ $participant->firstname }},<br><br>
+            Hi {{ $coaching->member->firstname }},<br><br>
 
             <div align="center">
-                the address for <strong>{{ $seminarappointment->seminar->title }}</strong> has changed. <br>
+                the address for <strong>{{ $coaching->services }}</strong> on <strong>{{ date_format($coaching->date, 'd.m.Y') }} </strong> has changed. <br>
                 Following you can see the changes. <br>
             <br><br>
             Old address:
@@ -23,14 +23,14 @@
             New address:
             <br><br>
 
-                <strong>{{ $seminarappointment->address->zip }}  {{ $seminarappointment->address->city }}</strong><br>
-                <strong>{{ $seminarappointment->address->street }}  {{ $seminarappointment->address->housenumber }}</strong><br>
+                <strong>{{ $coaching->address->zip }}  {{ $coaching->address->city }}</strong><br>
+                <strong>{{ $coaching->address->street }}  {{ $coaching->address->housenumber }}</strong><br>
             <br><br>
             Please notice these changes.<br><br>
 
                 If you have received this email incorrectly, please contact us. <br>
                 Also for other questions you can write us via this contact form. <br>
-                Otherwise we are looking forward and meet you at the seminar. <br>
+                Otherwise we are looking forward and meet you at the individual coaching. <br>
             </div>
             <br><br>
             Best regards, <br>
