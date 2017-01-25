@@ -18,11 +18,11 @@ class DatabaseSeeder extends Seeder
         $this->call('SeminarTableSeeder');
         $this->call('PageTableSeeder');
         $this->call('PostTableSeeder');
-        $this->call('AdressTableSeeder');
+        $this->call('AddressTableSeeder');
         $this->call('RoleTableSeeder');
         $this->call('AppointmentTableSeeder');
         $this->call('BookingTableSeeder');
-        $this->call('IndividualcoachingTableSeeder');
+        $this->call('IndividualCoachingTableSeeder');
         $this->call('TaskTableSeeder');
         $this->call('DiscountTableSeeder');
         $this->call('InvoiceTableSeeder');

@@ -6,7 +6,7 @@ use App\Presenters\PackagePurchasePresenter;
 use Illuminate\Database\Eloquent\Model;
 use McCool\LaravelAutoPresenter\HasPresenter;
 
-class Packagepurchase extends Model implements HasPresenter
+class PackagePurchase extends Model implements HasPresenter
 {
     protected $table = 'packagepurchases';
     protected $fillable = ['member_id', 'applicationpackage_id', 'paid', 'price_incl_discount', 'path'];
@@ -23,6 +23,11 @@ class Packagepurchase extends Model implements HasPresenter
 
     public function applicationpackage()
     {
-        return $this->belongsTo(Applicationpackage::class);
+        return $this->belongsTo(ApplicationPackage::class);
+    }
+
+    public function invoice()
+    {
+        return $this->belongsTo(Invoice::class);
     }
 }

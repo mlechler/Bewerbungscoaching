@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Adress;
+use App\Address;
 
-class AdressTableSeeder extends Seeder
+class AddressTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,14 +12,14 @@ class AdressTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('adresses')->truncate();
-        Adress::create(array(
+        DB::table('addresses')->truncate();
+        Address::create(array(
             'zip' => 71263,
             'city' => 'Weil der Stadt',
             'street' => 'Hauptstraße',
             'housenumber' => '13'
         ));
-        Adress::create(array(
+        Address::create(array(
             'zip' => 71034,
             'city' => 'Böblingen',
             'street' => 'Nebenstraße',

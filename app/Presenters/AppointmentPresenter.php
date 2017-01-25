@@ -18,9 +18,9 @@ class AppointmentPresenter extends BasePresenter
         return $time->format('H:i') . ' - ' . $time->addHours($this->seminar->duration)->format('H:i');
     }
 
-    public function formatAdress($adress)
+    public function formatAddress()
     {
-        return ($adress->zip . ' ' . $adress->city . ', ' . $adress->street . ' ' . $adress->housenumber);
+        return ($this->address->zip . ' ' . $this->address->city . ', ' . $this->address->street . ' ' . $this->address->housenumber);
     }
 
     public function overHighlight()

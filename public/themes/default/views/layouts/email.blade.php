@@ -83,7 +83,7 @@
                     </td>
                     <td align="center">
                         <a href="">Seminars</a><br>
-                        <a href="">Individualcoaching</a><br>
+                        <a href="">Individual Coaching</a><br>
                         <a href="">Application Layouts</a><br>
                         <a href="">Application Packages</a>
                     </td>

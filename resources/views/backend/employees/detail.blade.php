@@ -55,10 +55,10 @@
         </tr>
         <tr>
             <td>
-                <h4>Adress</h4>
+                <h4>Address</h4>
             </td>
             <td>
-                <h4>{{ $employee->formatAdress($employee->adress) }}</h4>
+                <h4>{{ $employee->formatAddress() }}</h4>
             </td>
         </tr>
         <tr>

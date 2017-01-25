@@ -3,15 +3,14 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Employee;
-use App\Employeefreetime;
-use Illuminate\Http\Request;
+use App\EmployeeFreeTime;
 use App\Http\Requests;
 
 class FreetimeController extends Controller
 {
     protected $freetimes;
 
-    public function __construct(Employeefreetime $freetimes)
+    public function __construct(EmployeeFreeTime $freetimes)
     {
         $this->freetimes = $freetimes;
 
@@ -20,12 +19,12 @@ class FreetimeController extends Controller
 
     public function index()
     {
-        $freetimes = Employeefreetime::with('employee')->paginate(10);
+        $freetimes = EmployeeFreeTime::with('employee')->paginate(10);
 
         return view('backend.employeefreetimes.index', compact('freetimes'));
     }
 
-    public function create(Employeefreetime $freetime)
+    public function create(EmployeeFreeTime $freetime)
     {
         $emp = Employee::select('lastname', 'firstname')->get();
         $employees = ['' => ''];
@@ -38,7 +37,7 @@ class FreetimeController extends Controller
         return view('backend.employeefreetimes.form', compact('freetime', 'employees'));
     }
 
-    public function store(Requests\StoreFreetimeRequest $request)
+    public function store(Requests\StoreFreeTimeRequest $request)
     {
         $overlap = $this->checkTimeOverlap($request->employee_id, $request->date, $request->starttime, $request->endtime);
 
@@ -47,7 +46,7 @@ class FreetimeController extends Controller
                 'error' => 'Time Overlap detected.'
             ]);
         } else {
-            Employeefreetime::create(array(
+            EmployeeFreeTime::create(array(
                 'date' => $request->date,
                 'starttime' => $request->starttime,
                 'endtime' => $request->endtime,
@@ -60,7 +59,7 @@ class FreetimeController extends Controller
 
     public function edit($id)
     {
-        $freetime = Employeefreetime::findOrFail($id);
+        $freetime = EmployeeFreeTime::findOrFail($id);
 
         $emp = Employee::select('lastname', 'firstname')->get();
         $employees = ['' => ''];
@@ -73,9 +72,9 @@ class FreetimeController extends Controller
         return view('backend.employeefreetimes.form', compact('freetime', 'employees'));
     }
 
-    public function update(Requests\UpdateFreetimeRequest $request, $id)
+    public function update(Requests\UpdateFreeTimeRequest $request, $id)
     {
-        $freetime = Employeefreetime::findOrFail($id);
+        $freetime = EmployeeFreeTime::findOrFail($id);
 
         $overlap = $this->checkTimeOverlap($request->employee_id, $request->date, $request->starttime, $request->endtime);
 
@@ -97,28 +96,28 @@ class FreetimeController extends Controller
 
     public function confirm($id)
     {
-        $freetime = Employeefreetime::findOrFail($id);
+        $freetime = EmployeeFreeTime::findOrFail($id);
 
         return view('backend.employeefreetimes.confirm', compact('freetime'));
     }
 
     public function destroy($id)
     {
-        Employeefreetime::destroy($id);
+        EmployeeFreeTime::destroy($id);
 
         return redirect(route('employeefreetimes.index'))->with('status', 'Free Time has been deleted.');
     }
 
     public function detail($id)
     {
-        $freetime = Employeefreetime::with('employee')->findOrFail($id);
+        $freetime = EmployeeFreeTime::with('employee')->findOrFail($id);
 
         return view('backend.employeefreetimes.detail', compact('freetime'));
     }
 
     public function checkTimeOverlap($employee_id, $date, $starttime, $endtime)
     {
-        $freetimes = Employeefreetime::all()->where('employee_id', '=', $employee_id);
+        $freetimes = EmployeeFreeTime::all()->where('employee_id', '=', $employee_id);
 
         foreach ($freetimes as $freetime) {
             if ($freetime->date == $date) {

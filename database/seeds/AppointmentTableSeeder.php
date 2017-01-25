@@ -19,14 +19,14 @@ class AppointmentTableSeeder extends Seeder
             'time' => Carbon::createFromTime(9, 00, 00),
             'employee_id' => 1,
             'seminar_id' => 1,
-            'adress_id' => 1,
+            'address_id' => 1,
         ));
         Appointment::create(array(
             'date' => Carbon::createFromDate(2017, 01, 05),
             'time' => Carbon::createFromTime(18, 30, 00),
             'employee_id' => 2,
             'seminar_id' => 2,
-            'adress_id' => 2,
+            'address_id' => 2,
         ));
     }
 }

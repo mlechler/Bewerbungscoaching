@@ -2,12 +2,8 @@
 
 namespace App;
 
-use App\Events\EmployeePasswordReset;
 use App\Events\ResetEmployeePassword;
-use App\Mail\PasswordReset;
-use App\Notifications\EmployeeResetPassword;
 use App\Presenters\EmployeePresenter;
-use Doctrine\Instantiator\Exception\UnexpectedValueException;
 use McCool\LaravelAutoPresenter\HasPresenter;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -17,7 +13,7 @@ class Employee extends Authenticatable implements HasPresenter
     use Notifiable;
 
     protected $table = 'employees';
-    protected $fillable = ['lastname', 'firstname', 'birthday', 'phone', 'mobile', 'email', 'adress_id', 'role_id', 'password', 'remember_token'];
+    protected $fillable = ['lastname', 'firstname', 'birthday', 'phone', 'mobile', 'email', 'address_id', 'role_id', 'password', 'remember_token'];
     protected $hidden = ['password', 'remember_token'];
     protected $dates = ['birthday', 'last_login_at'];
 
@@ -39,9 +35,9 @@ class Employee extends Authenticatable implements HasPresenter
         return $this->hasMany(Task::class);
     }
 
-    public function adress()
+    public function address()
     {
-        return $this->belongsTo(Adress::class);
+        return $this->belongsTo(Address::class);
     }
 
     public function role()
@@ -51,12 +47,12 @@ class Employee extends Authenticatable implements HasPresenter
 
     public function employeeFiles()
     {
-        return $this->hasMany(Employeefile::class);
+        return $this->hasMany(EmployeeFile::class);
     }
 
     public function employeeFreeTimes()
     {
-        return $this->hasMany(Employeefreetime::class);
+        return $this->hasMany(EmployeeFreeTime::class);
     }
 
     public function appointments()
@@ -66,6 +62,6 @@ class Employee extends Authenticatable implements HasPresenter
 
     public function individualCoachings()
     {
-        return $this->hasMany(Individualcoaching::class);
+        return $this->hasMany(IndividualCoaching::class);
     }
 }

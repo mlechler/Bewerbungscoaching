@@ -35,22 +35,22 @@
     <div class="form-group row">
         <div class="col-md-2">
             {{ Form::label('zip_code') }}
-            {{ Form::text('zip', $seminarappointment->adress ? $seminarappointment->adress->zip : null, ['class' => 'form-control']) }}
+            {{ Form::text('zip', $seminarappointment->address ? $seminarappointment->address->zip : null, ['class' => 'form-control']) }}
         </div>
 
         <div class="col-md-4">
             {{ Form::label('city') }}
-            {{ Form::text('city', $seminarappointment->adress ? $seminarappointment->adress->city : null, ['class' => 'form-control']) }}
+            {{ Form::text('city', $seminarappointment->address ? $seminarappointment->address->city : null, ['class' => 'form-control']) }}
         </div>
 
         <div class="col-md-4">
             {{ Form::label('street') }}
-            {{ Form::text('street', $seminarappointment->adress ? $seminarappointment->adress->street : null, ['class' => 'form-control']) }}
+            {{ Form::text('street', $seminarappointment->address ? $seminarappointment->address->street : null, ['class' => 'form-control']) }}
         </div>
 
         <div class="col-md-2">
             {{ Form::label('housenumber') }}
-            {{ Form::text('housenumber', $seminarappointment->adress ? $seminarappointment->adress->housenumber : null, ['class' => 'form-control']) }}
+            {{ Form::text('housenumber', $seminarappointment->address ? $seminarappointment->address->housenumber : null, ['class' => 'form-control']) }}
         </div>
     </div>
 

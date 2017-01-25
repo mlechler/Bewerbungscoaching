@@ -30,7 +30,11 @@ class UpdateCoachingRequest extends FormRequest
             'date' => ['required', 'date_format:Y-m-d'],
             'time' => ['required', 'date_format:H:i'],
             'duration' => ['required'],
-            'price_incl_discount' => ['required']
+            'price_incl_discount' => ['required'],
+            'zip' => ['required'],
+            'city' => ['required'],
+            'street' => ['required'],
+            'housenumber' => ['required']
         ];
     }
 
@@ -43,7 +47,11 @@ class UpdateCoachingRequest extends FormRequest
             'date.required' => 'Date is required',
             'time.required' => 'Start Time is required',
             'duration.required' => 'Duration is required',
-            'price_incl_discount.required' => 'Price is required'
+            'price_incl_discount.required' => 'Price is required',
+            'zip.required' => 'Zip is required',
+            'city.required' => 'City is required',
+            'street.required' => 'Street is required',
+            'housenumber.required' => 'Housenumber is required'
         ];
     }
 }

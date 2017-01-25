@@ -4,14 +4,13 @@ namespace App\Http\Controllers\Backend;
 
 use App\Appointment;
 use App\Employee;
-use App\Adress;
-use App\Employeefile;
-use App\Employeefreetime;
-use App\Individualcoaching;
+use App\Address;
+use App\EmployeeFile;
+use App\EmployeeFreeTime;
+use App\IndividualCoaching;
 use App\Role;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
@@ -42,16 +41,16 @@ class EmployeesController extends Controller
 
     public function store(Requests\StoreEmployeeRequest $request)
     {
-        $adress = Adress::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
+        $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 
-        if (!$adress) {
-            $newadress = Adress::create(array(
+        if (!$address) {
+            $newaddress = Address::create(array(
                 'zip' => $request->zip,
                 'city' => $request->city,
                 'street' => $request->street,
                 'housenumber' => $request->housenumber
             ));
-            $adress = $newadress;
+            $address = $newaddress;
         }
 
         $employee = Employee::create(array(
@@ -61,7 +60,7 @@ class EmployeesController extends Controller
             'phone' => $request->phone,
             'mobile' => $request->mobile,
             'email' => $request->email,
-            'adress_id' => $adress->id,
+            'address_id' => $address->id,
             'role_id' => $request->role_id,
             'password' => Hash::make($request->password),
             'remember_token' => Auth::viaRemember()
@@ -86,16 +85,16 @@ class EmployeesController extends Controller
 
     public function update(Requests\UpdateEmployeeRequest $request, $id)
     {
-        $adress = Adress::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
+        $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 
-        if (!$adress) {
-            $newadress = Adress::create(array(
+        if (!$address) {
+            $newaddress = Address::create(array(
                 'zip' => $request->zip,
                 'city' => $request->city,
                 'street' => $request->street,
                 'housenumber' => $request->housenumber
             ));
-            $adress = $newadress;
+            $address = $newaddress;
         }
 
         $employee = Employee::findOrFail($id);
@@ -107,7 +106,7 @@ class EmployeesController extends Controller
             'phone' => $request->phone,
             'mobile' => $request->mobile,
             'email' => $request->email,
-            'adress_id' => $adress->id,
+            'address_id' => $address->id,
             'role_id' => $request->role_id,
             'password' => Hash::make($request->password),
             'remember_token' => Auth::viaRemember()
@@ -157,10 +156,10 @@ class EmployeesController extends Controller
             $uploaded = Storage::put($destinationPath, file_get_contents($file->getRealPath()));
 
             if ($uploaded) {
-                $employeefile = Employeefile::where('path', '=', $destinationPath)->first();
+                $employeefile = EmployeeFile::where('path', '=', $destinationPath)->first();
 
                 if (!$employeefile) {
-                    Employeefile::create(array(
+                    EmployeeFile::create(array(
                         'name' => $fileName,
                         'path' => $destinationPath,
                         'type' => $fileType,
@@ -174,32 +173,32 @@ class EmployeesController extends Controller
 
     public function deleteFiles($employee_id)
     {
-        $employeefiles = Employeefile::all()->where('employee_id', '=', $employee_id);
+        $employeefiles = EmployeeFile::all()->where('employee_id', '=', $employee_id);
 
         foreach ($employeefiles as $employeefile) {
             Storage::delete($employeefile->path);
 
-            Employeefile::destroy($employeefile->id);
+            EmployeeFile::destroy($employeefile->id);
         }
     }
 
     public function deleteFile($file_id)
     {
-        $employeefile = Employeefile::findOrFail($file_id);
+        $employeefile = EmployeeFile::findOrFail($file_id);
 
         Storage::delete($employeefile->path);
 
-        Employeefile::destroy($file_id);
+        EmployeeFile::destroy($file_id);
 
         return redirect()->back()->with('status', 'File has been deleted.');
     }
 
     public function deleteFreetimes($employee_id)
     {
-        $freetimes = Employeefreetime::all()->where('employee_id', '=', $employee_id);
+        $freetimes = EmployeeFreeTime::all()->where('employee_id', '=', $employee_id);
 
         foreach ($freetimes as $freetime) {
-            Employeefreetime::destroy($freetime->id);
+            EmployeeFreeTime::destroy($freetime->id);
         }
     }
 
@@ -214,10 +213,10 @@ class EmployeesController extends Controller
 
     public function deleteCoachings($employee_id)
     {
-        $coachings = Individualcoaching::all()->where('employee_id', '=', $employee_id);
+        $coachings = IndividualCoaching::all()->where('employee_id', '=', $employee_id);
 
         foreach ($coachings as $coaching) {
-            Individualcoaching::destroy($coaching->id);
+            IndividualCoaching::destroy($coaching->id);
         }
     }
 }

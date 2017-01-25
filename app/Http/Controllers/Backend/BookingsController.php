@@ -5,15 +5,11 @@ namespace App\Http\Controllers\Backend;
 use App\Appointment;
 use App\Booking;
 use App\Events\MakeSeminarBooking;
-use App\Mail\BookingConfirmation;
+use App\Invoice;
 use App\Member;
-use App\Notifications\SendBookingConfirmation;
-use Illuminate\Http\Request;
+use App\Seminar;
 use App\Http\Requests;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Notification;
 
 class BookingsController extends Controller
 {
@@ -38,18 +34,18 @@ class BookingsController extends Controller
         $mem = Member::select('lastname', 'firstname')->get();
         $members = ['' => ''];
         foreach ($mem as $member) {
-            array_push($members, $member->lastname.', '.$member->firstname);
+            array_push($members, $member->lastname . ', ' . $member->firstname);
         }
-        array_unshift($members,'');
+        array_unshift($members, '');
         unset($members[0]);
 
         $app = Appointment::select('seminar_id', 'date', 'time')->get();
         $appointments = ['' => ''];
         foreach ($app as $appointment) {
             $time = Carbon::parse($appointment->time);
-            array_push($appointments, $appointment->seminar->title.', '.$appointment->date->format('d.m.Y').', '.($time->format('H:i') . ' - ' . $time->addHours($appointment->seminar->duration)->format('H:i')));
+            array_push($appointments, $appointment->seminar->title . ', ' . $appointment->date->format('d.m.Y') . ', ' . ($time->format('H:i') . ' - ' . $time->addHours($appointment->seminar->duration)->format('H:i')));
         }
-        array_unshift($appointments,'');
+        array_unshift($appointments, '');
         unset($appointments[0]);
 
         return view('backend.seminarbookings.form', compact('seminarbooking', 'members', 'appointments'));
@@ -57,16 +53,27 @@ class BookingsController extends Controller
 
     public function store(Requests\StoreBookingRequest $request)
     {
+        $appointment = Appointment::findOrfail($request->appointment_id);
+        $seminar = Seminar::findOrFail($appointment->seminar_id);
+        $price = $request->price_incl_discount > $seminar->price ? $seminar->price : $request->price_incl_discount;
         $booking = Booking::create(array(
             'member_id' => $request->member_id,
             'appointment_id' => $request->appointment_id,
-            'price_incl_discount' => $request->price_incl_discount,
+            'price_incl_discount' => $price,
             'paid' => false
         ));
 
-        event(new MakeSeminarBooking($booking));
+        $invoice = Invoice::create(array(
+            'member_id' => $request->member_id,
+            'individualcoaching_id' => null,
+            'booking_id' => $booking->id,
+            'packagepurchase_id' => null,
+            'layoutpurchase_id' => null,
+            'totalprice' => $price,
+            'date' => Carbon::now()
+        ));
 
-//        Notification::send($booking->member, new SendBookingConfirmation($booking));
+        event(new MakeSeminarBooking($booking, $invoice));
 
         return redirect(route('seminarbookings.index'))->with('status', 'Booking has been created.');
     }
@@ -78,18 +85,18 @@ class BookingsController extends Controller
         $mem = Member::select('lastname', 'firstname')->get();
         $members = ['' => ''];
         foreach ($mem as $member) {
-            array_push($members, $member->lastname.', '.$member->firstname);
+            array_push($members, $member->lastname . ', ' . $member->firstname);
         }
-        array_unshift($members,'');
+        array_unshift($members, '');
         unset($members[0]);
 
         $app = Appointment::select('seminar_id', 'date', 'time')->get();
         $appointments = ['' => ''];
         foreach ($app as $appointment) {
             $time = Carbon::parse($appointment->time);
-            array_push($appointments, $appointment->seminar->title.', '.$appointment->date->format('d.m.Y').', '.($time->format('H:i') . ' - ' . $time->addHours($appointment->seminar->duration)->format('H:i')));
+            array_push($appointments, $appointment->seminar->title . ', ' . $appointment->date->format('d.m.Y') . ', ' . ($time->format('H:i') . ' - ' . $time->addHours($appointment->seminar->duration)->format('H:i')));
         }
-        array_unshift($appointments,'');
+        array_unshift($appointments, '');
         unset($appointments[0]);
 
         return view('backend.seminarbookings.form', compact('seminarbooking', 'members', 'appointments'));
@@ -97,12 +104,22 @@ class BookingsController extends Controller
 
     public function update(Requests\UpdateBookingRequest $request, $id)
     {
+        $appointment = Appointment::findOrfail($request->appointment_id);
+        $seminar = Seminar::findOrFail($appointment->seminar_id);
+        $price = $request->price_incl_discount > $seminar->price ? $seminar->price : $request->price_incl_discount;
+
         $seminarbooking = Booking::findOrFail($id);
 
         $seminarbooking->fill(array(
             'member_id' => $request->member_id,
             'appointment_id' => $request->appointment_id,
-            'price_incl_discount' => $request->price_incl_discount
+            'price_incl_discount' => $price
+        ))->save();
+
+        $invoice = Invoice::where('member_id', '=', $request->member_id)->where('booking_id', '=', $seminarbooking->id)->where('created_at', '=', $seminarbooking->created_at)->first();
+
+        $invoice->fill(array(
+            'totalprice' => $price
         ))->save();
 
         return redirect(route('seminarbookings.index'))->with('status', 'Booking has been updated.');

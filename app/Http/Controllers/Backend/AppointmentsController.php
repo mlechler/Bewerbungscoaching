@@ -3,13 +3,15 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Appointment;
+use App\Events\CancelAppointment;
+use App\Events\ChangeAppointmentAddress;
+use App\Events\ChangeAppointmentDateTime;
 use App\Seminar;
 use App\Employee;
-use App\Adress;
+use App\Address;
 use App\Booking;
-use Illuminate\Http\Request;
+use Carbon\Carbon;
 use App\Http\Requests;
-use Illuminate\Support\Facades\App;
 
 class AppointmentsController extends Controller
 {
@@ -46,16 +48,16 @@ class AppointmentsController extends Controller
 
     public function store(Requests\StoreAppointmentRequest $request)
     {
-        $adress = Adress::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
+        $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 
-        if (!$adress) {
-            $newadress = Adress::create(array(
+        if (!$address) {
+            $newaddress = Address::create(array(
                 'zip' => $request->zip,
                 'city' => $request->city,
                 'street' => $request->street,
                 'housenumber' => $request->housenumber
             ));
-            $adress = $newadress;
+            $address = $newaddress;
         }
 
         Appointment::create(array(
@@ -63,7 +65,7 @@ class AppointmentsController extends Controller
             'time' => $request->time,
             'employee_id' => $request->employee_id,
             'seminar_id' => $request->seminar_id,
-            'adress_id' => $adress->id
+            'address_id' => $address->id
         ));
 
         return redirect(route('seminarappointments.index'))->with('status', 'Appointment has been created.');
@@ -88,27 +90,47 @@ class AppointmentsController extends Controller
 
     public function update(Requests\UpdateAppointmentRequest $request, $id)
     {
-        $adress = Adress::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
+        $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 
-        if (!$adress) {
-            $newadress = Adress::create(array(
+        if (!$address) {
+            $newaddress = Address::create(array(
                 'zip' => $request->zip,
                 'city' => $request->city,
                 'street' => $request->street,
                 'housenumber' => $request->housenumber
             ));
-            $adress = $newadress;
+            $address = $newaddress;
         }
 
         $seminarappointment = Appointment::findOrFail($id);
+
+        $olddate = $seminarappointment->date;
+        $oldtime = Carbon::parse($seminarappointment->time)->format('H:i');
+        $oldaddress_id = $seminarappointment->address_id;
 
         $seminarappointment->fill(array(
             'date' => $request->date,
             'time' => $request->time,
             'employee_id' => $request->employee_id,
             'seminar_id' => $request->seminar_id,
-            'adress_id' => $adress->id
+            'address_id' => $address->id
         ))->save();
+
+        if($olddate != $seminarappointment->date || $oldtime != $seminarappointment->time)
+        {
+            $participants = Booking::select('member_id')->where('appointment_id','=',$seminarappointment->id)->get();
+            foreach($participants as $participant){
+                event(new ChangeAppointmentDateTime($participant->member, $olddate, $oldtime, $seminarappointment));
+            }
+        }
+        if($oldaddress_id != $seminarappointment->address_id)
+        {
+            $oldaddress = Address::findOrFail($oldaddress_id);
+            $participants = Booking::select('member_id')->where('appointment_id','=',$seminarappointment->id)->get();
+            foreach($participants as $participant){
+                event(new ChangeAppointmentAddress($participant->member, $oldaddress, $seminarappointment));
+            }
+        }
 
         return redirect(route('seminarappointments.index'))->with('status', 'Appointment has been updated.');
     }
@@ -122,6 +144,12 @@ class AppointmentsController extends Controller
 
     public function destroy($id)
     {
+        $seminarappointment = Appointment::findOrFail($id);
+        $participants = Booking::select('member_id')->where('appointment_id','=',$id)->get();
+        foreach($participants as $participant){
+            event(new CancelAppointment($participant->member, $seminarappointment));
+        }
+
         Appointment::destroy($id);
 
         $this->deleteBookings($id);

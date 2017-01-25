@@ -4,9 +4,6 @@ namespace App\Listeners;
 
 use App\Events\MakeSeminarBooking;
 use App\Mail\BookingInvoice;
-use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
 
 class SendBookingInvoice
@@ -29,6 +26,6 @@ class SendBookingInvoice
      */
     public function handle(MakeSeminarBooking $event)
     {
-        Mail::to($event->booking->member->email)->send(new BookingInvoice($event->booking));
+        Mail::to($event->booking->member->email)->send(new BookingInvoice($event->booking, $event->invoice));
     }
 }

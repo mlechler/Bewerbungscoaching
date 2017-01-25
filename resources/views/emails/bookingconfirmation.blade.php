@@ -25,6 +25,12 @@
                     - {{ \Carbon\Carbon::parse($booking->appointment->time)->addHours($booking->appointment->seminar->duration)->format('H:i') }}</strong><br>
             </div>
             <br><br>
+            The address for this seminar is:<br><br>
+
+            <div align="center">
+                <strong>{{ $booking->appointment->address->zip }}  {{ $booking->appointment->address->city }}</strong><br>
+                <strong>{{ $booking->appointment->address->street }}  {{ $booking->appointment->address->housenumber }}</strong><br><br>
+            </div>
 
             <div align="center">
                 If you have received this booking incorrectly, please contact us. <br>

@@ -5,9 +5,8 @@ namespace App\Http\Controllers\Backend;
 use App\Appointment;
 use App\Booking;
 use App\Seminar;
-use App\Seminarfile;
+use App\SeminarFile;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\Request;
 use App\Http\Requests;
 
 class SeminarsController extends Controller
@@ -115,10 +114,10 @@ class SeminarsController extends Controller
             $uploaded = Storage::put($destinationPath, file_get_contents($file->getRealPath()));
 
             if ($uploaded) {
-                $seminarfile = Seminarfile::where('path', '=', $destinationPath)->first();
+                $seminarfile = SeminarFile::where('path', '=', $destinationPath)->first();
 
                 if (!$seminarfile) {
-                    Seminarfile::create(array(
+                    SeminarFile::create(array(
                         'name' => $fileName,
                         'path' => $destinationPath,
                         'type' => $fileType,
@@ -132,8 +131,8 @@ class SeminarsController extends Controller
 
     public function deleteFile($file_id)
     {
-        $seminarfile = Seminarfile::findOrFail($file_id);
-        Seminarfile::destroy($file_id);
+        $seminarfile = SeminarFile::findOrFail($file_id);
+        SeminarFile::destroy($file_id);
         Storage::delete($seminarfile->path);
 
         return redirect()->back()->with('status', 'File has been deleted.');
@@ -141,10 +140,10 @@ class SeminarsController extends Controller
 
     public function deleteFiles($seminar_id)
     {
-        $seminarfiles = Seminarfile::all()->where('seminar_id', '=', $seminar_id);
+        $seminarfiles = SeminarFile::all()->where('seminar_id', '=', $seminar_id);
 
         foreach ($seminarfiles as $seminarfile) {
-            Seminarfile::destroy($seminarfile->id);
+            SeminarFile::destroy($seminarfile->id);
             Storage::delete($seminarfile->path);
         }
     }

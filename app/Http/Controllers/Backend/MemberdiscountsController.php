@@ -3,17 +3,18 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Discount;
+use App\Events\ExpireMemberDiscount;
+use App\Events\MakeMemberDiscount;
 use App\Member;
-use App\Memberdiscount;
+use App\MemberDiscount;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use App\Http\Requests;
 
-class MemberdiscountsController extends Controller
+class MemberDiscountsController extends Controller
 {
     protected $memberdiscounts;
 
-    public function __construct(Memberdiscount $memberdiscounts)
+    public function __construct(MemberDiscount $memberdiscounts)
     {
         $this->memberdiscounts = $memberdiscounts;
 
@@ -22,103 +23,122 @@ class MemberdiscountsController extends Controller
 
     public function index()
     {
-        $memberdiscounts = Memberdiscount::with('member', 'discount')->orderBy('created_at', 'desc')->paginate(10);
+        $memberdiscounts = MemberDiscount::with('member', 'discount')->orderBy('expired')->paginate(10);
 
         $this->checkExpiration();
 
         return view('backend.memberdiscounts.index', compact('memberdiscounts'));
     }
 
-    public function create(Memberdiscount $memberdiscount)
+    public function create(MemberDiscount $memberdiscount)
     {
         $discounts = ['' => ''] + Discount::all()->pluck('title', 'id')->toArray();
 
         $mem = Member::select('lastname', 'firstname')->get();
         $members = ['' => ''];
         foreach ($mem as $member) {
-            array_push($members, $member->lastname.', '.$member->firstname);
+            array_push($members, $member->lastname . ', ' . $member->firstname);
         }
-        array_unshift($members,'');
+        array_unshift($members, '');
         unset($members[0]);
 
         return view('backend.memberdiscounts.form', compact('memberdiscount', 'members', 'discounts'));
     }
 
-    public function store(Requests\StoreMemberdiscountRequest $request)
+    public function store(Requests\StoreMemberDiscountRequest $request)
     {
-        Memberdiscount::create(array(
+        $memberdiscount = MemberDiscount::create(array(
             'member_id' => $request->member_id,
             'discount_id' => $request->discount_id,
             'validity' => $request->validity,
+            'permanent' => $request->permanent == 'on' ? true : false,
             'startdate' => $request->startdate,
+            'code' => $request->code,
             'expired' => false,
+            'expirationMailSend' => false,
             'cashedin' => false
         ));
 
-        return redirect(route('memberdiscounts.index'))->with('status', 'Memberdiscount has been created.');
+        event(new MakeMemberDiscount($memberdiscount));
+
+        return redirect(route('memberdiscounts.index'))->with('status', 'Member Discount has been created.');
     }
 
     public function edit($id)
     {
-        $memberdiscount = Memberdiscount::findOrFail($id);
+        $memberdiscount = MemberDiscount::findOrFail($id);
 
         $discounts = ['' => ''] + Discount::all()->pluck('title', 'id')->toArray();
 
         $mem = Member::select('lastname', 'firstname')->get();
         $members = ['' => ''];
         foreach ($mem as $member) {
-            array_push($members, $member->lastname.', '.$member->firstname);
+            array_push($members, $member->lastname . ', ' . $member->firstname);
         }
-        array_unshift($members,'');
+        array_unshift($members, '');
         unset($members[0]);
 
         return view('backend.memberdiscounts.form', compact('memberdiscount', 'members', 'discounts'));
     }
 
-    public function update(Requests\UpdateMemberdiscountRequest $request, $id)
+    public function update(Requests\UpdateMemberDiscountRequest $request, $id)
     {
-        $memberdiscount = Memberdiscount::findOrFail($id);
+        $memberdiscount = MemberDiscount::findOrFail($id);
 
         $memberdiscount->fill(array(
             'member_id' => $request->member_id,
             'discount_id' => $request->discount_id,
             'validity' => $request->validity,
-            'startdate' => $request->startdate
+            'permanent' => $request->permanent == 'on' ? true : false,
+            'startdate' => $request->startdate,
+            'code' => $request->code
         ))->save();
 
-        return redirect(route('memberdiscounts.index'))->with('status', 'Memberdiscount has been updated.');
+        return redirect(route('memberdiscounts.index'))->with('status', 'Member Discount has been updated.');
     }
 
     public function confirm($id)
     {
-        $memberdiscount = Memberdiscount::findOrFail($id);
+        $memberdiscount = MemberDiscount::findOrFail($id);
 
         return view('backend.memberdiscounts.confirm', compact('memberdiscount'));
     }
 
     public function destroy($id)
     {
-        Memberdiscount::destroy($id);
+        MemberDiscount::destroy($id);
 
-        return redirect(route('memberdiscounts.index'))->with('status', 'Memberdiscount has been deleted.');
+        return redirect(route('memberdiscounts.index'))->with('status', 'Member Discount has been deleted.');
     }
 
     public function detail($id)
     {
-        $memberdiscount = Memberdiscount::with('member', 'discount')->findOrFail($id);
+        $memberdiscount = MemberDiscount::with('member', 'discount')->findOrFail($id);
 
         return view('backend.memberdiscounts.detail', compact('memberdiscount'));
     }
 
     public function checkExpiration()
     {
-        $memberdiscounts = Memberdiscount::all();
+        $memberdiscounts = MemberDiscount::all();
 
         foreach ($memberdiscounts as $memberdiscount) {
-            if ($memberdiscount->startdate->addDays($memberdiscount->validity) < Carbon::now()){
-                $memberdiscount->fill(array(
-                    'expired' => true
-                ))->save();
+            if ($memberdiscount->startdate->addDays($memberdiscount->validity) < Carbon::now()) {
+                if ($memberdiscount->permanent) {
+                    $memberdiscount->fill(array(
+                        'expired' => false
+                    ))->save();
+                } else {
+                    $memberdiscount->fill(array(
+                        'expired' => true
+                    ))->save();
+                }
+                if(!$memberdiscount->expirationMailSend) {
+                    event(new ExpireMemberDiscount($memberdiscount));
+                    $memberdiscount->fill(array(
+                        'expirationMailSend' => true
+                    ))->save();
+                }
             }
         }
     }

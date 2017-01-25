@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Applicationlayout;
+use App\ApplicationLayout;
 
 class LayoutTableSeeder extends Seeder
 {
@@ -13,17 +13,17 @@ class LayoutTableSeeder extends Seeder
     public function run()
     {
         DB::table('applicationlayouts')->truncate();
-        Applicationlayout::create(array(
+        ApplicationLayout::create(array(
             'title' => 'Layout 1',
             'description' => 'This is Layout 1!',
             'price' => 19.99
         ));
-        Applicationlayout::create(array(
+        ApplicationLayout::create(array(
             'title' => 'Layout 2',
             'description' => 'This is Layout 2!',
             'price' => 19.99
         ));
-        Applicationlayout::create(array(
+        ApplicationLayout::create(array(
             'title' => 'Layout 3',
             'description' => 'This is Layout 3!',
             'price' => 19.99

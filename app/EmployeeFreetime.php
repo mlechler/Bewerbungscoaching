@@ -6,7 +6,7 @@ use App\Presenters\EmployeeFreetimePresenter;
 use Illuminate\Database\Eloquent\Model;
 use McCool\LaravelAutoPresenter\HasPresenter;
 
-class Employeefreetime extends Model implements HasPresenter
+class EmployeeFreeTime extends Model implements HasPresenter
 {
     protected $table = 'employeefreetimes';
     protected $fillable = ['date', 'starttime', 'endtime', 'employee_id'];

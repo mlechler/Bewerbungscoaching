@@ -6,7 +6,6 @@ use App\Booking;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class BookingConfirmation extends Mailable
 {
@@ -31,6 +30,6 @@ class BookingConfirmation extends Mailable
      */
     public function build()
     {
-        return $this->subject('Bookingconfirmation')->view('emails.bookingconfirmation');
+        return $this->subject('Booking Confirmation')->view('emails.bookingconfirmation');
     }
 }

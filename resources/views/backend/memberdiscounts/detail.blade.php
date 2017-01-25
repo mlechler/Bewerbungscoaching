@@ -31,6 +31,14 @@
         </tr>
         <tr>
             <td>
+                <h4>Code</h4>
+            </td>
+            <td>
+                <h4>{{ $memberdiscount->code }}</h4>
+            </td>
+        </tr>
+        <tr>
+            <td>
                 <h4>Expired</h4>
             </td>
             <td>

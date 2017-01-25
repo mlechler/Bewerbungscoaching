@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Applicationpackage;
+use App\ApplicationPackage;
+use App\Events\MakePackagePurchase;
 use App\Events\PurchaseApplicationPackage;
-use App\Packagepurchase;
+use App\Invoice;
+use App\PackagePurchase;
 use App\Member;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Storage;
@@ -14,7 +17,7 @@ class PackagePurchasesController extends Controller
 {
     protected $packagepurchases;
 
-    public function __construct(Packagepurchase $packagepurchases)
+    public function __construct(PackagePurchase $packagepurchases)
     {
         $this->packagepurchases = $packagepurchases;
 
@@ -23,12 +26,12 @@ class PackagePurchasesController extends Controller
 
     public function index()
     {
-        $packagepurchases = Packagepurchase::with('member', 'applicationpackage')->orderBy('created_at', 'desc')->paginate(10);
+        $packagepurchases = PackagePurchase::with('member', 'applicationpackage')->orderBy('created_at', 'desc')->paginate(10);
 
         return view('backend.packagepurchases.index', compact('packagepurchases'));
     }
 
-    public function create(Packagepurchase $packagepurchase)
+    public function create(PackagePurchase $packagepurchase)
     {
         $mem = Member::select('lastname', 'firstname')->get();
         $members = ['' => ''];
@@ -38,17 +41,20 @@ class PackagePurchasesController extends Controller
         array_unshift($members,'');
         unset($members[0]);
 
-        $applicationpackages = ['' => ''] + Applicationpackage::all()->pluck('title', 'id')->toArray();
+        $applicationpackages = ['' => ''] + ApplicationPackage::all()->pluck('title', 'id')->toArray();
 
         return view('backend.packagepurchases.form', compact('packagepurchase', 'members', 'applicationpackages'));
     }
 
-    public function store(Requests\StorePackagepurchaseRequest $request)
+    public function store(Requests\StorePackagePurchaseRequest $request)
     {
-        $packagepurchase = Packagepurchase::create(array(
+        $package = ApplicationPackage::findOrFail($request->applicationpackage_id);
+        $price = $request->price_incl_discount > $package->price ? $package->price : $request->price_incl_discount;
+
+        $packagepurchase = PackagePurchase::create(array(
             'member_id' => $request->member_id,
             'applicationpackage_id' => $request->applicationpackage_id,
-            'price_incl_discount' => $request->price_incl_discount,
+            'price_incl_discount' => $price,
             'paid' => false,
             'path' => null
         ));
@@ -60,13 +66,25 @@ class PackagePurchasesController extends Controller
             event(new PurchaseApplicationPackage($packagepurchase));
         }
 
+        $invoice = Invoice::create(array(
+            'member_id' => $request->member_id,
+            'individualcoaching_id' => null,
+            'booking_id' => null,
+            'packagepurchase_id' => $packagepurchase->id,
+            'layoutpurchase_id' => null,
+            'totalprice' => $price,
+            'date' => Carbon::now()
+        ));
+
+        event(new MakePackagePurchase($packagepurchase, $invoice));
+
 
         return redirect(route('packagepurchases.index'))->with('status', 'Package Purchase has been created.');
     }
 
     public function edit($id)
     {
-        $packagepurchase = Packagepurchase::findOrFail($id);
+        $packagepurchase = PackagePurchase::findOrFail($id);
 
         $mem = Member::select('lastname', 'firstname')->get();
         $members = ['' => ''];
@@ -76,19 +94,22 @@ class PackagePurchasesController extends Controller
         array_unshift($members,'');
         unset($members[0]);
 
-        $applicationpackages = ['' => ''] + Applicationpackage::all()->pluck('title', 'id')->toArray();
+        $applicationpackages = ['' => ''] + ApplicationPackage::all()->pluck('title', 'id')->toArray();
 
         return view('backend.packagepurchases.form', compact('packagepurchase', 'members', 'applicationpackages'));
     }
 
-    public function update(Requests\UpdatePackagepurchaseRequest $request, $id)
+    public function update(Requests\UpdatePackagePurchaseRequest $request, $id)
     {
-        $packagepurchase = Packagepurchase::findOrFail($id);
+        $packagepurchase = PackagePurchase::findOrFail($id);
+
+        $package = ApplicationPackage::findOrFail($request->applicationpackage_id);
+        $price = $request->price_incl_discount > $package->price ? $package->price : $request->price_incl_discount;
 
         $packagepurchase->fill(array(
             'member_id' => $request->member_id,
             'applicationpackage_id' => $request->applicationpackage_id,
-            'price_incl_discount' => $request->price_incl_discount
+            'price_incl_discount' => $price
         ))->save();
 
         if ($request->hasFile('package')) {
@@ -96,26 +117,32 @@ class PackagePurchasesController extends Controller
             $this->storeFile($packageFile, $packagepurchase);
         }
 
+        $invoice = Invoice::where('member_id', '=', $request->member_id)->where('packagepurchase_id', '=', $packagepurchase->id)->where('created_at', '=', $packagepurchase->created_at)->first();
+
+        $invoice->fill(array(
+            'totalprice' => $price
+        ))->save();
+
         return redirect(route('packagepurchases.index'))->with('status', 'Package Purchase has been updated.');
     }
 
     public function confirm($id)
     {
-        $packagepurchase = Packagepurchase::findOrFail($id);
+        $packagepurchase = PackagePurchase::findOrFail($id);
 
         return view('backend.packagepurchases.confirm', compact('packagepurchase'));
     }
 
     public function destroy($id)
     {
-        Packagepurchase::destroy($id);
+        PackagePurchase::destroy($id);
 
         return redirect(route('packagepurchases.index'))->with('status', 'Package Purchase has been deleted.');
     }
 
     public function detail($id)
     {
-        $packagepurchase = Packagepurchase::with('member', 'applicationpackage')->findOrFail($id);
+        $packagepurchase = PackagePurchase::with('member', 'applicationpackage')->findOrFail($id);
 
         return view('backend.packagepurchases.detail', compact('packagepurchase'));
     }
@@ -127,7 +154,7 @@ class PackagePurchasesController extends Controller
         $uploaded = Storage::put($destinationpath, file_get_contents($packageFile->getRealPath()));
 
         if ($uploaded) {
-            $packagepurchase = Packagepurchase::findOrFail($purchase->id);
+            $packagepurchase = PackagePurchase::findOrFail($purchase->id);
 
             $packagepurchase->fill(array(
                 'path' => $destinationpath
@@ -137,7 +164,7 @@ class PackagePurchasesController extends Controller
 
     public function deleteFile($id)
     {
-        $package = Packagepurchase::findOrFail($id);
+        $package = PackagePurchase::findOrFail($id);
 
         Storage::delete($package->path);
 
@@ -150,7 +177,7 @@ class PackagePurchasesController extends Controller
 
     public function uploadPackageFile(Request $request, $id)
     {
-        $purchase = Packagepurchase::findOrFail($id);
+        $purchase = PackagePurchase::findOrFail($id);
 
         if ($request->hasFile('packageFile')) {
             $packageFile = $request->file('packageFile');

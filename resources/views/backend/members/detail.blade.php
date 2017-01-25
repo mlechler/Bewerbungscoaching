@@ -60,10 +60,10 @@
         </tr>
         <tr>
             <td>
-                <h4>Adress</h4>
+                <h4>Address</h4>
             </td>
             <td>
-                <h4>{{ $member->formatAdress($member->adress) }}</h4>
+                <h4>{{ $member->formatAddress() }}</h4>
             </td>
         </tr>
         <tr>

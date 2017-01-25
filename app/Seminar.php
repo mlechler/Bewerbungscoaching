@@ -18,7 +18,7 @@ class Seminar extends Model implements HasPresenter
 
     public function seminarFiles()
     {
-        return $this->hasMany(Seminarfile::class);
+        return $this->hasMany(SeminarFile::class);
     }
 
     public function appointments()

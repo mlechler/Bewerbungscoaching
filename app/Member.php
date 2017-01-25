@@ -3,7 +3,6 @@
 namespace App;
 
 use App\Events\ResetMemberPassword;
-use App\Notifications\MemberResetPassword;
 use App\Presenters\MemberPresenter;
 use McCool\LaravelAutoPresenter\HasPresenter;
 use Illuminate\Notifications\Notifiable;
@@ -14,7 +13,7 @@ class Member extends Authenticatable implements HasPresenter
     use Notifiable;
 
     protected $table = 'members';
-    protected $fillable = ['lastname', 'firstname', 'birthday', 'phone', 'mobile', 'email', 'adress_id', 'role_id', 'job', 'employer', 'university', 'courseofstudies', 'password', 'remember_token'];
+    protected $fillable = ['lastname', 'firstname', 'birthday', 'phone', 'mobile', 'email', 'address_id', 'role_id', 'job', 'employer', 'university', 'courseofstudies', 'password', 'remember_token'];
     protected $hidden = ['password', 'remember_token'];
     protected $dates = ['birthday', 'last_login_at'];
 
@@ -28,9 +27,9 @@ class Member extends Authenticatable implements HasPresenter
         event(new ResetMemberPassword($_REQUEST['email'], $token));
     }
 
-    public function adress()
+    public function address()
     {
-        return $this->belongsTo(Adress::class);
+        return $this->belongsTo(Address::class);
     }
 
     public function role()
@@ -40,7 +39,7 @@ class Member extends Authenticatable implements HasPresenter
 
     public function memberFiles()
     {
-        return $this->hasMany(Memberfile::class);
+        return $this->hasMany(MemberFile::class);
     }
 
     public function appointments()
@@ -55,7 +54,7 @@ class Member extends Authenticatable implements HasPresenter
 
     public function individualCoachings()
     {
-        return $this->hasMany(Individualcoaching::class);
+        return $this->hasMany(IndividualCoaching::class);
     }
 
     public function invoices()
@@ -65,11 +64,11 @@ class Member extends Authenticatable implements HasPresenter
 
     public function applicationlayouts()
     {
-        return $this->belongsToMany(Applicationlayout::class, 'layoutpurchases')->withPivot('price_incl_discount', 'paid');
+        return $this->belongsToMany(ApplicationLayout::class, 'layoutpurchases')->withPivot('price_incl_discount', 'paid');
     }
 
     public function applicationpackages()
     {
-        return $this->belongsToMany(Applicationpackage::class, 'packagepurchases')->withPivot('price_incl_discount', 'paid');
+        return $this->belongsToMany(ApplicationPackage::class, 'packagepurchases')->withPivot('price_incl_discount', 'paid');
     }
 }

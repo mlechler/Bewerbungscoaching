@@ -9,7 +9,7 @@ use McCool\LaravelAutoPresenter\HasPresenter;
 class Appointment extends Model implements HasPresenter
 {
     protected $table = 'seminarappointments';
-    protected $fillable = ['date', 'time', 'employee_id', 'seminar_id', 'adress_id'];
+    protected $fillable = ['date', 'time', 'employee_id', 'seminar_id', 'address_id'];
     protected $dates = ['date'];
 
     public function getPresenterClass()
@@ -27,9 +27,9 @@ class Appointment extends Model implements HasPresenter
         return $this->belongsTo(Employee::class);
     }
 
-    public function adress()
+    public function address()
     {
-        return $this->belongsTo(Adress::class);
+        return $this->belongsTo(Address::class);
     }
 
     public function members()

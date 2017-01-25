@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Backend;
 
 use App\Post;
 use App\Http\Requests;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class BlogController extends Controller

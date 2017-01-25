@@ -3,17 +3,15 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Booking;
-use App\Events\MemberfileUploaded;
 use App\Events\UploadMemberFile;
-use App\Individualcoaching;
-use App\Layoutpurchase;
+use App\IndividualCoaching;
+use App\LayoutPurchase;
 use App\Member;
-use App\Adress;
-use App\Memberdiscount;
-use App\Memberfile;
-use App\Packagepurchase;
+use App\Address;
+use App\MemberDiscount;
+use App\MemberFile;
+use App\PackagePurchase;
 use App\Role;
-use App\Task;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests;
@@ -48,16 +46,16 @@ class MembersController extends Controller
 
     public function store(Requests\StoreMemberRequest $request)
     {
-        $adress = Adress::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
+        $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 
-        if (!$adress) {
-            $newadress = Adress::create(array(
+        if (!$address) {
+            $newaddress = Address::create(array(
                 'zip' => $request->zip,
                 'city' => $request->city,
                 'street' => $request->street,
                 'housenumber' => $request->housenumber
             ));
-            $adress = $newadress;
+            $address = $newaddress;
         }
 
         $member = Member::create(array(
@@ -67,7 +65,7 @@ class MembersController extends Controller
             'phone' => $request->phone,
             'mobile' => $request->mobile,
             'email' => $request->email,
-            'adress_id' => $adress->id,
+            'address_id' => $address->id,
             'role_id' => $request->role_id,
             'job' => $request->job,
             'employer' => $request->employer,
@@ -98,16 +96,16 @@ class MembersController extends Controller
 
     public function update(Requests\UpdateMemberRequest $request, $id)
     {
-        $adress = Adress::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
+        $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 
-        if (!$adress) {
-            $newadress = Adress::create(array(
+        if (!$address) {
+            $newaddress = Address::create(array(
                 'zip' => $request->zip,
                 'city' => $request->city,
                 'street' => $request->street,
                 'housenumber' => $request->housenumber
             ));
-            $adress = $newadress;
+            $address = $newaddress;
         }
 
         $member = Member::findOrFail($id);
@@ -119,7 +117,7 @@ class MembersController extends Controller
             'phone' => $request->phone,
             'mobile' => $request->mobile,
             'email' => $request->email,
-            'adress_id' => $adress->id,
+            'address_id' => $address->id,
             'role_id' => $request->role_id,
             'job' => $request->job,
             'employer' => $request->employer,
@@ -176,10 +174,10 @@ class MembersController extends Controller
             $uploaded = Storage::put($destinationPath, file_get_contents($file->getRealPath()));
 
             if ($uploaded) {
-                $memberfile = Memberfile::where('path', '=', $destinationPath)->first();
+                $memberfile = MemberFile::where('path', '=', $destinationPath)->first();
 
                 if (!$memberfile) {
-                    Memberfile::create(array(
+                    MemberFile::create(array(
                         'name' => $fileName,
                         'path' => $destinationPath,
                         'type' => $fileType,
@@ -215,10 +213,10 @@ class MembersController extends Controller
                 break;
         }
 
-        $files = Memberfile::where('updated_at', '<=', $date)->get();
+        $files = MemberFile::where('updated_at', '<=', $date)->get();
 
         foreach ($files as $file) {
-            Memberfile::destroy($file->id);
+            MemberFile::destroy($file->id);
         }
         return redirect(route('members.index'))->with('status', 'Files have been deleted.');
     }
@@ -235,22 +233,22 @@ class MembersController extends Controller
 
     public function deleteFiles($member_id)
     {
-        $memberfiles = Memberfile::all()->where('member_id', '=', $member_id);
+        $memberfiles = MemberFile::all()->where('member_id', '=', $member_id);
 
         foreach ($memberfiles as $memberfile) {
             Storage::delete($memberfile->path);
 
-            Memberfile::destroy($memberfile->id);
+            MemberFile::destroy($memberfile->id);
         }
     }
 
     public function deleteFile($file_id)
     {
-        $memberfile = Memberfile::findOrFail($file_id);
+        $memberfile = MemberFile::findOrFail($file_id);
 
         Storage::delete($memberfile->path);
 
-        Memberfile::destroy($file_id);
+        MemberFile::destroy($file_id);
 
         return redirect()->back()->with('status', 'File has been deleted.');
     }
@@ -266,39 +264,39 @@ class MembersController extends Controller
 
     public function deleteCoachings($member_id)
     {
-        $coachings = Individualcoaching::all()->where('member_id', '=', $member_id);
+        $coachings = IndividualCoaching::all()->where('member_id', '=', $member_id);
 
         foreach ($coachings as $coaching) {
-            Individualcoaching::destroy($coaching->id);
+            IndividualCoaching::destroy($coaching->id);
         }
     }
 
     public function deleteDiscounts($member_id)
     {
-        $discounts = Memberdiscount::all()->where('member_id', '=', $member_id);
+        $discounts = MemberDiscount::all()->where('member_id', '=', $member_id);
 
         foreach ($discounts as $discount) {
-            Memberdiscount::destroy($discount->id);
+            MemberDiscount::destroy($discount->id);
         }
     }
 
     public function deleteLayouts($member_id)
     {
-        $layouts = Layoutpurchase::all()->where('member_id', '=', $member_id);
+        $layouts = LayoutPurchase::all()->where('member_id', '=', $member_id);
 
         foreach ($layouts as $layout) {
-            Layoutpurchase::destroy($layout->id);
+            LayoutPurchase::destroy($layout->id);
         }
     }
 
     public function deletePackages($member_id)
     {
-        $packages = Packagepurchase::all()->where('member_id', '=', $member_id);
+        $packages = PackagePurchase::all()->where('member_id', '=', $member_id);
 
         foreach ($packages as $package) {
             Storage::delete($package->path);
 
-            Packagepurchase::destroy($package->id);
+            PackagePurchase::destroy($package->id);
         }
     }
 }

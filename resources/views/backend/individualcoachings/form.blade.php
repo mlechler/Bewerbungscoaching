@@ -43,13 +43,35 @@
     </div>
 
     <div class="form-group">
-        {{ Form::label('price') }}
+        {{ Form::label('price_inclusive_discount') }}
         {{ Form::number('price_incl_discount', null, ['class' => 'form-control', 'id' => 'price_incl_discount', 'step' => '0.01', 'min' => 0]) }}
     </div>
 
     <div class="form-group">
         {{ Form::label('trial') }}
         {{ Form::checkbox('trial', null) }}
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-2">
+            {{ Form::label('zip_code') }}
+            {{ Form::text('zip', $coaching->address ? $coaching->address->zip : null, ['class' => 'form-control']) }}
+        </div>
+
+        <div class="col-md-4">
+            {{ Form::label('city') }}
+            {{ Form::text('city', $coaching->address ? $coaching->address->city : null, ['class' => 'form-control']) }}
+        </div>
+
+        <div class="col-md-4">
+            {{ Form::label('street') }}
+            {{ Form::text('street', $coaching->address ? $coaching->address->street : null, ['class' => 'form-control']) }}
+        </div>
+
+        <div class="col-md-2">
+            {{ Form::label('housenumber') }}
+            {{ Form::text('housenumber', $coaching->address ? $coaching->address->housenumber : null, ['class' => 'form-control']) }}
+        </div>
     </div>
 
     {{ Form::submit($coaching->exists ? 'Save Coaching' : 'Create new Coaching', ['class' => 'btn btn-success']) }}
