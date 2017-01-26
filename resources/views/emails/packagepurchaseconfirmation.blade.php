@@ -13,6 +13,7 @@
             <div align="center">
                 your purchase for an application package from our company was successful. <br>
                 In the near future you will get an email with the corresponding invoice. <br>
+                Additional you will be contacted by an employee for your desired companies. <br>
             </div>
             <br><br>
             Your purchase in a short overview:

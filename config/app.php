@@ -149,6 +149,7 @@ return [
 
     'providers' => [
 
+        Schuppo\PasswordStrength\PasswordStrengthServiceProvider::class,
         AlfredoRamos\ParsedownExtra\ParsedownExtraServiceProvider::class,
         Arrilot\Widgets\ServiceProvider::class,
         Baum\Providers\BaumServiceProvider::class,

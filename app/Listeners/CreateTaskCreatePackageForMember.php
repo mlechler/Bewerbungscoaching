@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\PurchaseApplicationPackage;
+use App\Events\MakePackagepurchase;
 use App\Task;
 
 class CreateTaskCreatePackageForMember
@@ -17,20 +17,14 @@ class CreateTaskCreatePackageForMember
         //
     }
 
-    /**
-     * Handle the event.
-     *
-     * @param  PackagePurchased $event
-     * @return void
-     */
-    public function handle(PurchaseApplicationPackage $event)
+    public function handle(MakePackagePurchase $event)
     {
         Task::create(array(
-            'title' => 'Create Application Package for ' . $event->purchase->member->lastname . ', ' . $event->purchase->member->firstname,
-            'description' => '[' . $event->purchase->member->firstname . ' ' . $event->purchase->member->lastname . '](http://localhost:8000/backend/members/'
-                . $event->purchase->member->id . '/detail) bought the Application Package [' . $event->purchase->applicationpackage->title . '](http://localhost:8000/backend/applicationpackages/'
-                . $event->purchase->applicationpackage->id . '/detail). Communicate with the Member ([Mail](mailto:' . $event->purchase->member->email . ')) to get an overview of the desired companies. After that create the Package and assign it to ' . $event->purchase->member->firstname . ' ' . $event->purchase->member->lastname . ' [here](http://localhost:8000/backend/packagepurchases/'
-                . $event->purchase->id . '/detail).',
+            'title' => 'Create Application Package for ' . $event->packagepurchase->member->lastname . ', ' . $event->packagepurchase->member->firstname,
+            'description' => '[' . $event->packagepurchase->member->firstname . ' ' . $event->packagepurchase->member->lastname . '](http://localhost:8000/backend/members/'
+                . $event->packagepurchase->member->id . '/detail) bought the Application Package [' . $event->packagepurchase->applicationpackage->title . '](http://localhost:8000/backend/applicationpackages/'
+                . $event->packagepurchase->applicationpackage->id . '/detail). Communicate with the Member ([Mail](mailto:' . $event->packagepurchase->member->email . ')) to get an overview of the desired companies. After that create the package and assign it to ' . $event->packagepurchase->member->firstname . ' ' . $event->packagepurchase->member->lastname . ' [here](http://localhost:8000/backend/packagepurchases/'
+                . $event->packagepurchase->id . '/detail).',
             'creator_id' => null,
             'finished' => false
         ));

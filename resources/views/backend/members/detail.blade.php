@@ -4,6 +4,7 @@
 
 @section('content')
     {{ Form::model($member, [
+    'name' => 'memberDetails',
      'method' => 'post',
      'route' => ['members.uploadCheckedFile', $member->id],
      'enctype' => 'multipart/form-data'
@@ -115,12 +116,6 @@
                     <div class="row">
                         <div class="col-md-5">
                             {{ $file->name }}
-                            <br>
-                            <!-- <label class="custom-file-upload"> -->
-                                {{ Form::file('checkedFiles['.$file->id.']', null, ['class' => 'form-control']) }}
-                            <!--    Upload checked file
-                            </label>
-                            <span class="file-selected">Nothing selected</span> -->
                             <br><br>
                         </div>
                         <div class="col-md-2">
@@ -129,6 +124,15 @@
                         </div>
                     </div>
                 @endforeach
+                <div class="row">
+                    <div class="col-md-12">
+                        <label class="btn btn-default btn-file">
+                            Browse Files
+                            {{ Form::file('checkedFiles[]', ['multiple' => 'multiple', 'class' => 'form-control', 'id' => 'checkedFiles']) }}
+                        </label>
+                        <span id="filenames"></span>
+                    </div>
+                </div>
                 @if(!$member->memberFiles->isEmpty())
                     <p class="help-block">
                         The checked files have to have the same name as the original one.
@@ -138,7 +142,21 @@
         </tr>
         </tbody>
     </table>
-    {{ Form::submit('Upload Checked Files', ['class' => 'btn btn-success']) }}
+    @if(!$member->memberFiles->isEmpty())
+        {{ Form::submit('Upload Checked Files', ['class' => 'btn btn-success']) }}
+    @endif
     <a href="{{ route('members.index') }}" class="btn btn-danger">Back</a>
     {{ Form::close() }}
+
+    <script>
+        $('input[id=checkedFiles]').change(function() {
+            var names = [];
+            for (var i = 0; i < $(this).get(0).files.length; ++i) {
+                names.push($(this).get(0).files[i].name);
+                names.push(', ');
+            }
+            names.splice(-1,1);
+            $('#filenames').html(names);
+        });
+    </script>
 @endsection

@@ -59,8 +59,12 @@
                     <br>
                 @endif
                 <div class="row">
-                    <div class="col-md-3">
-                        {{ Form::file('packageFile', null, ['class' => 'form-control']) }}
+                    <div class="col-md-6">
+                        <label class="btn btn-default btn-file">
+                            Browse File
+                            {{ Form::file('package', ['class' => 'form-control', 'id' => 'package']) }}
+                        </label>
+                        <span id="packageFilename"></span>
                     </div>
                 </div>
             </td>
@@ -70,4 +74,12 @@
     {{ Form::submit('Upload Package File', ['class' => 'btn btn-success']) }}
     <a href="{{ route('packagepurchases.index') }}" class="btn btn-danger">Back</a>
     {{ Form::close() }}
+
+    <script>
+        $('#package').on('change', function () {
+            var pathParts = $(this).val().split('\\');
+            var fileName = pathParts[pathParts.length-1];
+            $('#packageFilename').html(fileName);
+        });
+    </script>
 @endsection

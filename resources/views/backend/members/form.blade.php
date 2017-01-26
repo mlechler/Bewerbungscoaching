@@ -106,7 +106,7 @@
             <br>
             @if(!$member->memberFiles->isEmpty())
                 @foreach($member->memberFiles as $file)
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         {{ $file->name }}
                     </div>
                     <div class="col-md-1">
@@ -116,9 +116,13 @@
                 @endforeach
             @endif
         </div>
-        <div class="col-md-5">
+        <div class="col-md-12">
             <br>
-            {{ Form::file('files[]', ['multiple' => 'multiple'], ['class' => 'form-control']) }}
+            <label class="btn btn-default btn-file">
+                Browse Files
+                {{ Form::file('files[]', ['multiple' => 'multiple', 'class' => 'form-control', 'id' => 'files']) }}
+            </label>
+            <span id="filenames"></span>
         </div>
     </div>
 
@@ -132,6 +136,16 @@
             format: 'YYYY-MM-DD',
             showClear: true,
             defaultDate: '{{ old('birthday', $member->birthday) }}'
+        });
+
+        $('input[id=files]').change(function() {
+            var names = [];
+            for (var i = 0; i < $(this).get(0).files.length; ++i) {
+                names.push($(this).get(0).files[i].name);
+                names.push(', ');
+            }
+            names.splice(-1,1);
+            $('#filenames').html(names);
         });
     </script>
 @endsection

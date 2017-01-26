@@ -40,7 +40,11 @@
         </div>
         <div class="col-md-5">
             <br>
-            {{ Form::file('preview') }}
+            <label class="btn btn-default btn-file">
+                Browse File
+                {{ Form::file('preview', ['class' => 'form-control', 'id' => 'preview' ]) }}
+            </label>
+            <span id="previewFilename"></span>
         </div>
     </div>
 
@@ -60,7 +64,11 @@
         </div>
         <div class="col-md-5">
             <br>
-            {{ Form::file('layout') }}
+            <label class="btn btn-default btn-file">
+                Browse File
+                {{ Form::file('layout', ['class' => 'form-control', 'id' => 'layout']) }}
+            </label>
+            <span id="layoutFilename"></span>
         </div>
     </div>
 
@@ -70,5 +78,17 @@
 
     <script>
         new SimpleMDE().render();
+
+        $('#preview').on('change', function () {
+            var pathParts = $(this).val().split('\\');
+            var fileName = pathParts[pathParts.length-1];
+            $('#previewFilename').html(fileName);
+        });
+
+        $('#layout').on('change', function () {
+            var pathParts = $(this).val().split('\\');
+            var fileName = pathParts[pathParts.length-1];
+            $('#layoutFilename').html(fileName);
+        });
     </script>
 @endsection

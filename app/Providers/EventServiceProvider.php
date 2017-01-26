@@ -31,9 +31,6 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\ExpireMemberDiscount' => [
             'App\Listeners\SendMemberDiscountExpiration',
         ],
-        'App\Events\PurchaseApplicationPackage' => [
-            'App\Listeners\CreateTaskCreatePackageForMember',
-        ],
         'App\Events\MakeSeminarBooking' => [
             'App\Listeners\SendBookingConfirmation',
             'App\Listeners\SendBookingInvoice',
@@ -43,6 +40,7 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\SendCoachingInvoice',
         ],
         'App\Events\MakePackagePurchase' => [
+            'App\Listeners\CreateTaskCreatePackageForMember',
             'App\Listeners\SendPackagePurchaseConfirmation',
             'App\Listeners\SendPackagePurchaseInvoice',
         ],

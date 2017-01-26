@@ -46,11 +46,23 @@
         </div>
         <div class="col-md-5">
             <br>
-            {{ Form::file('package') }}
+            <label class="btn btn-default btn-file">
+                Browse File
+                {{ Form::file('package', ['class' => 'form-control', 'id' => 'package']) }}
+            </label>
+            <span id="packageFilename"></span>
         </div>
     </div>
 
     {{ Form::submit($packagepurchase->exists ? 'Save Package Purchase' : 'Create New Package Purchase', ['class' => 'btn btn-success']) }}
     <a href="{{ route('packagepurchases.index') }}" class="btn btn-danger">Cancel</a>
     {{ Form::close() }}
+
+    <script>
+        $('#package').on('change', function () {
+            var pathParts = $(this).val().split('\\');
+            var fileName = pathParts[pathParts.length-1];
+            $('#packageFilename').html(fileName);
+        });
+    </script>
 @endsection

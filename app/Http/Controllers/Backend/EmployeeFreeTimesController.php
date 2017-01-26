@@ -6,9 +6,9 @@ use App\Employee;
 use App\EmployeeFreeTime;
 use App\Http\Requests;
 
-class EmployeeFreeTimeController extends Controller
+class EmployeeFreeTimesController extends Controller
 {
-    protected $freetimes;
+    protected $freeimes;
 
     public function __construct(EmployeeFreeTime $freetimes)
     {

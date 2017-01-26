@@ -38,7 +38,7 @@ class StoreEmployeeRequest extends FormRequest
             'street' => ['required'],
             'housenumber' => ['required'],
             'role_id' => ['required'],
-            'password' => ['required', 'confirmed']
+            'password' => ['required', 'min:8', 'max:50', 'numbers', 'case_diff', 'letters', 'symbols', 'confirmed']
         ];
 
         $files = $this->file('files');
@@ -76,7 +76,13 @@ class StoreEmployeeRequest extends FormRequest
             'housenumber.required' => 'Housenumber is required',
             'role_id.required' => 'Role is required',
             'password.required' => 'Password is required',
-            'password.confirmed' => 'Password has to be confirmed',
+            'password.min' => 'Password has to have at least eight characters',
+            'password.max' => 'Password could have a maximum of 50 characters',
+            'password.numbers' => 'Password has to have at least one number',
+            'password.case_diff' => 'Password has to have upper and lower case letters',
+            'password.letters' => 'Password has to have at least one letter',
+            'password.symbols' => 'Password has to have at least one symbol',
+            'password.confirmed' => 'Password has to be confirmed'
         ];
 
         if ($this->fileindex) {

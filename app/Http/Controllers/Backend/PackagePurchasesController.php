@@ -62,8 +62,6 @@ class PackagePurchasesController extends Controller
         if ($request->hasFile('package')) {
             $packageFile = $request->file('package');
             $this->storeFile($packageFile, $packagepurchase);
-        } else {
-            event(new PurchaseApplicationPackage($packagepurchase));
         }
 
         $invoice = Invoice::create(array(
@@ -179,8 +177,8 @@ class PackagePurchasesController extends Controller
     {
         $purchase = PackagePurchase::findOrFail($id);
 
-        if ($request->hasFile('packageFile')) {
-            $packageFile = $request->file('packageFile');
+        if ($request->hasFile('package')) {
+            $packageFile = $request->file('package');
             $this->storeFile($packageFile, $purchase);
         }
 

@@ -61,9 +61,13 @@
                 @endforeach
             @endif
         </div>
-        <div class="col-md-5">
+        <div class="col-md-12">
             <br>
-            {{ Form::file('files[]', ['multiple' => 'multiple'], ['class' => 'form-control']) }}
+            <label class="btn btn-default btn-file">
+                Browse Files
+                {{ Form::file('files[]', ['multiple' => 'multiple', 'class' => 'form-control', 'id' => 'files']) }}
+            </label>
+            <span id="filenames"></span>
         </div>
     </div>
 
@@ -73,5 +77,15 @@
 
     <script>
         new SimpleMDE().render();
+
+        $('input[id=files]').change(function() {
+            var names = [];
+            for (var i = 0; i < $(this).get(0).files.length; ++i) {
+                names.push($(this).get(0).files[i].name);
+                names.push(', ');
+            }
+            names.splice(-1,1);
+            $('#filenames').html(names);
+        });
     </script>
 @endsection
