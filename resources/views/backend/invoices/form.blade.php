@@ -14,10 +14,10 @@
     <div class="form-group row">
         <div class="col-md-6">
             {{ Form::label('member') }}
-            {{ Form::select('member_id', $members, null, ['class' => 'form-control']) }}
+            {{ Form::select('member_id', $members, null, ['class' => 'form-control', 'id' => 'members', 'onchange' => 'getMember()']) }}
         </div>
     </div>
-    
+
     <div class="form-group row">
         <div class="col-md-2">
             {{ Form::label('individual coaching') }}
@@ -26,7 +26,7 @@
             {{ Form::radio('type','individualcoaching') }}
         </div>
         <div class="col-md-9">
-            {{ Form::text('selectBox', null, ['class' => 'form-control', 'id' => 'individualcoaching', 'style' => 'visibility: hidden']) }}
+            {{ Form::select('selectBox', $coachings, null, ['class' => 'form-control', 'id' => 'individualcoaching', 'style' => 'visibility: hidden']) }}
         </div>
     </div>
 
@@ -38,7 +38,7 @@
             {{ Form::radio('type','seminar') }}
         </div>
         <div class="col-md-9">
-            {{ Form::text('selectBox', null, ['class' => 'form-control', 'id' => 'seminar', 'style' => 'visibility: hidden']) }}
+            {{ Form::select('selectBox', $bookings, null, ['class' => 'form-control', 'id' => 'seminar', 'style' => 'visibility: hidden']) }}
         </div>
     </div>
 
@@ -50,7 +50,7 @@
             {{ Form::radio('type','application_package') }}
         </div>
         <div class="col-md-9">
-            {{ Form::text('selectBox', null, ['class' => 'form-control', 'id' => 'application_package', 'style' => 'visibility: hidden']) }}
+            {{ Form::select('selectBox', $packagepurchases, null, ['class' => 'form-control', 'id' => 'application_package', 'style' => 'visibility: hidden']) }}
         </div>
     </div>
 
@@ -62,7 +62,7 @@
             {{ Form::radio('type','layout') }}
         </div>
         <div class="col-md-9">
-            {{ Form::text('selectBox', null, ['class' => 'form-control', 'id' => 'layout', 'style' => 'visibility: hidden']) }}
+            {{ Form::select('selectBox', $layoutpurchases, null, ['class' => 'form-control', 'id' => 'layout', 'style' => 'visibility: hidden']) }}
         </div>
     </div>
 
@@ -75,11 +75,17 @@
         for (var i = 0; i < radio.length; i++) {
             radio[i].onclick = function () {
                 var inputs = document.getElementsByName('selectBox');
-                for(var i = 0; i<inputs.length; i++){
-                    inputs[i].style.visibility = 'hidden'}
+                for (var i = 0; i < inputs.length; i++) {
+                    inputs[i].style.visibility = 'hidden'
+                }
                 document.getElementById(this.value).style.visibility = 'visible';
                 document.getElementById('selectBoxType').value = this.value;
             };
+        }
+        function getMember() {
+            var member = document.getElementById("members");
+            var selectedMember = member.options[member.selectedIndex].value;
+            console.log(selectedMember);
         }
     </script>
 @endsection
