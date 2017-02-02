@@ -50,6 +50,7 @@ class Kernel extends HttpKernel
         'member.guest' => \App\Http\Middleware\RedirectIfMember::class,
         'employee' => \App\Http\Middleware\RedirectIfNotEmployee::class,
         'employee.guest' => \App\Http\Middleware\RedirectIfEmployee::class,
+        'admin' => \App\Http\Middleware\Admin::class,
         'auth' => \Illuminate\Auth\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,

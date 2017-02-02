@@ -27,6 +27,11 @@ class Employee extends Authenticatable implements HasPresenter
         event(new ResetEmployeePassword($_REQUEST['email'], $token));
     }
 
+    public function isAdmin()
+    {
+        return $this->role->name == 'admin' ? true : false;
+    }
+
     public function posts(){
         return $this->hasMany(Post::class);
     }

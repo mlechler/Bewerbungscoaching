@@ -22,7 +22,9 @@
                     <li class="dropdown-submenu">
                         <a href="">Employees</a>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="employeesMenu">
-                            <li><a href="{{ route('employees.index') }}">Overview Employees</a></li>
+                            @if($backendUser->isAdmin())
+                                <li><a href="{{ route('employees.index') }}">Overview Employees</a></li>
+                            @endif
                             <li><a href="{{ route('employeefreetimes.index') }}">Overview Employee Free Times</a></li>
                         </ul>
                     </li>
@@ -38,38 +40,52 @@
                         <ul class="dropdown-menu" role="menu" aria-labelledby="seminarsMenu">
                             <li><a href="{{ route('seminars.index') }}">Overview Seminars</a></li>
                             <li><a href="{{ route('seminarappointments.index') }}">Overview Appointments</a></li>
-                            <li><a href="{{ route('seminarbookings.index') }}">Overview Bookings</a></li>
+                            @if($backendUser->isAdmin())
+                                <li><a href="{{ route('seminarbookings.index') }}">Overview Bookings</a></li>
+                            @endif
                         </ul>
                     </li>
                     <li><a href="{{ route('individualcoachings.index') }}">Individual Coaching</a></li>
-                    <li class="dropdown-submenu">
-                        <a href="">Application Packages</a>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="applicationPackagesMenu">
-                            <li><a href="{{ route('applicationpackages.index') }}">Overview Application Packages</a>
-                            </li>
-                            <li><a href="{{ route('packagepurchases.index') }}">Overview Package Purchases</a></li>
+                    @if($backendUser->isAdmin())
+                        <li class="dropdown-submenu">
+                            <a href="">Application Packages</a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="applicationPackagesMenu">
+                                <li><a href="{{ route('applicationpackages.index') }}">Overview Application Packages</a>
+                                </li>
+                                <li><a href="{{ route('packagepurchases.index') }}">Overview Package Purchases</a></li>
 
-                        </ul>
-                    </li>
-                    <li class="dropdown-submenu">
-                        <a href="">Application Layouts</a>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="applicationLayoutsMenu">
-                            <li><a href="{{ route('applicationlayouts.index') }}">Overview Application Layouts</a></li>
-                            <li><a href="{{ route('layoutpurchases.index') }}">Overview Layout Purchases</a></li>
-                        </ul>
-                    </li>
+                            </ul>
+                        </li>
+                    @endif
+                    @if($backendUser->isAdmin())
+                        <li class="dropdown-submenu">
+                            <a href="">Application Layouts</a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="applicationLayoutsMenu">
+                                <li><a href="{{ route('applicationlayouts.index') }}">Overview Application Layouts</a>
+                                </li>
+                                <li><a href="{{ route('layoutpurchases.index') }}">Overview Layout Purchases</a></li>
+                            </ul>
+                        </li>
+                    @endif
                 </ul>
             </li>
-            <li class="dropdown">
-                <a class="dropdown-toggle" role="button" id="discountsMenu" data-toggle="dropdown">Discounts <span
-                            class="caret"></span></a>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="discountsMenu">
-                    <li><a href="{{ route('discounts.index') }}">Overview Discounts</a></li>
-                    <li><a href="{{ route('memberdiscounts.index') }}">Overview Member Discounts</a></li>
-                </ul>
-            </li>
-            <li><a href="{{ route('invoices.index') }}">Invoices</a></li>
-            <li><a href="{{ route('pages.index') }}">Pages</a></li>
+            @if($backendUser->isAdmin())
+                <li class="dropdown">
+                    <a class="dropdown-toggle" role="button" id="discountsMenu" data-toggle="dropdown">Discounts <span
+                                class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="discountsMenu">
+                        <li><a href="{{ route('discounts.index') }}">Overview Discounts</a></li>
+                        <li><a href="{{ route('memberdiscounts.index') }}">Overview Member Discounts</a></li>
+                    </ul>
+                </li>
+            @endif
+            @if($backendUser->isAdmin())
+                <li><a href="{{ route('invoices.index') }}">Invoices</a></li>
+            @endif
+            @if($backendUser->isAdmin())
+                <li><a href="{{ route('pages.index') }}">Pages</a></li>
+            @endif
+
             <li><a href="{{ route('blog.index') }}">Blog Posts</a></li>
             <li><a href="{{ route('todo.index') }}">Tasks</a></li>
         </ul>
