@@ -78,6 +78,10 @@ class EmployeesController extends Controller
     {
         $employee = Employee::findOrFail($id);
 
+        if (!Auth::user()->isAdmin() && Auth::user()->id != $employee->id) {
+            return redirect()->back();
+        }
+
         $roles = ['' => ''] + Role::all()->pluck('display_name', 'id')->toArray();
 
         return view('backend.employees.form', compact('employee', 'roles'));
@@ -99,6 +103,8 @@ class EmployeesController extends Controller
 
         $employee = Employee::findOrFail($id);
 
+        $oldrole = $employee->role_id;
+
         $employee->fill(array(
             'lastname' => $request->lastname,
             'firstname' => $request->firstname,
@@ -107,7 +113,7 @@ class EmployeesController extends Controller
             'mobile' => $request->mobile,
             'email' => $request->email,
             'address_id' => $address->id,
-            'role_id' => $request->role_id,
+            'role_id' => $request->role_id ? $request->role_id : $oldrole,
             'password' => Hash::make($request->password),
             'remember_token' => Auth::viaRemember()
         ))->save();
@@ -117,7 +123,11 @@ class EmployeesController extends Controller
             $this->storeFiles($files, $employee->id);
         }
 
-        return redirect(route('employees.index'))->with('status', 'Employee has been updated.');
+        if (!Auth::user()->isAdmin()) {
+            return redirect(route('employees.edit', Auth::user()->id))->with('status', 'Your Information has been updated.');
+        } else {
+            return redirect(route('employees.index'))->with('status', 'Employee has been updated.');
+        }
     }
 
 
@@ -143,6 +153,10 @@ class EmployeesController extends Controller
     public function detail($id)
     {
         $employee = Employee::findOrFail($id);
+
+        if (!Auth::user()->isAdmin() && Auth::user()->id != $employee->id) {
+            return redirect()->back();
+        }
 
         return view('backend.employees.detail', compact('employee'));
     }

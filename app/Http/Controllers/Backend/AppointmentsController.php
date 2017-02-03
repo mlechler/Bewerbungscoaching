@@ -12,6 +12,7 @@ use App\Address;
 use App\Booking;
 use Carbon\Carbon;
 use App\Http\Requests;
+use Illuminate\Support\Facades\Auth;
 
 class AppointmentsController extends Controller
 {
@@ -26,7 +27,11 @@ class AppointmentsController extends Controller
 
     public function index()
     {
-        $seminarappointments = Appointment::with('employee')->orderBy('created_at', 'desc')->paginate(10);
+        if(Auth::user()->isAdmin()) {
+            $seminarappointments = Appointment::with('employee')->orderBy('created_at', 'desc')->paginate(10);
+        } else {
+            $seminarappointments = Appointment::with('employee')->where('employee_id', '=', Auth::user()->id)->orderBy('created_at', 'desc')->paginate(10);
+        }
 
         return view('backend.seminarappointments.index', compact('seminarappointments'));
     }

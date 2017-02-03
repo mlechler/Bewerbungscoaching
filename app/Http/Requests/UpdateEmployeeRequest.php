@@ -38,7 +38,6 @@ class UpdateEmployeeRequest extends FormRequest
             'city' => ['required'],
             'street' => ['required'],
             'housenumber' => ['required'],
-            'role_id' => ['required'],
             'password' => ['required_with:password_confirmation', 'min:8', 'max:50', 'numbers', 'case_diff', 'letters', 'symbols', 'confirmed']
         ];
 
@@ -75,7 +74,6 @@ class UpdateEmployeeRequest extends FormRequest
             'city.required' => 'City is required',
             'street.required' => 'Street is required',
             'housenumber.required' => 'Housenumber is required',
-            'role_id.required' => 'Role is required',
             'password.min' => 'Password has to have at least eight characters',
             'password.max' => 'Password could have a maximum of 50 characters',
             'password.numbers' => 'Password has to have at least one number',

@@ -13,6 +13,7 @@ use App\Invoice;
 use App\Member;
 use Carbon\Carbon;
 use App\Http\Requests;
+use Illuminate\Support\Facades\Auth;
 
 class IndividualCoachingsController extends Controller
 {
@@ -27,20 +28,31 @@ class IndividualCoachingsController extends Controller
 
     public function index()
     {
-        $coachings = IndividualCoaching::with('employee', 'member')->orderBy('created_at', 'desc')->paginate(10);
-
+        if (Auth::user()->isAdmin()) {
+            $coachings = IndividualCoaching::with('employee', 'member')->orderBy('created_at', 'desc')->paginate(10);
+        } else {
+            $coachings = IndividualCoaching::with('employee', 'member')->where('employee_id', '=', Auth::user()->id)->orderBy('created_at', 'desc')->paginate(10);
+        }
         return view('backend.individualcoachings.index', compact('coachings'));
     }
 
     public function create(IndividualCoaching $coaching)
     {
-        $emp = Employee::select('lastname', 'firstname')->get();
-        $employees = ['' => ''];
-        foreach ($emp as $employee) {
-            array_push($employees, $employee->lastname . ', ' . $employee->firstname);
+        if (!Auth::user()->isAdmin()) {
+            $emp = Employee::select('id', 'lastname', 'firstname')->whereId(Auth::user()->id)->get();
+            $employees = ['' => ''];
+            foreach ($emp as $employee) {
+                $employees[$employee->id] = $employee->lastname . ', ' . $employee->firstname;
+            }
+        } else {
+            $emp = Employee::select('lastname', 'firstname')->get();
+            $employees = ['' => ''];
+            foreach ($emp as $employee) {
+                array_push($employees, $employee->lastname . ', ' . $employee->firstname);
+            }
+            array_unshift($employees, '');
+            unset($employees[0]);
         }
-        array_unshift($employees, '');
-        unset($employees[0]);
 
         $mem = Member::select('lastname', 'firstname')->get();
         $members = ['' => ''];
@@ -99,13 +111,21 @@ class IndividualCoachingsController extends Controller
     {
         $coaching = IndividualCoaching::findOrFail($id);
 
-        $emp = Employee::select('lastname', 'firstname')->get();
-        $employees = ['' => ''];
-        foreach ($emp as $employee) {
-            array_push($employees, $employee->lastname . ', ' . $employee->firstname);
+        if (!Auth::user()->isAdmin()) {
+            $emp = Employee::select('id', 'lastname', 'firstname')->whereId(Auth::user()->id)->get();
+            $employees = ['' => ''];
+            foreach ($emp as $employee) {
+                $employees[$employee->id] = $employee->lastname . ', ' . $employee->firstname;
+            }
+        } else {
+            $emp = Employee::select('lastname', 'firstname')->get();
+            $employees = ['' => ''];
+            foreach ($emp as $employee) {
+                array_push($employees, $employee->lastname . ', ' . $employee->firstname);
+            }
+            array_unshift($employees, '');
+            unset($employees[0]);
         }
-        array_unshift($employees, '');
-        unset($employees[0]);
 
         $mem = Member::select('lastname', 'firstname')->get();
         $members = ['' => ''];

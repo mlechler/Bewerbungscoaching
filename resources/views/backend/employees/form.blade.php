@@ -66,7 +66,7 @@
             {{ Form::label('role') }}
         </div>
         <div class="col-md-4">
-            {{ Form::select('role_id', $roles, null, ['class' => 'form-control']) }}
+            {{ Form::select('role_id', $roles, null, ['class' => 'form-control', $employee->isAdmin() ? null : 'disabled']) }}
         </div>
     </div>
 

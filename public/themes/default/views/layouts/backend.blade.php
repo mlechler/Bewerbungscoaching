@@ -20,14 +20,16 @@
                             class="caret"></span></a>
                 <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="usersMenu">
                     <li class="dropdown-submenu">
-                        <a href="">Employees</a>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="employeesMenu">
-                            @if($backendUser->isAdmin())
+                        @if($backendUser->isAdmin())
+                            <a href="">Employees</a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="employeesMenu">
                                 <li><a href="{{ route('employees.index') }}">Overview Employees</a></li>
-                            @endif
-                            <li><a href="{{ route('employeefreetimes.index') }}">Overview Employee Free Times</a></li>
-                        </ul>
+                                <li><a href="{{ route('employeefreetimes.index') }}">
+                                        Overview Employee Free Times
+                                    </a></li>
+                            </ul>
                     </li>
+                    @endif
                     <li><a href="{{ route('members.index') }}">Members</a></li>
                 </ul>
             </li>
@@ -39,23 +41,29 @@
                         <a href="">Seminars</a>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="seminarsMenu">
                             <li><a href="{{ route('seminars.index') }}">Overview Seminars</a></li>
-                            <li><a href="{{ route('seminarappointments.index') }}">Overview Appointments</a></li>
+                            <li><a href="{{ route('seminarappointments.index') }}">
+                                    @if($backendUser->isAdmin())
+                                        Overview Appointments
+                                    @else
+                                        My Appointments
+                                    @endif
+                                </a></li>
                             @if($backendUser->isAdmin())
                                 <li><a href="{{ route('seminarbookings.index') }}">Overview Bookings</a></li>
                             @endif
                         </ul>
                     </li>
                     <li><a href="{{ route('individualcoachings.index') }}">Individual Coaching</a></li>
-                        <li class="dropdown-submenu">
-                            <a href="">Application Packages</a>
-                            <ul class="dropdown-menu" role="menu" aria-labelledby="applicationPackagesMenu">
-                                <li><a href="{{ route('applicationpackages.index') }}">Overview Application Packages</a>
-                                </li>
-                                @if($backendUser->isAdmin())
+                    <li class="dropdown-submenu">
+                        <a href="">Application Packages</a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="applicationPackagesMenu">
+                            <li><a href="{{ route('applicationpackages.index') }}">Overview Application Packages</a>
+                            </li>
+                            @if($backendUser->isAdmin())
                                 <li><a href="{{ route('packagepurchases.index') }}">Overview Package Purchases</a></li>
-                                @endif
-                            </ul>
-                        </li>
+                            @endif
+                        </ul>
+                    </li>
                     @if($backendUser->isAdmin())
                         <li class="dropdown-submenu">
                             <a href="">Application Layouts</a>
@@ -89,7 +97,19 @@
             <li><a href="{{ route('todo.index') }}">Tasks</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><span class="navbar-text">Hello, {{ $backendUser->firstname }}</span></li>
+            <li><span class="navbar-text">
+            <li class="dropdown">
+                <a class="dropdown-toggle" role="button" id="userMenu"
+                   data-toggle="dropdown">Hello, {{ $backendUser->firstname }} <span
+                            class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="userMenu">
+                    <li><a href="{{ route('employees.detail', $backendUser->id) }}">My Information</a></li>
+                    @if(!$backendUser->isAdmin())
+                        <li><a href="{{ route('employeefreetimes.index') }}">My Free Times</a></li>
+                    @endif
+                </ul>
+            </li>
+            </span></li>
             <li><a href="/employee/logout">Logout</a></li>
         </ul>
     </div>

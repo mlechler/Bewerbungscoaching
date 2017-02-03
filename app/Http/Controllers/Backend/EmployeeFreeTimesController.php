@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Employee;
 use App\EmployeeFreeTime;
 use App\Http\Requests;
+use Illuminate\Support\Facades\Auth;
 
 class EmployeeFreeTimesController extends Controller
 {
@@ -19,20 +20,32 @@ class EmployeeFreeTimesController extends Controller
 
     public function index()
     {
-        $freetimes = EmployeeFreeTime::with('employee')->paginate(10);
-
+        if (Auth::user()->isAdmin()) {
+            $freetimes = EmployeeFreeTime::with('employee')->paginate(10);
+        } else {
+            $freetimes = EmployeeFreeTime::with('employee')->where('employee_id', '=', Auth::user()->id)->paginate(10);
+        }
         return view('backend.employeefreetimes.index', compact('freetimes'));
     }
 
     public function create(EmployeeFreeTime $freetime)
     {
-        $emp = Employee::select('lastname', 'firstname')->get();
-        $employees = ['' => ''];
-        foreach ($emp as $employee) {
-            array_push($employees, $employee->lastname . ', ' . $employee->firstname);
+        if (!Auth::user()->isAdmin()) {
+            $emp = Employee::select('id', 'lastname', 'firstname')->whereId(Auth::user()->id)->get();
+            $employees = ['' => ''];
+            foreach ($emp as $employee) {
+                $employees[$employee->id] = $employee->lastname . ', ' . $employee->firstname;
+            }
+        } else {
+
+            $emp = Employee::select('lastname', 'firstname')->get();
+            $employees = ['' => ''];
+            foreach ($emp as $employee) {
+                array_push($employees, $employee->lastname . ', ' . $employee->firstname);
+            }
+            array_unshift($employees, '');
+            unset($employees[0]);
         }
-        array_unshift($employees,'');
-        unset($employees[0]);
 
         return view('backend.employeefreetimes.form', compact('freetime', 'employees'));
     }
@@ -61,14 +74,26 @@ class EmployeeFreeTimesController extends Controller
     {
         $freetime = EmployeeFreeTime::findOrFail($id);
 
-        $emp = Employee::select('lastname', 'firstname')->get();
-        $employees = ['' => ''];
-        foreach ($emp as $employee) {
-            array_push($employees, $employee->lastname . ', ' . $employee->firstname);
+        if (!Auth::user()->isAdmin() && Auth::user()->id != $freetime->employee_id) {
+            return redirect(route('employeefreetimes.index'));
         }
-        array_unshift($employees,'');
-        unset($employees[0]);
 
+        if (!Auth::user()->isAdmin()) {
+            $emp = Employee::select('id', 'lastname', 'firstname')->whereId(Auth::user()->id)->get();
+            $employees = ['' => ''];
+            foreach ($emp as $employee) {
+                $employees[$employee->id] = $employee->lastname . ', ' . $employee->firstname;
+            }
+        } else {
+            $emp = Employee::select('lastname', 'firstname')->get();
+            $employees = ['' => ''];
+            foreach ($emp as $employee) {
+                array_push($employees, $employee->lastname . ', ' . $employee->firstname);
+            }
+
+            array_unshift($employees, '');
+            unset($employees[0]);
+        }
         return view('backend.employeefreetimes.form', compact('freetime', 'employees'));
     }
 
@@ -121,7 +146,7 @@ class EmployeeFreeTimesController extends Controller
 
         foreach ($freetimes as $freetime) {
             if ($freetime->date == $date) {
-                if (($freetime->starttime <= $endtime) && ($freetime->endtime >= $starttime)){
+                if (($freetime->starttime <= $endtime) && ($freetime->endtime >= $starttime)) {
                     return true;
                 };
             }
