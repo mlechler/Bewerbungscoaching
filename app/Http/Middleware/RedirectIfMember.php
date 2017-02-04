@@ -18,7 +18,7 @@ class RedirectIfMember
 	public function handle($request, Closure $next, $guard = 'member')
 	{
 	    if (Auth::guard($guard)->check()) {
-	        return redirect('/home');
+	        return redirect('/');
 	    }
 
 	    return $next($request);

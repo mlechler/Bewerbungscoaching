@@ -78,7 +78,7 @@ class EmployeesController extends Controller
     {
         $employee = Employee::findOrFail($id);
 
-        if (!Auth::user()->isAdmin() && Auth::user()->id != $employee->id) {
+        if (!Auth::guard('employee')->user()->isAdmin() && Auth::guard('employee')->user()->id != $employee->id) {
             return redirect()->back();
         }
 
@@ -123,8 +123,8 @@ class EmployeesController extends Controller
             $this->storeFiles($files, $employee->id);
         }
 
-        if (!Auth::user()->isAdmin()) {
-            return redirect(route('employees.edit', Auth::user()->id))->with('status', 'Your Information has been updated.');
+        if (!Auth::guard('employee')->user()->isAdmin()) {
+            return redirect(route('employees.edit', Auth::guard('employee')->user()->id))->with('status', 'Your Information has been updated.');
         } else {
             return redirect(route('employees.index'))->with('status', 'Employee has been updated.');
         }
@@ -154,7 +154,7 @@ class EmployeesController extends Controller
     {
         $employee = Employee::findOrFail($id);
 
-        if (!Auth::user()->isAdmin() && Auth::user()->id != $employee->id) {
+        if (!Auth::guard('employee')->user()->isAdmin() && Auth::guard('employee')->user()->id != $employee->id) {
             return redirect()->back();
         }
 

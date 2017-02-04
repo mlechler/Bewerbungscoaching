@@ -17,6 +17,10 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app['view']->composer('layouts.backend', Composers\AddBackendUser::class);
         $this->app['view']->composer('layouts.backend', Composers\AddStatusMessage::class);
+
+        $this->app['view']->composer('layouts.frontend', Composers\AddLoggedInUser::class);
+        $this->app['view']->composer('layouts.frontend', Composers\InjectPages::class);
+
         $this->app['view']->setFinder($this->app['theme.finder']);
     }
 

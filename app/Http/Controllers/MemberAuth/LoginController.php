@@ -29,7 +29,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    public $redirectTo = '/home';
+    public $redirectTo = '/';
     public $redirectAfterLogout = '/member/login';
 
     /**

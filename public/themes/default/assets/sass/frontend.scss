@@ -1,16 +1,11 @@
 @import "bootstrap";
-@import "font-awesome";
-@import "simplemde.css";
-@import "datepicker";
 
-body {
-  padding-bottom: 2rem;
-}
+a.navbar-brand {
+  padding: 9px 15px;
 
-input[type="file"] {
-  position: fixed;
-  right: 100%;
-  bottom: 100%;
+  img {
+    height: 32px;
+  }
 }
 
 .dropdown-submenu {
@@ -63,38 +58,4 @@ input[type="file"] {
   -webkit-border-radius: 6px 0 6px 6px;
   -moz-border-radius: 6px 0 6px 6px;
   border-radius: 6px 0 6px 6px;
-}
-
-.taskFinished {
-  float: right;
-}
-
-.has-feedback .form-control {
-  padding-right: 34px;
-}
-
-.has-feedback-left .form-control {
-  padding-right: 12px;
-  padding-left: 34px;
-}
-
-.has-feedback-left .form-control-feedback {
-  left: 0;
-  top: 19px;
-}
-
-.form-control-feedback {
-  line-height: 34px !important;
-}
-
-.vertical-center {
-  display: flex;
-  min-height: 100vh;
-  align-items: center;
-  justify-content: center;
-}
-
-.excerpt .CodeMirror {
-  height: 150px;
-  min-height: 150px;
 }

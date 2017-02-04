@@ -16,8 +16,7 @@
         <ul class="nav navbar-nav">
             <li><a href="{{ route('backend.dashboard') }}">Dashboard</a></li>
             <li class="dropdown">
-                <a class="dropdown-toggle" role="button" id="usersMenu" data-toggle="dropdown">Users <span
-                            class="caret"></span></a>
+                <a href="">Users <span class="caret"></span></a>
                 <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="usersMenu">
                     <li class="dropdown-submenu">
                         @if($backendUser->isAdmin())
@@ -34,8 +33,7 @@
                 </ul>
             </li>
             <li class="dropdown">
-                <a class="dropdown-toggle" role="button" id="productsMenu" data-toggle="dropdown">Products <span
-                            class="caret"></span></a>
+                <a href="">Products <span class="caret"></span></a>
                 <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="productsMenu">
                     <li class="dropdown-submenu">
                         <a href="">Seminars</a>
@@ -78,8 +76,7 @@
             </li>
             @if($backendUser->isAdmin())
                 <li class="dropdown">
-                    <a class="dropdown-toggle" role="button" id="discountsMenu" data-toggle="dropdown">Discounts <span
-                                class="caret"></span></a>
+                    <a href="">Discounts <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="discountsMenu">
                         <li><a href="{{ route('discounts.index') }}">Overview Discounts</a></li>
                         <li><a href="{{ route('memberdiscounts.index') }}">Overview Member Discounts</a></li>
@@ -99,9 +96,7 @@
         <ul class="nav navbar-nav navbar-right">
             <li><span class="navbar-text">
             <li class="dropdown">
-                <a class="dropdown-toggle" role="button" id="userMenu"
-                   data-toggle="dropdown">Hello, {{ $backendUser->firstname }} <span
-                            class="caret"></span></a>
+                <a href="">Hello, {{ $backendUser->firstname }} <span class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu" aria-labelledby="userMenu">
                     <li><a href="{{ route('employees.detail', $backendUser->id) }}">My Information</a></li>
                     @if(!$backendUser->isAdmin())

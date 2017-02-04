@@ -12,8 +12,8 @@ Route::group(['prefix' => 'employee'], function () {
 });
 
 Route::group(['prefix' => 'member'], function () {
-    Route::get('/login', 'MemberAuth\LoginController@showLoginForm');
-    Route::post('/login', 'MemberAuth\LoginController@login');
+    Route::get('/login', ['as' => 'member.login', 'uses' => 'MemberAuth\LoginController@showLoginForm']);
+    Route::post('/login', ['as' => 'member.login', 'uses' => 'MemberAuth\LoginController@login']);
     Route::get('/logout', 'MemberAuth\LoginController@logout');
 
     Route::get('/register', 'MemberAuth\RegisterController@showRegistrationForm');
@@ -130,8 +130,4 @@ Route::group(['prefix' => 'backend'], function () {
 
 Route::get('/', function () {
     return view('welcome');
-});
-
-Route::get('/home', function () {
-    return view('home');
 });
