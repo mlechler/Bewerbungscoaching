@@ -24,7 +24,7 @@
                     <li class="dropdown-submenu">
                         <a href="">Item 1.1</a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="{{ route('seminars.index') }}">Overview Seminars</a></li>
+                            <li><a href="#">Item 1.1.1</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -44,7 +44,7 @@
                 </span></li>
                 <li><a href="/member/logout">Logout</a></li>
             @else
-                <li><a href="/member/login">Login</a></li>
+                <li><a href="{{ route('member.login') }}">Login</a></li>
             @endif
         </ul>
     </div>
@@ -53,6 +53,15 @@
     <div class="row">
         <div class="col-md-12">
             @yield('content')
+        </div>
+    </div>
+</div>
+<div class="panel panel-default footer">
+    <div class="panel-footer">
+        <div class="container">
+            <div class="col-md-12" align="center">
+                ©2017 Bewerbungscoaching | Designed by Marcel Lechler
+            </div>
         </div>
     </div>
 </div>

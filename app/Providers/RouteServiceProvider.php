@@ -109,10 +109,10 @@ class RouteServiceProvider extends ServiceProvider
             require base_path('routes/web.php');
         });
 
-        foreach(Page::all() as $page) {
-            Route::get($page->uri, ['as' => $page->name, function() use ($page){
-                return $this->app->call('App\Http\Controllers\PageController@show', [
-                   'page' => $page,
+        foreach (Page::all() as $page) {
+            Route::get($page->uri, ['as' => 'frontend.'.$page->name, function () use ($page) {
+                return $this->app->call('App\Http\Controllers\Frontend\PagesController@show', [
+                    'page' => $page,
                     'parameters' => Route::current()->parameters()
                 ]);
             }]);

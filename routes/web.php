@@ -16,8 +16,8 @@ Route::group(['prefix' => 'member'], function () {
     Route::post('/login', ['as' => 'member.login', 'uses' => 'MemberAuth\LoginController@login']);
     Route::get('/logout', 'MemberAuth\LoginController@logout');
 
-    Route::get('/register', 'MemberAuth\RegisterController@showRegistrationForm');
-    Route::post('/register', 'MemberAuth\RegisterController@register');
+    Route::get('/register', ['as' => 'member.register', 'uses' => 'MemberAuth\RegisterController@showRegistrationForm']);
+    Route::post('/register', ['as' => 'member.register', 'uses' => 'MemberAuth\RegisterController@register']);
 
     Route::post('/password/email', 'MemberAuth\ForgotPasswordController@sendResetLinkEmail');
     Route::post('/password/reset', 'MemberAuth\ResetPasswordController@reset');
@@ -129,5 +129,5 @@ Route::group(['prefix' => 'backend'], function () {
 });
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('frontend.welcome');
 });

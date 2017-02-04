@@ -16,6 +16,7 @@ class PageTableSeeder extends Seeder
         Page::create(array(
             'title' => 'FAQ',
             'uri' => 'faq',
+            'name' => 'faq',
             'pagecontent' => 'This is the FAQ page.',
             'parent_id' => null,
             'lft' => 1,
@@ -25,6 +26,7 @@ class PageTableSeeder extends Seeder
         Page::create(array(
             'title' => 'About',
             'uri' => 'about',
+            'name' => 'about',
             'pagecontent' => 'This is the about page.',
             'parent_id' => null,
             'lft' => 3,
@@ -34,6 +36,7 @@ class PageTableSeeder extends Seeder
         Page::create(array(
             'title' => 'Contact',
             'uri' => 'contact',
+            'name' => 'contact',
             'pagecontent' => 'This is the contact page.',
             'parent_id' => 2,
             'lft' => 4,
@@ -43,6 +46,7 @@ class PageTableSeeder extends Seeder
         Page::create(array(
             'title' => 'Partners',
             'uri' => 'partners',
+            'name' => 'partners',
             'pagecontent' => 'This is the partners page.',
             'parent_id' => null,
             'lft' => 7,
@@ -52,6 +56,7 @@ class PageTableSeeder extends Seeder
         Page::create(array(
             'title' => 'Bank (test)',
             'uri' => 'bank',
+            'name' => 'bank',
             'pagecontent' => 'This is the bank page.',
             'parent_id' => null,
             'lft' => 9,
