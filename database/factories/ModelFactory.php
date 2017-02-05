@@ -11,10 +11,8 @@
 |
 */
 
-<<<<<<< HEAD
-=======
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
->>>>>>> 0d3881453ca30bc1ffe46f8b6d106b3478da9966
+
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
 

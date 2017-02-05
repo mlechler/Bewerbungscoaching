@@ -2,6 +2,16 @@
 
 return [
 
+    'fileDestinationPath' => 'uploads',
+    'layoutDestinationPath' => 'layouts',
+    'packageDestinationPath' => 'packagepurchases',
+    'allowedFileTypes' => 'png,pdf,docx',
+    'allowedPreviewFileTypes' => 'png',
+    'allowedLayoutFileTypes' => 'pdf,docx',
+    'allowedPackageFileTypes' => 'rar,zip',
+    'maxFileSize' => 5000,
+    'maxPackageFileSize' => 30000,
+
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -12,7 +22,7 @@ return [
     | any other location as required by the application or its packages.
     */
 
-    'name' => 'Laravel',
+    'name' => 'Bewerbungscoaching',
 
     /*
     |--------------------------------------------------------------------------
@@ -64,11 +74,9 @@ return [
     |
     */
 
-<<<<<<< HEAD
+
     'timezone' => 'Europe/Berlin',
-=======
-    'timezone' => 'UTC',
->>>>>>> 0d3881453ca30bc1ffe46f8b6d106b3478da9966
+
 
     /*
     |--------------------------------------------------------------------------
@@ -141,9 +149,13 @@ return [
 
     'providers' => [
 
-        /*
-         * Laravel Framework Service Providers...
-         */
+        Schuppo\PasswordStrength\PasswordStrengthServiceProvider::class,
+        AlfredoRamos\ParsedownExtra\ParsedownExtraServiceProvider::class,
+        Arrilot\Widgets\ServiceProvider::class,
+        Baum\Providers\BaumServiceProvider::class,
+        McCool\LaravelAutoPresenter\AutoPresenterServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
+
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
@@ -199,7 +211,7 @@ return [
 
         'App' => Illuminate\Support\Facades\App::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
-        'Auth' => Illuminate\Support\Facades\Auth::class,
+        'EmployeeAuth' => Illuminate\Support\Facades\Auth::class,
         'Blade' => Illuminate\Support\Facades\Blade::class,
         'Bus' => Illuminate\Support\Facades\Bus::class,
         'Cache' => Illuminate\Support\Facades\Cache::class,
@@ -229,6 +241,11 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
+        'Widget' => Arrilot\Widgets\Facade::class,
+        'Markdown' => AlfredoRamos\ParsedownExtra\Facades\ParsedownExtra::class
 
     ],
 

@@ -3,22 +3,23 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Support\Facades\Auth;
 
 class RedirectIfAuthenticated
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @param  string|null  $guard
-     * @return mixed
-     */
-    public function handle($request, Closure $next, $guard = null)
+
+    protected $auth;
+
+    public function __construct(Guard $auth)
     {
-        if (Auth::guard($guard)->check()) {
-            return redirect('/home');
+        $this->auth = $auth;
+    }
+
+    public function handle($request, Closure $next)
+    {
+        if ($this->auth->check()) {
+            return redirect(route('backend.dashboard'));
         }
 
         return $next($request);

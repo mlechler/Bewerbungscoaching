@@ -29,7 +29,7 @@ return [
     |
     */
 
-    'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+    'host' => env('MAIL_HOST', 'smtp.gmail.com'),
 
     /*
     |--------------------------------------------------------------------------
@@ -56,13 +56,8 @@ return [
     */
 
     'from' => [
-<<<<<<< HEAD
-        'address' => 'hello@example.com',
-        'name' => 'Example',
-=======
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
->>>>>>> 0d3881453ca30bc1ffe46f8b6d106b3478da9966
+        'address' => env('MAIL_FROM_ADDRESS', 'lechlermarcel@gmail.com'),
+        'name' => env('MAIL_FROM_NAME', 'Marcel')
     ],
 
     /*
@@ -116,5 +111,6 @@ return [
     */
 
     'sendmail' => '/usr/sbin/sendmail -bs',
+    'pretend' => false
 
 ];

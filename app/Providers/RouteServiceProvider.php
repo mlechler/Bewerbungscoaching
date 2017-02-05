@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Page;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -39,8 +40,58 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapWebRoutes();
 
+        $this->mapMemberRoutes();
+
+        $this->mapEmployeeRoutes();
+
         //
     }
+
+    /**
+     * Define the "employee" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapEmployeeRoutes()
+    {
+        Route::group([
+            'middleware' => ['web', 'employee', 'auth:employee'],
+            'prefix' => 'employee',
+            'as' => 'employee.',
+            'namespace' => $this->namespace,
+        ], function ($router) {
+            require base_path('routes/employee.php');
+        });
+    }
+
+    /**
+     * Define the "member" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapMemberRoutes()
+    {
+        Route::group([
+            'middleware' => ['web', 'member', 'auth:member'],
+            'prefix' => 'member',
+            'as' => 'member.',
+            'namespace' => $this->namespace,
+        ], function ($router) {
+            require base_path('routes/member.php');
+        });
+    }
+
+    /**
+     * Define the "user" routes for the application.
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
 
     /**
      * Define the "web" routes for the application.
@@ -57,6 +108,15 @@ class RouteServiceProvider extends ServiceProvider
         ], function ($router) {
             require base_path('routes/web.php');
         });
+
+        foreach (Page::all() as $page) {
+            Route::get($page->uri, ['as' => 'frontend.'.$page->name, function () use ($page) {
+                return $this->app->call('App\Http\Controllers\Frontend\PagesController@show', [
+                    'page' => $page,
+                    'parameters' => Route::current()->parameters()
+                ]);
+            }]);
+        }
     }
 
     /**

@@ -20,4 +20,8 @@ class ThemeViewFinder extends FileViewFinder
 
         array_unshift($this->paths, $this->basePath.'/'.$theme.'/views');
     }
+
+    public function setHints($hints) {
+        $this->hints = $hints;
+    }
 }

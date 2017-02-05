@@ -6,7 +6,19 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
-        "laravel/framework": "5.3.*"
+        "laravel/framework": "5.3.*",
+        "laravelcollective/html": "^5.3",
+        "laracasts/presenter": "^0.2.1",
+        "mccool/laravel-auto-presenter": "^4.3",
+        "baum/baum": "^1.1",
+        "arrilot/laravel-widgets": "^3.6",
+        "league/commonmark": "^0.15.3",
+        "graham-campbell/markdown": "^7.0",
+        "hesto/multi-auth": "^1.0",
+        "zizaco/entrust": "^1.7",
+        "erusev/parsedown": "^1.6",
+        "alfredo-ramos/parsedown-extra-laravel": "^0.5.1",
+        "schuppo/password-strength": "~1.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

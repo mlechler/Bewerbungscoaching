@@ -14,8 +14,8 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
-        'passwords' => 'users',
+        'guard' => 'employee',
+        'passwords' => 'employees',
     ],
 
     /*
@@ -36,15 +36,15 @@ return [
     */
 
     'guards' => [
-        'web' => [
+        'member' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'members',
         ],
 
-        'api' => [
-            'driver' => 'token',
-            'provider' => 'users',
-        ],
+        'employee' => [
+            'driver' => 'session',
+            'provider' => 'employees',
+        ]
     ],
 
     /*
@@ -65,15 +65,15 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        'members' => [
             'driver' => 'eloquent',
-            'model' => App\User::class,
+            'model' => App\Member::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'employees' => [
+            'driver' => 'eloquent',
+            'model' => App\Employee::class,
+        ]
     ],
 
     /*
@@ -92,11 +92,17 @@ return [
     */
 
     'passwords' => [
-        'users' => [
-            'provider' => 'users',
-            'table' => 'password_resets',
+        'members' => [
+            'provider' => 'members',
+            'table' => 'password_resets_members',
             'expire' => 60,
         ],
+
+        'employees' => [
+            'provider' => 'employees',
+            'table' => 'password_resets_employees',
+            'expire' => 60,
+        ]
     ],
 
 ];
