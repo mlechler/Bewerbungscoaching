@@ -14,7 +14,7 @@
     <div class="container">
         <div class="navbar-header">
             <a href="/" class="navbar-brand">
-                <img src="images/logo.png" alt="Bewerbungscoaching">
+                <img src="{{theme('../../../../images/logo.png')}}" alt="Bewerbungscoaching">
             </a>
         </div>
         <ul class="nav navbar-nav">
@@ -24,7 +24,7 @@
                     <li class="dropdown-submenu">
                         <a href="">Item 1.1</a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Item 1.1.1</a></li>
+                            <li><a href="">Item 1.1.1</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -52,18 +52,37 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
+            @if($__env->yieldContent('title') != 'Welcome')
+                <h3>@yield('title')</h3>
+            @endif
+
+            @if($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            @if($status)
+                <div class="alert alert-success">
+                    {{ $status }}
+                </div>
+            @endif
+
             @yield('content')
         </div>
     </div>
 </div>
-<div class="panel panel-default footer">
-    <div class="panel-footer">
-        <div class="container">
-            <div class="col-md-12" align="center">
-                ©2017 Bewerbungscoaching | Designed by Marcel Lechler
-            </div>
-        </div>
-    </div>
-</div>
+{{--<div class="panel panel-default footer">--}}
+{{--<div class="panel-footer">--}}
+{{--<div class="container">--}}
+{{--<div class="col-md-12" align="center">--}}
+{{--©2017 Bewerbungscoaching | Designed by Marcel Lechler--}}
+{{--</div>--}}
+{{--</div>--}}
+{{--</div>--}}
+{{--</div>--}}
 </body>
 </html>

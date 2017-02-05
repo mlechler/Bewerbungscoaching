@@ -9,6 +9,6 @@ class PagesController extends Controller
 {
     public function show(Page $page, array $parameters)
     {
-        return view('frontend.page', compact('page'));
+        return view('frontend.page', compact('page'))->withErrors(null, null);
     }
 }

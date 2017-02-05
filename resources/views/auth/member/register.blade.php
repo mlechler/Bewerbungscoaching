@@ -3,7 +3,10 @@
 @section('title', 'Register')
 
 @section('content')
-    {{ Form::open() }}
+    {{ Form::model([
+    'method' => 'post',
+    'route' => 'member.register'
+    ]) }}
 
     <div class="form-group">
         {{ Form::label('lastname') }}
@@ -33,6 +36,28 @@
     <div class="form-group">
         {{ Form::label('email') }}
         {{ Form::text('email', null, ['class' => 'form-control']) }}
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-2">
+            {{ Form::label('zip_code') }}
+            {{ Form::text('zip', null, ['class' => 'form-control']) }}
+        </div>
+
+        <div class="col-md-4">
+            {{ Form::label('city') }}
+            {{ Form::text('city', null, ['class' => 'form-control']) }}
+        </div>
+
+        <div class="col-md-4">
+            {{ Form::label('street') }}
+            {{ Form::text('street', null, ['class' => 'form-control']) }}
+        </div>
+
+        <div class="col-md-2">
+            {{ Form::label('housenumber') }}
+            {{ Form::text('housenumber', null, ['class' => 'form-control']) }}
+        </div>
     </div>
 
     <div class="form-group">
