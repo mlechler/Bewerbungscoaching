@@ -75,14 +75,14 @@
         </div>
     </div>
 </div>
-{{--<div class="panel panel-default footer">--}}
-{{--<div class="panel-footer">--}}
-{{--<div class="container">--}}
-{{--<div class="col-md-12" align="center">--}}
-{{--©2017 Bewerbungscoaching | Designed by Marcel Lechler--}}
-{{--</div>--}}
-{{--</div>--}}
-{{--</div>--}}
-{{--</div>--}}
+<nav class="navbar navbar-default footer">
+    <div class="container">
+        <ul class="nav navbar-nav">
+            <li>
+                <a href="">©2017 Bewerbungscoaching | Designed by Marcel Lechler</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 </body>
 </html>

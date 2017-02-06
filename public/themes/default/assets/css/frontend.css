@@ -7687,6 +7687,17 @@ button.close {
   }
 }
 
+html {
+  height: 100%;
+}
+
+body {
+  overflow: scroll;
+  position: relative;
+  min-height: 100%;
+  padding-bottom: 100px;
+}
+
 a.navbar-brand {
   padding: 9px 15px;
 }
@@ -7697,8 +7708,10 @@ a.navbar-brand img {
 
 .footer {
   position: absolute;
-  bottom: 0;
+  text-align: center;
   width: 100%;
+  bottom: 0;
+  margin-bottom: 0;
 }
 
 .dropdown-submenu {
