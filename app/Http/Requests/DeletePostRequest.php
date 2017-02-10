@@ -16,15 +16,21 @@ class DeletePostRequest extends FormRequest
     public function authorize()
     {
         $post = Post::findOrFail($this->route('blog'));
+        $return = null;
 
-        if ($post->author_id != Auth::id()) {
-            if($post->author_id == null) {
-                return true;
+        if (Auth::guard('employee')->user()->isAdmin()) {
+            $return = true;
+        }
+        elseif ($post->author_id != Auth::guard('employee')->id()) {
+            if ($post->author_id == null) {
+                $return = true;
             }
-            return false;
+            $return = false;
+        } else {
+            $return = true;
         }
 
-        return true;
+        return $return;
     }
 
     public function forbiddenresponse()

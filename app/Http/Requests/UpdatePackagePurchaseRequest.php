@@ -38,7 +38,7 @@ class UpdatePackagePurchaseRequest extends FormRequest
             'applicationpackage_id.required' => 'Application Package is required',
             'price_incl_discount.required' => 'Price is required',
             'package.mimes' => 'Wrong Filetype',
-            'package.max' => 'Filesize exceeded'
+            'package.uploaded' => 'Filesize exceeded'
         ];
     }
 }

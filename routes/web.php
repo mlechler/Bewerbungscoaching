@@ -86,9 +86,6 @@ Route::group(['prefix' => 'backend'], function () {
         Route::get('/pages/{page}/detail', ['as' => 'pages.detail', 'uses' => 'Backend\PagesController@detail']);
         Route::resource('/pages', 'Backend\PagesController');
 
-        Route::get('/blog/{blog}/confirm', ['as' => 'blog.confirm', 'uses' => 'Backend\BlogController@confirm']);
-        Route::resource('/blog', 'Backend\BlogController');
-
         Route::get('/todo/{todo}/confirm', ['as' => 'todo.confirm', 'uses' => 'Backend\TasksController@confirm']);
         Route::post('/todo/delete', ['as' => 'todo.deleteAllFinishedTasks', 'uses' => 'Backend\TasksController@deleteAllFinishedTasks']);
         Route::resource('/todo', 'Backend\TasksController');
@@ -120,8 +117,9 @@ Route::group(['prefix' => 'backend'], function () {
     Route::get('/packagepurchases/{packagepurchase}/detail', ['as' => 'packagepurchases.detail', 'uses' => 'Backend\PackagePurchasesController@detail']);
     Route::post('/packagepurchases/{packagepurchase}/uploadpackagefile', ['as' => 'packagepurchases.uploadPackageFile', 'uses' => 'Backend\PackagePurchasesController@uploadPackageFile']);
 
+    Route::get('/blog/{blog}/confirm', ['as' => 'blog.confirm', 'uses' => 'Backend\BlogController@confirm']);
     Route::get('/blog/{blog}/detail', ['as' => 'blog.detail', 'uses' => 'Backend\BlogController@detail']);
-    Route::resource('/blog', 'Backend\BlogController', ['only' => ['index', 'create', 'store', 'edit', 'update']]);
+    Route::resource('/blog', 'Backend\BlogController');
 
     Route::get('/todo/{todo}/detail', ['as' => 'todo.detail', 'uses' => 'Backend\TasksController@detail']);
     Route::get('/todo/{todo}/finished', ['as' => 'todo.finishedTask', 'uses' => 'Backend\TasksController@taskFinished']);

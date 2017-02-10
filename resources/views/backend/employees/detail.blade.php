@@ -82,5 +82,9 @@
         </tbody>
     </table>
     <a href="{{ route('employees.edit', $employee->id) }}" class="btn btn-success">Change Data</a>
-    <a href="{{ route('employees.index') }}" class="btn btn-danger">Back</a>
+    @if($backendUser->isAdmin())
+        <a href="{{ route('employees.index') }}" class="btn btn-danger">Back</a>
+    @else
+        <a href="{{ route('backend.dashboard') }}" class="btn btn-danger">Back</a>
+    @endif
 @endsection

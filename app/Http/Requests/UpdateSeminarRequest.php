@@ -45,7 +45,7 @@ class UpdateSeminarRequest extends FormRequest
                 $this->fileindex[] = [
                     sprintf('files.%d', $key) . '.required',
                     sprintf('files.%d', $key) . '.mimes',
-                    sprintf('files.%d', $key) . '.max'
+                    sprintf('files.%d', $key) . '.uploaded'
                 ];
             }
         }

@@ -104,6 +104,7 @@ class EmployeesController extends Controller
         $employee = Employee::findOrFail($id);
 
         $oldrole = $employee->role_id;
+        $oldpw = $employee->password;
 
         $employee->fill(array(
             'lastname' => $request->lastname,
@@ -114,7 +115,7 @@ class EmployeesController extends Controller
             'email' => $request->email,
             'address_id' => $address->id,
             'role_id' => $request->role_id ? $request->role_id : $oldrole,
-            'password' => Hash::make($request->password),
+            'password' => $request->password ? Hash::make($request->password) : $oldpw,
             'remember_token' => Auth::viaRemember()
         ))->save();
 

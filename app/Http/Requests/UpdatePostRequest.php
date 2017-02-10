@@ -16,11 +16,18 @@ class UpdatePostRequest extends FormRequest
     public function authorize()
     {
         $post = Post::findOrFail($this->route('blog'));
-        if ($post->author_id != Auth::id()) {
-            return false;
+        $return = null;
+
+        if (Auth::guard('employee')->user()->isAdmin()) {
+            $return = true;
+        }
+        elseif ($post->author_id != Auth::guard('employee')->id()) {
+            $return = false;
+        } else {
+            $return = true;
         }
 
-        return true;
+        return $return;
     }
 
     public function forbiddenresponse()

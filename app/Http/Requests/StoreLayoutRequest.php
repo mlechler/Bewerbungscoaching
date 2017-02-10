@@ -40,9 +40,9 @@ class StoreLayoutRequest extends FormRequest
             'description.required' => 'Description is required',
             'price.required' => 'Price is required',
             'preview.mimes' => 'Wrong Filetype for Preview',
-            'preview.max' => 'Filesize exceeded for Preview',
+            'preview.uploaded' => 'Filesize exceeded for Preview',
             'layout.mimes' => 'Wrong Filetype for Layout',
-            'layout.max' => 'Filesize exceeded for Layout',
+            'layout.uploaded' => 'Filesize exceeded for Layout',
         ];
     }
 }

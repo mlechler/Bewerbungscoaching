@@ -9,8 +9,8 @@ return [
     'allowedPreviewFileTypes' => 'png',
     'allowedLayoutFileTypes' => 'pdf,docx',
     'allowedPackageFileTypes' => 'rar,zip',
-    'maxFileSize' => 5000,
-    'maxPackageFileSize' => 30000,
+    'maxFileSize' => 5120,
+    'maxPackageFileSize' => 30720,
 
     /*
     |--------------------------------------------------------------------------

@@ -66,7 +66,7 @@
             {{ Form::label('role') }}
         </div>
         <div class="col-md-4">
-            {{ Form::select('role_id', $roles, null, ['class' => 'form-control', $employee->isAdmin() ? null : 'disabled']) }}
+            {{ Form::select('role_id', $roles, null, ['class' => 'form-control', $employee->exists ? $backendUser->isAdmin() ? null : 'disabled' : null]) }}
         </div>
     </div>
 
@@ -107,7 +107,11 @@
     </div>
 
     {{ Form::submit($employee->exists ? 'Save Employee' : 'Create New Employee', ['class' => 'btn btn-success']) }}
-    <a href="{{ route('employees.index') }}" class="btn btn-danger">Cancel</a>
+    @if($backendUser->isAdmin())
+        <a href="{{ route('employees.index') }}" class="btn btn-danger">Cancel</a>
+    @else
+        <a href="{{ route('employees.detail', $backendUser->id) }}" class="btn btn-danger">Cancel</a>
+    @endif
     {{ Form::close() }}
 
     <script>
@@ -118,13 +122,13 @@
             defaultDate: '{{ old('birthday', $employee->birthday) }}'
         });
 
-        $('input[id=files]').change(function() {
+        $('input[id=files]').change(function () {
             var names = [];
             for (var i = 0; i < $(this).get(0).files.length; ++i) {
                 names.push($(this).get(0).files[i].name);
                 names.push(', ');
             }
-            names.splice(-1,1);
+            names.splice(-1, 1);
             $('#filenames').html(names);
         });
     </script>

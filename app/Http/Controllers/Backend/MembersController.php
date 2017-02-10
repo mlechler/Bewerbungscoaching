@@ -110,6 +110,8 @@ class MembersController extends Controller
 
         $member = Member::findOrFail($id);
 
+        $oldpw = $member->password;
+
         $member->fill(array(
             'lastname' => $request->lastname,
             'firstname' => $request->firstname,
@@ -123,7 +125,7 @@ class MembersController extends Controller
             'employer' => $request->employer,
             'university' => $request->university,
             'courseofstudies' => $request->courseofstudies,
-            'password' => Hash::make($request->password),
+            'password' => $request->password ? Hash::make($request->password) : $oldpw,
             'remember_token' => Auth::viaRemember()
         ))->save();
 
