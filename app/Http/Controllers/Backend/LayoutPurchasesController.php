@@ -43,7 +43,7 @@ class LayoutPurchasesController extends Controller
         return view('backend.layoutpurchases.form', compact('layoutpurchase', 'members', 'applicationlayouts'));
     }
 
-    public function store(Requests\StoreLayoutPurchaseRequest $request)
+    public function store(Requests\Backend\StoreLayoutPurchaseRequest $request)
     {
         $layout = ApplicationLayout::findOrFail($request->applicationlayout_id);
         $price = $request->price_incl_discount > $layout->price ? $layout->price : $request->price_incl_discount;
@@ -87,7 +87,7 @@ class LayoutPurchasesController extends Controller
         return view('backend.layoutpurchases.form', compact('layoutpurchase', 'members', 'applicationlayouts'));
     }
 
-    public function update(Requests\UpdateLayoutPurchaseRequest $request, $id)
+    public function update(Requests\Backend\UpdateLayoutPurchaseRequest $request, $id)
     {
         $layoutpurchase = LayoutPurchase::findOrFail($id);
 

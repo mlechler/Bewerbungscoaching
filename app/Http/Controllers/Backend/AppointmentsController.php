@@ -51,7 +51,7 @@ class AppointmentsController extends Controller
         return view('backend.seminarappointments.form', compact('seminarappointment', 'seminars', 'employees'));
     }
 
-    public function store(Requests\StoreAppointmentRequest $request)
+    public function store(Requests\Backend\StoreAppointmentRequest $request)
     {
         $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 
@@ -93,7 +93,7 @@ class AppointmentsController extends Controller
         return view('backend.seminarappointments.form', compact('seminarappointment', 'seminars', 'employees'));
     }
 
-    public function update(Requests\UpdateAppointmentRequest $request, $id)
+    public function update(Requests\Backend\UpdateAppointmentRequest $request, $id)
     {
         $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 

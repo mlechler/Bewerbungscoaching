@@ -24,4 +24,9 @@
             </div>
         @endif
     </div>
+    <div class="row">
+        <div class="col-md-6">
+            {{ Widget::run('contactRequests') }}
+        </div>
+    </div>
 @endsection

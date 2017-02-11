@@ -15,11 +15,13 @@ class TaskPresenter extends BasePresenter
         return (implode(" ", array_splice($pieces, 0, 10)) . $append);
     }
 
-    public function finishedHighlight()
+    public function highlight()
     {
         if ($this->finished) {
             return 'success';
-        } elseif (!$this->finished) {
+        } elseif ($this->processing) {
+            return 'warning';
+        } else {
             return 'danger';
         }
     }
@@ -38,5 +40,10 @@ class TaskPresenter extends BasePresenter
             return 'Creator not found';
         }
         return ($this->creator->lastname . ', ' . $this->creator->firstname);
+    }
+
+    public function processedBy()
+    {
+        return $this->processor->lastname . ', ' . $this->processor->firstname;
     }
 }

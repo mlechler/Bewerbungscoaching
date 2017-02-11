@@ -65,7 +65,7 @@ class IndividualCoachingsController extends Controller
         return view('backend.individualcoachings.form', compact('coaching', 'employees', 'members'));
     }
 
-    public function store(Requests\StoreCoachingRequest $request)
+    public function store(Requests\Backend\StoreCoachingRequest $request)
     {
         $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 
@@ -138,7 +138,7 @@ class IndividualCoachingsController extends Controller
         return view('backend.individualcoachings.form', compact('coaching', 'employees', 'members'));
     }
 
-    public function update(Requests\UpdateCoachingRequest $request, $id)
+    public function update(Requests\Backend\UpdateCoachingRequest $request, $id)
     {
         $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 

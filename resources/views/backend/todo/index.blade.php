@@ -33,6 +33,7 @@
             <th>Creator</th>
             <th>Details</th>
             <th>Edit</th>
+            <th>Processing</th>
             <th>Finish</th>
             <th>Delete</th>
         </tr>
@@ -40,11 +41,11 @@
         <tbody>
         @if($tasks->isEmpty())
             <tr>
-                <td colspan="7" align="center">There are no tasks.</td>
+                <td colspan="8" align="center">There are no tasks.</td>
             </tr>
         @else
             @foreach($tasks as $task)
-                <tr class="{{ $task->finishedHighlight() }}">
+                <tr class="{{ $task->highlight() }}">
                     <td>
                         {{ $task->title }}
                     </td>
@@ -61,6 +62,10 @@
                     <td>
                         <a href="{{ route('todo.edit', $task->id) }}"><span
                                     class="glyphicon glyphicon-edit"></span></a>
+                    </td>
+                    <td>
+                        <a href="{{ route('todo.processTask', $task->id) }}"><span
+                                    class="glyphicon glyphicon-repeat"></span></a>
                     </td>
                     <td>
                         <a href="{{ route('todo.finishedTask', $task->id) }}"><span

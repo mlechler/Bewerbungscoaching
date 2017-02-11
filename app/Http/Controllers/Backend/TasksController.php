@@ -29,12 +29,14 @@ class TasksController extends Controller
         return view('backend.todo.form', compact('task'));
     }
 
-    public function store(Requests\StoreTaskRequest $request)
+    public function store(Requests\Backend\StoreTaskRequest $request)
     {
         Task::create(array(
             'creator_id' => Auth::guard('employee')->id(),
             'title' => $request->title,
             'description' => $request->description,
+            'processing' => false,
+            'processedby' => null,
             'finished' => false
         ));
 
@@ -48,7 +50,7 @@ class TasksController extends Controller
         return view('backend.todo.form', compact('task'));
     }
 
-    public function update(Requests\UpdateTaskRequest $request, $id)
+    public function update(Requests\Backend\UpdateTaskRequest $request, $id)
     {
         $task = Task::findOrFail($id);
 
@@ -77,7 +79,7 @@ class TasksController extends Controller
 
     public function detail($id)
     {
-        $task = Task::with('creator')->findOrFail($id);
+        $task = Task::with('creator', 'processor')->findOrFail($id);
 
         return view('backend.todo.detail', compact('task'));
     }
@@ -86,11 +88,30 @@ class TasksController extends Controller
     {
         $task = Task::findOrFail($id);
 
-        $task->fill(array(
-            'finished' => true
-        ))->save();
+        if((Auth::guard('employee')->user()->isAdmin() || $task->processedby == Auth::guard('employee')->id()) && !$task->finished) {
+            $task->fill(array(
+                'processing' => false,
+                'finished' => true
+            ))->save();
 
-        return redirect()->back()->with('status', 'Task has been closed.');
+            return redirect()->back()->with('status', 'Task has been closed.');
+        }
+        return redirect()->back();
+    }
+
+    public function taskProcessing($id)
+    {
+        $task = Task::findOrFail($id);
+
+        if((Auth::guard('employee')->user()->isAdmin() || !$task->processing) && !$task->finished) {
+            $task->fill(array(
+                'processing' => true,
+                'processedby' => Auth::guard('employee')->id()
+            ))->save();
+
+            return redirect()->back()->with('status', 'Task is now in your processing.');
+        }
+        return redirect()->back();
     }
 
     public function deleteAllFinishedTasks()

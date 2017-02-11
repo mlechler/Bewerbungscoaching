@@ -36,7 +36,11 @@ class Employee extends Authenticatable implements HasPresenter
         return $this->hasMany(Post::class);
     }
 
-    public function tasks(){
+    public function tasksCreated(){
+        return $this->hasMany(Task::class);
+    }
+
+    public function tasksProcessed(){
         return $this->hasMany(Task::class);
     }
 
@@ -68,5 +72,10 @@ class Employee extends Authenticatable implements HasPresenter
     public function individualCoachings()
     {
         return $this->hasMany(IndividualCoaching::class);
+    }
+
+    public function processedContactRequests()
+    {
+        return $this->hasMany(ContactRequest::class);
     }
 }

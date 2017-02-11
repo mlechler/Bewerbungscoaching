@@ -44,7 +44,7 @@ class MembersController extends Controller
         return view('backend.members.form', compact('member', 'roles'));
     }
 
-    public function store(Requests\StoreMemberRequest $request)
+    public function store(Requests\Backend\StoreMemberRequest $request)
     {
         $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 
@@ -94,7 +94,7 @@ class MembersController extends Controller
         return view('backend.members.form', compact('member', 'roles'));
     }
 
-    public function update(Requests\UpdateMemberRequest $request, $id)
+    public function update(Requests\Backend\UpdateMemberRequest $request, $id)
     {
         $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 
@@ -201,7 +201,7 @@ class MembersController extends Controller
         }
     }
 
-    public function deleteAllFiles(Requests\DeleteAllMemberFilesRequest $request)
+    public function deleteAllFiles(Requests\Backend\DeleteAllMemberFilesRequest $request)
     {
         switch ($request->timerange) {
             case 'one':

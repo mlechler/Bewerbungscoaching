@@ -50,7 +50,7 @@ class EmployeeFreeTimesController extends Controller
         return view('backend.employeefreetimes.form', compact('freetime', 'employees'));
     }
 
-    public function store(Requests\StoreEmployeeFreeTimeRequest $request)
+    public function store(Requests\Backend\StoreEmployeeFreeTimeRequest $request)
     {
         $overlap = $this->checkTimeOverlap($request->employee_id, $request->date, $request->starttime, $request->endtime);
 
@@ -97,7 +97,7 @@ class EmployeeFreeTimesController extends Controller
         return view('backend.employeefreetimes.form', compact('freetime', 'employees'));
     }
 
-    public function update(Requests\UpdateEmployeeFreeTimeRequest $request, $id)
+    public function update(Requests\Backend\UpdateEmployeeFreeTimeRequest $request, $id)
     {
         $freetime = EmployeeFreeTime::findOrFail($id);
 

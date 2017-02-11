@@ -34,7 +34,7 @@ class PagesController extends Controller
         return view('backend.pages.form', compact('page', 'templates', 'orderPages'));
     }
 
-    public function store(Requests\StorePageRequest $request)
+    public function store(Requests\Backend\StorePageRequest $request)
     {
         $page = Page::create(array(
             'title' => $request->title,
@@ -60,7 +60,7 @@ class PagesController extends Controller
         return view('backend.pages.form', compact('page', 'templates', 'orderPages'));
     }
 
-    public function update(Requests\UpdatePageRequest $request, $id)
+    public function update(Requests\Backend\UpdatePageRequest $request, $id)
     {
         $page = Page::findOrFail($id);
 

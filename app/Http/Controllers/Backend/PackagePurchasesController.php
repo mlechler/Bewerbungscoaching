@@ -46,7 +46,7 @@ class PackagePurchasesController extends Controller
         return view('backend.packagepurchases.form', compact('packagepurchase', 'members', 'applicationpackages'));
     }
 
-    public function store(Requests\StorePackagePurchaseRequest $request)
+    public function store(Requests\Backend\StorePackagePurchaseRequest $request)
     {
         $package = ApplicationPackage::findOrFail($request->applicationpackage_id);
         $price = $request->price_incl_discount > $package->price ? $package->price : $request->price_incl_discount;
@@ -97,7 +97,7 @@ class PackagePurchasesController extends Controller
         return view('backend.packagepurchases.form', compact('packagepurchase', 'members', 'applicationpackages'));
     }
 
-    public function update(Requests\UpdatePackagePurchaseRequest $request, $id)
+    public function update(Requests\Backend\UpdatePackagePurchaseRequest $request, $id)
     {
         $packagepurchase = PackagePurchase::findOrFail($id);
 

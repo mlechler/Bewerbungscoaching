@@ -51,7 +51,7 @@ class BookingsController extends Controller
         return view('backend.seminarbookings.form', compact('seminarbooking', 'members', 'appointments'));
     }
 
-    public function store(Requests\StoreBookingRequest $request)
+    public function store(Requests\Backend\StoreBookingRequest $request)
     {
         $appointment = Appointment::findOrfail($request->appointment_id);
         $seminar = Seminar::findOrFail($appointment->seminar_id);
@@ -102,7 +102,7 @@ class BookingsController extends Controller
         return view('backend.seminarbookings.form', compact('seminarbooking', 'members', 'appointments'));
     }
 
-    public function update(Requests\UpdateBookingRequest $request, $id)
+    public function update(Requests\Backend\UpdateBookingRequest $request, $id)
     {
         $appointment = Appointment::findOrfail($request->appointment_id);
         $seminar = Seminar::findOrFail($appointment->seminar_id);

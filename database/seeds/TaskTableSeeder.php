@@ -17,18 +17,24 @@ class TaskTableSeeder extends Seeder
             'title' => 'Task 1',
             'description' => 'This is Task 1',
             'creator_id' => 1,
+            'processing' => false,
+            'processedby' => null,
             'finished' => false
         ));
         Task::create(array(
             'title' => 'Task 2',
             'description' => 'This is Task 2',
             'creator_id' => 1,
+            'processing' => false,
+            'processedby' => null,
             'finished' => false
         ));
         Task::create(array(
             'title' => 'Task 3',
             'description' => 'This is Task 3',
             'creator_id' => 2,
+            'processing' => false,
+            'processedby' => null,
             'finished' => true
         ));
     }

@@ -89,6 +89,10 @@ Route::group(['prefix' => 'backend'], function () {
         Route::get('/todo/{todo}/confirm', ['as' => 'todo.confirm', 'uses' => 'Backend\TasksController@confirm']);
         Route::post('/todo/delete', ['as' => 'todo.deleteAllFinishedTasks', 'uses' => 'Backend\TasksController@deleteAllFinishedTasks']);
         Route::resource('/todo', 'Backend\TasksController');
+
+        Route::get('/contact/{contact}/confirm', ['as' => 'contact.confirm', 'uses' => 'Backend\ContactController@confirm']);
+        Route::delete('/contact/{contact}', ['as' => 'contact.destroy', 'uses' => 'Backend\ContactController@destroy']);
+        Route::post('/contact/delete', ['as' => 'contact.deleteAllFinishedRequests', 'uses' => 'Backend\ContactController@deleteAllFinishedRequests']);
     });
     Route::get('/employees/{employee}/detail', ['as' => 'employees.detail', 'uses' => 'Backend\EmployeesController@detail']);
     Route::resource('/employees', 'Backend\EmployeesController', ['only' => ['edit', 'update']]);
@@ -123,8 +127,15 @@ Route::group(['prefix' => 'backend'], function () {
 
     Route::get('/todo/{todo}/detail', ['as' => 'todo.detail', 'uses' => 'Backend\TasksController@detail']);
     Route::get('/todo/{todo}/finished', ['as' => 'todo.finishedTask', 'uses' => 'Backend\TasksController@taskFinished']);
+    Route::get('/todo/{todo}/process', ['as' => 'todo.processTask', 'uses' => 'Backend\TasksController@taskProcessing']);
     Route::resource('/todo', 'Backend\TasksController', ['only' => ['index', 'create', 'store', 'edit', 'update']]);
+
+    Route::get('/contact', ['as' => 'contact.index', 'uses' => 'Backend\ContactController@index']);
+    Route::get('/contact/{contact}/detail', ['as' => 'contact.detail', 'uses' => 'Backend\ContactController@detail']);
+    Route::get('/contact/{contact}/process', ['as' => 'contact.processRequest', 'uses' => 'Backend\ContactController@requestProcessing']);
+    Route::get('/contact/{contact}/finished', ['as' => 'contact.finishedRequest', 'uses' => 'Backend\ContactController@requestFinished']);
 });
+
 Route::group([], function () {
     Route::get('/', function () {
         return view('frontend.welcome');
@@ -138,4 +149,5 @@ Route::group([], function () {
             ]);
         }]);
     }
+    Route::post('/contact', ['as' => 'contact.store', 'uses' => 'Frontend\ContactController@store']);
 });

@@ -32,7 +32,7 @@ class SeminarsController extends Controller
         return view('backend.seminars.form', compact('seminar'));
     }
 
-    public function store(Requests\StoreSeminarRequest $request)
+    public function store(Requests\Backend\StoreSeminarRequest $request)
     {
         $seminar = Seminar::create(array(
             'title' => $request->title,
@@ -59,7 +59,7 @@ class SeminarsController extends Controller
         return view('backend.seminars.form', compact('seminar'));
     }
 
-    public function update(Requests\UpdateSeminarRequest $request, $id)
+    public function update(Requests\Backend\UpdateSeminarRequest $request, $id)
     {
         $seminar = Seminar::findOrFail($id);
 

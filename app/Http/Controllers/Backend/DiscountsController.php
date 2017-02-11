@@ -29,7 +29,7 @@ class DiscountsController extends Controller
         return view('backend.discounts.form', compact('discount'));
     }
 
-    public function store(Requests\StoreDiscountRequest $request)
+    public function store(Requests\Backend\StoreDiscountRequest $request)
     {
         Discount::create(array(
             'title' => $request->title,
@@ -48,7 +48,7 @@ class DiscountsController extends Controller
         return view('backend.discounts.form', compact('discount'));
     }
 
-    public function update(Requests\UpdateDiscountRequest $request, $id)
+    public function update(Requests\Backend\UpdateDiscountRequest $request, $id)
     {
         $discount = Discount::findOrFail($id);
 

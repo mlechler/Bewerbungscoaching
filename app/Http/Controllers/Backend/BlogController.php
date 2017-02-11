@@ -29,7 +29,7 @@ class BlogController extends Controller
         return view('backend.blog.form', compact('post'));
     }
 
-    public function store(Requests\StorePostRequest $request)
+    public function store(Requests\Backend\StorePostRequest $request)
     {
         Post::create(array(
             'author_id' => Auth::guard('employee')->id(),
@@ -50,7 +50,7 @@ class BlogController extends Controller
         return view('backend.blog.form', compact('post'));
     }
 
-    public function update(Requests\UpdatePostRequest $request, $id)
+    public function update(Requests\Backend\UpdatePostRequest $request, $id)
     {
         $post = Post::findOrFail($id);
 
@@ -65,18 +65,18 @@ class BlogController extends Controller
         return redirect(route('blog.index'))->with('status', 'Blog Post has been updated.');
     }
 
-    public function confirm(Requests\DeletePostRequest $request, $id)
+    public function confirm(Requests\Backend\DeletePostRequest $request, $id)
     {
         $post = Post::findOrFail($id);
 
         return view('backend.blog.confirm', compact('post'));
     }
 
-    public function destroy(Requests\DeletePostRequest $request, $id)
+    public function destroy(Requests\Backend\DeletePostRequest $request, $id)
     {
         Post::destroy($id);
 
-        return redirect(route('blog.index'))->with('status', 'Blog post has been deleted.');
+        return redirect(route('blog.index'))->with('status', 'Blog Post has been deleted.');
     }
 
     public function detail($id)

@@ -22,7 +22,7 @@ class ApplicationLayoutsController extends Controller
     {
         return view('backend.applicationlayouts.form', compact('layout'));
     }
-    public function store(Requests\StoreLayoutRequest $request)
+    public function store(Requests\Backend\StoreLayoutRequest $request)
     {
         $layout = ApplicationLayout::create(array(
             'title' => $request->title,
@@ -41,7 +41,7 @@ class ApplicationLayoutsController extends Controller
         $layout = ApplicationLayout::findOrFail($id);
         return view('backend.applicationlayouts.form', compact('layout'));
     }
-    public function update(Requests\UpdateLayoutRequest $request, $id)
+    public function update(Requests\Backend\UpdateLayoutRequest $request, $id)
     {
         $previewFile = null;
         $layoutFile = null;

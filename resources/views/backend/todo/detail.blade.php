@@ -23,22 +23,37 @@
         </tr>
         <tr>
             <td>
+                <h4>Description</h4>
+            </td>
+            <td>
+                <h4>{!! $task->descriptionHtml() !!}</h4>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h4>In Processing</h4>
+            </td>
+            <td>
+                <h4>
+                    <span class="glyphicon glyphicon-{{ $task->processing ? 'ok' : 'remove'}}"></span> {{ $task->processing ? ' by ' . $task->processedBy() : null}}
+                </h4>
+            </td>
+        </tr>
+        <tr>
+            <td>
                 <h4>Finished</h4>
             </td>
             <td>
                 <h4><span class="glyphicon glyphicon-{{ $task->finished ? 'ok' : 'remove'}}"></span></h4>
             </td>
         </tr>
-        <tr>
-            <td>
-                <h4>Description</h4>
-            </td>
-            <td style="max-width: 100px">
-                <h4>{!! $task->descriptionHtml() !!}</h4>
-            </td>
-        </tr>
         </tbody>
     </table>
-    <a href="{{ route('todo.finishedTask', $task->id) }}" class="btn btn-success">Task is finished</a>
+    @if (!$task->processing && !$task->finished)
+        <a href="{{ route('todo.processTask', $task->id) }}" class="btn btn-warning">Process Task</a>
+    @endif
+    @if(!$task->finished)
+        <a href="{{ route('todo.finishedTask', $task->id) }}" class="btn btn-success">Task is finished</a>
+    @endif
     <a href="{{ route('todo.index') }}" class="btn btn-danger">Back</a>
 @endsection

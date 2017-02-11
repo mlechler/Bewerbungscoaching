@@ -12,7 +12,7 @@
 <body>
 <nav class="navbar navbar-static-top navbar-inverse">
     <div class="container">
-        <div class="navbar-header"><a href="/" class="navbar-brand">Bewerbungscoaching</a></div>
+        <div class="navbar-header"><a href="/" class="navbar-brand">Home</a></div>
         <ul class="nav navbar-nav">
             <li><a href="{{ route('backend.dashboard') }}">Dashboard</a></li>
             <li class="dropdown">
@@ -92,6 +92,7 @@
 
             <li><a href="{{ route('blog.index') }}">Blog Posts</a></li>
             <li><a href="{{ route('todo.index') }}">Tasks</a></li>
+            <li><a href="{{ route('contact.index') }}">Contact Requests</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li><span class="navbar-text">

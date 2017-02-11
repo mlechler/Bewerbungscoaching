@@ -45,7 +45,7 @@ class MemberDiscountsController extends Controller
         return view('backend.memberdiscounts.form', compact('memberdiscount', 'members', 'discounts'));
     }
 
-    public function store(Requests\StoreMemberDiscountRequest $request)
+    public function store(Requests\Backend\StoreMemberDiscountRequest $request)
     {
         $memberdiscount = MemberDiscount::create(array(
             'member_id' => $request->member_id,
@@ -81,7 +81,7 @@ class MemberDiscountsController extends Controller
         return view('backend.memberdiscounts.form', compact('memberdiscount', 'members', 'discounts'));
     }
 
-    public function update(Requests\UpdateMemberDiscountRequest $request, $id)
+    public function update(Requests\Backend\UpdateMemberDiscountRequest $request, $id)
     {
         $memberdiscount = MemberDiscount::findOrFail($id);
 

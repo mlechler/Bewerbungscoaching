@@ -20,7 +20,7 @@ class Todo extends AbstractWidget
      */
     public function run()
     {
-        $tasks = Task::where('finished', '=', false)->orderBy('created_at')->take(5)->get();
+        $tasks = Task::where('finished', '=', false)->where('processing','=',false)->orderBy('created_at')->take(5)->get();
 
         return view("backend.widgets.todo", [
             'config' => [],

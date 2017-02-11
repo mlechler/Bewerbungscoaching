@@ -39,7 +39,7 @@ class EmployeesController extends Controller
         return view('backend.employees.form', compact('employee', 'roles'));
     }
 
-    public function store(Requests\StoreEmployeeRequest $request)
+    public function store(Requests\Backend\StoreEmployeeRequest $request)
     {
         $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 
@@ -87,7 +87,7 @@ class EmployeesController extends Controller
         return view('backend.employees.form', compact('employee', 'roles'));
     }
 
-    public function update(Requests\UpdateEmployeeRequest $request, $id)
+    public function update(Requests\Backend\UpdateEmployeeRequest $request, $id)
     {
         $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 
@@ -132,14 +132,14 @@ class EmployeesController extends Controller
     }
 
 
-    public function confirm(Requests\DeleteEmployeeRequest $request, $id)
+    public function confirm(Requests\Backend\DeleteEmployeeRequest $request, $id)
     {
         $employee = Employee::findOrFail($id);
 
         return view('backend.employees.confirm', compact('employee'));
     }
 
-    public function destroy(Requests\DeleteEmployeeRequest $request, $id)
+    public function destroy(Requests\Backend\DeleteEmployeeRequest $request, $id)
     {
         Employee::destroy($id);
 
