@@ -32,7 +32,7 @@ class TasksController extends Controller
     public function store(Requests\StoreTaskRequest $request)
     {
         Task::create(array(
-            'creator_id' => Auth::id(),
+            'creator_id' => Auth::guard('employee')->id(),
             'title' => $request->title,
             'description' => $request->description,
             'finished' => false

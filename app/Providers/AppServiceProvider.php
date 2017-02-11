@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\View\Composers;
 use App\View\ThemeViewFinder;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -15,13 +16,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app['view']->composer('*', Composers\AddBackendUser::class);
-        $this->app['view']->composer('*', Composers\AddStatusMessage::class);
+        View::composer('*', Composers\AddBackendUser::class);
+        View::composer('*', Composers\AddStatusMessage::class);
 
-        $this->app['view']->composer('layouts.frontend', Composers\AddLoggedInUser::class);
-        $this->app['view']->composer('layouts.frontend', Composers\InjectPages::class);
+        View::composer('*', Composers\AddLoggedInUser::class);
+        View::composer('layouts.frontend', Composers\InjectPages::class);
 
-        $this->app['view']->setFinder($this->app['theme.finder']);
+        View::setFinder($this->app['theme.finder']);
     }
 
     /**

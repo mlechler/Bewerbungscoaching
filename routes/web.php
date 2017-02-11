@@ -125,7 +125,17 @@ Route::group(['prefix' => 'backend'], function () {
     Route::get('/todo/{todo}/finished', ['as' => 'todo.finishedTask', 'uses' => 'Backend\TasksController@taskFinished']);
     Route::resource('/todo', 'Backend\TasksController', ['only' => ['index', 'create', 'store', 'edit', 'update']]);
 });
-
-Route::get('/', function () {
-    return view('frontend.welcome');
+Route::group([], function () {
+    Route::get('/', function () {
+        return view('frontend.welcome');
+    });
+    //Generate the dynamic pages
+    foreach (\App\Page::all() as $page) {
+        Route::get($page->uri, ['as' => 'frontend.' . $page->name, function () use ($page) {
+            return $this->app->call('App\Http\Controllers\Frontend\PagesController@show', [
+                'page' => $page,
+                'parameters' => Route::current()->parameters()
+            ]);
+        }]);
+    }
 });

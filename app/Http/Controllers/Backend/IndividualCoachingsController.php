@@ -31,7 +31,7 @@ class IndividualCoachingsController extends Controller
         if (Auth::guard('employee')->user()->isAdmin()) {
             $coachings = IndividualCoaching::with('employee', 'member')->orderBy('created_at', 'desc')->paginate(10);
         } else {
-            $coachings = IndividualCoaching::with('employee', 'member')->where('employee_id', '=', Auth::guard('employee')->user()->id)->orderBy('created_at', 'desc')->paginate(10);
+            $coachings = IndividualCoaching::with('employee', 'member')->where('employee_id', '=', Auth::guard('employee')->id())->orderBy('created_at', 'desc')->paginate(10);
         }
         return view('backend.individualcoachings.index', compact('coachings'));
     }
@@ -39,7 +39,7 @@ class IndividualCoachingsController extends Controller
     public function create(IndividualCoaching $coaching)
     {
         if (!Auth::guard('employee')->user()->isAdmin()) {
-            $emp = Employee::select('id', 'lastname', 'firstname')->whereId(Auth::guard('employee')->user()->id)->get();
+            $emp = Employee::select('id', 'lastname', 'firstname')->whereId(Auth::guard('employee')->id())->get();
             $employees = ['' => ''];
             foreach ($emp as $employee) {
                 $employees[$employee->id] = $employee->lastname . ', ' . $employee->firstname;
@@ -112,7 +112,7 @@ class IndividualCoachingsController extends Controller
         $coaching = IndividualCoaching::findOrFail($id);
 
         if (!Auth::guard('employee')->user()->isAdmin()) {
-            $emp = Employee::select('id', 'lastname', 'firstname')->whereId(Auth::guard('employee')->user()->id)->get();
+            $emp = Employee::select('id', 'lastname', 'firstname')->whereId(Auth::guard('employee')->id())->get();
             $employees = ['' => ''];
             foreach ($emp as $employee) {
                 $employees[$employee->id] = $employee->lastname . ', ' . $employee->firstname;

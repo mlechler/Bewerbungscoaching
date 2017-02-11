@@ -14,7 +14,7 @@ class DeleteEmployeeRequest extends FormRequest
      */
     public function authorize()
     {
-        if($this->route('employee') == Auth::id()) {
+        if($this->route('employee') == Auth::guard('employee')->id()) {
             return false;
         }
 

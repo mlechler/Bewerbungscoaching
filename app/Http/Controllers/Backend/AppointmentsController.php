@@ -30,7 +30,7 @@ class AppointmentsController extends Controller
         if(Auth::guard('employee')->user()->isAdmin()) {
             $seminarappointments = Appointment::with('employee')->orderBy('created_at', 'desc')->paginate(10);
         } else {
-            $seminarappointments = Appointment::with('employee')->where('employee_id', '=', Auth::guard('employee')->user()->id)->orderBy('created_at', 'desc')->paginate(10);
+            $seminarappointments = Appointment::with('employee')->where('employee_id', '=', Auth::guard('employee')->id())->orderBy('created_at', 'desc')->paginate(10);
         }
 
         return view('backend.seminarappointments.index', compact('seminarappointments'));

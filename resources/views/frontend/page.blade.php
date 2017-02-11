@@ -4,4 +4,8 @@
 
 @section('content')
     {!! $page->contentHtml() !!}
+
+    @if($page->uri == 'contact')
+        @include('frontend.contact')
+    @endif
 @endsection

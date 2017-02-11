@@ -23,7 +23,7 @@ class EmployeeFreeTimesController extends Controller
         if (Auth::guard('employee')->user()->isAdmin()) {
             $freetimes = EmployeeFreeTime::with('employee')->paginate(10);
         } else {
-            $freetimes = EmployeeFreeTime::with('employee')->where('employee_id', '=', Auth::guard('employee')->user()->id)->paginate(10);
+            $freetimes = EmployeeFreeTime::with('employee')->where('employee_id', '=', Auth::guard('employee')->id())->paginate(10);
         }
         return view('backend.employeefreetimes.index', compact('freetimes'));
     }
@@ -31,7 +31,7 @@ class EmployeeFreeTimesController extends Controller
     public function create(EmployeeFreeTime $freetime)
     {
         if (!Auth::guard('employee')->user()->isAdmin()) {
-            $emp = Employee::select('id', 'lastname', 'firstname')->whereId(Auth::guard('employee')->user()->id)->get();
+            $emp = Employee::select('id', 'lastname', 'firstname')->whereId(Auth::guard('employee')->id())->get();
             $employees = ['' => ''];
             foreach ($emp as $employee) {
                 $employees[$employee->id] = $employee->lastname . ', ' . $employee->firstname;
@@ -74,12 +74,12 @@ class EmployeeFreeTimesController extends Controller
     {
         $freetime = EmployeeFreeTime::findOrFail($id);
 
-        if (!Auth::guard('employee')->user()->isAdmin() && Auth::guard('employee')->user()->id != $freetime->employee_id) {
+        if (!Auth::guard('employee')->user()->isAdmin() && Auth::guard('employee')->id() != $freetime->employee_id) {
             return redirect(route('employeefreetimes.index'));
         }
 
         if (!Auth::guard('employee')->user()->isAdmin()) {
-            $emp = Employee::select('id', 'lastname', 'firstname')->whereId(Auth::guard('employee')->user()->id)->get();
+            $emp = Employee::select('id', 'lastname', 'firstname')->whereId(Auth::guard('employee')->id())->get();
             $employees = ['' => ''];
             foreach ($emp as $employee) {
                 $employees[$employee->id] = $employee->lastname . ', ' . $employee->firstname;
