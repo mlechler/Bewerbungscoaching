@@ -27,6 +27,7 @@
         <tr>
             <th>Name</th>
             <th>Email</th>
+            <th>Category</th>
             <th>Message</th>
             <th>Details</th>
             <th>Processing</th>
@@ -37,7 +38,7 @@
         <tbody>
         @if($contactrequests->isEmpty())
             <tr>
-                <td colspan="7" align="center">There are no contact requests.</td>
+                <td colspan="8" align="center">There are no contact requests.</td>
             </tr>
         @else
             @foreach($contactrequests as $request)
@@ -49,6 +50,9 @@
                         {{ $request->email }}
                     </td>
                     <td>
+                        {{ $request->category }}
+                    </td>
+                    <td>
                         {{ $request->getShortMessage() }}
                     </td>
                     <td>
@@ -56,12 +60,16 @@
                                     class="glyphicon glyphicon-info-sign"></span></a>
                     </td>
                     <td>
-                        <a href="{{ route('contact.processRequest', $request->id) }}"><span
-                                    class="glyphicon glyphicon-repeat"></span></a>
+                        @if($request->category != 'feedback')
+                            <a href="{{ route('contact.processRequest', $request->id) }}"><span
+                                        class="glyphicon glyphicon-repeat"></span></a>
+                        @endif
                     </td>
                     <td>
-                        <a href="{{ route('contact.finishedRequest', $request->id) }}"><span
-                                    class="glyphicon glyphicon-ok"></span></a>
+                        @if($request->category != 'feedback')
+                            <a href="{{ route('contact.finishedRequest', $request->id) }}"><span
+                                        class="glyphicon glyphicon-ok"></span></a>
+                        @endif
                     </td>
                     <td>
                         <a href="{{ route('contact.confirm', $request->id) }}"><span

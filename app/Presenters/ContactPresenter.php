@@ -25,6 +25,8 @@ class ContactPresenter extends BasePresenter
             return 'success';
         } elseif ($this->processing) {
             return 'warning';
+        } elseif ($this->category == 'feedback') {
+            return 'info';
         }
     }
 }

@@ -13,6 +13,7 @@ class ContactController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'message' => $request->message,
+            'category' => $request->category,
             'processing' => false,
             'processedby' => null,
             'finished' => false,

@@ -66,6 +66,12 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\CancelCoaching' => [
             'App\Listeners\SendCoachingCancellation',
         ],
+        'App\Events\RemindSeminarBooking' => [
+            'App\Listeners\SendBookingReminder',
+        ],
+        'App\Events\RemindCoachingBooking' => [
+            'App\Listeners\SendCoachingReminder',
+        ]
     ];
 
     /**

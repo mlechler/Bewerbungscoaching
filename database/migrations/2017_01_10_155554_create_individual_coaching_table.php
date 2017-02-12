@@ -25,6 +25,7 @@ class CreateIndividualCoachingTable extends Migration
             $table->integer('employee_id');
             $table->integer('member_id');
             $table->integer('address_id');
+            $table->boolean('reminderSend');
             $table->timestamps();
         });
     }

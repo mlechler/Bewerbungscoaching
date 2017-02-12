@@ -106,7 +106,7 @@
                 </ul>
             </li>
             </span></li>
-            <li><a href="/employee/logout">Logout</a></li>
+            <li><a href="{{ route('employee.logout') }}">Logout</a></li>
         </ul>
     </div>
 </nav>

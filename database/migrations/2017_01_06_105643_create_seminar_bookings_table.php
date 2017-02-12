@@ -19,6 +19,7 @@ class CreateSeminarBookingsTable extends Migration
             $table->integer('appointment_id');
             $table->float('price_incl_discount');
             $table->boolean('paid');
+            $table->boolean('reminderSend');
             $table->timestamps();
         });
     }

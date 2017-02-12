@@ -1,7 +1,7 @@
 @extends('layouts.frontend')
 
-@section('title', 'Welcome')
+@section('title', 'Seminars')
 
 @section('content')
-    Hello
+    Seminar
 @endsection

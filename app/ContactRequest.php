@@ -9,7 +9,7 @@ use McCool\LaravelAutoPresenter\HasPresenter;
 class ContactRequest extends Model implements HasPresenter
 {
     protected $table = 'contactrequests';
-    protected $fillable = ['name', 'email', 'message', 'processing', 'processedby', 'finished'];
+    protected $fillable = ['name', 'email', 'message', 'category', 'processing', 'processedby', 'finished'];
 
     public function getPresenterClass()
     {

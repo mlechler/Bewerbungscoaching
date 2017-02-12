@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Backend;
 use App\Appointment;
 use App\Booking;
 use App\Events\MakeSeminarBooking;
+use App\Events\RemindSeminarBooking;
 use App\Invoice;
+use App\Mail\BookingReminder;
 use App\Member;
 use App\Seminar;
 use App\Http\Requests;
@@ -25,6 +27,8 @@ class BookingsController extends Controller
     public function index()
     {
         $seminarbookings = Booking::with('member', 'appointment')->orderBy('created_at', 'desc')->paginate(10);
+
+        $this->sendReminder();
 
         return view('backend.seminarbookings.index', compact('seminarbookings'));
     }
@@ -70,7 +74,8 @@ class BookingsController extends Controller
             'packagepurchase_id' => null,
             'layoutpurchase_id' => null,
             'totalprice' => $price,
-            'date' => Carbon::now()
+            'date' => Carbon::now(),
+            'reminderSend' => false
         ));
 
         event(new MakeSeminarBooking($booking, $invoice));
@@ -144,5 +149,21 @@ class BookingsController extends Controller
         $seminarbooking = Booking::with('member', 'appointment')->findOrFail($id);
 
         return view('backend.seminarbookings.detail', compact('seminarbooking'));
+    }
+
+    public function sendReminder()
+    {
+        $bookings = Booking::all();
+
+        foreach ($bookings as $booking) {
+            if ($booking->appointment->date->subDays(7) < Carbon::now()) {
+                if (!$booking->reminderSend) {
+                    event(new RemindSeminarBooking($booking));
+                    $booking->fill(array(
+                        'reminderSend' => true
+                    ))->save();
+                }
+            }
+        }
     }
 }

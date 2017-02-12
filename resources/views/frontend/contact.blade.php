@@ -11,6 +11,18 @@
 </div>
 
 <div class="form-group">
+    {{ Form::label('category') }}
+    {{ Form::select('category', [
+        '' => 'Select a category',
+        'feedback' => 'Feedback',
+        'product' => 'Question about a product',
+        'booking' => 'Question about a booking',
+        'invoice' => 'Question about an invoice',
+        'discount' => 'Question about a discount',
+    ], '', ['class' => 'form-control']) }}
+</div>
+
+<div class="form-group">
     {{ Form::label('message') }}
     {{ Form::textarea('message', null, ['class' => 'form-control']) }}
 </div>

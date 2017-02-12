@@ -17,7 +17,11 @@ class ContactController extends Controller
     }
     public function index()
     {
-        $contactrequests = ContactRequest::orderBy('finished')->orderBy('processing')->paginate(10);
+        $contactrequests = ContactRequest::orderBy('finished')->orderBy('processing')->orderBy('created_at', 'desc')->paginate(10);
+
+        if(!Auth::guard('employee')->user()->isAdmin()) {
+            $contactrequests = ContactRequest::where('category','=','feedback')->where('category','=','product')->orderBy('finished')->orderBy('processing')->paginate(10);
+        }
 
         return view('backend.contact.index', compact('contactrequests'));
     }

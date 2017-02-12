@@ -30,7 +30,7 @@ class RegisterController extends Controller
         $this->middleware('member.guest');
     }
 
-    public function register(Requests\RegisterNewMember $request)
+    public function register(Requests\Frontend\RegisterNewMember $request)
     {
         $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 

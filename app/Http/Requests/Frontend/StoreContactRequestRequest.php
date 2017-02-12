@@ -26,7 +26,8 @@ class StoreContactRequestRequest extends FormRequest
         return [
             'name' => ['required'],
             'email' => ['required', 'email'],
-            'message' => ['required']
+            'message' => ['required'],
+            'category' => ['required']
         ];
     }
 
@@ -37,6 +38,7 @@ class StoreContactRequestRequest extends FormRequest
             'email.required' => 'Email is required',
             'email.email' => 'Email has to be a valid Email',
             'message.required' => 'Message is required',
+            'category.required' => 'Category is required',
         ];
     }
 }

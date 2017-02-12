@@ -7,9 +7,11 @@ use App\Events\CancelCoaching;
 use App\Events\ChangeCoachingAddress;
 use App\Events\ChangeCoachingDateTime;
 use App\Events\MakeCoachingBooking;
+use App\Events\RemindCoachingBooking;
 use App\IndividualCoaching;
 use App\Employee;
 use App\Invoice;
+use App\Mail\CoachingReminder;
 use App\Member;
 use Carbon\Carbon;
 use App\Http\Requests;
@@ -33,6 +35,9 @@ class IndividualCoachingsController extends Controller
         } else {
             $coachings = IndividualCoaching::with('employee', 'member')->where('employee_id', '=', Auth::guard('employee')->id())->orderBy('created_at', 'desc')->paginate(10);
         }
+
+        $this->sendReminder();
+
         return view('backend.individualcoachings.index', compact('coachings'));
     }
 
@@ -90,6 +95,7 @@ class IndividualCoachingsController extends Controller
             'member_id' => $request->member_id,
             'address_id' => $address->id,
             'paid' => $request->trial == 'on' ? true : false,
+            'reminderSend' => false
         ));
 
         $invoice = Invoice::create(array(
@@ -205,5 +211,21 @@ class IndividualCoachingsController extends Controller
         $coaching = IndividualCoaching::with('employee', 'member')->findOrFail($id);
 
         return view('backend.individualcoachings.detail', compact('coaching'));
+    }
+
+    public function sendReminder()
+    {
+        $coachings = IndividualCoaching::all();
+
+        foreach ($coachings as $coaching) {
+            if ($coaching->date->subDays(7) < Carbon::now()) {
+                if (!$coaching->reminderSend) {
+                    event(new RemindCoachingBooking($coaching));
+                    $coaching->fill(array(
+                        'reminderSend' => true
+                    ))->save();
+                }
+            }
+        }
     }
 }

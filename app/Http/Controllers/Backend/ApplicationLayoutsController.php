@@ -8,11 +8,13 @@ use Illuminate\Support\Facades\Storage;
 class ApplicationLayoutsController extends Controller
 {
     protected $layouts;
+
     public function __construct(ApplicationLayout $layouts)
     {
         $this->layouts = $layouts;
         parent::__construct();
     }
+
     public function index()
     {
         $layouts = ApplicationLayout::orderBy('title')->paginate(10);

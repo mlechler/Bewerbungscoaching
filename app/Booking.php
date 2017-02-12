@@ -9,7 +9,7 @@ use McCool\LaravelAutoPresenter\HasPresenter;
 class Booking extends Model implements HasPresenter
 {
     protected $table = 'seminarbookings';
-    protected $fillable = ['member_id', 'appointment_id', 'paid', 'price_incl_discount'];
+    protected $fillable = ['member_id', 'appointment_id', 'paid', 'price_incl_discount', 'reminderSend'];
 
     public function getPresenterClass()
     {
