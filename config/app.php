@@ -149,6 +149,7 @@ return [
 
     'providers' => [
 
+        Cornford\Googlmapper\MapperServiceProvider::class,
         Schuppo\PasswordStrength\PasswordStrengthServiceProvider::class,
         AlfredoRamos\ParsedownExtra\ParsedownExtraServiceProvider::class,
         Arrilot\Widgets\ServiceProvider::class,
@@ -245,7 +246,8 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Widget' => Arrilot\Widgets\Facade::class,
-        'Markdown' => AlfredoRamos\ParsedownExtra\Facades\ParsedownExtra::class
+        'Markdown' => AlfredoRamos\ParsedownExtra\Facades\ParsedownExtra::class,
+        'Mapper' => Cornford\Googlmapper\Facades\MapperFacade::class
 
     ],
 

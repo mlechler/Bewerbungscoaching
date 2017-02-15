@@ -12,6 +12,7 @@ use App\Address;
 use App\Booking;
 use Carbon\Carbon;
 use App\Http\Requests;
+use Cornford\Googlmapper\Facades\MapperFacade as Mapper;
 use Illuminate\Support\Facades\Auth;
 
 class AppointmentsController extends Controller
@@ -27,7 +28,7 @@ class AppointmentsController extends Controller
 
     public function index()
     {
-        if(Auth::guard('employee')->user()->isAdmin()) {
+        if (Auth::guard('employee')->user()->isAdmin()) {
             $seminarappointments = Appointment::with('employee')->orderBy('created_at', 'desc')->paginate(10);
         } else {
             $seminarappointments = Appointment::with('employee')->where('employee_id', '=', Auth::guard('employee')->id())->orderBy('created_at', 'desc')->paginate(10);
@@ -43,9 +44,9 @@ class AppointmentsController extends Controller
         $emp = Employee::select('lastname', 'firstname')->get();
         $employees = ['' => ''];
         foreach ($emp as $employee) {
-            array_push($employees, $employee->lastname.', '.$employee->firstname);
+            array_push($employees, $employee->lastname . ', ' . $employee->firstname);
         }
-        array_unshift($employees,'');
+        array_unshift($employees, '');
         unset($employees[0]);
 
         return view('backend.seminarappointments.form', compact('seminarappointment', 'seminars', 'employees'));
@@ -56,11 +57,14 @@ class AppointmentsController extends Controller
         $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 
         if (!$address) {
+            $geo = Mapper::location('Germany' . $request->zip . $request->street . $request->housenumber);
             $newaddress = Address::create(array(
                 'zip' => $request->zip,
                 'city' => $request->city,
                 'street' => $request->street,
-                'housenumber' => $request->housenumber
+                'housenumber' => $request->housenumber,
+                'latitude' => $geo->getLatitude(),
+                'longitude' => $geo->getLongitude()
             ));
             $address = $newaddress;
         }
@@ -85,9 +89,9 @@ class AppointmentsController extends Controller
         $emp = Employee::select('lastname', 'firstname')->get();
         $employees = ['' => ''];
         foreach ($emp as $employee) {
-            array_push($employees, $employee->lastname.', '.$employee->firstname);
+            array_push($employees, $employee->lastname . ', ' . $employee->firstname);
         }
-        array_unshift($employees,'');
+        array_unshift($employees, '');
         unset($employees[0]);
 
         return view('backend.seminarappointments.form', compact('seminarappointment', 'seminars', 'employees'));
@@ -98,11 +102,14 @@ class AppointmentsController extends Controller
         $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 
         if (!$address) {
+            $geo = Mapper::location('Germany' . $request->zip . $request->street . $request->housenumber);
             $newaddress = Address::create(array(
                 'zip' => $request->zip,
                 'city' => $request->city,
                 'street' => $request->street,
-                'housenumber' => $request->housenumber
+                'housenumber' => $request->housenumber,
+                'latitude' => $geo->getLatitude(),
+                'longitude' => $geo->getLongitude()
             ));
             $address = $newaddress;
         }
@@ -121,18 +128,16 @@ class AppointmentsController extends Controller
             'address_id' => $address->id
         ))->save();
 
-        if($olddate != $seminarappointment->date || $oldtime != $seminarappointment->time)
-        {
-            $participants = Booking::select('member_id')->where('appointment_id','=',$seminarappointment->id)->get();
-            foreach($participants as $participant){
+        if ($olddate != $seminarappointment->date || $oldtime != $seminarappointment->time) {
+            $participants = Booking::select('member_id')->where('appointment_id', '=', $seminarappointment->id)->get();
+            foreach ($participants as $participant) {
                 event(new ChangeAppointmentDateTime($participant->member, $olddate, $oldtime, $seminarappointment));
             }
         }
-        if($oldaddress_id != $seminarappointment->address_id)
-        {
+        if ($oldaddress_id != $seminarappointment->address_id) {
             $oldaddress = Address::findOrFail($oldaddress_id);
-            $participants = Booking::select('member_id')->where('appointment_id','=',$seminarappointment->id)->get();
-            foreach($participants as $participant){
+            $participants = Booking::select('member_id')->where('appointment_id', '=', $seminarappointment->id)->get();
+            foreach ($participants as $participant) {
                 event(new ChangeAppointmentAddress($participant->member, $oldaddress, $seminarappointment));
             }
         }
@@ -150,8 +155,8 @@ class AppointmentsController extends Controller
     public function destroy($id)
     {
         $seminarappointment = Appointment::findOrFail($id);
-        $participants = Booking::select('member_id')->where('appointment_id','=',$id)->get();
-        foreach($participants as $participant){
+        $participants = Booking::select('member_id')->where('appointment_id', '=', $id)->get();
+        foreach ($participants as $participant) {
             event(new CancelAppointment($participant->member, $seminarappointment));
         }
 

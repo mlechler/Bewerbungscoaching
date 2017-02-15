@@ -133,10 +133,17 @@ class BookingsController extends Controller
         $seminar = Seminar::findOrFail($appointment->seminar_id);
         $price = $request->price_incl_discount > $seminar->price ? $seminar->price : $request->price_incl_discount;
 
+        $seminarbooking = Booking::findOrFail($id);
+
         $bookings = Booking::all();
 
         foreach ($bookings as $booking) {
-            if ($booking->member_id != $request->member_id || $booking->appointment_id != $request->appointment_id) {
+            if ($seminarbooking->member_id == $request->member_id && $seminarbooking->appointment_id != $request->appointment_id) {
+                if ($booking->member_id == $request->member_id && $booking->appointment_id == $request->appointment_id) {
+                    return redirect(route('seminarbookings.index'))->withErrors([
+                        'error' => 'Member already booked this Appointment.'
+                    ]);
+                }
                 if ($booking->appointment->members->count() == $seminar->maxMembers) {
                     return redirect(route('seminarbookings.index'))->withErrors([
                         'error' => 'No more Participants for this Appointment possible.'
@@ -144,8 +151,6 @@ class BookingsController extends Controller
                 }
             }
         }
-
-        $seminarbooking = Booking::findOrFail($id);
 
         $seminarbooking->fill(array(
             'member_id' => $request->member_id,

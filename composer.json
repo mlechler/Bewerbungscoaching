@@ -18,7 +18,8 @@
         "zizaco/entrust": "^1.7",
         "erusev/parsedown": "^1.6",
         "alfredo-ramos/parsedown-extra-laravel": "^0.5.1",
-        "schuppo/password-strength": "~1.5"
+        "schuppo/password-strength": "~1.5",
+        "cornford/googlmapper": "^2.22"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

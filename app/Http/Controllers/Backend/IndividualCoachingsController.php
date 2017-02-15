@@ -11,11 +11,11 @@ use App\Events\RemindCoachingBooking;
 use App\IndividualCoaching;
 use App\Employee;
 use App\Invoice;
-use App\Mail\CoachingReminder;
 use App\Member;
 use Carbon\Carbon;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
+use Cornford\Googlmapper\Facades\MapperFacade as Mapper;
 
 class IndividualCoachingsController extends Controller
 {
@@ -75,11 +75,14 @@ class IndividualCoachingsController extends Controller
         $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 
         if (!$address) {
+            $geo = Mapper::location('Germany' . $request->zip . $request->street . $request->housenumber);
             $newaddress = Address::create(array(
                 'zip' => $request->zip,
                 'city' => $request->city,
                 'street' => $request->street,
-                'housenumber' => $request->housenumber
+                'housenumber' => $request->housenumber,
+                'latitude' => $geo->getLatitude(),
+                'longitude' => $geo->getLongitude()
             ));
             $address = $newaddress;
         }
@@ -149,11 +152,14 @@ class IndividualCoachingsController extends Controller
         $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 
         if (!$address) {
+            $geo = Mapper::location('Germany' . $request->zip . $request->street . $request->housenumber);
             $newaddress = Address::create(array(
                 'zip' => $request->zip,
                 'city' => $request->city,
                 'street' => $request->street,
-                'housenumber' => $request->housenumber
+                'housenumber' => $request->housenumber,
+                'latitude' => $geo->getLatitude(),
+                'longitude' => $geo->getLongitude()
             ));
             $address = $newaddress;
         }
