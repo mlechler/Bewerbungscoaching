@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Seminar;
+use App\Appointment;
 
 class SeminarsController extends Controller
 {
-    protected $seminars;
+    protected $appointments;
 
-    public function __construct(Seminar $seminars)
+    public function __construct(Appointment $appointments)
     {
-        $this->seminars = $seminars;
+        $this->appointments = $appointments;
     }
 
     public function index()
     {
-        return view('frontend.seminars');
+        $appointments = Appointment::with('employee')->get();
+
+        return view('frontend.seminars', compact('appointments'));
     }
 }

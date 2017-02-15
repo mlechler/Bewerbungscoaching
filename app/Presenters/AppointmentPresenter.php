@@ -29,4 +29,15 @@ class AppointmentPresenter extends BasePresenter
             return 'danger';
         }
     }
+
+    public function highlightPanel()
+    {
+        if ($this->seminar->maxMembers == $this->members->count()) {
+            return 'danger';
+        } else if ($this->seminar->maxMembers - $this->members->count() <= 5) {
+            return 'warning';
+        } else {
+            return 'default';
+        }
+    }
 }

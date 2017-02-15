@@ -58,13 +58,34 @@ class BookingsController extends Controller
     public function store(Requests\Backend\StoreBookingRequest $request)
     {
         $appointment = Appointment::findOrfail($request->appointment_id);
+
         $seminar = Seminar::findOrFail($appointment->seminar_id);
+
         $price = $request->price_incl_discount > $seminar->price ? $seminar->price : $request->price_incl_discount;
+
+        $bookings = Booking::all();
+
+        foreach ($bookings as $booking) {
+            if ($booking->member_id == $request->member_id && $booking->appointment_id == $request->appointment_id) {
+                return redirect(route('seminarbookings.index'))->withErrors([
+                    'error' => 'Member already booked this Appointment.'
+                ]);
+            }
+            if ($booking->appointment->members) {
+                if ($booking->appointment->members->count() == $seminar->maxMembers) {
+                    return redirect(route('seminarbookings.index'))->withErrors([
+                        'error' => 'No more Participants for this Appointment possible.'
+                    ]);
+                }
+            }
+        }
+
         $booking = Booking::create(array(
             'member_id' => $request->member_id,
             'appointment_id' => $request->appointment_id,
             'price_incl_discount' => $price,
-            'paid' => false
+            'paid' => false,
+            'reminderSend' => false
         ));
 
         $invoice = Invoice::create(array(
@@ -75,10 +96,9 @@ class BookingsController extends Controller
             'layoutpurchase_id' => null,
             'totalprice' => $price,
             'date' => Carbon::now(),
-            'reminderSend' => false
         ));
 
-        event(new MakeSeminarBooking($booking, $invoice));
+        //event(new MakeSeminarBooking($booking, $invoice));
 
         return redirect(route('seminarbookings.index'))->with('status', 'Booking has been created.');
     }
@@ -112,6 +132,18 @@ class BookingsController extends Controller
         $appointment = Appointment::findOrfail($request->appointment_id);
         $seminar = Seminar::findOrFail($appointment->seminar_id);
         $price = $request->price_incl_discount > $seminar->price ? $seminar->price : $request->price_incl_discount;
+
+        $bookings = Booking::all();
+
+        foreach ($bookings as $booking) {
+            if ($booking->member_id != $request->member_id || $booking->appointment_id != $request->appointment_id) {
+                if ($booking->appointment->members->count() == $seminar->maxMembers) {
+                    return redirect(route('seminarbookings.index'))->withErrors([
+                        'error' => 'No more Participants for this Appointment possible.'
+                    ]);
+                }
+            }
+        }
 
         $seminarbooking = Booking::findOrFail($id);
 
