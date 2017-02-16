@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Appointment;
-use Cornford\Googlmapper\Facades\MapperFacade as Mapper;
 
 class SeminarsController extends Controller
 {
@@ -19,5 +18,6 @@ class SeminarsController extends Controller
         $appointments = Appointment::with('employee', 'seminar')->get();
 
         return view('frontend.seminars', compact('appointments'));
+//        return view('frontend.seminars', compact('appointments'))->with('map', new MapController);
     }
 }

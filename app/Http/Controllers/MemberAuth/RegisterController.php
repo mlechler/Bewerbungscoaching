@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Auth;
+use Cornford\Googlmapper\Facades\MapperFacade as Mapper;
 
 class RegisterController extends Controller
 {
@@ -35,11 +36,14 @@ class RegisterController extends Controller
         $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 
         if (!$address) {
+            $geo = Mapper::location('Germany' . $request->zip . $request->street . $request->housenumber);
             $newaddress = Address::create(array(
                 'zip' => $request->zip,
                 'city' => $request->city,
                 'street' => $request->street,
-                'housenumber' => $request->housenumber
+                'housenumber' => $request->housenumber,
+                'latitude' => $geo->getLatitude(),
+                'longitude' => $geo->getLongitude()
             ));
             $address = $newaddress;
         }

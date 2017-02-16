@@ -37,7 +37,8 @@
                                     <a href="https://www.google.de/maps/place/{{ $appointment->address->latitude}},{{ $appointment->address->longitude}}">
                                         <img
                                                 src="https://maps.googleapis.com/maps/api/staticmap?maptype=roadmap&center={{ $appointment->address->latitude}},{{ $appointment->address->longitude}}&markers=color:red%7C{{ $appointment->address->latitude}},{{ $appointment->address->longitude}}&zoom=15&size=640x400&key=AIzaSyDqNRudzEWZbavF28VmoCdaKnPNCElt6UQ"
-                                                style="width: 640px; height: 400px;"></a>
+                                    style="width: 640px; height: 400px;"></a>
+                                    {{--@include('frontend.map', ['address' => $appointment->address])--}}
                                 </div>
                                 <div class="col-md-3"></div>
                             </div>
