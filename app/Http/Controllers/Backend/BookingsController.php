@@ -98,7 +98,7 @@ class BookingsController extends Controller
             'date' => Carbon::now(),
         ));
 
-        //event(new MakeSeminarBooking($booking, $invoice));
+        event(new MakeSeminarBooking($booking, $invoice));
 
         return redirect(route('seminarbookings.index'))->with('status', 'Booking has been created.');
     }

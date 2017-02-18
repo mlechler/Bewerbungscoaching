@@ -98,15 +98,13 @@
                         19 %
                     </td>
                     <td align="right">
-                        <!-- If Member enters a discount use this, if Employee enters in Backend calculate, otherwise null -->
                         {{ $discount = 100 - round(($booking->price_incl_discount * 100) / $booking->appointment->seminar->price) }}
                         %
                     </td>
                     <td align="right">
                         {{ number_format($booking->appointment->seminar->price,2) }} €
                     </td>
-                    <td align="right"> <!-- If Member enters a discount calculate, if Employee enters use this-->
-                        {{--{{ round(($booking->appointment->seminar->price * (100 - $discount)) / 100, 2) }} €--}}
+                    <td align="right">
                         {{ number_format($booking->price_incl_discount,2) }}
                     </td>
                 </tr>
@@ -128,7 +126,6 @@
                         Discount
                     </td>
                     <td colspan="2" align="right">
-                        <!-- If Member enters a discount use this, if Employee enters calculate, otherwise null-->
                         {{ number_format($booking->price_incl_discount - $booking->appointment->seminar->price,2) }} €
                     </td>
                 </tr>
@@ -143,7 +140,6 @@
                         <strong>Total</strong>
                     </td>
                     <td colspan="2" align="right">
-                        <!-- If Member enters a discount calculate, if Employee enters use this-->
                         <strong>{{ number_format($booking->price_incl_discount,2) }} €</strong>
                     </td>
                 </tr>

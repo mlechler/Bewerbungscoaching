@@ -132,12 +132,12 @@ class MemberDiscountsController extends Controller
                     $memberdiscount->fill(array(
                         'expired' => true
                     ))->save();
-                }
-                if(!$memberdiscount->expirationMailSend) {
-                    event(new ExpireMemberDiscount($memberdiscount));
-                    $memberdiscount->fill(array(
-                        'expirationMailSend' => true
-                    ))->save();
+                    if (!$memberdiscount->expirationMailSend) {
+                        event(new ExpireMemberDiscount($memberdiscount));
+                        $memberdiscount->fill(array(
+                            'expirationMailSend' => true
+                        ))->save();
+                    }
                 }
             }
         }
