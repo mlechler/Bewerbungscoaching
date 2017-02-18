@@ -140,6 +140,7 @@ Route::group([], function () {
     Route::get('/', ['as' => 'frontend.welcome.index', 'uses' => 'Frontend\WelcomeController@index']);
 
     Route::get('/seminars', ['as' => 'frontend.seminars.index', 'uses' => 'Frontend\SeminarsController@index']);
+    Route::post('/seminars/{user}/makeBooking/{appointment}', ['as' => 'frontend.seminars.makeBooking', 'uses' => 'Frontend\SeminarsController@makeBooking']);
 
     Route::get('/individualcoachings', ['as' => 'frontend.individualcoachings.index', 'uses' => 'Frontend\IndividualCoachingsController@index']);
 

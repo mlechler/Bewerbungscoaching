@@ -80,3 +80,34 @@ a.navbar-brand {
   -moz-border-radius: 6px 0 6px 6px;
   border-radius: 6px 0 6px 6px;
 }
+
+.modal-title {
+  text-align:center;
+  font-size:20px;
+  font-weight:bold;
+}
+
+@media screen and (min-width: 768px){
+  .modal .modal-dialog {
+    webkit-box-shadow: 0 5px 15px rgba(0,0,0,.5);
+    box-shadow: 0 5px 15px rgba(0,0,0,.5);
+  }
+}
+
+.modal .modal-header {
+  border-radius: 5px 5px 0 0;
+  background-color:#fff;
+}
+
+.modal .modal-content {
+  background-color:#fff;
+  border-radius: 6px;
+  padding:20px;
+  box-shadow: none;
+  background-clip:inherit;
+}
+
+.modal .modal-footer {
+  background-color:#fff;
+  border-radius: 0 0 5px 5px;
+}

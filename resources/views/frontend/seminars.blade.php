@@ -34,10 +34,11 @@
                             <div class="row">
                                 <div class="col-md-3"></div>
                                 <div class="col-md-6">
-                                    <a href="https://www.google.de/maps/place/{{ $appointment->address->latitude}},{{ $appointment->address->longitude}}">
+                                    <a target="_blank"
+                                       href="https://www.google.de/maps/place/{{ $appointment->address->latitude}},{{ $appointment->address->longitude}}">
                                         <img
                                                 src="https://maps.googleapis.com/maps/api/staticmap?maptype=roadmap&center={{ $appointment->address->latitude}},{{ $appointment->address->longitude}}&markers=color:red%7C{{ $appointment->address->latitude}},{{ $appointment->address->longitude}}&zoom=15&size=640x400&key=AIzaSyDqNRudzEWZbavF28VmoCdaKnPNCElt6UQ"
-                                    style="width: 640px; height: 400px;"></a>
+                                                style="width: 640px; height: 400px;"></a>
                                     {{--@include('frontend.map', ['address' => $appointment->address])--}}
                                 </div>
                                 <div class="col-md-3"></div>
@@ -45,8 +46,38 @@
                             <br>
                             <strong>Price</strong><br>
                             {{ $appointment->seminar->price }} €<br><br>
-                            <button class="btn btn-success">Make a Booking</button>
+                            @if($loggedInUser && $appointment->members->count() < $appointment->seminar->maxMembers)
+                                <button class="btn btn-success" data-toggle="modal"
+                                        data-target="#modal{{ $appointment->id }}">Make a Booking
+                                </button>
+                            @else
+                                <button class="btn btn-success" disabled>Make a Booking</button>
+                            @endif
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div id="modal{{ $appointment->id }}" class="modal" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <p class="modal-title">Got a Discount? Enter the Code here!</p>
+                        </div>
+                        {{ Form::open([
+                        'method' =>'post',
+                        'route' => ['frontend.seminars.makeBooking', $loggedInUser, $appointment->id]
+                        ]) }}
+                        <div class="modal-body">
+                            <p>
+                                {{ Form::text('code', null, ['class' => 'form-control']) }}
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                            {{ Form::submit('Make a Booking', ['class' => 'btn btn-success']) }}
+                        </div>
+                        {{ Form::close() }}
                     </div>
                 </div>
             </div>
@@ -58,5 +89,11 @@
         $seminars.on('show.bs.collapse', '.collapse', function () {
             $seminars.find('.collapse.in').collapse('hide');
         });
+
+        //        $(document).on('hidden.bs.modal', function (e) {
+        //            var target = $(e.target);
+        //            target.removeData('bs.modal')
+        //                .find(".modal-body").html('');
+        //        });
     </script>
 @endsection
