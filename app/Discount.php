@@ -18,6 +18,6 @@ class Discount extends Model implements HasPresenter
 
     public function members()
     {
-        return $this->belongsToMany(Member::class, 'memberdiscounts')->withPivot('validity', 'startdate', 'expired', 'cashedin');
+        return $this->belongsToMany(Member::class, 'memberdiscounts')->withPivot('validity', 'permanent', 'startdate', 'code', 'expired', 'expirationMailSend', 'cashedin');
     }
 }

@@ -21,7 +21,7 @@ class SeminarsController extends Controller
 
     public function index()
     {
-        $appointments = Appointment::with('employee', 'seminar')->get();
+        $appointments = Appointment::with('employee', 'seminar')->where('date','>',Carbon::now())->get();
 
         return view('frontend.seminars', compact('appointments'));
 //        return view('frontend.seminars', compact('appointments'))->with('map', new MapController);

@@ -34,6 +34,6 @@ class Appointment extends Model implements HasPresenter
 
     public function members()
     {
-        return $this->belongsToMany(Member::class, 'seminarbookings')->withPivot('price_incl_discount', 'paid');
+        return $this->belongsToMany(Member::class, 'seminarbookings')->withPivot('price_incl_discount', 'paid', 'reminderSend');
     }
 }

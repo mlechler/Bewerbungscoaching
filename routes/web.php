@@ -44,6 +44,7 @@ Route::group(['prefix' => 'backend'], function () {
 
         Route::get('/seminarappointments/{seminarappointment}/confirm', ['as' => 'seminarappointments.confirm', 'uses' => 'Backend\AppointmentsController@confirm']);
         Route::get('/seminarappointments/{seminarappointment}/removeparticipant/{participant}', ['as' => 'seminarappointments.removeParticipant', 'uses' => 'Backend\AppointmentsController@removeParticipant']);
+        Route::get('/seminarappointments/{seminarappointment}/participantpaid/{participant}', ['as' => 'seminarappointments.participantPaid', 'uses' => 'Backend\AppointmentsController@participantPaid']);
         Route::resource('/seminarappointments', 'Backend\AppointmentsController');
 
         Route::get('/seminarbookings/{seminarbooking}/confirm', ['as' => 'seminarbookings.confirm', 'uses' => 'Backend\BookingsController@confirm']);
@@ -110,6 +111,7 @@ Route::group(['prefix' => 'backend'], function () {
     Route::resource('/seminars', 'Backend\SeminarsController', ['only' => ['index']]);
 
     Route::get('/seminarappointments/{seminarappointment}/detail', ['as' => 'seminarappointments.detail', 'uses' => 'Backend\AppointmentsController@detail']);
+    Route::get('/seminarappointments/{seminarappointment}/list', ['as' => 'seminarappointments.list', 'uses' => 'Backend\AppointmentsController@createList']);
     Route::resource('/seminarappointments', 'Backend\AppointmentsController', ['only' => ['index']]);
 
     Route::get('/individualcoachings/{individualcoaching}/detail', ['as' => 'individualcoachings.detail', 'uses' => 'Backend\IndividualCoachingsController@detail']);

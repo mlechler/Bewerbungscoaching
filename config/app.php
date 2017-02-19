@@ -149,6 +149,7 @@ return [
 
     'providers' => [
 
+        Barryvdh\DomPDF\ServiceProvider::class,
         Cornford\Googlmapper\MapperServiceProvider::class,
         Schuppo\PasswordStrength\PasswordStrengthServiceProvider::class,
         AlfredoRamos\ParsedownExtra\ParsedownExtraServiceProvider::class,
@@ -247,7 +248,8 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Widget' => Arrilot\Widgets\Facade::class,
         'Markdown' => AlfredoRamos\ParsedownExtra\Facades\ParsedownExtra::class,
-        'Mapper' => Cornford\Googlmapper\Facades\MapperFacade::class
+        'Mapper' => Cornford\Googlmapper\Facades\MapperFacade::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class
 
     ],
 

@@ -10,6 +10,7 @@ use App\Seminar;
 use App\Employee;
 use App\Address;
 use App\Booking;
+use Barryvdh\DomPDF\Facade as PDF;
 use Carbon\Carbon;
 use App\Http\Requests;
 use Cornford\Googlmapper\Facades\MapperFacade as Mapper;
@@ -174,6 +175,15 @@ class AppointmentsController extends Controller
         return view('backend.seminarappointments.detail', compact('seminarappointment'));
     }
 
+    public function deleteBookings($appointment_id)
+    {
+        $bookings = Booking::all()->where('appointment_id', '=', $appointment_id);
+
+        foreach ($bookings as $booking) {
+            Booking::destroy($booking->id);
+        }
+    }
+
     public function removeParticipant($appointment_id, $member_id)
     {
         $booking = Booking::where('appointment_id', '=', $appointment_id)->where('member_id', '=', $member_id)->first();
@@ -183,12 +193,21 @@ class AppointmentsController extends Controller
         return redirect()->back()->with('status', 'Participant has been removed.');
     }
 
-    public function deleteBookings($appointment_id)
+    public function participantPaid($appointment_id, $member_id)
     {
-        $bookings = Booking::all()->where('appointment_id', '=', $appointment_id);
+        $booking = Booking::where('appointment_id', '=', $appointment_id)->where('member_id', '=', $member_id)->first();
 
-        foreach ($bookings as $booking) {
-            Booking::destroy($booking->id);
-        }
+        $booking->fill(array(
+            'paid' => true
+        ))->save();
+
+        return redirect()->back()->with('status', 'Marked as paid.');
+    }
+
+    public function createList($id)
+    {
+        $seminarappointment = Appointment::with('members', 'employee')->findOrFail($id);
+
+        return PDF::loadView('backend.seminarappointments.list', ['seminarappointment' => $seminarappointment])->download($seminarappointment->seminar->title . '_' . date_format($seminarappointment->date, 'd.m.Y') . '.pdf');
     }
 }
