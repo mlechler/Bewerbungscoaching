@@ -23,6 +23,9 @@ Route::group(['prefix' => 'member'], function () {
     Route::post('/password/reset', ['as' => 'member.password.reset', 'uses' => 'MemberAuth\ResetPasswordController@reset']);
     Route::get('/password/reset', ['as' => 'member.password.reset', 'uses' => 'MemberAuth\ForgotPasswordController@showLinkRequestForm']);
     Route::get('/password/reset/{token}', ['as' => 'member.password.reset.token', 'uses' => 'MemberAuth\ResetPasswordController@showResetForm']);
+
+    Route::get('/password/update', ['as' => 'member.password.update', 'uses' => 'MemberAuth\UpdatePasswordController@showUpdateForm']);
+    Route::post('/password/update', ['as' => 'member.password.update', 'uses' => 'MemberAuth\UpdatePasswordController@update']);
 });
 
 Route::group(['prefix' => 'backend'], function () {
@@ -140,6 +143,10 @@ Route::group(['prefix' => 'backend'], function () {
 
 Route::group([], function () {
     Route::get('/', ['as' => 'frontend.welcome.index', 'uses' => 'Frontend\WelcomeController@index']);
+
+    Route::get('/myinformation', ['as' => 'frontend.myinformation.index', 'uses' => 'Frontend\MyInformationController@index']);
+    Route::get('/myinformation/edit', ['as' => 'frontend.myinformation.edit', 'uses' => 'Frontend\MyInformationController@edit']);
+    Route::post('/myinformation/edit/{id}', ['as' => 'frontend.myinformation.update', 'uses' => 'Frontend\MyInformationController@update']);
 
     Route::get('/seminars', ['as' => 'frontend.seminars.index', 'uses' => 'Frontend\SeminarsController@index']);
     Route::post('/seminars/{user}/makeBooking/{appointment}', ['as' => 'frontend.seminars.makeBooking', 'uses' => 'Frontend\SeminarsController@makeBooking']);

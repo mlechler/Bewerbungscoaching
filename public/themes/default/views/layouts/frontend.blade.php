@@ -34,7 +34,7 @@
                 <li class="dropdown">
                     <a href="">Hello, {{ $loggedInUser->firstname }} <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="userMenu">
-                        <li><a href="">My Information</a></li>
+                        <li><a href="{{ route('frontend.myinformation.index') }}">My Information</a></li>
                     </ul>
                 </li>
                 <li><a href="{{ route('member.logout') }}">Logout</a></li>
@@ -47,7 +47,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            @if($__env->yieldContent('title') != 'Welcome')
+            @if($__env->yieldContent('title') != 'Welcome' && $__env->yieldContent('title') != 'My Information')
                 <h3>@yield('title')</h3>
             @endif
 
