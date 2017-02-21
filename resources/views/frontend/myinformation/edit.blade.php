@@ -5,7 +5,7 @@
 @section('content')
     {{ Form::open([
     'method' => 'post',
-    'route' => ['frontend.myinformation.update',$loggedInUser->id]
+    'route' => 'frontend.myinformation.update'
     ]) }}
 
     <div class="form-group">

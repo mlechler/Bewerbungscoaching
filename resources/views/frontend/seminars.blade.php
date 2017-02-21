@@ -66,7 +66,7 @@
                         </div>
                         {{ Form::open([
                         'method' =>'post',
-                        'route' => ['frontend.seminars.makeBooking', $loggedInUser, $appointment->id]
+                        'route' => ['frontend.seminars.makeBooking', $appointment->id]
                         ]) }}
                         <div class="modal-body">
                             <p>

@@ -64,6 +64,7 @@
                 <button type="submit" class="btn btn-primary">
                     Update Password
                 </button>
+                <a href="{{ route('frontend.myinformation.index') }}" class="btn btn-danger">Cancel</a>
             </div>
         </div>
     </form>

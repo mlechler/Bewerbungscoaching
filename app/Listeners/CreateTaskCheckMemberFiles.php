@@ -30,6 +30,8 @@ class CreateTaskCheckMemberFiles
             'description' => '[' . $event->member->firstname . ' ' . $event->member->lastname . '](http://localhost:8000/backend/members/'
                 . $event->member->id . '/detail) uploaded new Files. Check these on mistakes and upload an improved version if necessary.',
             'creator_id' => null,
+            'processing' => 0,
+            'processedby' => null,
             'finished' => false
         ));
     }

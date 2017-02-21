@@ -9,6 +9,7 @@ use App\Invoice;
 use App\MemberDiscount;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SeminarsController extends Controller
 {
@@ -21,17 +22,19 @@ class SeminarsController extends Controller
 
     public function index()
     {
-        $appointments = Appointment::with('employee', 'seminar')->where('date','>',Carbon::now())->get();
+        $appointments = Appointment::with('employee', 'seminar')->where('date', '>', Carbon::now())->get();
 
         return view('frontend.seminars', compact('appointments'));
 //        return view('frontend.seminars', compact('appointments'))->with('map', new MapController);
     }
 
-    public function makeBooking(Request $request, $memberId, $appointmentId)
+    public function makeBooking(Request $request, $appointmentId)
     {
+        $member = Auth::guard('member')->user();
+
         $appointment = Appointment::findOrFail($appointmentId);
 
-        $memberdiscount = MemberDiscount::with('discount')->where('member_id', '=', $memberId)->where('code', '=', $request->code)->where('expired', '=', false)->where('cashedin', '=', false)->first();
+        $memberdiscount = MemberDiscount::with('discount')->where('member_id', '=', $member->id)->where('code', '=', $request->code)->where('expired', '=', false)->where('cashedin', '=', false)->first();
 
         $price_incl_discount = $appointment->seminar->price;
 
@@ -42,7 +45,7 @@ class SeminarsController extends Controller
         $bookings = Booking::all();
 
         foreach ($bookings as $booking) {
-            if ($booking->member_id == $memberId && $booking->appointment_id == $appointmentId) {
+            if ($booking->member_id == $member->id && $booking->appointment_id == $appointmentId) {
                 return redirect(route('frontend.seminars.index'))->withErrors([
                     'error' => 'You have already booked this Appointment.'
                 ]);
@@ -50,7 +53,7 @@ class SeminarsController extends Controller
         }
 
         $booking = Booking::create(array(
-            'member_id' => $memberId,
+            'member_id' => $member->id,
             'appointment_id' => $appointmentId,
             'price_incl_discount' => $price_incl_discount,
             'paid' => false,
@@ -58,7 +61,7 @@ class SeminarsController extends Controller
         ));
 
         $invoice = Invoice::create(array(
-            'member_id' => $memberId,
+            'member_id' => $member->id,
             'individualcoaching_id' => null,
             'booking_id' => $booking->id,
             'packagepurchase_id' => null,

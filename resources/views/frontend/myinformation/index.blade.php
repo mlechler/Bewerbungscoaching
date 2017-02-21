@@ -98,21 +98,39 @@
                 <tr>
                     <td>
                         <h4><strong>Seminars</strong></h4>
-                        test <br>
-                        test <br>
-                        test <br>
-                        test <br>
-                        test <br>
+                        @if($seminars)
+                            @foreach($seminars as $seminar)
+                                <strong>Title: </strong>{{ $seminar->appointment->seminar->title }} <br>
+                                <strong>Date: </strong>{{ $seminar->appointment->formatDate() }} <br>
+                                <strong>Time: </strong>{{ $seminar->appointment->formatTime() }} <br>
+                                <strong>Address: </strong>{{ $seminar->appointment->address->zip }} {{ $seminar->appointment->address->city }}
+                                , {{ $seminar->appointment->address->street }} {{ $seminar->appointment->address->housenumber }}
+                                <br>
+                                <strong>Employee: </strong>{{ $seminar->appointment->employee->firstname }} {{ $seminar->appointment->employee->lastname }}
+                                <br><br>
+                            @endforeach
+                        @else
+                            There are no Seminars.
+                        @endif
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <h4><strong>Individual Coachings</strong></h4>
-                        test <br>
-                        test <br>
-                        test <br>
-                        test <br>
-                        test <br>
+                        @if($coachings)
+                            @foreach($coachings as $coaching)
+                                <strong>Services: </strong>{{ $coaching->services }} <br>
+                                <strong>Date: </strong>{{ $coaching->formatDate() }} <br>
+                                <strong>Time: </strong>{{ $coaching->formatTime() }} @if($coaching->trial)
+                                    (Trial) @endif <br>
+                                <strong>Address: </strong>{{ $coaching->address->zip }} {{ $coaching->address->city }}
+                                , {{ $coaching->address->street }} {{ $coaching->address->housenumber }} <br>
+                                <strong>Employee: </strong>{{ $coaching->employee->firstname }} {{ $coaching->employee->lastname }}
+                                <br><br>
+                            @endforeach
+                        @else
+                            There are no Individual Coachings.
+                        @endif
                     </td>
                 </tr>
             </table>
@@ -125,21 +143,29 @@
                 <tr>
                     <td>
                         <h4><strong>Application Layouts</strong></h4>
-                        test <br>
-                        test <br>
-                        test <br>
-                        test <br>
-                        test <br>
+                        @if($applicationlayouts)
+                            @foreach($applicationlayouts as $layout)
+                                <strong>Title: </strong>{{ $layout->applicationlayout->title }} <br>
+                                <strong>Data</strong>
+                                <br><br>
+                            @endforeach
+                        @else
+                            There are no Application Layouts.
+                        @endif
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <h4><strong>Application Packages</strong></h4>
-                        test <br>
-                        test <br>
-                        test <br>
-                        test <br>
-                        test <br>
+                        @if($applicationpackages)
+                            @foreach($applicationpackages as $package)
+                                <strong>Title: </strong>{{ $package->applicationpackage->title }} <br>
+                                <strong>Data</strong>
+                                <br><br>
+                            @endforeach
+                        @else
+                            There are no Application Packages.
+                        @endif
                     </td>
                 </tr>
             </table>
@@ -150,21 +176,40 @@
                 <tr>
                     <td>
                         <h4><strong>Seminars</strong></h4>
-                        test <br>
-                        test <br>
-                        test <br>
-                        test <br>
-                        test <br>
+                        @if($formerseminars)
+                            @foreach($formerseminars as $formerseminar)
+                                <strong>Title: </strong>{{ $formerseminar->appointment->seminar->title }} <br>
+                                <strong>Date: </strong>{{ $formerseminar->appointment->formatDate() }} <br>
+                                <strong>Time: </strong>{{ $formerseminar->appointment->formatTime() }} <br>
+                                <strong>Address: </strong>{{ $formerseminar->appointment->address->zip }} {{ $formerseminar->appointment->address->city }}
+                                , {{ $formerseminar->appointment->address->street }} {{ $formerseminar->appointment->address->housenumber }}
+                                <br>
+                                <strong>Employee: </strong>{{ $formerseminar->appointment->employee->firstname }} {{ $formerseminar->appointment->employee->lastname }}
+                                <br><br>
+                            @endforeach
+                        @else
+                            There are no former Seminars.
+                        @endif
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <h4><strong>Individual Coachings</strong></h4>
-                        test <br>
-                        test <br>
-                        test <br>
-                        test <br>
-                        test <br>
+                        @if($formercoachings)
+                            @foreach($formercoachings as $formercoaching)
+                                <strong>Services: </strong>{{ $formercoaching->services }} <br>
+                                <strong>Date: </strong>{{ $formercoaching->formatDate() }} <br>
+                                <strong>Time: </strong>{{ $formercoaching->formatTime() }} @if($formercoaching->trial)
+                                    (Trial) @endif <br>
+                                <strong>Address: </strong>{{ $formercoaching->address->zip }} {{ $formercoaching->address->city }}
+                                , {{ $formercoaching->address->street }} {{ $formercoaching->address->housenumber }}
+                                <br>
+                                <strong>Employee: </strong>{{ $formercoaching->employee->firstname }} {{ $formercoaching->employee->lastname }}
+                                <br><br>
+                            @endforeach
+                        @else
+                            There are no former Individual Coachings.
+                        @endif
                     </td>
                 </tr>
             </table>

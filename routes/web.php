@@ -143,13 +143,14 @@ Route::group(['prefix' => 'backend'], function () {
 
 Route::group([], function () {
     Route::get('/', ['as' => 'frontend.welcome.index', 'uses' => 'Frontend\WelcomeController@index']);
-
-    Route::get('/myinformation', ['as' => 'frontend.myinformation.index', 'uses' => 'Frontend\MyInformationController@index']);
-    Route::get('/myinformation/edit', ['as' => 'frontend.myinformation.edit', 'uses' => 'Frontend\MyInformationController@edit']);
-    Route::post('/myinformation/edit/{id}', ['as' => 'frontend.myinformation.update', 'uses' => 'Frontend\MyInformationController@update']);
+    Route::group(['middleware' => 'member'], function () {
+        Route::get('/myinformation', ['as' => 'frontend.myinformation.index', 'uses' => 'Frontend\MyInformationController@index']);
+        Route::get('/myinformation/edit', ['as' => 'frontend.myinformation.edit', 'uses' => 'Frontend\MyInformationController@edit']);
+        Route::post('/myinformation/edit', ['as' => 'frontend.myinformation.update', 'uses' => 'Frontend\MyInformationController@update']);
+    });
 
     Route::get('/seminars', ['as' => 'frontend.seminars.index', 'uses' => 'Frontend\SeminarsController@index']);
-    Route::post('/seminars/{user}/makeBooking/{appointment}', ['as' => 'frontend.seminars.makeBooking', 'uses' => 'Frontend\SeminarsController@makeBooking']);
+    Route::post('/seminars/makeBooking/{appointment}', ['as' => 'frontend.seminars.makeBooking', 'uses' => 'Frontend\SeminarsController@makeBooking']);
 
     Route::get('/individualcoachings', ['as' => 'frontend.individualcoachings.index', 'uses' => 'Frontend\IndividualCoachingsController@index']);
 
@@ -168,5 +169,6 @@ Route::group([], function () {
             ]);
         }]);
     }
+
     Route::post('/contact', ['as' => 'frontend.contact.store', 'uses' => 'Frontend\ContactController@store']);
 });

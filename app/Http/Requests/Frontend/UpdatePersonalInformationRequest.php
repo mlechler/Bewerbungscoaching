@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Frontend;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UpdatePersonalInformationRequest extends FormRequest
 {
@@ -23,14 +24,14 @@ class UpdatePersonalInformationRequest extends FormRequest
      */
     public function rules()
     {
-        $id = $this->route('id');
+        $member = Auth::guard('member')->user();
         return [
             'lastname' => ['required'],
             'firstname' => ['required'],
             'birthday' => ['required', 'date_format:Y-m-d'],
             'phone' => ['required'],
-            'mobile' => ['required', 'unique:employees', 'unique:members,mobile,' . $id],
-            'email' => ['required', 'email', 'unique:employees', 'unique:members,email,' . $id],
+            'mobile' => ['required', 'unique:employees', 'unique:members,mobile,' . $member->id],
+            'email' => ['required', 'email', 'unique:employees', 'unique:members,email,' . $member->id],
             'zip' => ['required'],
             'city' => ['required'],
             'street' => ['required'],

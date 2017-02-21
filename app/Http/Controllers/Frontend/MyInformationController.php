@@ -3,8 +3,14 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Address;
+use App\Appointment;
+use App\Booking;
 use App\Http\Requests;
+use App\IndividualCoaching;
+use App\LayoutPurchase;
 use App\Member;
+use App\PackagePurchase;
+use Carbon\Carbon;
 use Cornford\Googlmapper\Facades\MapperFacade as Mapper;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,7 +18,47 @@ class MyInformationController extends Controller
 {
     public function index()
     {
-        return view('frontend.myinformation.index');
+        $member = Auth::guard('member')->user();
+
+        $bookings = Booking::where('member_id', '=', $member->id)->get();
+        $seminars = [];
+        $formerseminars = [];
+
+        foreach($bookings as $booking){
+            if($booking->appointment->date >= Carbon::now()){
+                array_push($seminars, $booking);
+            } else {
+                array_push($formerseminars, $booking);
+            }
+        }
+
+        $individualcoachings = IndividualCoaching::where('member_id', '=', $member->id)->get();
+        $coachings = [];
+        $formercoachings = [];
+
+        foreach($individualcoachings as $individualcoaching){
+            if($individualcoaching->date >= Carbon::now()){
+                array_push($coachings, $individualcoaching);
+            } else {
+                array_push($formercoachings, $individualcoaching);
+            }
+        }
+
+        $layoutpurchases = LayoutPurchase::where('member_id', '=', $member->id)->get();
+        $applicationlayouts = [];
+
+        foreach($layoutpurchases as $layoutpurchase) {
+            array_push($applicationlayouts, $layoutpurchase);
+        }
+
+        $packagepurchases = PackagePurchase::where('member_id', '=', $member->id)->get();
+        $applicationpackages = [];
+
+        foreach($packagepurchases as $packagepurchase) {
+            array_push($applicationpackages, $packagepurchase);
+        }
+
+        return view('frontend.myinformation.index', compact('seminars','formerseminars', 'coachings', 'formercoachings', 'applicationlayouts', 'applicationpackages'));
     }
 
     public function edit()
@@ -20,7 +66,7 @@ class MyInformationController extends Controller
         return view('frontend.myinformation.edit');
     }
 
-    public function update(Requests\Frontend\UpdatePersonalInformationRequest $request, $id)
+    public function update(Requests\Frontend\UpdatePersonalInformationRequest $request)
     {
         $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 
@@ -37,7 +83,7 @@ class MyInformationController extends Controller
             $address = $newaddress;
         }
 
-        $member = Member::findOrFail($id);
+        $member = $this->getUser();
 
         $oldpw = $member->password;
 
@@ -58,5 +104,10 @@ class MyInformationController extends Controller
         ))->save();
 
         return redirect(route('frontend.myinformation.index'))->with('status', 'Your Personal Information has been updated.');
+    }
+
+    public function getUser()
+    {
+        return Auth::guard('member')->user();
     }
 }
