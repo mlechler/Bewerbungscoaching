@@ -149,6 +149,7 @@ return [
 
     'providers' => [
 
+        GrahamCampbell\Dropbox\DropboxServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         Cornford\Googlmapper\MapperServiceProvider::class,
         Schuppo\PasswordStrength\PasswordStrengthServiceProvider::class,
@@ -249,7 +250,7 @@ return [
         'Widget' => Arrilot\Widgets\Facade::class,
         'Markdown' => AlfredoRamos\ParsedownExtra\Facades\ParsedownExtra::class,
         'Mapper' => Cornford\Googlmapper\Facades\MapperFacade::class,
-        'PDF' => Barryvdh\DomPDF\Facade::class
+        'DropBox' => GrahamCampbell\Dropbox\Facades\Dropbox::class
 
     ],
 

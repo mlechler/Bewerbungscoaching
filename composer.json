@@ -20,7 +20,10 @@
         "alfredo-ramos/parsedown-extra-laravel": "^0.5.1",
         "schuppo/password-strength": "~1.5",
         "cornford/googlmapper": "^2.22",
-        "barryvdh/laravel-dompdf": "^0.8.0"
+        "barryvdh/laravel-dompdf": "^0.8.0",
+        "graham-campbell/dropbox": "^3.4",
+        "dropbox/dropbox-sdk": "^1.1",
+        "league/flysystem-dropbox": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
