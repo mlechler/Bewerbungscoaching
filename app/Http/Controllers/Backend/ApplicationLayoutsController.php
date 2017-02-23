@@ -1,9 +1,11 @@
 <?php
 namespace App\Http\Controllers\Backend;
+
 use App\ApplicationLayout;
 use App\LayoutPurchase;
 use App\Http\Requests;
-use Illuminate\Support\Facades\Storage;
+use Dropbox\WriteMode;
+use GrahamCampbell\Dropbox\Facades\Dropbox;
 
 class ApplicationLayoutsController extends Controller
 {
@@ -20,10 +22,12 @@ class ApplicationLayoutsController extends Controller
         $layouts = ApplicationLayout::orderBy('title')->paginate(10);
         return view('backend.applicationlayouts.index', compact('layouts'));
     }
+
     public function create(ApplicationLayout $layout)
     {
         return view('backend.applicationlayouts.form', compact('layout'));
     }
+
     public function store(Requests\Backend\StoreLayoutRequest $request)
     {
         $layout = ApplicationLayout::create(array(
@@ -38,11 +42,13 @@ class ApplicationLayoutsController extends Controller
         $this->storeFiles($previewFile, $layoutFile, $layout->id);
         return redirect(route('applicationlayouts.index'))->with('status', 'Application Layout has been created.');
     }
+
     public function edit($id)
     {
         $layout = ApplicationLayout::findOrFail($id);
         return view('backend.applicationlayouts.form', compact('layout'));
     }
+
     public function update(Requests\Backend\UpdateLayoutRequest $request, $id)
     {
         $previewFile = null;
@@ -62,70 +68,75 @@ class ApplicationLayoutsController extends Controller
         $this->storeFiles($previewFile, $layoutFile, $layout->id);
         return redirect(route('applicationlayouts.index'))->with('status', 'Application Layout has been updated.');
     }
+
     public function confirm($id)
     {
         $layout = ApplicationLayout::findOrFail($id);
         return view('backend.applicationlayouts.confirm', compact('layout'));
     }
+
     public function destroy($id)
     {
         $layout = ApplicationLayout::whereId($id)->first();
-        Storage::delete($layout->preview);
-        Storage::delete($layout->layout);
+        Dropbox::delete($layout->preview);
+        Dropbox::delete($layout->layout);
         ApplicationLayout::destroy($id);
         $this->deletePurchases($id);
         return redirect(route('applicationlayouts.index'))->with('status', 'Application Layout has been deleted.');
     }
+
     public function detail($id)
     {
         $layout = ApplicationLayout::findOrFail($id);
         return view('backend.applicationlayouts.detail', compact('layout'));
     }
+
     public function storeFiles($previewFile, $layoutFile, $layout_id)
     {
         $uploadedPreview = null;
         $uploadedLayout = null;
         if ($previewFile) {
             $previewFileName = $previewFile->getClientOriginalName();
-            $previewDestinationPath = config('app.layoutDestinationPath') . '/' . $layout_id . '/' . $previewFileName;
-            $uploadedPreview = Storage::put($previewDestinationPath, file_get_contents($previewFile->getRealPath()));
-        }
-        if ($layoutFile) {
-            $layoutFileName = $layoutFile->getClientOriginalName();
-            $layoutDestinationPath = config('app.layoutDestinationPath') . '/' . $layout_id . '/' . $layoutFileName;
-            $uploadedLayout = Storage::put($layoutDestinationPath, file_get_contents($layoutFile->getRealPath()));
-        }
-        if ($uploadedPreview) {
+            $previewDestinationPath = '/layouts/' . $layout_id . '/' . $previewFileName;
+            Dropbox::uploadFileFromString($previewDestinationPath, WriteMode::force(), file_get_contents($previewFile));
+
             $layout = ApplicationLayout::findOrFail($layout_id);
             $layout->fill(array(
                 'preview' => $previewDestinationPath
             ))->save();
         }
-        if ($uploadedLayout) {
+        if ($layoutFile) {
+            $layoutFileName = $layoutFile->getClientOriginalName();
+            $layoutDestinationPath = '/layouts/' . $layout_id . '/' . $layoutFileName;
+            Dropbox::uploadFileFromString($layoutDestinationPath, WriteMode::force(), file_get_contents($layoutFile));
+
             $layout = ApplicationLayout::findOrFail($layout_id);
             $layout->fill(array(
                 'layout' => $layoutDestinationPath
             ))->save();
         }
     }
+
     public function deletePreviewFile($id)
     {
         $layout = ApplicationLayout::findOrFail($id);
-        Storage::delete($layout->preview);
+        Dropbox::delete($layout->preview);
         $layout->fill(array(
             'preview' => null
         ))->save();
         return redirect()->back()->with('status', 'File has been deleted.');
     }
+
     public function deleteLayoutFile($id)
     {
         $layout = ApplicationLayout::findOrFail($id);
-        Storage::delete($layout->layout);
+        Dropbox::delete($layout->layout);
         $layout->fill(array(
             'layout' => null
         ))->save();
         return redirect()->back()->with('status', 'File has been deleted.');
     }
+
     public function deletePurchases($applicationlayout_id)
     {
         $purchases = LayoutPurchase::all()->where('applicationlayout_id', '=', $applicationlayout_id);

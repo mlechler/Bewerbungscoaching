@@ -9,7 +9,8 @@ use App\EmployeeFile;
 use App\EmployeeFreeTime;
 use App\IndividualCoaching;
 use App\Role;
-use Illuminate\Support\Facades\Storage;
+use Dropbox\WriteMode;
+use GrahamCampbell\Dropbox\Facades\Dropbox;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -174,22 +175,22 @@ class EmployeesController extends Controller
         foreach ($files as $file) {
             $fileName = $file->getClientOriginalName();
             $fileType = $file->getClientMimeType();
-            $destinationPath = config('app.fileDestinationPath') . '/employees/' . $employee_id . '/' . $fileName;
-            $uploaded = Storage::put($destinationPath, file_get_contents($file->getRealPath()));
+            $destinationPath = '/employees/' . $employee_id . '/' . $fileName;
 
-            if ($uploaded) {
-                $employeefile = EmployeeFile::where('path', '=', $destinationPath)->first();
+            Dropbox::uploadFileFromString($destinationPath, WriteMode::force(), file_get_contents($file));
 
-                if (!$employeefile) {
-                    EmployeeFile::create(array(
-                        'name' => $fileName,
-                        'path' => $destinationPath,
-                        'type' => $fileType,
-                        'size' => filesize($file),
-                        'employee_id' => $employee_id
-                    ));
-                }
+            $employeefile = EmployeeFile::where('path', '=', $destinationPath)->first();
+
+            if (!$employeefile) {
+                EmployeeFile::create(array(
+                    'name' => $fileName,
+                    'path' => $destinationPath,
+                    'type' => $fileType,
+                    'size' => filesize($file),
+                    'employee_id' => $employee_id
+                ));
             }
+
         }
     }
 
@@ -198,7 +199,7 @@ class EmployeesController extends Controller
         $employeefiles = EmployeeFile::all()->where('employee_id', '=', $employee_id);
 
         foreach ($employeefiles as $employeefile) {
-            Storage::delete($employeefile->path);
+            Dropbox::delete($employeefile->path);
 
             EmployeeFile::destroy($employeefile->id);
         }
@@ -208,7 +209,7 @@ class EmployeesController extends Controller
     {
         $employeefile = EmployeeFile::findOrFail($file_id);
 
-        Storage::delete($employeefile->path);
+        Dropbox::delete($employeefile->path);
 
         EmployeeFile::destroy($file_id);
 

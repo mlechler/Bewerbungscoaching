@@ -13,7 +13,8 @@ use App\MemberFile;
 use App\PackagePurchase;
 use App\Role;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Storage;
+use Dropbox\WriteMode;
+use GrahamCampbell\Dropbox\Facades\Dropbox;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -179,31 +180,30 @@ class MembersController extends Controller
         foreach ($files as $file) {
             $fileName = $file->getClientOriginalName();
             $fileType = $file->getClientMimeType();
-            $destinationPath = config('app.fileDestinationPath') . '/members/' . $member_id . '/' . $fileName;
-            $uploaded = Storage::put($destinationPath, file_get_contents($file->getRealPath()));
+            $destinationPath = '/members/' . $member_id . '/' . $fileName;
 
-            if ($uploaded) {
-                $memberfile = MemberFile::where('path', '=', $destinationPath)->first();
+            Dropbox::uploadFileFromString($destinationPath, WriteMode::force(), file_get_contents($file));
 
-                if (!$memberfile) {
-                    MemberFile::create(array(
-                        'name' => $fileName,
-                        'path' => $destinationPath,
-                        'type' => $fileType,
-                        'size' => filesize($file),
-                        'member_id' => $member_id,
-                        'checked' => false
-                    ));
-                } elseif ($memberfile) {
-                    $memberfile->fill(array(
-                        'name' => $fileName,
-                        'path' => $destinationPath,
-                        'type' => $fileType,
-                        'size' => filesize($file),
-                        'member_id' => $member_id,
-                        'checked' => true
-                    ))->save();
-                }
+            $memberfile = MemberFile::where('path', '=', $destinationPath)->first();
+
+            if (!$memberfile) {
+                MemberFile::create(array(
+                    'name' => $fileName,
+                    'path' => $destinationPath,
+                    'type' => $fileType,
+                    'size' => filesize($file),
+                    'member_id' => $member_id,
+                    'checked' => false
+                ));
+            } elseif ($memberfile) {
+                $memberfile->fill(array(
+                    'name' => $fileName,
+                    'path' => $destinationPath,
+                    'type' => $fileType,
+                    'size' => filesize($file),
+                    'member_id' => $member_id,
+                    'checked' => true
+                ))->save();
             }
         }
     }
@@ -226,6 +226,7 @@ class MembersController extends Controller
 
         foreach ($files as $file) {
             MemberFile::destroy($file->id);
+            Dropbox::delete($file->path);
         }
         return redirect(route('members.index'))->with('status', 'Files have been deleted.');
     }
@@ -245,7 +246,7 @@ class MembersController extends Controller
         $memberfiles = MemberFile::all()->where('member_id', '=', $member_id);
 
         foreach ($memberfiles as $memberfile) {
-            Storage::delete($memberfile->path);
+            Dropbox::delete($memberfile->path);
 
             MemberFile::destroy($memberfile->id);
         }
@@ -255,7 +256,7 @@ class MembersController extends Controller
     {
         $memberfile = MemberFile::findOrFail($file_id);
 
-        Storage::delete($memberfile->path);
+        Dropbox::delete($memberfile->path);
 
         MemberFile::destroy($file_id);
 
@@ -303,7 +304,7 @@ class MembersController extends Controller
         $packages = PackagePurchase::all()->where('member_id', '=', $member_id);
 
         foreach ($packages as $package) {
-            Storage::delete($package->path);
+            Dropbox::delete($package->path);
 
             PackagePurchase::destroy($package->id);
         }

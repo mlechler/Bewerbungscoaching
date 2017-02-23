@@ -2,9 +2,6 @@
 
 return [
 
-    'fileDestinationPath' => 'uploads',
-    'layoutDestinationPath' => 'layouts',
-    'packageDestinationPath' => 'packagepurchases',
     'allowedFileTypes' => 'png,pdf,docx',
     'allowedPreviewFileTypes' => 'png',
     'allowedLayoutFileTypes' => 'pdf,docx',

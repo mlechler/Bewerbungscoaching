@@ -8,8 +8,6 @@ use App\Seminar;
 use App\SeminarFile;
 use Dropbox\WriteMode;
 use GrahamCampbell\Dropbox\Facades\Dropbox;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Requests;
 
 class SeminarsController extends Controller
@@ -145,7 +143,7 @@ class SeminarsController extends Controller
 
         foreach ($seminarfiles as $seminarfile) {
             SeminarFile::destroy($seminarfile->id);
-            Storage::delete($seminarfile->path);
+            Dropbox::delete($seminarfile->path);
         }
     }
 
