@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Discount;
 use App\MemberDiscount;
 use App\Http\Requests;
+use Carbon\Carbon;
 
 class DiscountsController extends Controller
 {
@@ -19,7 +20,7 @@ class DiscountsController extends Controller
 
     public function index()
     {
-        $discounts = Discount::orderBy('title')->paginate(10);
+        $discounts = Discount::paginate(10);
 
         return view('backend.discounts.index', compact('discounts'));
     }
@@ -35,7 +36,12 @@ class DiscountsController extends Controller
             'title' => $request->title,
             'service' => $request->service,
             'amount' => $request->amount,
-            'percentage' => $request->percentage == 'on' ? true : false
+            'percentage' => $request->percentage == 'on' ? true : false,
+            'validity' => $request->validity,
+            'permanent' => $request->permanent == 'on' ? true : false,
+            'startdate' => $request->startdate,
+            'code' => $request->code,
+            'expired' => false
         ));
 
         return redirect(route('discounts.index'))->with('status', 'Discount has been created.');
@@ -56,7 +62,12 @@ class DiscountsController extends Controller
             'title' => $request->title,
             'service' => $request->service,
             'amount' => $request->amount,
-            'percentage' => $request->percentage == 'on' ? true : false
+            'percentage' => $request->percentage == 'on' ? true : false,
+            'validity' => $request->validity,
+            'permanent' => $request->permanent == 'on' ? true : false,
+            'startdate' => $request->startdate,
+            'code' => $request->code,
+            'expired' => false
         ))->save();
 
         return redirect(route('discounts.index'))->with('status', 'Discount has been updated.');
@@ -73,8 +84,6 @@ class DiscountsController extends Controller
     {
         Discount::destroy($id);
 
-        $this->deleteMemberDiscounts($id);
-
         return redirect(route('discounts.index'))->with('status', 'Discount has been deleted.');
     }
 
@@ -85,12 +94,22 @@ class DiscountsController extends Controller
         return view('backend.discounts.detail', compact('discount'));
     }
 
-    public function deleteMemberDiscounts($discount_id)
+    public function checkExpiration()
     {
-        $discounts = MemberDiscount::all()->where('discount_id', '=', $discount_id);
+        $discounts = Discount::all();
 
         foreach ($discounts as $discount) {
-            MemberDiscount::destroy($discount->id);
+            if ($discount->startdate->addDays($discount->validity) < Carbon::now()) {
+                if ($discount->permanent) {
+                    $discount->fill(array(
+                        'expired' => false
+                    ))->save();
+                } else {
+                    $discount->fill(array(
+                        'expired' => true
+                    ))->save();
+                }
+            }
         }
     }
 }

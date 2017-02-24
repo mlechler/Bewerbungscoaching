@@ -9,15 +9,10 @@ use McCool\LaravelAutoPresenter\HasPresenter;
 class Discount extends Model implements HasPresenter
 {
     protected $table = 'discounts';
-    protected $fillable = ['title', 'amount', 'percentage', 'service'];
+    protected $fillable = ['title', 'amount', 'percentage', 'service', 'validity', 'permanent', 'startdate', 'code', 'expired'];
 
     public function getPresenterClass()
     {
         return DiscountPresenter::class;
-    }
-
-    public function members()
-    {
-        return $this->belongsToMany(Member::class, 'memberdiscounts')->withPivot('validity', 'permanent', 'startdate', 'code', 'expired', 'expirationMailSend', 'cashedin');
     }
 }

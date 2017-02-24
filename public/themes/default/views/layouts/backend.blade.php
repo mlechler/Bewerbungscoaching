@@ -75,13 +75,7 @@
                 </ul>
             </li>
             @if($backendUser->isAdmin())
-                <li class="dropdown">
-                    <a href="">Discounts <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="discountsMenu">
-                        <li><a href="{{ route('discounts.index') }}">Overview Discounts</a></li>
-                        <li><a href="{{ route('memberdiscounts.index') }}">Overview Member Discounts</a></li>
-                    </ul>
-                </li>
+                <li><a href="{{ route('discounts.index') }}">Discounts</a></li>
             @endif
             @if($backendUser->isAdmin())
                 <li><a href="{{ route('invoices.index') }}">Invoices</a></li>

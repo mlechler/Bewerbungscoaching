@@ -32,16 +32,17 @@
                             {{ $appointment->address->zip }}, {{ $appointment->address->city }}<br>
                             {{ $appointment->address->street }} {{ $appointment->address->housenumber }}<br><br>
                             <div class="row">
-                                <div class="col-md-3"></div>
-                                <div class="col-md-6">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-8" align="center">
                                     <a target="_blank"
                                        href="https://www.google.de/maps/place/{{ $appointment->address->latitude}},{{ $appointment->address->longitude}}">
                                         <img
                                                 src="https://maps.googleapis.com/maps/api/staticmap?maptype=roadmap&center={{ $appointment->address->latitude}},{{ $appointment->address->longitude}}&markers=color:red%7C{{ $appointment->address->latitude}},{{ $appointment->address->longitude}}&zoom=15&size=640x400&key=AIzaSyDqNRudzEWZbavF28VmoCdaKnPNCElt6UQ"
                                                 style="width: 640px; height: 400px;"></a>
+                                    <p class="help-block">Click on the map to see it in fullscreen.</p>
                                     {{--@include('frontend.map', ['address' => $appointment->address])--}}
                                 </div>
-                                <div class="col-md-3"></div>
+                                <div class="col-md-2"></div>
                             </div>
                             <br>
                             <strong>Price</strong><br>

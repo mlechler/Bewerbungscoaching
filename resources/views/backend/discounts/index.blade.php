@@ -22,7 +22,7 @@
             </tr>
         @else
             @foreach($discounts as $discount)
-                <tr>
+                <tr class="{{ $discount->expirationHighlight() }}">
                     <td>
                         {{ $discount->title }}
                     </td>

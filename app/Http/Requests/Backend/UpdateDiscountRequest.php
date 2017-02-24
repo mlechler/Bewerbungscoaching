@@ -27,7 +27,9 @@ class UpdateDiscountRequest extends FormRequest
         return [
             'title' => ['required', 'unique:discounts,title,'.$id],
             'service' => ['required'],
-            'amount' => ['required']
+            'amount' => ['required'],
+            'startdate' => ['required'],
+            'code' => ['required']
         ];
     }
 
@@ -37,7 +39,9 @@ class UpdateDiscountRequest extends FormRequest
             'title.required' => 'Title is required',
             'title.unique' => 'Title has to be unique in Discounts',
             'service.required' => 'Service is required',
-            'amount.required' => 'Amount is required'
+            'amount.required' => 'Amount is required',
+            'startdate.required' => 'Start Date is required',
+            'code.required' => 'Code is required'
         ];
     }
 }

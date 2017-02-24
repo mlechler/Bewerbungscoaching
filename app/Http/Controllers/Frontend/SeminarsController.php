@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Appointment;
 use App\Booking;
+use App\Discount;
 use App\Events\MakeSeminarBooking;
 use App\Invoice;
-use App\MemberDiscount;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,12 +34,12 @@ class SeminarsController extends Controller
 
         $appointment = Appointment::findOrFail($appointmentId);
 
-        $memberdiscount = MemberDiscount::with('discount')->where('member_id', '=', $member->id)->where('code', '=', $request->code)->where('expired', '=', false)->where('cashedin', '=', false)->first();
+        $discount = Discount::where('code', '=', $request->code)->where('expired', '=', false)->first();
 
         $price_incl_discount = $appointment->seminar->price;
 
-        if ($memberdiscount) {
-            $price_incl_discount = $this->useDiscount($memberdiscount, $appointment);
+        if ($discount) {
+            $price_incl_discount = $this->useDiscount($discount, $appointment);
         }
 
         $bookings = Booking::all();
@@ -75,23 +75,17 @@ class SeminarsController extends Controller
         return redirect(route('frontend.seminars.index'))->with('status', 'Your Booking was successful!');
     }
 
-    public function useDiscount($memberdiscount, $appointment)
+    public function useDiscount($discount, $appointment)
     {
-        if ($memberdiscount->discount->service == 'Seminar' || $memberdiscount->discount->service == 'Universal') {
+        if ($discount->service == 'Seminar' || $discount->service == 'Universal') {
 
-            if (!$memberdiscount->permanent) {
-                $memberdiscount->fill(array(
-                    'cashedin' => true
-                ))->save();
-            }
-
-            if ($memberdiscount->discount->percentage) {
-                return $appointment->seminar->price * $memberdiscount->discount->amount / 100;
+            if ($discount->percentage) {
+                return $appointment->seminar->price * $discount->amount / 100;
             } else {
-                if ($appointment->seminar->price - $memberdiscount->discount->amount < 0) {
+                if ($appointment->seminar->price - $discount->amount < 0) {
                     return 0;
                 } else {
-                    return $appointment->seminar->price - $memberdiscount->discount->amount;
+                    return $appointment->seminar->price - $discount->amount;
                 }
             }
         } else {

@@ -178,7 +178,7 @@
         <td colspan="2">
             <br><br>
             This invoice is part of your order from {{ date_format($invoice->date, 'd.m.Y, H:i') }}. <br>
-            Please pay this amount within the next fourteen days to the bank account below. <br><br>
+            Please pay this amount within the next fourteen days to the bank account below. Use <strong>{{ $invoice->id }}</strong> as the subject.<br><br>
 
             <div align="center">
                 If you have received this invoice incorrectly, please contact us. <br>

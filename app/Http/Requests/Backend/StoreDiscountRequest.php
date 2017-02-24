@@ -26,7 +26,9 @@ class StoreDiscountRequest extends FormRequest
         return [
             'title' => ['required', 'unique:discounts'],
             'service' => ['required'],
-            'amount' => ['required']
+            'amount' => ['required'],
+            'startdate' => ['required'],
+            'code' => ['required']
         ];
     }
 
@@ -36,7 +38,9 @@ class StoreDiscountRequest extends FormRequest
             'title.required' => 'Title is required',
             'title.unique' => 'Title has to be unique in Discounts',
             'service.required' => 'Service is required',
-            'amount.required' => 'Amount is required'
+            'amount.required' => 'Amount is required',
+            'startdate.required' => 'Start Date is required',
+            'code.required' => 'Code is required',
         ];
     }
 }
