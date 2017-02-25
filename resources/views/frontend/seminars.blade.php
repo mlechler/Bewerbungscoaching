@@ -63,16 +63,54 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <p class="modal-title">Got a Discount? Enter the Code here!</p>
+                            <p class="modal-title">Your Booking</p>
                         </div>
                         {{ Form::open([
                         'method' =>'post',
                         'route' => ['frontend.seminars.makeBooking', $appointment->id]
                         ]) }}
                         <div class="modal-body">
-                            <p>
-                                {{ Form::text('code', null, ['class' => 'form-control']) }}
-                            </p>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <strong>Payment Method</strong>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ Form::label('PayPal') }}
+                                        {{ Form::radio('type','paypal') }}
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        {{ Form::label('transfer') }}
+                                        {{ Form::radio('type','transfer') }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8 col-md-offset-4">
+                                    {{ Form::text('code', null, ['class' => 'form-control', 'placeholder' => 'Discount']) }}</td>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <strong>Check your Article</strong>
+                                </div>
+                                <div class="col-md-4">
+                                    <strong>{{ $appointment->seminar->title }}</strong><br>
+                                    {{ $appointment->seminar->services }} <br>
+                                    {{ $appointment->formatDate() }} <br>
+                                    {{ $appointment->formatTime() }} <br>
+                                </div>
+                                <div class="col-md-4">
+                                    <br>
+                                    {{ $appointment->address->zip }} {{ $appointment->address->city }} <br>
+                                    {{ $appointment->address->street }} {{ $appointment->address->housenumber }} <br>
+                                    <br>
+                                    <div align="right"><strong>{{ $appointment->seminar->price }} €</strong></div>
+                                </div>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-danger" data-dismiss="modal">Cancel</button>

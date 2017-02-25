@@ -7,17 +7,33 @@ use App\Booking;
 use App\Discount;
 use App\Events\MakeSeminarBooking;
 use App\Invoice;
+use App\Memberdiscount;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
+use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
+use Netshell\Paypal\Facades\Paypal;
 
 class SeminarsController extends Controller
 {
     protected $appointments;
+    private $_apiContext;
 
     public function __construct(Appointment $appointments)
     {
         $this->appointments = $appointments;
+
+        $this->_apiContext = Paypal::ApiContext(
+            config('services.paypal.client_id'),
+            config('services.paypal.secret'));
+
+        $this->_apiContext->setConfig(array(
+            'mode' => 'sandbox',
+            'service.EndPoint' => 'https://api.sandbox.paypal.com',
+            'http.ConnectionTimeOut' => 30,
+            'log.LogEnabled' => true,
+            'log.FileName' => storage_path('logs/paypal.log'),
+            'log.LogLevel' => 'FINE'
+        ));
     }
 
     public function index()
@@ -28,7 +44,7 @@ class SeminarsController extends Controller
 //        return view('frontend.seminars', compact('appointments'))->with('map', new MapController);
     }
 
-    public function makeBooking(Request $request, $appointmentId)
+    public function makeBooking(Requests\Frontend\MakeBookingRequest $request, $appointmentId)
     {
         $member = Auth::guard('member')->user();
 
@@ -71,25 +87,89 @@ class SeminarsController extends Controller
         ));
 
         event(new MakeSeminarBooking($booking, $invoice));
-
-        return redirect(route('frontend.seminars.index'))->with('status', 'Your Booking was successful!');
+        //Redirect je nach dem zu PayPal oder zur Bankseite
+        if($request->type == 'paypal') {
+            $this->payment($booking);
+        } elseif ($request->type == 'transfer') {
+            return redirect(route('frontend.bank.index'));
+        }
     }
 
     public function useDiscount($discount, $appointment)
     {
-        if ($discount->service == 'Seminar' || $discount->service == 'Universal') {
+        $used = Memberdiscount::where('discount_id', '=', $discount->id)->where('member_id', '=', Auth::guard('member')->id())->first();
 
-            if ($discount->percentage) {
-                return $appointment->seminar->price * $discount->amount / 100;
-            } else {
-                if ($appointment->seminar->price - $discount->amount < 0) {
-                    return 0;
+        if (!$used) {
+
+            Memberdiscount::create(array(
+                'member_id' => Auth::guard('member')->id(),
+                'discount_id' => $discount->id
+            ));
+
+            if ($discount->service == 'Seminar' || $discount->service == 'Universal') {
+
+                if ($discount->percentage) {
+                    return $appointment->seminar->price * $discount->amount / 100;
                 } else {
-                    return $appointment->seminar->price - $discount->amount;
+                    if ($appointment->seminar->price - $discount->amount < 0) {
+                        return 0;
+                    } else {
+                        return $appointment->seminar->price - $discount->amount;
+                    }
                 }
             }
-        } else {
+        }  else {
             return $appointment->seminar->price;
         }
+    }
+
+    public function payment($booking)
+    {
+        $payer = PayPal::Payer();
+        $payer->setPaymentMethod('paypal');
+
+        $amount = PayPal:: Amount();
+        $amount->setCurrency('EUR');
+        $amount->setTotal($booking->price_incl_discount);
+
+        $transaction = PayPal::Transaction();
+        $transaction->setAmount($amount);
+        $transaction->setDescription($booking->appointment->seminar->title);
+
+        $redirectUrls = PayPal::RedirectUrls();
+        $redirectUrls->setReturnUrl(action(SeminarsController::getDone()));
+        $redirectUrls->setCancelUrl(action(SeminarsController::getCancel()));
+
+        $payment = PayPal::Payment();
+        $payment->setIntent('sale');
+        $payment->setPayer($payer);
+        $payment->setRedirectUrls($redirectUrls);
+        $payment->setTransactions(array($transaction));
+
+        $response = $payment->create($this->_apiContext);
+        $redirectUrl = $response->links[1]->href;
+
+        return redirect($redirectUrl);
+    }
+
+    public function getDone()
+    {
+//        $id = $request->get('paymentId');
+//        $token = $request->get('token');
+//        $payer_id = $request->get('PayerID');
+//
+//        $payment = PayPal::getById($id, $this->_apiContext);
+//
+//        $paymentExecution = PayPal::PaymentExecution();
+//
+//        $paymentExecution->setPayerId($payer_id);
+//        $executePayment = $payment->execute($paymentExecution, $this->_apiContext);
+
+        dd('done');
+    }
+
+    public function getCancel()
+    {
+        dd('cancel');
     }
 }
