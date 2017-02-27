@@ -87,7 +87,7 @@
             @if(!$employee->employeeFiles->isEmpty())
                 @foreach($employee->employeeFiles as $file)
                     <div class="col-md-2">
-                        {{ $file->name }}
+                        <a href="{{ $file->download }}" target="_blank">{{ $file->name }}</a>
                     </div>
                     <div class="col-md-1">
                         <a href="{{ route('employees.deleteFile', $file->id) }}"><span

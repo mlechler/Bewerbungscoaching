@@ -91,6 +91,7 @@
             </table>
             <a href="{{ route('frontend.myinformation.edit') }}" class="btn btn-default">Change Personal Information</a>
             <a href="{{ route('member.password.update') }}" class="btn btn-default">Change Password</a>
+            <a href="{{ route('frontend.myinformation.files') }}" class="btn btn-default">Manage Files</a>
         </div>
         <div class="col-md-6">
             <h3><strong>Events</strong></h3>
@@ -108,6 +109,9 @@
                                 <br>
                                 <strong>Employee: </strong>{{ $seminar->appointment->employee->firstname }} {{ $seminar->appointment->employee->lastname }}
                                 <br><br>
+                                @foreach($seminar->appointment->seminar->seminarFiles as $file)
+                                    <a href="{{ $file->download }}" target="_blank">{{ $file->name }}</a><br>
+                                @endforeach
                             @endforeach
                         @else
                             There are no Seminars.

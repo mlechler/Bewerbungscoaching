@@ -87,11 +87,11 @@ class SeminarsController extends Controller
         ));
 
         event(new MakeSeminarBooking($booking, $invoice));
-        //Redirect je nach dem zu PayPal oder zur Bankseite
-        if($request->type == 'paypal') {
+
+        if ($request->type == 'paypal') {
             $this->payment($booking);
         } elseif ($request->type == 'transfer') {
-            return redirect(route('frontend.bank.index'));
+            //Redirect to Bankpage
         }
     }
 
@@ -118,7 +118,7 @@ class SeminarsController extends Controller
                     }
                 }
             }
-        }  else {
+        } else {
             return $appointment->seminar->price;
         }
     }

@@ -181,13 +181,16 @@ class EmployeesController extends Controller
 
             $employeefile = EmployeeFile::where('path', '=', $destinationPath)->first();
 
+            $downloadLink = Dropbox::createShareableLink($destinationPath);
+
             if (!$employeefile) {
                 EmployeeFile::create(array(
                     'name' => $fileName,
                     'path' => $destinationPath,
                     'type' => $fileType,
                     'size' => filesize($file),
-                    'employee_id' => $employee_id
+                    'employee_id' => $employee_id,
+                    'download' => $downloadLink
                 ));
             }
 

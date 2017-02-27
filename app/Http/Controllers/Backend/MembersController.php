@@ -186,6 +186,8 @@ class MembersController extends Controller
 
             $memberfile = MemberFile::where('path', '=', $destinationPath)->first();
 
+            $downloadLink = Dropbox::createShareableLink($destinationPath);
+
             if (!$memberfile) {
                 MemberFile::create(array(
                     'name' => $fileName,
@@ -193,7 +195,8 @@ class MembersController extends Controller
                     'type' => $fileType,
                     'size' => filesize($file),
                     'member_id' => $member_id,
-                    'checked' => false
+                    'checked' => false,
+                    'download' => $downloadLink
                 ));
             } elseif ($memberfile) {
                 $memberfile->fill(array(
@@ -202,7 +205,8 @@ class MembersController extends Controller
                     'type' => $fileType,
                     'size' => filesize($file),
                     'member_id' => $member_id,
-                    'checked' => true
+                    'checked' => true,
+                    'download' => $downloadLink
                 ))->save();
             }
         }

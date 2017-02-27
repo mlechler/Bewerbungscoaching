@@ -116,13 +116,16 @@ class SeminarsController extends Controller
 
             $seminarfile = SeminarFile::where('path', '=', $destinationPath)->first();
 
+            $downloadLink = Dropbox::createShareableLink($destinationPath);
+
             if (!$seminarfile) {
                 SeminarFile::create(array(
                     'name' => $fileName,
                     'path' => $destinationPath,
                     'type' => $fileType,
                     'size' => filesize($file),
-                    'seminar_id' => $seminar_id
+                    'seminar_id' => $seminar_id,
+                    'download' => $downloadLink
                 ));
             }
         }

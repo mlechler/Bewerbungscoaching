@@ -20,7 +20,7 @@ class PageTableSeeder extends Seeder
             'pagecontent' => 'This is the about page.',
             'parent_id' => null,
             'lft' => 1,
-            'rgt' => 8,
+            'rgt' => 6,
             'depth' => 0
         ));
         Page::create(array(
@@ -44,23 +44,13 @@ class PageTableSeeder extends Seeder
             'depth' => 1
         ));
         Page::create(array(
-            'title' => 'Bank',
-            'uri' => 'bank',
-            'name' => 'bank',
-            'pagecontent' => 'This is the bank page.',
-            'parent_id' => 1,
-            'lft' => 6,
-            'rgt' => 7,
-            'depth' => 1
-        ));
-        Page::create(array(
             'title' => 'Contact',
             'uri' => 'contact',
             'name' => 'contact',
             'pagecontent' => 'This is the contact page.',
             'parent_id' => null,
-            'lft' => 9,
-            'rgt' => 10,
+            'lft' => 7,
+            'rgt' => 8,
             'depth' => 0
         ));
 

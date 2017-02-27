@@ -107,7 +107,7 @@
             @if(!$member->memberFiles->isEmpty())
                 @foreach($member->memberFiles as $file)
                     <div class="col-md-3">
-                        {{ $file->name }}
+                        <a href="{{ $file->download }}" target="_blank">{{ $file->name }}</a>
                     </div>
                     <div class="col-md-1">
                         <a href="{{ route('members.deleteFile', $file->id) }}"><span
@@ -138,13 +138,13 @@
             defaultDate: '{{ old('birthday', $member->birthday) }}'
         });
 
-        $('input[id=files]').change(function() {
+        $('input[id=files]').change(function () {
             var names = [];
             for (var i = 0; i < $(this).get(0).files.length; ++i) {
                 names.push($(this).get(0).files[i].name);
                 names.push(', ');
             }
-            names.splice(-1,1);
+            names.splice(-1, 1);
             $('#filenames').html(names);
         });
     </script>

@@ -143,6 +143,10 @@ Route::group([], function () {
         Route::get('/myinformation', ['as' => 'frontend.myinformation.index', 'uses' => 'Frontend\MyInformationController@index']);
         Route::get('/myinformation/edit', ['as' => 'frontend.myinformation.edit', 'uses' => 'Frontend\MyInformationController@edit']);
         Route::post('/myinformation/edit', ['as' => 'frontend.myinformation.update', 'uses' => 'Frontend\MyInformationController@update']);
+        Route::get('/myinformation/files', ['as' => 'frontend.myinformation.files', 'uses' => 'Frontend\MyInformationController@manageFiles']);
+        Route::post('/myinformation/files', ['as' => 'frontend.myinformation.files', 'uses' => 'Frontend\MyInformationController@uploadFiles']);
+        Route::get('/myinformation/files/delete', ['as' => 'frontend.myinformation.deleteAllFiles', 'uses' => 'Frontend\MyInformationController@deleteAllFiles']);
+        Route::get('/myinformation/files/{file}/delete', ['as' => 'frontend.myinformation.deleteFile', 'uses' => 'Frontend\MyInformationController@deleteFile']);
     });
 
     Route::get('/seminars', ['as' => 'frontend.seminars.index', 'uses' => 'Frontend\SeminarsController@index']);

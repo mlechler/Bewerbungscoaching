@@ -20,6 +20,7 @@ class CreateSeminarFilesTable extends Migration
             $table->string('type');
             $table->string('size');
             $table->integer('seminar_id');
+            $table->string('download');
             $table->timestamps();
         });
     }

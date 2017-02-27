@@ -75,7 +75,7 @@
             </td>
             <td>
                 @foreach($employee->employeeFiles as $file)
-                    {{ $file->name }}
+                    <a href="{{ $file->download }}" target="_blank">{{ $file->name }}</a>
                 @endforeach
             </td>
         </tr>
