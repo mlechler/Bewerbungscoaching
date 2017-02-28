@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use Anouar\Paypalpayment\Facades\PaypalPayment;
 use App\Appointment;
 use App\Booking;
 use App\Discount;
@@ -11,7 +12,10 @@ use App\Memberdiscount;
 use Carbon\Carbon;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
-use Netshell\Paypal\Facades\Paypal;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Session;
+use PayPal\Api\PaymentExecution;
+use PayPal\Exception\PayPalConnectionException;
 
 class SeminarsController extends Controller
 {
@@ -22,18 +26,7 @@ class SeminarsController extends Controller
     {
         $this->appointments = $appointments;
 
-        $this->_apiContext = Paypal::ApiContext(
-            config('services.paypal.client_id'),
-            config('services.paypal.secret'));
-
-        $this->_apiContext->setConfig(array(
-            'mode' => 'sandbox',
-            'service.EndPoint' => 'https://api.sandbox.paypal.com',
-            'http.ConnectionTimeOut' => 30,
-            'log.LogEnabled' => true,
-            'log.FileName' => storage_path('logs/paypal.log'),
-            'log.LogLevel' => 'FINE'
-        ));
+        $this->_apiContext = PaypalPayment::apiContext(config('paypal_payment.Account.ClientId'), config('paypal_payment.Account.ClientSecret'));
     }
 
     public function index()
@@ -88,10 +81,14 @@ class SeminarsController extends Controller
 
         event(new MakeSeminarBooking($booking, $invoice));
 
+        if ($price_incl_discount == 0) {
+            return redirect(route('frontend.seminars.index'))->with('status', 'Your Booking was successfully.');
+        }
         if ($request->type == 'paypal') {
-            $this->payment($booking);
+            $approvalLink = $this->payment($booking, $invoice);
+            return redirect($approvalLink);
         } elseif ($request->type == 'transfer') {
-            //Redirect to Bankpage
+            return redirect(route('frontend.bank.index', $booking));
         }
     }
 
@@ -123,53 +120,71 @@ class SeminarsController extends Controller
         }
     }
 
-    public function payment($booking)
+    public function payment($booking, $invoice)
     {
-        $payer = PayPal::Payer();
-        $payer->setPaymentMethod('paypal');
+        $payer = Paypalpayment::payer();
+        $payer->setPaymentMethod("paypal");
 
-        $amount = PayPal:: Amount();
-        $amount->setCurrency('EUR');
-        $amount->setTotal($booking->price_incl_discount);
+        $item = Paypalpayment::item();
+        $item->setName($booking->appointment->seminar->title . ', ' . date_format($booking->appointment->date, 'd.m.Y') . ', ' . Carbon::parse($booking->appointment->time)->format('H:i') . ' - ' . Carbon::parse($booking->appointment->time)->addHours($booking->appointment->seminar->duration)->format('H:i'))
+            ->setDescription('Seminar')
+            ->setCurrency('EUR')
+            ->setQuantity(1)
+            ->setPrice($booking->price_incl_discount);
 
-        $transaction = PayPal::Transaction();
-        $transaction->setAmount($amount);
-        $transaction->setDescription($booking->appointment->seminar->title);
+        $itemList = Paypalpayment::itemList();
+        $itemList->setItems(array($item));
 
-        $redirectUrls = PayPal::RedirectUrls();
-        $redirectUrls->setReturnUrl(action(SeminarsController::getDone()));
-        $redirectUrls->setCancelUrl(action(SeminarsController::getCancel()));
+        $amount = Paypalpayment::amount();
+        $amount->setCurrency("EUR")
+            ->setTotal($booking->price_incl_discount);
 
-        $payment = PayPal::Payment();
-        $payment->setIntent('sale');
-        $payment->setPayer($payer);
-        $payment->setRedirectUrls($redirectUrls);
-        $payment->setTransactions(array($transaction));
+        $transaction = Paypalpayment::transaction();
+        $transaction->setAmount($amount)
+            ->setItemList($itemList)
+            ->setDescription("Seminar Payment")
+            ->setInvoiceNumber($invoice->id);
 
-        $response = $payment->create($this->_apiContext);
-        $redirectUrl = $response->links[1]->href;
+        $baseUrl = "http://localhost:8000";
+        $redirectUrls = Paypalpayment::redirectUrls();
+        $redirectUrls->setReturnUrl("{$baseUrl}/seminars/execute")
+            ->setCancelUrl("{$baseUrl}/seminars/execute");
 
-        return redirect($redirectUrl);
+        $payment = Paypalpayment::payment();
+        $payment->setIntent("sale")
+            ->setPayer($payer)
+            ->setRedirectUrls($redirectUrls)
+            ->setTransactions(array($transaction));
+
+        try {
+            $payment->create($this->_apiContext);
+        } catch (PayPalConnectionException $ex) {
+            return redirect(route('frontend.seminars.index'))->withErrors(['error' => 'Connection Error!']);
+        }
+
+        Session::put('paypal_payment_id', $payment->getId());
+
+        $approvalUrl = $payment->getApprovalLink();
+
+        return $approvalUrl;
     }
 
-    public function getDone()
+    public function executePayment()
     {
-//        $id = $request->get('paymentId');
-//        $token = $request->get('token');
-//        $payer_id = $request->get('PayerID');
-//
-//        $payment = PayPal::getById($id, $this->_apiContext);
-//
-//        $paymentExecution = PayPal::PaymentExecution();
-//
-//        $paymentExecution->setPayerId($payer_id);
-//        $executePayment = $payment->execute($paymentExecution, $this->_apiContext);
+        $payment_id = Session::get('paypal_payment_id');
 
-        dd('done');
-    }
+        Session::forget('paypal_payment_id');
 
-    public function getCancel()
-    {
-        dd('cancel');
+        $payment = PaypalPayment::getById($payment_id, $this->_apiContext);
+
+        $execution = new PaymentExecution();
+        $execution->setPayerId(Input::get('PayerID'));
+
+        $result = $payment->execute($execution, $this->_apiContext);
+
+        if ($result->getState() == 'approved') {
+            return redirect(route('frontend.seminars.index'))->with('status', 'Successfully paid.');
+        }
+        return redirect(route('frontend.seminars.index'))->withErrors(['error' => 'Payment Failed.']);
     }
 }

@@ -18,15 +18,13 @@
         <div class="col-md-6">
             {{ Widget::run('recentPosts') }}
         </div>
-        @if($backendUser->isAdmin())
-            <div class="col-md-6">
-                {{ Widget::run('paypalTransactions')}}
-            </div>
-        @endif
-    </div>
-    <div class="row">
         <div class="col-md-6">
             {{ Widget::run('contactRequests') }}
         </div>
     </div>
+    @if($backendUser->isAdmin())
+        <div class="row">
+            {{ Widget::run('paypalTransactions')}}
+        </div>
+    @endif
 @endsection

@@ -146,7 +146,7 @@ return [
 
     'providers' => [
 
-        Netshell\Paypal\PaypalServiceProvider::class,
+        Anouar\Paypalpayment\PaypalpaymentServiceProvider::class,
         GrahamCampbell\Dropbox\DropboxServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         Cornford\Googlmapper\MapperServiceProvider::class,
@@ -249,7 +249,7 @@ return [
         'Markdown' => AlfredoRamos\ParsedownExtra\Facades\ParsedownExtra::class,
         'Mapper' => Cornford\Googlmapper\Facades\MapperFacade::class,
         'DropBox' => GrahamCampbell\Dropbox\Facades\Dropbox::class,
-        'PayPal' => Netshell\Paypal\Facades\Paypal::class
+        'PayPal' => Anouar\Paypalpayment\Facades\PaypalPayment::class
     ],
 
 ];

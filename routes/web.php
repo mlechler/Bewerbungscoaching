@@ -147,9 +147,12 @@ Route::group([], function () {
         Route::post('/myinformation/files', ['as' => 'frontend.myinformation.files', 'uses' => 'Frontend\MyInformationController@uploadFiles']);
         Route::get('/myinformation/files/delete', ['as' => 'frontend.myinformation.deleteAllFiles', 'uses' => 'Frontend\MyInformationController@deleteAllFiles']);
         Route::get('/myinformation/files/{file}/delete', ['as' => 'frontend.myinformation.deleteFile', 'uses' => 'Frontend\MyInformationController@deleteFile']);
+
+        Route::get('/bank/{booking}', ['as' => 'frontend.bank.index', 'uses' => 'Frontend\PagesController@bank']);
     });
 
     Route::get('/seminars', ['as' => 'frontend.seminars.index', 'uses' => 'Frontend\SeminarsController@index']);
+    Route::get('/seminars/execute', ['as' => 'frontend.seminars.execute', 'uses' => 'Frontend\SeminarsController@executePayment']);
     Route::post('/seminars/makeBooking/{appointment}', ['as' => 'frontend.seminars.makeBooking', 'uses' => 'Frontend\SeminarsController@makeBooking']);
 
     Route::get('/individualcoachings', ['as' => 'frontend.individualcoachings.index', 'uses' => 'Frontend\IndividualCoachingsController@index']);

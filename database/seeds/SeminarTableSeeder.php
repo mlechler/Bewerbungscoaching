@@ -19,7 +19,7 @@ class SeminarTableSeeder extends Seeder
         Seminar::create(array(
             'title' => 'Seminar 2',
             'description' => 'This is even better!',
-            'services' => 'Catering, Document review',
+            'services' => 'Catering, Document Review',
             'maxMembers' => 12,
             'duration' => 6,
             'price' => 199
