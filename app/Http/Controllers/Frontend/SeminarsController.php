@@ -37,11 +37,11 @@ class SeminarsController extends Controller
 //        return view('frontend.seminars', compact('appointments'))->with('map', new MapController);
     }
 
-    public function makeBooking(Requests\Frontend\MakeBookingRequest $request, $appointmentId)
+    public function makeBooking(Requests\Frontend\MakeBookingRequest $request, $appointment_id)
     {
         $member = Auth::guard('member')->user();
 
-        $appointment = Appointment::findOrFail($appointmentId);
+        $appointment = Appointment::findOrFail($appointment_id);
 
         $discount = Discount::where('code', '=', $request->code)->where('expired', '=', false)->first();
 
@@ -54,7 +54,7 @@ class SeminarsController extends Controller
         $bookings = Booking::all();
 
         foreach ($bookings as $booking) {
-            if ($booking->member_id == $member->id && $booking->appointment_id == $appointmentId) {
+            if ($booking->member_id == $member->id && $booking->appointment_id == $appointment_id) {
                 return redirect(route('frontend.seminars.index'))->withErrors([
                     'error' => 'You have already booked this Appointment.'
                 ]);
@@ -63,7 +63,7 @@ class SeminarsController extends Controller
 
         $booking = Booking::create(array(
             'member_id' => $member->id,
-            'appointment_id' => $appointmentId,
+            'appointment_id' => $appointment_id,
             'price_incl_discount' => $price_incl_discount,
             'paid' => false,
             'reminderSend' => false,
@@ -88,7 +88,7 @@ class SeminarsController extends Controller
             $approvalLink = $this->payment($booking, $invoice);
             return redirect($approvalLink);
         } elseif ($request->type == 'transfer') {
-            return redirect(route('frontend.bank.index', $booking));
+            return redirect(route('frontend.bank.index', ['seminar', $booking]));
         }
     }
 
@@ -143,12 +143,11 @@ class SeminarsController extends Controller
         $transaction->setAmount($amount)
             ->setItemList($itemList)
             ->setDescription("Seminar Payment")
-            ->setInvoiceNumber($invoice->id);
+            ->setInvoiceNumber(uniqid()); //USE THE INVOICE ID IN LIVE
 
-        $baseUrl = "http://localhost:8000";
         $redirectUrls = Paypalpayment::redirectUrls();
-        $redirectUrls->setReturnUrl("{$baseUrl}/seminars/execute")
-            ->setCancelUrl("{$baseUrl}/seminars/execute");
+        $redirectUrls->setReturnUrl(route('frontend.seminars.execute',$booking->appointment->id))
+            ->setCancelUrl(route('frontend.seminars.execute',$booking->appointment->id));
 
         $payment = Paypalpayment::payment();
         $payment->setIntent("sale")
@@ -169,7 +168,7 @@ class SeminarsController extends Controller
         return $approvalUrl;
     }
 
-    public function executePayment()
+    public function executePayment($appointment_id)
     {
         $payment_id = Session::get('paypal_payment_id');
 
@@ -183,6 +182,12 @@ class SeminarsController extends Controller
         $result = $payment->execute($execution, $this->_apiContext);
 
         if ($result->getState() == 'approved') {
+            $booking = Booking::where('member_id','=', Auth::guard('member')->id())->where('appointment_id','=',$appointment_id)->first();
+
+            $booking->fill(array(
+                'paid' => true
+            ))->save();
+
             return redirect(route('frontend.seminars.index'))->with('status', 'Successfully paid.');
         }
         return redirect(route('frontend.seminars.index'))->withErrors(['error' => 'Payment Failed.']);

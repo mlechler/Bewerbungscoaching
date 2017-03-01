@@ -3,8 +3,8 @@
 @section('title', 'Bank Contact')
 
 @section('content')
-    Please transfer the amount of <strong>{{ $booking->price_incl_discount }} €</strong> to the following bank account. <br>
-    Please use <strong>{{ $invoice->id }}</strong> as the subject. <br><br>
+    Please transfer the amount of <strong>{{ $price_incl_discount }} €</strong> to the following bank account. <br>
+    Please use <strong>{{ $invoice_id }}</strong> as the subject. <br><br>
 
     <strong>Bank Account:</strong><br><br>
     <div class="row">

@@ -13,7 +13,7 @@
         @foreach($payments->payments as $payment)
             <li class="list-group-item">
                 <h4>
-                    {{ $payment->transactions[0]->item_list->items[0]->name }},
+                    <strong>{{ $payment->transactions[0]->item_list->items[0]->name }}</strong>,
                     {{ $payment->transactions[0]->item_list->items[0]->price }} €
                 </h4>
                 <h4>

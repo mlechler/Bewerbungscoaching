@@ -4,6 +4,7 @@ namespace App\Widgets;
 
 use Anouar\Paypalpayment\Facades\PaypalPayment as PaypalPayment;
 use Arrilot\Widgets\AbstractWidget;
+use PayPal\Api\Payment;
 
 class PaypalTransactions extends AbstractWidget
 {

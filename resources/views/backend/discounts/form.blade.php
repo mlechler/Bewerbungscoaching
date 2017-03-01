@@ -15,7 +15,7 @@
 
     <div class="form-group">
         {{ Form::label('service') }}
-        {{ Form::text('service', null, ['class' => 'form-control']) }}
+        {{ Form::text('service', null, ['class' => 'form-control', 'placeholder' => 'Universal, Seminar, Individual Coaching, Application Layout, Application Package']) }}
     </div>
 
     <div class="form-group row">

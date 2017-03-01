@@ -148,12 +148,16 @@ Route::group([], function () {
         Route::get('/myinformation/files/delete', ['as' => 'frontend.myinformation.deleteAllFiles', 'uses' => 'Frontend\MyInformationController@deleteAllFiles']);
         Route::get('/myinformation/files/{file}/delete', ['as' => 'frontend.myinformation.deleteFile', 'uses' => 'Frontend\MyInformationController@deleteFile']);
 
-        Route::get('/bank/{booking}', ['as' => 'frontend.bank.index', 'uses' => 'Frontend\PagesController@bank']);
+        Route::get('/bank/{type}/{id}', ['as' => 'frontend.bank.index', 'uses' => 'Frontend\PagesController@bank']);
+
+        Route::get('/seminars/execute/{id}', ['as' => 'frontend.seminars.execute', 'uses' => 'Frontend\SeminarsController@executePayment']);
+        Route::post('/seminars/makeBooking/{appointment}', ['as' => 'frontend.seminars.makeBooking', 'uses' => 'Frontend\SeminarsController@makeBooking']);
+
+        Route::get('/applicationlayouts/execute/{id}', ['as' => 'frontend.applicationlayouts.execute', 'uses' => 'Frontend\ApplicationLayoutsController@executePayment']);
+        Route::post('/applicationlayouts/purchase/{layout}', ['as' => 'frontend.applicationlayouts.purchase', 'uses' => 'Frontend\ApplicationLayoutsController@purchase']);
     });
 
     Route::get('/seminars', ['as' => 'frontend.seminars.index', 'uses' => 'Frontend\SeminarsController@index']);
-    Route::get('/seminars/execute', ['as' => 'frontend.seminars.execute', 'uses' => 'Frontend\SeminarsController@executePayment']);
-    Route::post('/seminars/makeBooking/{appointment}', ['as' => 'frontend.seminars.makeBooking', 'uses' => 'Frontend\SeminarsController@makeBooking']);
 
     Route::get('/individualcoachings', ['as' => 'frontend.individualcoachings.index', 'uses' => 'Frontend\IndividualCoachingsController@index']);
 
