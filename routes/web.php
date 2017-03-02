@@ -155,6 +155,9 @@ Route::group([], function () {
 
         Route::get('/applicationlayouts/execute/{id}', ['as' => 'frontend.applicationlayouts.execute', 'uses' => 'Frontend\ApplicationLayoutsController@executePayment']);
         Route::post('/applicationlayouts/purchase/{layout}', ['as' => 'frontend.applicationlayouts.purchase', 'uses' => 'Frontend\ApplicationLayoutsController@purchase']);
+
+        Route::get('/applicationpackages/execute/{id}', ['as' => 'frontend.applicationpackages.execute', 'uses' => 'Frontend\ApplicationPackagesController@executePayment']);
+        Route::post('/applicationpackages/purchase/{package}', ['as' => 'frontend.applicationpackages.purchase', 'uses' => 'Frontend\ApplicationPackagesController@purchase']);
     });
 
     Route::get('/seminars', ['as' => 'frontend.seminars.index', 'uses' => 'Frontend\SeminarsController@index']);

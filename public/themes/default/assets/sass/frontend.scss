@@ -118,3 +118,10 @@ a.navbar-brand {
   background-color:#fff;
   border-radius: 0 0 5px 5px;
 }
+
+.vertical-center {
+  display: flex;
+  min-height: 25vh;
+  align-items: center;
+  justify-content: center;
+}

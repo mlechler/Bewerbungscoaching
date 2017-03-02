@@ -150,8 +150,7 @@
                         @if($applicationlayouts)
                             @foreach($applicationlayouts as $layout)
                                 <strong>Title: </strong>{{ $layout->applicationlayout->title }} <br>
-                                <strong>Data</strong>
-                                <br><br>
+                                {!! $layout->getDownload() !!}<br><br>
                             @endforeach
                         @else
                             There are no Application Layouts.
@@ -164,8 +163,7 @@
                         @if($applicationpackages)
                             @foreach($applicationpackages as $package)
                                 <strong>Title: </strong>{{ $package->applicationpackage->title }} <br>
-                                <strong>Data</strong>
-                                <br><br>
+                                {!! $package->getDownload() !!}<br><br>
                             @endforeach
                         @else
                             There are no Application Packages.

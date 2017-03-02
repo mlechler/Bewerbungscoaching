@@ -173,7 +173,7 @@ class PackagePurchasesController extends Controller
         return redirect()->back()->with('status', 'File has been deleted.');
     }
 
-    public function uploadPackageFile(Request $request, $id)
+    public function uploadPackageFile(Requests\Backend\UploadPackageRequest $request, $id)
     {
         $purchase = PackagePurchase::findOrFail($id);
 

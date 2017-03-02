@@ -2,6 +2,7 @@
 
 namespace App\Presenters;
 
+use GrahamCampbell\Dropbox\Facades\Dropbox;
 use McCool\LaravelAutoPresenter\BasePresenter;
 
 class PackagePurchasePresenter extends BasePresenter
@@ -10,5 +11,16 @@ class PackagePurchasePresenter extends BasePresenter
     {
         $pathParts = explode('/', $this->path);
         return $pathParts[count($pathParts)-1];
+    }
+
+    public function getDownload()
+    {
+        if ($this->path) {
+            $link = Dropbox::createShareableLink($this->path);
+
+            return '<a href="' . $link . '" target="_blank">Download</a>';
+        }
+
+        return 'Currently no Download available.';
     }
 }

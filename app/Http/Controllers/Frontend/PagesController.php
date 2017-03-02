@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Booking;
 use App\Invoice;
 use App\LayoutPurchase;
+use App\PackagePurchase;
 use App\Page;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -34,6 +35,18 @@ class PagesController extends Controller
             case 'layout':
                 $purchase = LayoutPurchase::findOrFail($id);
                 $invoice = Invoice::where('layoutpurchase_id', '=', $id)->first();
+
+                if ($purchase->member_id == Auth::guard('member')->id()) {
+                    $price_incl_discount = $purchase->price_incl_discount;
+                    $invoice_id = $invoice->id;
+                    return view('frontend.bank', compact('price_incl_discount', 'invoice_id'));
+                } else {
+                    return redirect()->back();
+                }
+                break;
+            case 'package':
+                $purchase = PackagePurchase::findOrFail($id);
+                $invoice = Invoice::where('packagepurchase_id', '=', $id)->first();
 
                 if ($purchase->member_id == Auth::guard('member')->id()) {
                     $price_incl_discount = $purchase->price_incl_discount;

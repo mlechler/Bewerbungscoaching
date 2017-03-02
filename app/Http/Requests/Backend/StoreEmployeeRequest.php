@@ -50,7 +50,7 @@ class StoreEmployeeRequest extends FormRequest
                 $this->fileindex[] = [
                     sprintf('files.%d', $key) . '.required',
                     sprintf('files.%d', $key) . '.mimes',
-                    sprintf('files.%d', $key) . '.uploaded'
+                    sprintf('files.%d', $key) . '.max'
                 ];
             }
         }

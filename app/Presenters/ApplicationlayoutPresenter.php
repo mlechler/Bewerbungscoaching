@@ -17,27 +17,32 @@ class ApplicationLayoutPresenter extends BasePresenter
     {
         $pathParts = explode('/', $this->layout);
         $previewParts = explode('/', $this->preview);
-        return ($previewParts[count($previewParts)-1].' / '.$pathParts[count($pathParts)-1]);
+        return ($previewParts[count($previewParts) - 1] . ' / ' . $pathParts[count($pathParts) - 1]);
     }
 
     public function getPreviewFilename()
     {
         $previewParts = explode('/', $this->preview);
-        return $previewParts[count($previewParts)-1];
+        return $previewParts[count($previewParts) - 1];
     }
 
     public function getLayoutFilename()
     {
         $pathParts = explode('/', $this->layout);
-        return $pathParts[count($pathParts)-1];
+        return $pathParts[count($pathParts) - 1];
     }
 
-    public function getPreviewLink()
+    public function getPreview()
     {
-        $link = Dropbox::createShareableLink($this->preview);
-        substr($link, 0, -1);
+        if ($this->preview) {
+            $link = Dropbox::createShareableLink($this->preview);
+            substr($link, 0, -1);
 
-        return $link;
+            return '<a href="' . $link . '0" target="_blank">
+                                <img src="' . $link . '1&raw=1"
+                                     style="width:200px; height:320px;"></a>';
+        }
+
+        return 'Currently no Preview available.';
     }
-
 }

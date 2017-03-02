@@ -11,9 +11,8 @@
                         <h4 class="panel-title row">
                             <a data-toggle="collapse"
                                href="#collapse{{ $layout->id }}">
-                                <div class="col-md-6">{{ $layout->title }}</div>
-                                <div class="col-md-3">test</div>
-                                <div class="col-md-3" align="right">test2</div>
+                                <div class="col-md-9">{{ $layout->title }}</div>
+                                <div class="col-md-3" align="right">Purchased {{ $purchases[$layout->id] }} times.</div>
                             </a>
                         </h4>
                     </div>
@@ -22,9 +21,7 @@
                             <strong>Description</strong><br>
                             {!! $layout->descriptionHtml() !!}
                             <strong>Preview</strong><br>
-                            <a href="{{ $layout->getPreviewLink() }}0" target="_blank">
-                                <img src="{{ $layout->getPreviewLink() }}1&raw=1"
-                                     style="width:200px; height:320px;"></a><br><br>
+                            {!! $layout->getPreview() !!}<br><br>
                             <strong>Price</strong><br>
                             {{ $layout->price }} €<br><br>
                             @if($loggedInUser)

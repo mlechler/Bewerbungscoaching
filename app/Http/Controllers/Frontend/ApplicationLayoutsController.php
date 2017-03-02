@@ -6,12 +6,12 @@ namespace App\Http\Controllers\Frontend;
 use Anouar\Paypalpayment\Facades\PaypalPayment;
 use App\ApplicationLayout;
 use App\Discount;
+use App\Events\MakeLayoutPurchase;
 use App\Http\Requests;
 use App\Invoice;
 use App\LayoutPurchase;
 use App\Memberdiscount;
 use Carbon\Carbon;
-use GrahamCampbell\Dropbox\Facades\Dropbox;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
@@ -34,7 +34,11 @@ class ApplicationLayoutsController extends Controller
     {
         $applicationlayouts = ApplicationLayout::all();
 
-        return view('frontend.applicationlayouts', compact('applicationlayouts'));
+        foreach ($applicationlayouts as $layout) {
+            $purchases[$layout->id] = count(LayoutPurchase::where('applicationlayout_id','=',$layout->id)->get());
+        }
+
+        return view('frontend.applicationlayouts', compact('applicationlayouts', 'purchases'));
     }
 
     public function purchase(Requests\Frontend\PurchaseApplicationLayout $request, $layout_id)
@@ -78,7 +82,7 @@ class ApplicationLayoutsController extends Controller
             'date' => Carbon::now(),
         ));
 
-//        event(new MakeSeminarBooking($booking, $invoice));
+        event(new MakeLayoutPurchase($purchase, $invoice));
 
         if ($price_incl_discount == 0) {
             return redirect(route('frontend.applicationlayouts.index'))->with('status', 'Your Purchase was successfully.');
@@ -181,7 +185,7 @@ class ApplicationLayoutsController extends Controller
         $result = $payment->execute($execution, $this->_apiContext);
 
         if ($result->getState() == 'approved') {
-            $purchase = LayoutPurchase::where('member_id','=', Auth::guard('member')->id())->where('applicationlayout_id','=',$applicationlayout_id)->first();
+            $purchase = LayoutPurchase::where('member_id', '=', Auth::guard('member')->id())->where('applicationlayout_id', '=', $applicationlayout_id)->first();
 
             $purchase->fill(array(
                 'paid' => true
