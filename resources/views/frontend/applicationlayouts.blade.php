@@ -22,7 +22,9 @@
                             <strong>Description</strong><br>
                             {!! $layout->descriptionHtml() !!}
                             <strong>Preview</strong><br>
-                            {{ $layout->preview }}<br><br>
+                            <a href="{{ $layout->getPreviewLink() }}0" target="_blank">
+                                <img src="{{ $layout->getPreviewLink() }}1&raw=1"
+                                     style="width:200px; height:320px;"></a><br><br>
                             <strong>Price</strong><br>
                             {{ $layout->price }} €<br><br>
                             @if($loggedInUser)

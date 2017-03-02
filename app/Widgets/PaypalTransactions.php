@@ -29,8 +29,15 @@ class PaypalTransactions extends AbstractWidget
      */
     public function run()
     {
-        $payments = PaypalPayment::getAll(['count' => 5], $this->_apiContext);
-        $payments2 = PaypalPayment::getAll(['count' => 5,'start_index' => 6], $this->_apiContext);
+        $paymentsIDs = PaypalPayment::getAll(['count' => 5], $this->_apiContext);
+        $payments2IDs = PaypalPayment::getAll(['count' => 5,'start_index' => 6], $this->_apiContext);
+        $payments = [];
+        $payments2 = [];
+
+        for($i = 0; $i<5; $i++){
+            array_push($payments, PaypalPayment::getById($paymentsIDs->payments[$i]->id, $this->_apiContext));
+            array_push($payments2, PaypalPayment::getById($payments2IDs->payments[$i]->id, $this->_apiContext));
+        }
 
         return view("backend.widgets.paypal_transactions", [
             'config' => $this->config,

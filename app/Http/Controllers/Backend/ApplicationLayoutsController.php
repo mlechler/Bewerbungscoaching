@@ -78,8 +78,12 @@ class ApplicationLayoutsController extends Controller
     public function destroy($id)
     {
         $layout = ApplicationLayout::whereId($id)->first();
-        Dropbox::delete($layout->preview);
-        Dropbox::delete($layout->layout);
+        if ($layout->preview) {
+            Dropbox::delete($layout->preview);
+        }
+        if ($layout->layout) {
+            Dropbox::delete($layout->layout);
+        }
         ApplicationLayout::destroy($id);
         $this->deletePurchases($id);
         return redirect(route('applicationlayouts.index'))->with('status', 'Application Layout has been deleted.');

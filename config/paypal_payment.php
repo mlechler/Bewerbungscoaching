@@ -9,7 +9,7 @@ return array(
 
 	# Connection Information
 	'Http' => array(
-		'ConnectionTimeOut' => 30,
+		'ConnectionTimeOut' => 60,
 		'Retry' => 1,
 		//'Proxy' => 'http://[username:password]@hostname[:port][/path]',
 	),

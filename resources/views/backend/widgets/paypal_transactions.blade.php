@@ -10,27 +10,27 @@
         @else
     </div>
     <div class="col-md-6">
-        @foreach($payments->payments as $payment)
+        @foreach($payments as $payment)
             <li class="list-group-item">
                 <h4>
                     <strong>{{ $payment->transactions[0]->item_list->items[0]->name }}</strong>,
                     {{ $payment->transactions[0]->item_list->items[0]->price }} €
                 </h4>
                 <h4>
-                    {{ $payment->id }}, {{ date_format(Carbon\Carbon::parse($payment->create_time), 'd.m.Y H:i:s') }}
+                    {{ $payment->id }}, {{ date_format(Carbon\Carbon::parse($payment->create_time)->addHour(), 'd.m.Y H:i:s') }}
                 </h4>
             </li>
         @endforeach
     </div>
     <div class="col-md-6">
-        @foreach($payments2->payments as $payment)
+        @foreach($payments2 as $payment)
             <li class="list-group-item">
                 <h4>
-                    {{ $payment->transactions[0]->item_list->items[0]->name }},
+                    <strong>{{ $payment->transactions[0]->item_list->items[0]->name }}</strong>,
                     {{ $payment->transactions[0]->item_list->items[0]->price }} €
                 </h4>
                 <h4>
-                    {{ $payment->id }}, {{ date_format(Carbon\Carbon::parse($payment->create_time), 'd.m.Y H:i:s') }}
+                    {{ $payment->id }}, {{ date_format(Carbon\Carbon::parse($payment->create_time)->addHour(), 'd.m.Y H:i:s') }}
                 </h4>
             </li>
         @endforeach

@@ -228,9 +228,11 @@ class MembersController extends Controller
 
         $files = MemberFile::where('updated_at', '<=', $date)->get();
 
-        foreach ($files as $file) {
-            MemberFile::destroy($file->id);
-            Dropbox::delete($file->path);
+        if ($files) {
+            foreach ($files as $file) {
+                MemberFile::destroy($file->id);
+                Dropbox::delete($file->path);
+            }
         }
         return redirect(route('members.index'))->with('status', 'Files have been deleted.');
     }
@@ -249,10 +251,12 @@ class MembersController extends Controller
     {
         $memberfiles = MemberFile::all()->where('member_id', '=', $member_id);
 
-        foreach ($memberfiles as $memberfile) {
-            Dropbox::delete($memberfile->path);
+        if ($memberfiles) {
+            foreach ($memberfiles as $memberfile) {
+                Dropbox::delete($memberfile->path);
 
-            MemberFile::destroy($memberfile->id);
+                MemberFile::destroy($memberfile->id);
+            }
         }
     }
 

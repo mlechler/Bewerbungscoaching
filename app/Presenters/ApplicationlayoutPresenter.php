@@ -2,6 +2,7 @@
 
 namespace App\Presenters;
 
+use GrahamCampbell\Dropbox\Facades\Dropbox;
 use McCool\LaravelAutoPresenter\BasePresenter;
 use AlfredoRamos\ParsedownExtra\Facades\ParsedownExtra as Markdown;
 
@@ -29,6 +30,14 @@ class ApplicationLayoutPresenter extends BasePresenter
     {
         $pathParts = explode('/', $this->layout);
         return $pathParts[count($pathParts)-1];
+    }
+
+    public function getPreviewLink()
+    {
+        $link = Dropbox::createShareableLink($this->preview);
+        substr($link, 0, -1);
+
+        return $link;
     }
 
 }

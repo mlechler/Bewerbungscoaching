@@ -201,10 +201,12 @@ class EmployeesController extends Controller
     {
         $employeefiles = EmployeeFile::all()->where('employee_id', '=', $employee_id);
 
-        foreach ($employeefiles as $employeefile) {
-            Dropbox::delete($employeefile->path);
+        if ($employeefiles) {
+            foreach ($employeefiles as $employeefile) {
+                Dropbox::delete($employeefile->path);
 
-            EmployeeFile::destroy($employeefile->id);
+                EmployeeFile::destroy($employeefile->id);
+            }
         }
     }
 

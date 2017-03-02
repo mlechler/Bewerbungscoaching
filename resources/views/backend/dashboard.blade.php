@@ -22,9 +22,9 @@
             {{ Widget::run('contactRequests') }}
         </div>
     </div>
-    @if($backendUser->isAdmin())
-        <div class="row">
-            {{ Widget::run('paypalTransactions')}}
-        </div>
-    @endif
+    {{--@if($backendUser->isAdmin())--}}
+        {{--<div class="row">--}}
+            {{--{{ Widget::run('paypalTransactions')}}--}}
+        {{--</div>--}}
+    {{--@endif--}}
 @endsection

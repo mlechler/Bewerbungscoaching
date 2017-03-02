@@ -143,10 +143,11 @@ class SeminarsController extends Controller
     public function deleteFiles($seminar_id)
     {
         $seminarfiles = SeminarFile::all()->where('seminar_id', '=', $seminar_id);
-
-        foreach ($seminarfiles as $seminarfile) {
-            SeminarFile::destroy($seminarfile->id);
-            Dropbox::delete($seminarfile->path);
+        if ($seminarfiles) {
+            foreach ($seminarfiles as $seminarfile) {
+                SeminarFile::destroy($seminarfile->id);
+                Dropbox::delete($seminarfile->path);
+            }
         }
     }
 

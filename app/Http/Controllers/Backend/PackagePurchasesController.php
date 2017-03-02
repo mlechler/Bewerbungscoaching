@@ -133,6 +133,7 @@ class PackagePurchasesController extends Controller
 
     public function destroy($id)
     {
+        $this->deleteFile($id);
         PackagePurchase::destroy($id);
 
         return redirect(route('packagepurchases.index'))->with('status', 'Package Purchase has been deleted.');
@@ -162,12 +163,13 @@ class PackagePurchasesController extends Controller
     {
         $package = PackagePurchase::findOrFail($id);
 
-        Dropbox::delete($package->path);
+        if ($package) {
+            Dropbox::delete($package->path);
 
-        $package->fill(array(
-            'path' => null
-        ))->save();
-
+            $package->fill(array(
+                'path' => null
+            ))->save();
+        }
         return redirect()->back()->with('status', 'File has been deleted.');
     }
 
