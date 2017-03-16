@@ -146,6 +146,7 @@ return [
 
     'providers' => [
 
+        MaddHatter\LaravelFullcalendar\ServiceProvider::class,
         Anouar\Paypalpayment\PaypalpaymentServiceProvider::class,
         GrahamCampbell\Dropbox\DropboxServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
@@ -249,7 +250,8 @@ return [
         'Markdown' => AlfredoRamos\ParsedownExtra\Facades\ParsedownExtra::class,
         'Mapper' => Cornford\Googlmapper\Facades\MapperFacade::class,
         'DropBox' => GrahamCampbell\Dropbox\Facades\Dropbox::class,
-        'PayPal' => Anouar\Paypalpayment\Facades\PaypalPayment::class
+        'PayPal' => Anouar\Paypalpayment\Facades\PaypalPayment::class,
+        'Calendar' => MaddHatter\LaravelFullcalendar\Facades\Calendar::class
     ],
 
 ];

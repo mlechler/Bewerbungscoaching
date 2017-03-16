@@ -32,9 +32,15 @@ elixir(function (mix) {
     mix.copy('node_modules/simplemde/dist/simplemde.min.css', elixir.config.publicPath + '/css/simplemde.css');
     mix.copy('node_modules/simplemde/dist/simplemde.min.js', elixir.config.publicPath + '/js/simplemde.js');
 
+    mix.copy('node_modules/fullcalendar/dist/fullcalendar.min.css', elixir.config.publicPath + '/css/fullcalendar.css');
+    mix.copy('node_modules/fullcalendar/dist/fullcalendar.min.js', elixir.config.publicPath + '/js/fullcalendar.js');
+    mix.copy('node_modules/fullcalendar/dist/gcal.min.js', elixir.config.publicPath + '/js/gcal.js');
+    mix.copy('node_modules/fullcalendar/dist/locale-all.js', elixir.config.publicPath + '/js/locale-all.js');
+
     mix.scripts([
         'jquery.js', 'bootstrap.js', 'moment.js',
-        'simplemde.js', 'datepicker.js'
+        'simplemde.js', 'datepicker.js', 'fullcalendar.js',
+        'gcal.js', 'locale-all.js'
     ]);
 
     mix.sass('backend.scss');
