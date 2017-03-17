@@ -28,4 +28,9 @@ class Address extends Model
     {
         return $this->hasMany(IndividualCoaching::class);
     }
+
+    public function employeeFreeTimes()
+    {
+        return $this->hasMany(EmployeeFreeTime::class);
+    }
 }

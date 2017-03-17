@@ -154,6 +154,8 @@ Route::group([], function () {
         Route::post('/seminars/makeBooking/{appointment}', ['as' => 'frontend.seminars.makeBooking', 'uses' => 'Frontend\SeminarsController@makeBooking']);
 
         Route::get('/individualcoachings/detail/{id}', ['as' => 'frontend.individualcoachings.detail', 'uses' => 'Frontend\IndividualCoachingsController@detail']);
+        Route::get('/individualcoachings/execute/{id}', ['as' => 'frontend.individualcoachings.execute', 'uses' => 'Frontend\IndividualCoachingsController@executePayment']);
+        Route::post('/individualcoachings/makeBooking/{id}', ['as' => 'frontend.individualcoachings.makeBooking', 'uses' => 'Frontend\IndividualCoachingsController@makeBooking']);
 
         Route::get('/applicationlayouts/execute/{id}', ['as' => 'frontend.applicationlayouts.execute', 'uses' => 'Frontend\ApplicationLayoutsController@executePayment']);
         Route::post('/applicationlayouts/purchase/{layout}', ['as' => 'frontend.applicationlayouts.purchase', 'uses' => 'Frontend\ApplicationLayoutsController@purchase']);

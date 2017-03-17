@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Address;
 use App\Employee;
 use App\EmployeeFreeTime;
 use App\Http\Requests;
+use Cornford\Googlmapper\Facades\MapperFacade as Mapper;
 use Illuminate\Support\Facades\Auth;
 
 class EmployeeFreeTimesController extends Controller
@@ -52,7 +54,22 @@ class EmployeeFreeTimesController extends Controller
 
     public function store(Requests\Backend\StoreEmployeeFreeTimeRequest $request)
     {
-        $overlap = $this->checkTimeOverlap($request->employee_id, $request->date, $request->starttime, $request->endtime);
+        $overlap = $this->checkTimeOverlap($id = null, $request->employee_id, $request->date, $request->starttime, $request->endtime);
+
+        $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
+
+        if (!$address) {
+            $geo = Mapper::location('Germany' . $request->zip . $request->street . $request->housenumber);
+            $newaddress = Address::create(array(
+                'zip' => $request->zip,
+                'city' => $request->city,
+                'street' => $request->street,
+                'housenumber' => $request->housenumber,
+                'latitude' => $geo->getLatitude(),
+                'longitude' => $geo->getLongitude()
+            ));
+            $address = $newaddress;
+        }
 
         if ($overlap) {
             return redirect(route('employeefreetimes.index'))->withErrors([
@@ -63,7 +80,9 @@ class EmployeeFreeTimesController extends Controller
                 'date' => $request->date,
                 'starttime' => $request->starttime,
                 'endtime' => $request->endtime,
-                'employee_id' => $request->employee_id
+                'hourlyrate' => $request->hourlyrate,
+                'employee_id' => $request->employee_id,
+                'address_id' => $address->id
             ));
 
             return redirect(route('employeefreetimes.index'))->with('status', 'Free Time has been created.');
@@ -101,7 +120,22 @@ class EmployeeFreeTimesController extends Controller
     {
         $freetime = EmployeeFreeTime::findOrFail($id);
 
-        $overlap = $this->checkTimeOverlap($request->employee_id, $request->date, $request->starttime, $request->endtime);
+        $overlap = $this->checkTimeOverlap($id, $request->employee_id, $request->date, $request->starttime, $request->endtime);
+
+        $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
+
+        if (!$address) {
+            $geo = Mapper::location('Germany' . $request->zip . $request->street . $request->housenumber);
+            $newaddress = Address::create(array(
+                'zip' => $request->zip,
+                'city' => $request->city,
+                'street' => $request->street,
+                'housenumber' => $request->housenumber,
+                'latitude' => $geo->getLatitude(),
+                'longitude' => $geo->getLongitude()
+            ));
+            $address = $newaddress;
+        }
 
         if ($overlap) {
             return redirect(route('employeefreetimes.index'))->withErrors([
@@ -112,7 +146,9 @@ class EmployeeFreeTimesController extends Controller
                 'date' => $request->date,
                 'starttime' => $request->starttime,
                 'endtime' => $request->endtime,
-                'employee_id' => $request->employee_id
+                'hourlyrate' => $request->hourlyrate,
+                'employee_id' => $request->employee_id,
+                'address_id' => $address->id
             ))->save();
 
             return redirect(route('employeefreetimes.index'))->with('status', 'Free Time has been updated.');
@@ -140,14 +176,16 @@ class EmployeeFreeTimesController extends Controller
         return view('backend.employeefreetimes.detail', compact('freetime'));
     }
 
-    public function checkTimeOverlap($employee_id, $date, $starttime, $endtime)
+    public function checkTimeOverlap($id, $employee_id, $date, $starttime, $endtime)
     {
         $freetimes = EmployeeFreeTime::all()->where('employee_id', '=', $employee_id);
 
         foreach ($freetimes as $freetime) {
             if ($freetime->date == $date) {
                 if (($freetime->starttime <= $endtime) && ($freetime->endtime >= $starttime)) {
-                    return true;
+                    if ($freetime->id != $id) {
+                        return true;
+                    }
                 };
             }
         }

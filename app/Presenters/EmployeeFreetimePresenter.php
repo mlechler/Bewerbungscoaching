@@ -16,4 +16,9 @@ class EmployeeFreetimePresenter extends BasePresenter
     {
         return Carbon::parse($this->starttime)->format('H:i').' - '.Carbon::parse($this->endtime)->format('H:i');
     }
+
+    public function formatAddress()
+    {
+        return ($this->address->zip . ' ' . $this->address->city . ', ' . $this->address->street . ' ' . $this->address->housenumber);
+    }
 }

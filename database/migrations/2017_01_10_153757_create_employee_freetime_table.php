@@ -18,7 +18,9 @@ class CreateEmployeeFreetimeTable extends Migration
             $table->date('date');
             $table->time('starttime');
             $table->time('endtime');
+            $table->integer('hourlyrate');
             $table->integer('employee_id');
+            $table->integer('address_id');
             $table->timestamps();
         });
     }

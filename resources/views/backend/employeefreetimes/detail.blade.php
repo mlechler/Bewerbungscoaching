@@ -15,6 +15,14 @@
         </tr>
         <tr>
             <td>
+                <h4>Hourly Rate</h4>
+            </td>
+            <td>
+                <h4>{{ $freetime->hourlyrate }} €</h4>
+            </td>
+        </tr>
+        <tr>
+            <td>
                 <h4>Date</h4>
             </td>
             <td>
@@ -27,6 +35,14 @@
             </td>
             <td>
                 <h4>{{ $freetime->formatTime() }}</h4>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h4>Address</h4>
+            </td>
+            <td>
+                <h4>{{ $freetime->formatAddress() }}</h4>
             </td>
         </tr>
         </tbody>

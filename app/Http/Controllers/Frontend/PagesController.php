@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Booking;
+use App\IndividualCoaching;
 use App\Invoice;
 use App\LayoutPurchase;
 use App\PackagePurchase;
@@ -26,6 +27,18 @@ class PagesController extends Controller
 
                 if ($booking->member_id == Auth::guard('member')->id()) {
                     $price_incl_discount = $booking->price_incl_discount;
+                    $invoice_id = $invoice->id;
+                    return view('frontend.bank', compact('price_incl_discount', 'invoice_id'));
+                } else {
+                    return redirect()->back();
+                }
+                break;
+            case 'coaching':
+                $coaching = IndividualCoaching::findOrFail($id);
+                $invoice = Invoice::where('individualcoaching_id', '=', $id)->first();
+
+                if ($coaching->member_id == Auth::guard('member')->id()) {
+                    $price_incl_discount = $coaching->price_incl_discount;
                     $invoice_id = $invoice->id;
                     return view('frontend.bank', compact('price_incl_discount', 'invoice_id'));
                 } else {
