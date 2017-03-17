@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Employee;
 use App\EmployeeFreeTime;
 use App\IndividualCoaching;
 use Carbon\Carbon;
@@ -20,6 +21,8 @@ class IndividualCoachingsController extends Controller
     {
         $calendar = null;
 
+        $employees = Employee::all();
+
         $freetimes = EmployeeFreeTime::with('employee')->get();
 
         if (!$freetimes->isEmpty()) {
@@ -32,20 +35,28 @@ class IndividualCoachingsController extends Controller
                 $end = $date->format('Y-m-d') . ' ' . $endtime->format('H:i:s');
 
                 $event = Calendar::event(
-                    $freetime->employee->lastname,
+                    null,
                     false,
                     $start,
                     $end
                 );
                 $calendar = Calendar::addEvent($event, [
-                    'color' => '#800'
+                    'color' => $freetime->employee->color,
+                    'disableResizing' => true,
+                    'url' => route('frontend.individualcoachings.detail', $freetime->id)
                 ]);
             }
             $calendar->setOptions([
-                'weekends' => false
+                'weekends' => false,
+                'navLinks' => true
             ]);
         }
 
-        return view('frontend.individualcoachings', compact('calendar'));
+        return view('frontend.individualcoachings', compact('calendar', 'employees'));
+    }
+
+    public function detail($id)
+    {
+        dd($id);
     }
 }

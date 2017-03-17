@@ -10,11 +10,22 @@
                 {!! $calendar->script() !!}
             </div>
             <div class="col-md-4">
-                Employeelist
+                <br><br>
+                <h5><strong>List of Employees</strong></h5>
+                @foreach($employees as $employee)
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ $employee->getName() }} </div>
+                        <div class="col-md-6">
+                            <span style="color: {{ $employee->color }}" title="{{ $employee->color }}">█</span>
+                        </div>
+                        <br>
+                    </div>
+                @endforeach
             </div>
         @else
             <div class="col-md-12" align="center">
-                Currently is no Individual Coaching available.
+                Currently are no Individual Coachings available.
             </div>
         @endif
     </div>

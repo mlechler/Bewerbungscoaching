@@ -67,6 +67,7 @@ class EmployeesController extends Controller
             'email' => $request->email,
             'address_id' => $address->id,
             'role_id' => $request->role_id,
+            'color' => $request->color,
             'password' => Hash::make($request->password),
             'remember_token' => Auth::viaRemember()
         ));
@@ -123,6 +124,7 @@ class EmployeesController extends Controller
             'email' => $request->email,
             'address_id' => $address->id,
             'role_id' => $request->role_id ? $request->role_id : $oldrole,
+            'color' => $request->color,
             'password' => $request->password ? Hash::make($request->password) : $oldpw,
             'remember_token' => Auth::viaRemember()
         ))->save();

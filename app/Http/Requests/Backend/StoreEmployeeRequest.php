@@ -38,6 +38,7 @@ class StoreEmployeeRequest extends FormRequest
             'street' => ['required'],
             'housenumber' => ['required'],
             'role_id' => ['required'],
+            'color' => ['required', 'unique:employees'],
             'password' => ['required', 'min:8', 'max:50', 'numbers', 'case_diff', 'letters', 'symbols', 'confirmed']
         ];
 
@@ -75,6 +76,8 @@ class StoreEmployeeRequest extends FormRequest
             'street.required' => 'Street is required',
             'housenumber.required' => 'Housenumber is required',
             'role_id.required' => 'Role is required',
+            'color.required' => 'Color is required',
+            'color.unique' => 'Color has to be unique in Employees',
             'password.required' => 'Password is required',
             'password.min' => 'Password has to have at least eight characters',
             'password.max' => 'Password could have a maximum of 50 characters',

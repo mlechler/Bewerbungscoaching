@@ -62,11 +62,16 @@
     </div>
 
     <div class="form-group row">
-        <div class="col-md-12">
+        <div class="col-md-6">
             {{ Form::label('role') }}
-        </div>
-        <div class="col-md-4">
             {{ Form::select('role_id', $roles, null, ['class' => 'form-control', $employee->exists ? $backendUser->isAdmin() ? null : 'disabled' : null]) }}
+        </div>
+        <div id="colorpicker" class="col-md-6 ">
+            {{ Form::label('color') }}
+            <div class="input-group colorpicker-component">
+                {{ Form::text('color', $employee->color ? $employee->color : '#000000', ['class' => 'form-control']) }}
+                <span class="input-group-addon"><i></i></span>
+            </div>
         </div>
     </div>
 
@@ -130,6 +135,10 @@
             }
             names.splice(-1, 1);
             $('#filenames').html(names);
+        });
+
+        $(function () {
+            $('#colorpicker').colorpicker();
         });
     </script>
 @endsection

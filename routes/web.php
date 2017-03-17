@@ -153,6 +153,8 @@ Route::group([], function () {
         Route::get('/seminars/execute/{id}', ['as' => 'frontend.seminars.execute', 'uses' => 'Frontend\SeminarsController@executePayment']);
         Route::post('/seminars/makeBooking/{appointment}', ['as' => 'frontend.seminars.makeBooking', 'uses' => 'Frontend\SeminarsController@makeBooking']);
 
+        Route::get('/individualcoachings/detail/{id}', ['as' => 'frontend.individualcoachings.detail', 'uses' => 'Frontend\IndividualCoachingsController@detail']);
+
         Route::get('/applicationlayouts/execute/{id}', ['as' => 'frontend.applicationlayouts.execute', 'uses' => 'Frontend\ApplicationLayoutsController@executePayment']);
         Route::post('/applicationlayouts/purchase/{layout}', ['as' => 'frontend.applicationlayouts.purchase', 'uses' => 'Frontend\ApplicationLayoutsController@purchase']);
 

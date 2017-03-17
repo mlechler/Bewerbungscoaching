@@ -71,6 +71,14 @@
         </tr>
         <tr>
             <td>
+                <h4>Color</h4>
+            </td>
+            <td>
+                <h4 style="color: {{ $employee->color }}" title="{{ $employee->color }}">█</h4>
+            </td>
+        </tr>
+        <tr>
+            <td>
                 <h4>Files</h4>
             </td>
             <td>

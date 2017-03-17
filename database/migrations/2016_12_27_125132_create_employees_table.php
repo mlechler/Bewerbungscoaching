@@ -23,6 +23,7 @@ class CreateEmployeesTable extends Migration
             $table->string('email')->unique();
             $table->integer('address_id');
             $table->integer('role_id');
+            $table->string('color');
             $table->string('password');
             $table->string('remember_token');
             $table->timestamp('last_login_at')->nullable();
