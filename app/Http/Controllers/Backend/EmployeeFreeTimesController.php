@@ -81,6 +81,7 @@ class EmployeeFreeTimesController extends Controller
                 'starttime' => $request->starttime,
                 'endtime' => $request->endtime,
                 'hourlyrate' => $request->hourlyrate,
+                'services' => $request->services,
                 'employee_id' => $request->employee_id,
                 'address_id' => $address->id
             ));
@@ -147,6 +148,7 @@ class EmployeeFreeTimesController extends Controller
                 'starttime' => $request->starttime,
                 'endtime' => $request->endtime,
                 'hourlyrate' => $request->hourlyrate,
+                'services' => $request->services,
                 'employee_id' => $request->employee_id,
                 'address_id' => $address->id
             ))->save();

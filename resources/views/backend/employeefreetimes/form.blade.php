@@ -44,6 +44,13 @@
     </div>
 
     <div class="form-group row">
+        <div class="col-md-12">
+            {{ Form::label('services') }}
+            {{ Form::text('services', null, ['class' => 'form-control']) }}
+        </div>
+    </div>
+
+    <div class="form-group row">
         <div class="col-md-2">
             {{ Form::label('zip_code') }}
             {{ Form::text('zip', $freetime->address ? $freetime->address->zip : null, ['class' => 'form-control']) }}

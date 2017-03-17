@@ -10,7 +10,7 @@ use MaddHatter\LaravelFullcalendar\Event;
 class EmployeeFreeTime extends Model implements HasPresenter, Event
 {
     protected $table = 'employeefreetimes';
-    protected $fillable = ['date', 'starttime', 'endtime', 'hourlyrate', 'employee_id', 'address_id'];
+    protected $fillable = ['date', 'starttime', 'endtime', 'hourlyrate', 'services', 'employee_id', 'address_id'];
 
     public function getPresenterClass()
     {

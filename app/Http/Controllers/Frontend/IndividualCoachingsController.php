@@ -49,8 +49,9 @@ class IndividualCoachingsController extends Controller
                 $end = $date->format('Y-m-d') . ' ' . $endtime->format('H:i:s');
 
                 $event = Calendar::event(
+                    $freetime->services . '; ' .
                     $freetime->address->zip . ' ' . $freetime->address->city . ', ' .
-                    $freetime->address->street . ' ' . $freetime->address->housenumber . ', Hourly Rate: ' .
+                    $freetime->address->street . ' ' . $freetime->address->housenumber . '; Hourly Rate: ' .
                     $freetime->hourlyrate . ' €',
                     false,
                     $start,
@@ -105,7 +106,7 @@ class IndividualCoachingsController extends Controller
         }
 
         $coaching = IndividualCoaching::create(array(
-            'services' => 'test',
+            'services' => $freetime->services,
             'member_id' => $member->id,
             'employee_id' => $freetime->employee->id,
             'address_id' => $freetime->address_id,
@@ -177,7 +178,7 @@ class IndividualCoachingsController extends Controller
         $payer->setPaymentMethod("paypal");
 
         $item = Paypalpayment::item();
-        $item->setName('Individual Coaching, ' . date_format($coaching->date, 'd.m.Y') . ', ' . Carbon::parse($coaching->time)->format('H:i') . ' - ' . Carbon::parse($coaching->time)->addHours($coaching->duration)->format('H:i'))
+        $item->setName($coaching->services . ', ' . date_format($coaching->date, 'd.m.Y') . ', ' . Carbon::parse($coaching->time)->format('H:i') . ' - ' . Carbon::parse($coaching->time)->addHours($coaching->duration)->format('H:i'))
             ->setDescription('Individual Coaching')
             ->setCurrency('EUR')
             ->setQuantity(1)

@@ -23,6 +23,14 @@
         </tr>
         <tr>
             <td>
+                <h4>Services</h4>
+            </td>
+            <td>
+                <h4>{{ $freetime->services }}</h4>
+            </td>
+        </tr>
+        <tr>
+            <td>
                 <h4>Date</h4>
             </td>
             <td>

@@ -25,6 +25,13 @@
 
     <div class="form-group row">
         <div class="col-md-6">
+            {{ Form::label('services') }} <br>
+            {{ $freetime->services }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-6">
             {{ Form::label('address') }} <br>
             {{ $freetime->formatAddress() }}
         </div>

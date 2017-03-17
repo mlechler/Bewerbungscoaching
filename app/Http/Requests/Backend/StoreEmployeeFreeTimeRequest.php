@@ -27,7 +27,13 @@ class StoreEmployeeFreeTimeRequest extends FormRequest
             'employee_id' => ['required'],
             'date' => ['required'],
             'starttime' => ['required'],
-            'endtime' => ['required']
+            'endtime' => ['required'],
+            'hourlyrate' => ['required'],
+            'services' => ['required'],
+            'zip' => ['required'],
+            'city' => ['required'],
+            'street' => ['required'],
+            'housenumber' => ['required'],
         ];
     }
 
@@ -37,7 +43,13 @@ class StoreEmployeeFreeTimeRequest extends FormRequest
             'employee_id.required' => 'Employee is required',
             'date.required' => 'Date is required',
             'starttime.required' => 'Start Time is required',
-            'endtime.required' => 'End Time is required'
+            'endtime.required' => 'End Time is required',
+            'hourlyrate.required' => 'Hourly Rate is required',
+            'services.required' => 'Services is required',
+            'zip.required' => 'Zip is required',
+            'city.required' => 'City is required',
+            'street.required' => 'Street is required',
+            'housenumber.required' => 'Housenumber is required',
         ];
     }
 }
