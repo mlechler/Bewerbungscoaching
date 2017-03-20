@@ -34,7 +34,7 @@
                 <h4>Message</h4>
             </td>
             <td>
-                <h4>{{ $contactrequest->message }}</h4>
+                <h4>{!! $contactrequest->messageHtml() !!}</h4>
             </td>
         </tr>
         @if($contactrequest->category != 'feedback')

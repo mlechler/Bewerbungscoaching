@@ -49,7 +49,7 @@
                         <div class="modal-body">
                             <div class="row">
                                 <div class="col-md-4">
-                                    <strong>Payment Method</strong>
+                                    <strong>Payment Method</strong> <span class="required">*</span>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">

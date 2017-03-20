@@ -28,7 +28,6 @@
             <th>Name</th>
             <th>Email</th>
             <th>Category</th>
-            <th>Message</th>
             <th>Details</th>
             <th>Processing</th>
             <th>Finished</th>
@@ -38,7 +37,7 @@
         <tbody>
         @if($contactrequests->isEmpty())
             <tr>
-                <td colspan="8" align="center">There are no contact requests.</td>
+                <td colspan="7" align="center">There are no contact requests.</td>
             </tr>
         @else
             @foreach($contactrequests as $request)
@@ -51,9 +50,6 @@
                     </td>
                     <td>
                         {{ $request->category }}
-                    </td>
-                    <td>
-                        {{ $request->getShortMessage() }}
                     </td>
                     <td>
                         <a href="{{ route('contact.detail', $request->id) }}"><span

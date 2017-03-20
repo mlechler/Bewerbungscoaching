@@ -46,16 +46,21 @@
 
     <div class="form-group row">
         <div class="col-md-6">
-            {{ Form::label('start_time') }}
+            {{ Form::label('start_time') }} <span class="required">*</span>
             {{ Form::text('starttime', $freetime->starttime, ['class' => 'form-control']) }}
         </div>
     </div>
 
     <div class="form-group row">
         <div class="col-md-6">
-            {{ Form::label('end_time') }}
+            {{ Form::label('end_time') }} <span class="required">*</span>
             {{ Form::text('endtime', $freetime->endtime, ['class' => 'form-control']) }}
         </div>
+    </div>
+
+    <div class="form-group">
+        {{ Form::label('message') }}
+        {{ Form::textarea('message', null, ['class' => 'form-control']) }}
     </div>
 
     <button type="button" class="btn btn-success" data-toggle="modal"
@@ -73,7 +78,7 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-4">
-                            <strong>Payment Method</strong>
+                            <strong>Payment Method</strong> <span class="required">*</span>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
@@ -98,20 +103,23 @@
                         <div class="col-md-4">
                             <strong>Check your Article</strong>
                         </div>
-                        <div class="col-md-4">
-                            <strong>Individual Coaching</strong><br>
-                            {{ $freetime->employee->getName() }} <br>
-                            {{ $freetime->formatDate() }} <br>
-                            Duration: <span id="duration"></span> <br>
-                            Hourly rate: {{ $freetime->hourlyrate }} €
-                        </div>
-                        <div class="col-md-4" align="right">
-                            <br>
-                            {{ $freetime->address->zip }} {{ $freetime->address->city }} <br>
-                            {{ $freetime->address->street }} {{ $freetime->address->housenumber }} <br>
-                            <br>
-                            <br>
-                            <strong><span id="price"></span></strong>
+                        <div class="col-md-8">
+                            <strong>{{ $freetime->services }}</strong><br>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {{ $freetime->employee->getName() }} <br>
+                                    {{ $freetime->formatDate() }} <br>
+                                    Duration: <span id="duration"></span> <br>
+                                    Hourly rate: {{ $freetime->hourlyrate }} €
+                                </div>
+                                <div class="col-md-6" align="right">
+                                    {{ $freetime->address->zip }} {{ $freetime->address->city }} <br>
+                                    {{ $freetime->address->street }} {{ $freetime->address->housenumber }} <br>
+                                    <br>
+                                    <br>
+                                    <strong><span id="price"></span></strong>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -125,6 +133,8 @@
     </div>
 
     <script>
+        new SimpleMDE().render();
+
         $('input[name=starttime]').datetimepicker({
             allowInputToggle: true,
             format: 'HH:mm',

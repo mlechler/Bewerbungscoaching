@@ -5,7 +5,7 @@ namespace App\Http\Requests\Frontend;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class StoreContactRequestRequest extends FormRequest
+class StoreIndividualCoachingRequestRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

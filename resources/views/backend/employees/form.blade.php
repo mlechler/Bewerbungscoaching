@@ -10,64 +10,64 @@
     ]) }}
 
     <div class="form-group">
-        {{ Form::label('lastname') }}
+        {{ Form::label('lastname') }} <span class="required">*</span>
         {{ Form::text('lastname', null, ['class' => 'form-control']) }}
     </div>
 
     <div class="form-group">
-        {{ Form::label('firstname') }}
+        {{ Form::label('firstname') }} <span class="required">*</span>
         {{ Form::text('firstname', null, ['class' => 'form-control']) }}
     </div>
 
     <div class="form-group">
-        {{ Form::label('birthday') }}
+        {{ Form::label('birthday') }} <span class="required">*</span>
         {{ Form::text('birthday', null, ['class' => 'form-control']) }}
     </div>
 
     <div class="form-group">
-        {{ Form::label('phone') }}
+        {{ Form::label('phone') }} <span class="required">*</span>
         {{ Form::text('phone', null, ['class' => 'form-control']) }}
     </div>
 
     <div class="form-group">
-        {{ Form::label('mobile') }}
+        {{ Form::label('mobile') }} <span class="required">*</span>
         {{ Form::text('mobile', null, ['class' => 'form-control']) }}
     </div>
 
     <div class="form-group">
-        {{ Form::label('email') }}
+        {{ Form::label('email') }} <span class="required">*</span>
         {{ Form::text('email', null, ['class' => 'form-control']) }}
     </div>
 
     <div class="form-group row">
         <div class="col-md-2">
-            {{ Form::label('zip_code') }}
+            {{ Form::label('zip_code') }} <span class="required">*</span>
             {{ Form::text('zip', $employee->address ? $employee->address->zip : null, ['class' => 'form-control']) }}
         </div>
 
         <div class="col-md-4">
-            {{ Form::label('city') }}
+            {{ Form::label('city') }} <span class="required">*</span>
             {{ Form::text('city', $employee->address ? $employee->address->city : null, ['class' => 'form-control']) }}
         </div>
 
         <div class="col-md-4">
-            {{ Form::label('street') }}
+            {{ Form::label('street') }} <span class="required">*</span>
             {{ Form::text('street', $employee->address ? $employee->address->street : null, ['class' => 'form-control']) }}
         </div>
 
         <div class="col-md-2">
-            {{ Form::label('housenumber') }}
+            {{ Form::label('housenumber') }} <span class="required">*</span>
             {{ Form::text('housenumber', $employee->address ? $employee->address->housenumber : null, ['class' => 'form-control']) }}
         </div>
     </div>
 
     <div class="form-group row">
         <div class="col-md-6">
-            {{ Form::label('role') }}
+            {{ Form::label('role') }} <span class="required">*</span>
             {{ Form::select('role_id', $roles, null, ['class' => 'form-control', $employee->exists ? $backendUser->isAdmin() ? null : 'disabled' : null]) }}
         </div>
         <div id="colorpicker" class="col-md-6 ">
-            {{ Form::label('color') }}
+            {{ Form::label('color') }} <span class="required">*</span>
             <div class="input-group colorpicker-component">
                 {{ Form::text('color', $employee->color ? $employee->color : '#000000', ['class' => 'form-control']) }}
                 <span class="input-group-addon"><i></i></span>
@@ -76,12 +76,12 @@
     </div>
 
     <div class="form-group">
-        {{ Form::label('password') }}
+        {{ Form::label('password') }} <span class="required">*</span>
         {{ Form::password('password', ['class' => 'form-control']) }}
     </div>
 
     <div class="form-group">
-        {{ Form::label('password_confirmation') }}
+        {{ Form::label('password_confirmation') }} <span class="required">*</span>
         {{ Form::password('password_confirmation', ['class' => 'form-control']) }}
     </div>
 

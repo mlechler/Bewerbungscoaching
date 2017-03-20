@@ -9,13 +9,13 @@
     ]) }}
 
     <div class="form-group">
-        {{ Form::label('title') }}
+        {{ Form::label('title') }} <span class="required">*</span>
         {{ Form::text('title', null, ['class' => 'form-control']) }}
     </div>
 
     <div class="form-group row">
         <div class="col-md-6">
-            {{ Form::label('slug') }}
+            {{ Form::label('slug') }} <span class="required">*</span>
             {{ Form::text('slug', null, ['class' => 'form-control']) }}
         </div>
 
@@ -31,7 +31,7 @@
     </div>
 
     <div class="form-group">
-        {{ Form::label('body') }}
+        {{ Form::label('body') }} <span class="required">*</span>
         {{ Form::textarea('body', null, ['class' => 'form-control']) }}
     </div>
 

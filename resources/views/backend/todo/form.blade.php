@@ -9,12 +9,12 @@
     ]) }}
 
     <div class="form-group">
-        {{ Form::label('title') }}
+        {{ Form::label('title') }} <span class="required">*</span>
         {{ Form::text('title', null, ['class' => 'form-control']) }}
     </div>
 
     <div class="form-group">
-        {{ Form::label('description') }}
+        {{ Form::label('description') }} <span class="required">*</span>
         {{ Form::textarea('description', null, ['class' => 'form-control']) }}
     </div>
 

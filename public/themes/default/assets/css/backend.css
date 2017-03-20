@@ -11134,4 +11134,8 @@ input[type="file"] {
   min-height: 150px;
 }
 
+.required {
+  color: red;
+}
+
 /*# sourceMappingURL=backend.css.map */

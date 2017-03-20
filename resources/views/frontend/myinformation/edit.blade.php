@@ -9,53 +9,53 @@
     ]) }}
 
     <div class="form-group">
-        {{ Form::label('lastname') }}
+        {{ Form::label('lastname') }} <span class="required">*</span>
         {{ Form::text('lastname', $loggedInUser->lastname, ['class' => 'form-control']) }}
     </div>
 
     <div class="form-group">
-        {{ Form::label('firstname') }}
+        {{ Form::label('firstname') }} <span class="required">*</span>
         {{ Form::text('firstname', $loggedInUser->firstname, ['class' => 'form-control']) }}
     </div>
 
     <div class="form-group">
-        {{ Form::label('birthday') }}
+        {{ Form::label('birthday') }} <span class="required">*</span>
         {{ Form::text('birthday', null, ['class' => 'form-control']) }}
     </div>
 
     <div class="form-group">
-        {{ Form::label('phone') }}
+        {{ Form::label('phone') }} <span class="required">*</span>
         {{ Form::text('phone', $loggedInUser->phone, ['class' => 'form-control']) }}
     </div>
 
     <div class="form-group">
-        {{ Form::label('mobile') }}
+        {{ Form::label('mobile') }} <span class="required">*</span>
         {{ Form::text('mobile', $loggedInUser->mobile, ['class' => 'form-control']) }}
     </div>
 
     <div class="form-group">
-        {{ Form::label('email') }}
+        {{ Form::label('email') }} <span class="required">*</span>
         {{ Form::text('email', $loggedInUser->email, ['class' => 'form-control']) }}
     </div>
 
     <div class="form-group row">
         <div class="col-md-2">
-            {{ Form::label('zip_code') }}
+            {{ Form::label('zip_code') }} <span class="required">*</span>
             {{ Form::text('zip', $loggedInUser->address ? $loggedInUser->address->zip : null, ['class' => 'form-control']) }}
         </div>
 
         <div class="col-md-4">
-            {{ Form::label('city') }}
+            {{ Form::label('city') }} <span class="required">*</span>
             {{ Form::text('city', $loggedInUser->address ? $loggedInUser->address->city : null, ['class' => 'form-control']) }}
         </div>
 
         <div class="col-md-4">
-            {{ Form::label('street') }}
+            {{ Form::label('street') }} <span class="required">*</span>
             {{ Form::text('street', $loggedInUser->address ? $loggedInUser->address->street : null, ['class' => 'form-control']) }}
         </div>
 
         <div class="col-md-2">
-            {{ Form::label('housenumber') }}
+            {{ Form::label('housenumber') }} <span class="required">*</span>
             {{ Form::text('housenumber', $loggedInUser->address ? $loggedInUser->address->housenumber : null, ['class' => 'form-control']) }}
         </div>
     </div>

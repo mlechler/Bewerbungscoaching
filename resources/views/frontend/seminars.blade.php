@@ -97,19 +97,20 @@
                                 <div class="col-md-4">
                                     <strong>Check your Article</strong>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-8">
                                     <strong>{{ $appointment->seminar->title }}</strong><br>
+                                    <div class="row">
+                                <div class="col-md-6">
                                     {{ $appointment->seminar->services }} <br>
                                     {{ $appointment->formatDate() }} <br>
                                     {{ $appointment->formatTime() }} <br>
                                 </div>
-                                <div class="col-md-4">
-                                    <br>
+                                <div class="col-md-6" align="right">
                                     {{ $appointment->address->zip }} {{ $appointment->address->city }} <br>
                                     {{ $appointment->address->street }} {{ $appointment->address->housenumber }} <br>
                                     <br>
-                                    <div align="right"><strong>{{ $appointment->seminar->price }} €</strong></div>
-                                </div>
+                                    <strong>{{ $appointment->seminar->price }} €</strong>
+                                </div></div></div>
                             </div>
                         </div>
                         <div class="modal-footer">

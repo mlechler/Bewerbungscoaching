@@ -18,6 +18,7 @@ class CreateTasksTable extends Migration
             $table->string('title');
             $table->text('description');
             $table->integer('creator_id')->nullable();
+            $table->integer('employee_id')->nullable();
             $table->boolean('processing');
             $table->integer('processedby')->nullable();
             $table->boolean('finished');

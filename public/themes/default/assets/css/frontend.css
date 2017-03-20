@@ -11161,4 +11161,8 @@ a.navbar-brand img {
   justify-content: center;
 }
 
+.required {
+  color: red;
+}
+
 /*# sourceMappingURL=frontend.css.map */

@@ -19,7 +19,6 @@ class CreatePagesTable extends Migration
             $table->string('uri');
             $table->string('name')->nullable();
             $table->text('pagecontent');
-            $table->string('template')->nullable();
             $table->integer('parent_id')->nullable();
             $table->integer('lft')->nullable();
             $table->integer('rgt')->nullable();

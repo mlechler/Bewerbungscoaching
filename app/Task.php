@@ -9,7 +9,7 @@ use McCool\LaravelAutoPresenter\HasPresenter;
 class Task extends Model implements HasPresenter
 {
     protected $table = 'tasks';
-    protected $fillable = ['title', 'description', 'creator_id', 'processing', 'processedby', 'finished'];
+    protected $fillable = ['title', 'description', 'creator_id', 'employee_id', 'processing', 'processedby', 'finished'];
 
     public function getPresenterClass()
     {
@@ -17,6 +17,11 @@ class Task extends Model implements HasPresenter
     }
 
     public function creator()
+    {
+        return $this->belongsTo(Employee::class);
+    }
+
+    public function employee()
     {
         return $this->belongsTo(Employee::class);
     }

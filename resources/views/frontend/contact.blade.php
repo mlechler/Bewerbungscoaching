@@ -1,13 +1,14 @@
-{{ Form::open() }}
+{{ Form::open(['method' => 'post',
+    'route' => 'frontend.contact.store']) }}
 
 <div class="form-group">
     {{ Form::label('name') }}
-    {{ Form::text('name', null, ['class' => 'form-control']) }}
+    {{ Form::text('name', $loggedInUser ? $loggedInUser->firstname . ' ' . $loggedInUser->lastname : null, ['class' => 'form-control', $loggedInUser ? 'disabled' : null]) }}
 </div>
 
 <div class="form-group">
     {{ Form::label('email') }}
-    {{ Form::text('email', null, ['class' => 'form-control']) }}
+    {{ Form::text('email', $loggedInUser ? $loggedInUser->email : null, ['class' => 'form-control', $loggedInUser ? 'disabled' : null]) }}
 </div>
 
 <div class="form-group">

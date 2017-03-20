@@ -65,7 +65,7 @@ class SeminarsController extends Controller
             'member_id' => $member->id,
             'appointment_id' => $appointment_id,
             'price_incl_discount' => $price_incl_discount,
-            'paid' => false,
+            'paid' => $price_incl_discount == 0 ? true : false,
             'reminderSend' => false,
         ));
 
@@ -96,8 +96,7 @@ class SeminarsController extends Controller
     {
         $used = Memberdiscount::where('discount_id', '=', $discount->id)->where('member_id', '=', Auth::guard('member')->id())->first();
 
-        if (!$used) {
-
+        if (($discount->permanent || Carbon::parse($discount->startdate)->addDays($discount->validity) >= Carbon::now()) && !$used) {
             Memberdiscount::create(array(
                 'member_id' => Auth::guard('member')->id(),
                 'discount_id' => $discount->id
@@ -114,7 +113,10 @@ class SeminarsController extends Controller
                         return $appointment->seminar->price - $discount->amount;
                     }
                 }
+            } else {
+                return $appointment->seminar->price;
             }
+
         } else {
             return $appointment->seminar->price;
         }

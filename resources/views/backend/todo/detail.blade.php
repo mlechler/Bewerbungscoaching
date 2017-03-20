@@ -23,6 +23,18 @@
         </tr>
         <tr>
             <td>
+                <h4>Employee</h4>
+            </td>
+            <td>
+                @if($task->employee_id)
+                    <h4>{{ $task->getName() }}</h4>
+                @else
+                    <h4>All</h4>
+                @endif
+            </td>
+        </tr>
+        <tr>
+            <td>
                 <h4>Description</h4>
             </td>
             <td>

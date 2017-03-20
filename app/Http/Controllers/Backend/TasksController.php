@@ -19,7 +19,7 @@ class TasksController extends Controller
 
     public function index()
     {
-        $tasks = Task::with('creator')->orderBy('finished')->paginate(10);
+        $tasks = Task::with('creator')->where('employee_id', '=', null)->orWhere('employee_id', '=', Auth::guard('employee')->id())->orderBy('finished')->orderBy('processing')->paginate(10);
 
         return view('backend.todo.index', compact('tasks'));
     }
@@ -88,7 +88,7 @@ class TasksController extends Controller
     {
         $task = Task::findOrFail($id);
 
-        if((Auth::guard('employee')->user()->isAdmin() || $task->processedby == Auth::guard('employee')->id()) && !$task->finished) {
+        if ((Auth::guard('employee')->user()->isAdmin() || $task->processedby == Auth::guard('employee')->id()) && !$task->finished) {
             $task->fill(array(
                 'processing' => false,
                 'finished' => true
@@ -103,7 +103,7 @@ class TasksController extends Controller
     {
         $task = Task::findOrFail($id);
 
-        if((Auth::guard('employee')->user()->isAdmin() || !$task->processing) && !$task->finished) {
+        if ((Auth::guard('employee')->user()->isAdmin() || !$task->processing) && !$task->finished) {
             $task->fill(array(
                 'processing' => true,
                 'processedby' => Auth::guard('employee')->id()

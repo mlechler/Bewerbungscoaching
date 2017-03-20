@@ -35,7 +35,7 @@ class ApplicationLayoutsController extends Controller
         $applicationlayouts = ApplicationLayout::all();
 
         foreach ($applicationlayouts as $layout) {
-            $purchases[$layout->id] = count(LayoutPurchase::where('applicationlayout_id','=',$layout->id)->get());
+            $purchases[$layout->id] = count(LayoutPurchase::where('applicationlayout_id', '=', $layout->id)->get());
         }
 
         return view('frontend.applicationlayouts', compact('applicationlayouts', 'purchases'));
@@ -69,7 +69,7 @@ class ApplicationLayoutsController extends Controller
             'member_id' => $member->id,
             'applicationlayout_id' => $layout_id,
             'price_incl_discount' => $price_incl_discount,
-            'paid' => false
+            'paid' => $price_incl_discount == 0 ? true : false
         ));
 
         $invoice = Invoice::create(array(
@@ -99,8 +99,7 @@ class ApplicationLayoutsController extends Controller
     {
         $used = Memberdiscount::where('discount_id', '=', $discount->id)->where('member_id', '=', Auth::guard('member')->id())->first();
 
-        if (!$used) {
-
+        if (($discount->permanent || $discount->startdate->addDays($discount->validity) >= Carbon::now()) && !$used) {
             Memberdiscount::create(array(
                 'member_id' => Auth::guard('member')->id(),
                 'discount_id' => $discount->id
@@ -117,7 +116,11 @@ class ApplicationLayoutsController extends Controller
                         return $applicationlayout->price - $discount->amount;
                     }
                 }
+
+            } else {
+                return $applicationlayout->price;
             }
+
         } else {
             return $applicationlayout->price;
         }

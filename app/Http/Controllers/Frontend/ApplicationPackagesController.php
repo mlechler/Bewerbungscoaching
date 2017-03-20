@@ -68,7 +68,7 @@ class ApplicationPackagesController extends Controller
             'member_id' => $member->id,
             'applicationpackage_id' => $package_id,
             'price_incl_discount' => $price_incl_discount,
-            'paid' => false,
+            'paid' => $price_incl_discount == 0 ? true : false,
             'path' => null
         ));
 
@@ -99,7 +99,7 @@ class ApplicationPackagesController extends Controller
     {
         $used = Memberdiscount::where('discount_id', '=', $discount->id)->where('member_id', '=', Auth::guard('member')->id())->first();
 
-        if (!$used) {
+        if (($discount->permanent || $discount->startdate->addDays($discount->validity) >= Carbon::now()) && !$used) {
 
             Memberdiscount::create(array(
                 'member_id' => Auth::guard('member')->id(),
@@ -117,7 +117,10 @@ class ApplicationPackagesController extends Controller
                         return $applicationpackage->price - $discount->amount;
                     }
                 }
+            } else {
+                return $applicationpackage->price;
             }
+
         } else {
             return $applicationpackage->price;
         }

@@ -167,6 +167,8 @@ Route::group([], function () {
     Route::get('/seminars', ['as' => 'frontend.seminars.index', 'uses' => 'Frontend\SeminarsController@index']);
 
     Route::get('/individualcoachings', ['as' => 'frontend.individualcoachings.index', 'uses' => 'Frontend\IndividualCoachingsController@index']);
+    Route::get('/individualcoachings/contact', ['as' => 'frontend.individualcoachings.contact', 'uses' => 'Frontend\IndividualCoachingsController@contact']);
+    Route::post('/individualcoachings/contact', ['as' => 'frontend.individualcoachings.contact', 'uses' => 'Frontend\IndividualCoachingsController@contactStore']);
 
     Route::get('/applicationdocuments', ['as' => 'frontend.applicationdocuments.index', 'uses' => 'Frontend\ApplicationDocumentsController@index']);
 

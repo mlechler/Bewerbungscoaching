@@ -29,4 +29,9 @@ class ContactPresenter extends BasePresenter
             return 'info';
         }
     }
+
+    public function messageHtml()
+    {
+        return ($this->message ? Markdown::parse($this->message) : null);
+    }
 }

@@ -9,18 +9,18 @@
     ]) }}
 
     <div class="form-group">
-        {{ Form::label('title') }}
+        {{ Form::label('title') }} <span class="required">*</span>
         {{ Form::text('title', null, ['class' => 'form-control']) }}
     </div>
 
     <div class="form-group">
-        {{ Form::label('service') }}
+        {{ Form::label('service') }} <span class="required">*</span>
         {{ Form::text('service', null, ['class' => 'form-control', 'placeholder' => 'Universal, Seminar, Individual Coaching, Application Layout, Application Package']) }}
     </div>
 
     <div class="form-group row">
         <div class="col-md-6">
-            {{ Form::label('amount') }}
+            {{ Form::label('amount') }} <span class="required">*</span>
             {{ Form::number('amount', null, ['class' => 'form-control', 'step' => '0.01', 'min' => 0]) }}
         </div>
         <div class="col-md-2">
@@ -32,23 +32,23 @@
 
     <div class="form-group row">
         <div class="col-md-6">
-            {{ Form::label('validity') }}
+            {{ Form::label('validity') }} <span class="required">*</span>
             {{ Form::number('validity', null, ['class' => 'form-control', 'min' => 0]) }}
         </div>
         <div class="col-md-1">
-            {{ Form::label('permanent') }}
+            {{ Form::label('permanent') }} <span class="required">*</span>
             {{ Form::checkbox('permanent', null) }}
         </div>
     </div>
 
     <div class="form-group">
-        {{ Form::label('start_date') }}
+        {{ Form::label('start_date') }} <span class="required">*</span>
         {{ Form::text('startdate', null, ['class' => 'form-control']) }}
     </div>
 
     <div class="form-group row">
         <div class="col-md-12">
-            {{ Form::label('code') }}
+            {{ Form::label('code') }} <span class="required">*</span>
         </div>
         <div class="col-md-12">
             <div class="input-group">

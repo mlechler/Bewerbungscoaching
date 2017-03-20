@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use Anouar\Paypalpayment\Facades\PaypalPayment;
+use App\ContactRequest;
 use App\Discount;
 use App\Employee;
 use App\EmployeeFreeTime;
@@ -10,6 +11,7 @@ use App\Events\MakeCoachingBooking;
 use App\IndividualCoaching;
 use App\Invoice;
 use App\Memberdiscount;
+use App\Task;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
@@ -35,7 +37,7 @@ class IndividualCoachingsController extends Controller
     {
         $calendar = null;
 
-        $employees = Employee::all();
+        $employees = Employee::orderBy('lastname')->get();
 
         $freetimes = EmployeeFreeTime::with('employee')->get();
 
@@ -67,7 +69,9 @@ class IndividualCoachingsController extends Controller
 
         $calendar = Calendar::setOptions([
             'weekends' => false,
-            'navLinks' => true
+            'navLinks' => true,
+            'slotLabelFormat' => 'HH:mm',
+            'timeFormat' => 'HH:mm'
         ]);
 
         return view('frontend.individualcoachings.index', compact('calendar', 'employees'));
@@ -78,6 +82,28 @@ class IndividualCoachingsController extends Controller
         $freetime = EmployeeFreeTime::with('employee')->findOrFail($id);
 
         return view('frontend.individualcoachings.detail', compact('freetime'));
+    }
+
+    public function contact()
+    {
+        return view('frontend.individualcoachings.contact');
+    }
+
+    public function contactStore(Requests\Frontend\StoreIndividualCoachingRequestRequest $request)
+    {
+        $user = Auth::guard('member')->user();
+
+        ContactRequest::create(array(
+            'name' => $request->name ? $request->name : $user->firstname . ' ' . $user->lastname,
+            'email' => $request->email ? $request->email : $user->email,
+            'message' => $request->message,
+            'category' => $request->category . ' Individual Coaching',
+            'processing' => false,
+            'processedby' => null,
+            'finished' => false,
+        ));
+
+        return redirect(route('frontend.individualcoachings.index'))->with('status', 'Your Contact Request has been sent to us.');
     }
 
     public function makeBooking(Requests\Frontend\MakeBookingRequest $request, $freetime_id)
@@ -115,7 +141,7 @@ class IndividualCoachingsController extends Controller
             'duration' => $hours . '.' . $minutes,
             'price_incl_discount' => $price_incl_discount,
             'trial' => false,
-            'paid' => false,
+            'paid' => $price_incl_discount == 0 ? true : false,
             'reminderSend' => false,
         ));
 
@@ -127,6 +153,19 @@ class IndividualCoachingsController extends Controller
             'layoutpurchase_id' => null,
             'totalprice' => $price_incl_discount,
             'date' => Carbon::now(),
+        ));
+
+        Task::create(array(
+            'title' => 'Individual Coaching booked',
+            'description' => '[' . $member->firstname . ' ' . $member->lastname . '](http://localhost:8000/backend/members/'
+                . $member->id . '/detail) booked your Free Time: ' . date_format(Carbon::parse($freetime->date), 'd.m.Y') .
+                ', ' . date_format(Carbon::parse($freetime->starttime), 'H:i') . ' - ' . date_format(Carbon::parse($request->endtime), 'H:i') .
+                '. Please contact the member for further information.',
+            'creator_id' => $member->id,
+            'employee_id' => $freetime->employee_id,
+            'processing' => 0,
+            'processedby' => null,
+            'finished' => false
         ));
 
         EmployeeFreeTime::destroy($freetime_id);
@@ -148,8 +187,7 @@ class IndividualCoachingsController extends Controller
     {
         $used = Memberdiscount::where('discount_id', '=', $discount->id)->where('member_id', '=', Auth::guard('member')->id())->first();
 
-        if (!$used) {
-
+        if (($discount->permanent || $discount->startdate->addDays($discount->validity) >= Carbon::now()) && !$used) {
             Memberdiscount::create(array(
                 'member_id' => Auth::guard('member')->id(),
                 'discount_id' => $discount->id
@@ -166,7 +204,10 @@ class IndividualCoachingsController extends Controller
                         return $price - $discount->amount;
                     }
                 }
+            } else {
+                return $price;
             }
+
         } else {
             return $price;
         }
@@ -198,8 +239,8 @@ class IndividualCoachingsController extends Controller
             ->setInvoiceNumber(uniqid()); //USE THE INVOICE ID IN LIVE
 
         $redirectUrls = Paypalpayment::redirectUrls();
-        $redirectUrls->setReturnUrl(route('frontend.individualcoachings.execute',$coaching->id))
-            ->setCancelUrl(route('frontend.individualcoachings.execute',$coaching->id));
+        $redirectUrls->setReturnUrl(route('frontend.individualcoachings.execute', $coaching->id))
+            ->setCancelUrl(route('frontend.individualcoachings.execute', $coaching->id));
 
         $payment = Paypalpayment::payment();
         $payment->setIntent("sale")
@@ -220,7 +261,8 @@ class IndividualCoachingsController extends Controller
         return $approvalUrl;
     }
 
-    public function executePayment($coaching_id)
+    public
+    function executePayment($coaching_id)
     {
         $payment_id = Session::get('paypal_payment_id');
 
