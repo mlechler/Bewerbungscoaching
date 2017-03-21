@@ -32,55 +32,45 @@ class InvoicesController extends Controller
 
     public function create(Invoice $invoice)
     {
-        $mem = Member::select('lastname', 'firstname')->get();
+        $mem = Member::select('id', 'lastname', 'firstname')->get();
         $members = ['' => ''];
         foreach ($mem as $member) {
-            array_push($members, $member->lastname . ', ' . $member->firstname);
+            $members[$member->id] = $member->lastname . ', ' . $member->firstname;
         }
-        array_unshift($members, '');
-        unset($members[0]);
 
-        $individualcoachings = IndividualCoaching::select('services', 'date', 'time', 'duration', 'member_id')->get();
+        $individualcoachings = IndividualCoaching::select('id', 'services', 'date', 'time', 'duration', 'member_id')->get();
         $coachings = ['' => ''];
         foreach ($individualcoachings as $individualcoaching) {
-            array_push($coachings, $individualcoaching->member->lastname . ' ' . $individualcoaching->member->firstname . ', '
+            $coachings[$individualcoaching->id] = $individualcoaching->member->lastname . ' ' . $individualcoaching->member->firstname . ', '
                 . $individualcoaching->services . ', '
                 . date_format($individualcoaching->date, 'd.m.Y') . ', '
                 . Carbon::parse($individualcoaching->time)->format('H:i') . ' - '
-                . Carbon::parse($individualcoaching->time)->addHours($individualcoaching->duration)->format('H:i'));
+                . Carbon::parse($individualcoaching->time)->addHours($individualcoaching->duration)->format('H:i');
         }
-        array_unshift($coachings, '');
-        unset($coachings[0]);
 
-        $seminarbookings = Booking::select('appointment_id', 'member_id')->get();
+        $seminarbookings = Booking::select('id', 'appointment_id', 'member_id')->get();
         $bookings = ['' => ''];
         foreach ($seminarbookings as $seminarbooking) {
-            array_push($bookings, $seminarbooking->member->lastname . ' ' . $seminarbooking->member->firstname . ', '
+            $bookings[$seminarbooking->id] = $seminarbooking->member->lastname . ' ' . $seminarbooking->member->firstname . ', '
                 . $seminarbooking->appointment->seminar->title . ', '
                 . date_format($seminarbooking->appointment->date, 'd.m.Y') . ', '
                 . Carbon::parse($seminarbooking->appointment->time)->format('H:i') . ' - '
-                . Carbon::parse($seminarbooking->appointment->time)->addHours($seminarbooking->appointment->seminar->duration)->format('H:i'));
+                . Carbon::parse($seminarbooking->appointment->time)->addHours($seminarbooking->appointment->seminar->duration)->format('H:i');
         }
-        array_unshift($bookings, '');
-        unset($bookings[0]);
 
-        $purchases = PackagePurchase::select('applicationpackage_id', 'member_id')->get();
+        $purchases = PackagePurchase::select('id', 'applicationpackage_id', 'member_id')->get();
         $packagepurchases = ['' => ''];
         foreach ($purchases as $purchase) {
-            array_push($packagepurchases, $purchase->member->lastname . ' ' . $purchase->member->firstname . ', '
-                . $purchase->applicationpackage->title);
+            $packagepurchases[$purchase->id] = $purchase->member->lastname . ' ' . $purchase->member->firstname . ', '
+                . $purchase->applicationpackage->title;
         }
-        array_unshift($packagepurchases, '');
-        unset($packagepurchases[0]);
 
-        $purchases = LayoutPurchase::select('applicationlayout_id', 'member_id')->get();
+        $purchases = LayoutPurchase::select('id', 'applicationlayout_id', 'member_id')->get();
         $layoutpurchases = ['' => ''];
         foreach ($purchases as $purchase) {
-            array_push($layoutpurchases, $purchase->member->lastname . ' ' . $purchase->member->firstname . ', '
-                . $purchase->applicationlayout->title);
+            $layoutpurchases[$purchase->id] = $purchase->member->lastname . ' ' . $purchase->member->firstname . ', '
+                . $purchase->applicationlayout->title;
         }
-        array_unshift($layoutpurchases, '');
-        unset($layoutpurchases[0]);
 
         return view('backend.invoices.form', compact('invoice', 'members', 'coachings', 'bookings', 'packagepurchases', 'layoutpurchases'));
     }
@@ -94,55 +84,45 @@ class InvoicesController extends Controller
     {
         $invoice = Invoice::findOrFail($id);
 
-        $mem = Member::select('lastname', 'firstname')->get();
+        $mem = Member::select('id', 'lastname', 'firstname')->get();
         $members = ['' => ''];
         foreach ($mem as $member) {
-            array_push($members, $member->lastname . ', ' . $member->firstname);
+            $members[$member->id] = $member->lastname . ', ' . $member->firstname;
         }
-        array_unshift($members, '');
-        unset($members[0]);
 
-        $individualcoachings = IndividualCoaching::select('services', 'date', 'time', 'duration', 'member_id')->get();
+        $individualcoachings = IndividualCoaching::select('id', 'services', 'date', 'time', 'duration', 'member_id')->get();
         $coachings = ['' => ''];
         foreach ($individualcoachings as $individualcoaching) {
-            array_push($coachings, $individualcoaching->member->lastname . ' ' . $individualcoaching->member->firstname . ', '
+            $coachings[$individualcoaching->id] = $individualcoaching->member->lastname . ' ' . $individualcoaching->member->firstname . ', '
                 . $individualcoaching->services . ', '
                 . date_format($individualcoaching->date, 'd.m.Y') . ', '
                 . Carbon::parse($individualcoaching->time)->format('H:i') . ' - '
-                . Carbon::parse($individualcoaching->time)->addHours($individualcoaching->duration)->format('H:i'));
+                . Carbon::parse($individualcoaching->time)->addHours($individualcoaching->duration)->format('H:i');
         }
-        array_unshift($coachings, '');
-        unset($coachings[0]);
 
-        $seminarbookings = Booking::select('appointment_id', 'member_id')->get();
+        $seminarbookings = Booking::select('id', 'appointment_id', 'member_id')->get();
         $bookings = ['' => ''];
         foreach ($seminarbookings as $seminarbooking) {
-            array_push($bookings, $seminarbooking->member->lastname . ' ' . $seminarbooking->member->firstname . ', '
+            $bookings[$seminarbooking->id] = $seminarbooking->member->lastname . ' ' . $seminarbooking->member->firstname . ', '
                 . $seminarbooking->appointment->seminar->title . ', '
                 . date_format($seminarbooking->appointment->date, 'd.m.Y') . ', '
                 . Carbon::parse($seminarbooking->appointment->time)->format('H:i') . ' - '
-                . Carbon::parse($seminarbooking->appointment->time)->addHours($seminarbooking->appointment->seminar->duration)->format('H:i'));
+                . Carbon::parse($seminarbooking->appointment->time)->addHours($seminarbooking->appointment->seminar->duration)->format('H:i');
         }
-        array_unshift($bookings, '');
-        unset($bookings[0]);
 
-        $purchases = PackagePurchase::select('applicationpackage_id', 'member_id')->get();
+        $purchases = PackagePurchase::select('id', 'applicationpackage_id', 'member_id')->get();
         $packagepurchases = ['' => ''];
         foreach ($purchases as $purchase) {
-            array_push($packagepurchases, $purchase->member->lastname . ' ' . $purchase->member->firstname . ', '
-                . $purchase->applicationpackage->title);
+            $packagepurchases[$purchase->id] = $purchase->member->lastname . ' ' . $purchase->member->firstname . ', '
+                . $purchase->applicationpackage->title;
         }
-        array_unshift($packagepurchases, '');
-        unset($packagepurchases[0]);
 
-        $purchases = LayoutPurchase::select('applicationlayout_id', 'member_id')->get();
+        $purchases = LayoutPurchase::select('id', 'applicationlayout_id', 'member_id')->get();
         $layoutpurchases = ['' => ''];
         foreach ($purchases as $purchase) {
-            array_push($layoutpurchases, $purchase->member->lastname . ' ' . $purchase->member->firstname . ', '
-                . $purchase->applicationlayout->title);
+            $layoutpurchases[$purchase->id] = $purchase->member->lastname . ' ' . $purchase->member->firstname . ', '
+                . $purchase->applicationlayout->title;
         }
-        array_unshift($layoutpurchases, '');
-        unset($layoutpurchases[0]);
 
         return view('backend.invoices.form', compact('invoice', 'members', 'coachings', 'bookings', 'packagepurchases', 'layoutpurchases'));
     }

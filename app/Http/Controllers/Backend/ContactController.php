@@ -15,12 +15,18 @@ class ContactController extends Controller
 
         parent::__construct();
     }
+
     public function index()
     {
         $contactrequests = ContactRequest::orderBy('finished')->orderBy('processing')->orderBy('created_at', 'desc')->paginate(10);
 
-        if(!Auth::guard('employee')->user()->isAdmin()) {
-            $contactrequests = ContactRequest::where('category','=','feedback')->where('category','=','product')->orderBy('finished')->orderBy('processing')->paginate(10);
+        if (!Auth::guard('employee')->user()->isAdmin()) {
+            $contactrequests = ContactRequest::where('employee_id', '=', Auth::guard('employee')->id())->orWhere(function ($q) {
+                $q->where(function ($q2) {
+                    $q2->where('category', '=', 'feedback')->where('employee_id', '=', null);
+                })
+                    ->orWhere('category', '=', 'product')->where('employee_id', '=', null);
+            })->orderBy('finished')->orderBy('processing')->paginate(10);
         }
 
         return view('backend.contact.index', compact('contactrequests'));
@@ -42,7 +48,7 @@ class ContactController extends Controller
 
     public function detail($id)
     {
-        $contactrequest = ContactRequest::with('processor')->findOrFail($id);
+        $contactrequest = ContactRequest::with('processor', 'employee')->findOrFail($id);
 
         return view('backend.contact.detail', compact('contactrequest'));
     }
@@ -51,7 +57,7 @@ class ContactController extends Controller
     {
         $contactrequest = ContactRequest::findOrFail($id);
 
-        if((Auth::guard('employee')->user()->isAdmin() || $contactrequest->processedby == Auth::guard('employee')->id()) && !$contactrequest->finished) {
+        if ((Auth::guard('employee')->user()->isAdmin() || $contactrequest->processedby == Auth::guard('employee')->id()) && !$contactrequest->finished) {
             $contactrequest->fill(array(
                 'processing' => false,
                 'finished' => true
@@ -66,7 +72,7 @@ class ContactController extends Controller
     {
         $contactrequest = ContactRequest::findOrFail($id);
 
-        if((Auth::guard('employee')->user()->isAdmin() || !$contactrequest->processing) && !$contactrequest->finished) {
+        if ((Auth::guard('employee')->user()->isAdmin() || !$contactrequest->processing) && !$contactrequest->finished) {
             $contactrequest->fill(array(
                 'processing' => true,
                 'processedby' => Auth::guard('employee')->id()

@@ -160,7 +160,7 @@ class IndividualCoachingsController extends Controller
             'description' => '[' . $member->firstname . ' ' . $member->lastname . '](http://localhost:8000/backend/members/'
                 . $member->id . '/detail) booked your Free Time: ' . date_format(Carbon::parse($freetime->date), 'd.m.Y') .
                 ', ' . date_format(Carbon::parse($freetime->starttime), 'H:i') . ' - ' . date_format(Carbon::parse($request->endtime), 'H:i') .
-                '. Please contact the member for further information.',
+                '. Please contact the member for further information.' . "\n\n\n" . 'Personal Message: ' . "\n\n\n" . $request->message,
             'creator_id' => $member->id,
             'employee_id' => $freetime->employee_id,
             'processing' => 0,

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Booking;
+use App\Employee;
 use App\IndividualCoaching;
 use App\Invoice;
 use App\LayoutPurchase;
@@ -15,7 +16,14 @@ class PagesController extends Controller
 {
     public function show(Page $page, array $parameters)
     {
-        return view('frontend.page', compact('page'));
+        $emp = Employee::select('id', 'lastname', 'firstname')->get();
+        $employees = ['' => 'Select an Employee'];
+        $employees[0] = 'All Employees';
+        foreach ($emp as $employee) {
+            $employees[$employee->id] = $employee->lastname . ', ' . $employee->firstname;
+        }
+
+        return view('frontend.page', compact('page', 'employees'));
     }
 
     public function bank($type, $id)

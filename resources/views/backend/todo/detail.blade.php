@@ -27,7 +27,7 @@
             </td>
             <td>
                 @if($task->employee_id)
-                    <h4>{{ $task->getName() }}</h4>
+                    <h4>{{ $task->employee->getName() }}</h4>
                 @else
                     <h4>All</h4>
                 @endif

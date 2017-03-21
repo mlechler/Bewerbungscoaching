@@ -33,13 +33,11 @@ class PackagePurchasesController extends Controller
 
     public function create(PackagePurchase $packagepurchase)
     {
-        $mem = Member::select('lastname', 'firstname')->get();
+        $mem = Member::select('id', 'lastname', 'firstname')->get();
         $members = ['' => ''];
         foreach ($mem as $member) {
-            array_push($members, $member->lastname . ', ' . $member->firstname);
+            $members[$member->id] = $member->lastname . ', ' . $member->firstname;
         }
-        array_unshift($members, '');
-        unset($members[0]);
 
         $applicationpackages = ['' => ''] + ApplicationPackage::all()->pluck('title', 'id')->toArray();
 
@@ -84,13 +82,11 @@ class PackagePurchasesController extends Controller
     {
         $packagepurchase = PackagePurchase::findOrFail($id);
 
-        $mem = Member::select('lastname', 'firstname')->get();
+        $mem = Member::select('id', 'lastname', 'firstname')->get();
         $members = ['' => ''];
         foreach ($mem as $member) {
-            array_push($members, $member->lastname . ', ' . $member->firstname);
+            $members[$member->id] = $member->lastname . ', ' . $member->firstname;
         }
-        array_unshift($members, '');
-        unset($members[0]);
 
         $applicationpackages = ['' => ''] + ApplicationPackage::all()->pluck('title', 'id')->toArray();
 

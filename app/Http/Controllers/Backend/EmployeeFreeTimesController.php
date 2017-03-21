@@ -40,13 +40,11 @@ class EmployeeFreeTimesController extends Controller
             }
         } else {
 
-            $emp = Employee::select('lastname', 'firstname')->get();
+            $emp = Employee::select('id', 'lastname', 'firstname')->get();
             $employees = ['' => ''];
             foreach ($emp as $employee) {
-                array_push($employees, $employee->lastname . ', ' . $employee->firstname);
+                $employees[$employee->id] = $employee->lastname . ', ' . $employee->firstname;
             }
-            array_unshift($employees, '');
-            unset($employees[0]);
         }
 
         return view('backend.employeefreetimes.form', compact('freetime', 'employees'));
@@ -105,14 +103,12 @@ class EmployeeFreeTimesController extends Controller
                 $employees[$employee->id] = $employee->lastname . ', ' . $employee->firstname;
             }
         } else {
-            $emp = Employee::select('lastname', 'firstname')->get();
+            $emp = Employee::select('id', 'lastname', 'firstname')->get();
             $employees = ['' => ''];
             foreach ($emp as $employee) {
-                array_push($employees, $employee->lastname . ', ' . $employee->firstname);
+                $employees[$employee->id] = $employee->lastname . ', ' . $employee->firstname;
             }
 
-            array_unshift($employees, '');
-            unset($employees[0]);
         }
         return view('backend.employeefreetimes.form', compact('freetime', 'employees'));
     }

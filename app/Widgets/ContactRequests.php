@@ -20,7 +20,7 @@ class ContactRequests extends AbstractWidget
      */
     public function run()
     {
-        $requests = ContactRequest::where('finished', '=', false)->where('processing','=',false)->orderBy('created_at')->take(5)->get();
+        $requests = ContactRequest::where('category','!=','feedback')->where('finished', '=', false)->where('processing','=',false)->orderBy('created_at')->take(5)->get();
 
         return view("backend.widgets.contact_requests", [
             'config' => [],

@@ -9,7 +9,7 @@ use McCool\LaravelAutoPresenter\HasPresenter;
 class ContactRequest extends Model implements HasPresenter
 {
     protected $table = 'contactrequests';
-    protected $fillable = ['name', 'email', 'message', 'category', 'processing', 'processedby', 'finished'];
+    protected $fillable = ['name', 'email', 'message', 'category', 'employee_id', 'processing', 'processedby', 'finished'];
 
     public function getPresenterClass()
     {
@@ -19,5 +19,10 @@ class ContactRequest extends Model implements HasPresenter
     public function processor()
     {
         return $this->belongsTo(Employee::class, 'processedby');
+    }
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
     }
 }

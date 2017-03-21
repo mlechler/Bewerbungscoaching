@@ -6,6 +6,6 @@
     {!! $page->contentHtml() !!}
 
     @if($page->uri == 'contact')
-        @include('frontend.contact')
+        @include('frontend.contact', $employees)
     @endif
 @endsection

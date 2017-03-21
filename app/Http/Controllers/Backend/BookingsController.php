@@ -35,22 +35,18 @@ class BookingsController extends Controller
 
     public function create(Booking $seminarbooking)
     {
-        $mem = Member::select('lastname', 'firstname')->get();
+        $mem = Member::select('id', 'lastname', 'firstname')->get();
         $members = ['' => ''];
         foreach ($mem as $member) {
-            array_push($members, $member->lastname . ', ' . $member->firstname);
+            $members[$member->id] = $member->lastname . ', ' . $member->firstname;
         }
-        array_unshift($members, '');
-        unset($members[0]);
 
-        $app = Appointment::select('seminar_id', 'date', 'time')->get();
+        $app = Appointment::select('id', 'seminar_id', 'date', 'time')->get();
         $appointments = ['' => ''];
         foreach ($app as $appointment) {
             $time = Carbon::parse($appointment->time);
-            array_push($appointments, $appointment->seminar->title . ', ' . $appointment->date->format('d.m.Y') . ', ' . ($time->format('H:i') . ' - ' . $time->addHours($appointment->seminar->duration)->format('H:i')));
+            $appointments[$appointment->id] = $appointment->seminar->title . ', ' . $appointment->date->format('d.m.Y') . ', ' . ($time->format('H:i') . ' - ' . $time->addHours($appointment->seminar->duration)->format('H:i'));
         }
-        array_unshift($appointments, '');
-        unset($appointments[0]);
 
         return view('backend.seminarbookings.form', compact('seminarbooking', 'members', 'appointments'));
     }
@@ -107,22 +103,18 @@ class BookingsController extends Controller
     {
         $seminarbooking = Booking::findOrFail($id);
 
-        $mem = Member::select('lastname', 'firstname')->get();
+        $mem = Member::select('id', 'lastname', 'firstname')->get();
         $members = ['' => ''];
         foreach ($mem as $member) {
-            array_push($members, $member->lastname . ', ' . $member->firstname);
+            $members[$member->id] = $member->lastname . ', ' . $member->firstname;
         }
-        array_unshift($members, '');
-        unset($members[0]);
 
-        $app = Appointment::select('seminar_id', 'date', 'time')->get();
+        $app = Appointment::select('id', 'seminar_id', 'date', 'time')->get();
         $appointments = ['' => ''];
         foreach ($app as $appointment) {
             $time = Carbon::parse($appointment->time);
-            array_push($appointments, $appointment->seminar->title . ', ' . $appointment->date->format('d.m.Y') . ', ' . ($time->format('H:i') . ' - ' . $time->addHours($appointment->seminar->duration)->format('H:i')));
+            $appointments[$appointment->id] = $appointment->seminar->title . ', ' . $appointment->date->format('d.m.Y') . ', ' . ($time->format('H:i') . ' - ' . $time->addHours($appointment->seminar->duration)->format('H:i'));
         }
-        array_unshift($appointments, '');
-        unset($appointments[0]);
 
         return view('backend.seminarbookings.form', compact('seminarbooking', 'members', 'appointments'));
     }

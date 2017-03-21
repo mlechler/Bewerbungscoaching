@@ -19,6 +19,7 @@ class CreateContactRequests extends Migration
             $table->string('email');
             $table->text('message');
             $table->string('category');
+            $table->integer('employee_id')->nullable();
             $table->boolean('processing');
             $table->integer('processedby')->nullable();
             $table->boolean('finished');

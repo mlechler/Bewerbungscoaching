@@ -23,6 +23,18 @@
         </tr>
         <tr>
             <td>
+                <h4>Employee</h4>
+            </td>
+            <td>
+                @if($contactrequest->employee_id)
+                    <h4>{{ $contactrequest->employee->getName() }}</h4>
+                @else
+                    <h4>All</h4>
+                @endif
+            </td>
+        </tr>
+        <tr>
+            <td>
                 <h4>Category</h4>
             </td>
             <td>

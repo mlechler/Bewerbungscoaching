@@ -17,6 +17,7 @@ class ContactController extends Controller
             'email' => $request->email ? $request->email : $user->email,
             'message' => $request->message,
             'category' => $request->category,
+            'employee_id' => $request->contactperson == 0 ? null : $request->contactperson,
             'processing' => false,
             'processedby' => null,
             'finished' => false,

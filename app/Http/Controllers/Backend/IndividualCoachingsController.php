@@ -50,22 +50,20 @@ class IndividualCoachingsController extends Controller
                 $employees[$employee->id] = $employee->lastname . ', ' . $employee->firstname;
             }
         } else {
-            $emp = Employee::select('lastname', 'firstname')->get();
+            $emp = Employee::select('id','lastname', 'firstname')->get();
             $employees = ['' => ''];
             foreach ($emp as $employee) {
-                array_push($employees, $employee->lastname . ', ' . $employee->firstname);
+                $employees[$employee->id] = $employee->lastname . ', ' . $employee->firstname;
             }
             array_unshift($employees, '');
             unset($employees[0]);
         }
 
-        $mem = Member::select('lastname', 'firstname')->get();
+        $mem = Member::select('id', 'lastname', 'firstname')->get();
         $members = ['' => ''];
         foreach ($mem as $member) {
-            array_push($members, $member->lastname . ', ' . $member->firstname);
+            $members[$member->id] = $member->lastname . ', ' . $member->firstname;
         }
-        array_unshift($members, '');
-        unset($members[0]);
 
         return view('backend.individualcoachings.form', compact('coaching', 'employees', 'members'));
     }
@@ -127,22 +125,18 @@ class IndividualCoachingsController extends Controller
                 $employees[$employee->id] = $employee->lastname . ', ' . $employee->firstname;
             }
         } else {
-            $emp = Employee::select('lastname', 'firstname')->get();
+            $emp = Employee::select('id', 'lastname', 'firstname')->get();
             $employees = ['' => ''];
             foreach ($emp as $employee) {
-                array_push($employees, $employee->lastname . ', ' . $employee->firstname);
+                $employees[$employee->id] = $employee->lastname . ', ' . $employee->firstname;
             }
-            array_unshift($employees, '');
-            unset($employees[0]);
         }
 
-        $mem = Member::select('lastname', 'firstname')->get();
+        $mem = Member::select('id', 'lastname', 'firstname')->get();
         $members = ['' => ''];
         foreach ($mem as $member) {
-            array_push($members, $member->lastname . ', ' . $member->firstname);
+            $members[$member->id] = $member->lastname . ', ' . $member->firstname;
         }
-        array_unshift($members, '');
-        unset($members[0]);
 
         return view('backend.individualcoachings.form', compact('coaching', 'employees', 'members'));
     }
