@@ -3,7 +3,7 @@
 return [
 
     'allowedFileTypes' => 'png,pdf,docx',
-    'allowedPreviewFileTypes' => 'png',
+    'allowedImageFileTypes' => 'png,jpeg',
     'allowedLayoutFileTypes' => 'pdf,docx',
     'allowedPackageFileTypes' => 'rar,zip',
     'maxFileSize' => 5120,

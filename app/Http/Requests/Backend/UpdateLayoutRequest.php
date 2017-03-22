@@ -28,7 +28,7 @@ class UpdateLayoutRequest extends FormRequest
             'title' => ['required', 'unique:applicationlayouts,title,' . $id],
             'description' => ['required'],
             'price' => ['required'],
-            'preview' => ['mimes:' . config('app.allowedPreviewFileTypes'), 'max:' . config('app.maxFileSize')],
+            'preview' => ['mimes:' . config('app.allowedImageFileTypes'), 'max:' . config('app.maxFileSize')],
             'layout' => ['mimes:' . config('app.allowedLayoutFileTypes'), 'max:' . config('app.maxFileSize')]
         ];
     }

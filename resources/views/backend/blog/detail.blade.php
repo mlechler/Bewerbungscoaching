@@ -53,6 +53,14 @@
                 <h4>{!! $post->bodyHtml() !!}</h4>
             </td>
         </tr>
+        <tr>
+            <td>
+                <h4>Image</h4>
+            </td>
+            <td>
+                {!! $post->getPreview() !!}
+            </td>
+        </tr>
         </tbody>
     </table>
     <a href="{{ route('blog.index') }}" class="btn btn-danger">Back</a>

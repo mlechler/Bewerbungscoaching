@@ -3,6 +3,7 @@
 namespace App\Presenters;
 
 use App\Post;
+use GrahamCampbell\Dropbox\Facades\Dropbox;
 use McCool\LaravelAutoPresenter\BasePresenter;
 use AlfredoRamos\ParsedownExtra\Facades\ParsedownExtra as Markdown;
 
@@ -45,5 +46,19 @@ class PostPresenter extends BasePresenter
         } elseif(! $this->published_at){
             return 'danger';
         }
+    }
+
+    public function getPreview()
+    {
+        if ($this->image) {
+            $link = Dropbox::createShareableLink($this->image);
+            $newlink = substr($link, 0, -1);
+
+            return '<a href="' . $link . '" target="_blank">
+                                <img src="' . $newlink . '1&raw=1"
+                                     style="width:200px; height:320px;"></a>';
+        }
+
+        return 'Currently no Preview available.';
     }
 }

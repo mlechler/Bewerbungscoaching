@@ -9,7 +9,7 @@ use McCool\LaravelAutoPresenter\HasPresenter;
 class Post extends Model implements HasPresenter
 {
     protected $table = 'posts';
-    protected $fillable = ['author_id', 'title', 'slug', 'body', 'excerpt', 'published_at'];
+    protected $fillable = ['author_id', 'title', 'slug', 'body', 'excerpt', 'published_at', 'image', 'preview'];
     protected $dates = ['published_at'];
 
     public function getPresenterClass()

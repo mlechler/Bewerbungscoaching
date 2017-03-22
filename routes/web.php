@@ -124,6 +124,7 @@ Route::group(['prefix' => 'backend'], function () {
 
     Route::get('/blog/{blog}/confirm', ['as' => 'blog.confirm', 'uses' => 'Backend\BlogController@confirm']);
     Route::get('/blog/{blog}/detail', ['as' => 'blog.detail', 'uses' => 'Backend\BlogController@detail']);
+    Route::get('/blog/{blog}/delete', ['as' => 'blog.deleteImage', 'uses' => 'Backend\BlogController@deleteImage']);
     Route::resource('/blog', 'Backend\BlogController');
 
     Route::get('/todo/{todo}/detail', ['as' => 'todo.detail', 'uses' => 'Backend\TasksController@detail']);

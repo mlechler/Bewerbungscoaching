@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Post;
+use Carbon\Carbon;
 
 class WelcomeController extends Controller
 {
     public function index()
     {
-        return view('frontend.welcome');
+        $posts = Post::where('published_at','!=',null)->where('published_at','<=',Carbon::now())->orderBy('published_at', 'desc')->take(3)->get();
+
+        return view('frontend.welcome', compact('posts'));
     }
 }

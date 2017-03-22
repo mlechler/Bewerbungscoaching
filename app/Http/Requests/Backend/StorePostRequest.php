@@ -27,7 +27,8 @@ class StorePostRequest extends FormRequest
             'title' => ['required', 'unique:posts'],
             'slug' => ['required'],
             'published_at' => ['date_format:Y-m-d H:i:s'],
-            'body' => ['required']
+            'body' => ['required'],
+            'image' => ['mimes:' . config('app.allowedImageFileTypes'), 'max:' . config('app.maxFileSize')]
         ];
     }
 
@@ -37,7 +38,9 @@ class StorePostRequest extends FormRequest
             'title.required' => 'Title is required',
             'title.unique' => 'Title has to be unique in Blog Posts',
             'slug.required' => 'Slug is required',
-            'body.required' => 'Body is required'
+            'body.required' => 'Body is required',
+            'image.mimes' => 'Wrong Filetype',
+            'image.max' => 'Filesize exceeded'
         ];
     }
 }

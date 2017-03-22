@@ -36,10 +36,10 @@ class ApplicationLayoutPresenter extends BasePresenter
     {
         if ($this->preview) {
             $link = Dropbox::createShareableLink($this->preview);
-            substr($link, 0, -1);
+            $newlink = substr($link, 0, -1);
 
-            return '<a href="' . $link . '0" target="_blank">
-                                <img src="' . $link . '1&raw=1"
+            return '<a href="' . $link . '" target="_blank">
+                                <img src="' . $newlink . '1&raw=1"
                                      style="width:200px; height:320px;"></a>';
         }
 
