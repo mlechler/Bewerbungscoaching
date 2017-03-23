@@ -177,6 +177,9 @@ Route::group([], function () {
 
     Route::get('/applicationlayouts', ['as' => 'frontend.applicationlayouts.index', 'uses' => 'Frontend\ApplicationLayoutsController@index']);
 
+    Route::get('/blog', ['as' => 'frontend.blog.index', 'uses' => 'Frontend\BlogController@index']);
+    Route::get('/blog/{blog}', ['as' => 'frontend.blog.detail', 'uses' => 'Frontend\BlogController@detail']);
+
     //Generate the dynamic pages
     foreach (\App\Page::all() as $page) {
         Route::get($page->uri, ['as' => 'frontend.' . $page->name . '.index', function () use ($page) {

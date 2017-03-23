@@ -4,6 +4,7 @@ namespace App\Presenters;
 
 use App\Post;
 use GrahamCampbell\Dropbox\Facades\Dropbox;
+use Intervention\Image\Facades\Image;
 use McCool\LaravelAutoPresenter\BasePresenter;
 use AlfredoRamos\ParsedownExtra\Facades\ParsedownExtra as Markdown;
 
@@ -14,14 +15,28 @@ class PostPresenter extends BasePresenter
         return ($this->excerpt ? Markdown::parse($this->excerpt) : null);
     }
 
+    public function shortExcerptHtml()
+    {
+        $excerpt = Markdown::parse($this->excerpt);
+        $pieces = explode(" ", $excerpt);
+        return (implode(" ", array_splice($pieces, 0, 50)));
+    }
+
     public function bodyHtml()
     {
         return ($this->body ? Markdown::parse($this->body) : null);
     }
 
+    public function shortBodyHtml()
+    {
+        $body = Markdown::parse($this->body);
+        $pieces = explode(" ", $body);
+        return (implode(" ", array_splice($pieces, 0, 50)));
+    }
+
     public function getName()
     {
-        if($this->author == null) {
+        if ($this->author == null) {
             $post = Post::findOrFail($this->id);
 
             $post->fill(array('author_id' => null))->save();
@@ -41,22 +56,19 @@ class PostPresenter extends BasePresenter
 
     public function publishedHighlight()
     {
-        if($this->published_at && $this->published_at->isFuture()){
+        if ($this->published_at && $this->published_at->isFuture()) {
             return 'info';
-        } elseif(! $this->published_at){
+        } elseif (!$this->published_at) {
             return 'danger';
         }
     }
 
     public function getPreview()
     {
-        if ($this->image) {
-            $link = Dropbox::createShareableLink($this->image);
-            $newlink = substr($link, 0, -1);
+        if ($this->preview) {
+            $newlink = substr($this->preview, 0, -1);
 
-            return '<a href="' . $link . '" target="_blank">
-                                <img src="' . $newlink . '1&raw=1"
-                                     style="width:200px; height:320px;"></a>';
+            return '<img src="' . $newlink . '1&raw=1">';
         }
 
         return 'Currently no Preview available.';

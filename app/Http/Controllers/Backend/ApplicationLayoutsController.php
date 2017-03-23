@@ -104,9 +104,12 @@ class ApplicationLayoutsController extends Controller
             $previewDestinationPath = '/layouts/' . $layout_id . '/' . $previewFileName;
             Dropbox::uploadFileFromString($previewDestinationPath, WriteMode::force(), file_get_contents($previewFile));
 
+            $previewDownload = Dropbox::createShareableLink($previewDestinationPath);
+
             $layout = ApplicationLayout::findOrFail($layout_id);
             $layout->fill(array(
-                'preview' => $previewDestinationPath
+                'preview' => $previewDestinationPath,
+                'previewDownload' => $previewDownload
             ))->save();
         }
         if ($layoutFile) {
@@ -114,9 +117,12 @@ class ApplicationLayoutsController extends Controller
             $layoutDestinationPath = '/layouts/' . $layout_id . '/' . $layoutFileName;
             Dropbox::uploadFileFromString($layoutDestinationPath, WriteMode::force(), file_get_contents($layoutFile));
 
+            $layoutDownload = Dropbox::createShareableLink($layoutDestinationPath);
+
             $layout = ApplicationLayout::findOrFail($layout_id);
             $layout->fill(array(
-                'layout' => $layoutDestinationPath
+                'layout' => $layoutDestinationPath,
+                'layoutDownload' => $layoutDownload
             ))->save();
         }
     }
@@ -126,7 +132,8 @@ class ApplicationLayoutsController extends Controller
         $layout = ApplicationLayout::findOrFail($id);
         Dropbox::delete($layout->preview);
         $layout->fill(array(
-            'preview' => null
+            'preview' => null,
+            'previewDownload' => null
         ))->save();
         return redirect()->back()->with('status', 'File has been deleted.');
     }
@@ -136,7 +143,8 @@ class ApplicationLayoutsController extends Controller
         $layout = ApplicationLayout::findOrFail($id);
         Dropbox::delete($layout->layout);
         $layout->fill(array(
-            'layout' => null
+            'layout' => null,
+            'layoutDownload' => null
         ))->save();
         return redirect()->back()->with('status', 'File has been deleted.');
     }

@@ -58,7 +58,13 @@
                 <h4>Image</h4>
             </td>
             <td>
-                {!! $post->getPreview() !!}
+                <h4>
+                    @if($post->preview)
+                        <a href="{{ $post->preview }}" target="_blank">Image</a>
+                    @else
+                        No Image
+                    @endif
+                </h4>
             </td>
         </tr>
         </tbody>

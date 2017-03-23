@@ -26,6 +26,7 @@
                     <li><a href="{{ route('frontend.applicationpackages.index') }}">Application Packages</a></li>
                     <li><a href="{{ route('frontend.applicationlayouts.index') }}">Application Layouts</a></li>
                 </ul>
+            <li><a href="{{ route('frontend.blog.index') }}">Blog</a></li>
             @include('partials.staticpagesnavigation')
         </ul>
         <ul class="nav navbar-nav navbar-right">

@@ -9,7 +9,7 @@ use McCool\LaravelAutoPresenter\HasPresenter;
 class ApplicationLayout extends Model implements HasPresenter
 {
     protected $table = 'applicationlayouts';
-    protected $fillable = ['title', 'description', 'preview', 'layout', 'price'];
+    protected $fillable = ['title', 'description', 'preview', 'previewDownload', 'layout', 'layoutDownload', 'price'];
 
     public function getPresenterClass()
     {

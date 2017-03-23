@@ -42,8 +42,8 @@
             <br>
             <div class="row">
                 @if($post->image)
-                    <div class="col-md-3">
-                        {!! $post->getPreview() !!}
+                    <div class="col-md-2">
+                        <a href="{{ $post->preview }}" target="_blank">Image</a>
                     </div>
                     <div class="col-md-1">
                         <a href="{{ route('blog.deleteImage', $post->id) }}"><span

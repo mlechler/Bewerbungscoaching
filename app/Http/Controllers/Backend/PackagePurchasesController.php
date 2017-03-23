@@ -148,10 +148,13 @@ class PackagePurchasesController extends Controller
         $destinationPath = '/packages/member' . $purchase->member_id . '/' . $fileName;
         Dropbox::uploadFileFromString($destinationPath, WriteMode::force(), file_get_contents($packageFile));
 
+        $downloadLink = Dropbox::createShareableLink($destinationPath);
+
         $packagepurchase = PackagePurchase::findOrFail($purchase->id);
 
         $packagepurchase->fill(array(
-            'path' => $destinationPath
+            'path' => $destinationPath,
+            'packageDownload' => $downloadLink
         ))->save();
     }
 
@@ -163,7 +166,8 @@ class PackagePurchasesController extends Controller
             Dropbox::delete($package->path);
 
             $package->fill(array(
-                'path' => null
+                'path' => null,
+                'packageDownload' => null
             ))->save();
         }
         return redirect()->back()->with('status', 'File has been deleted.');
