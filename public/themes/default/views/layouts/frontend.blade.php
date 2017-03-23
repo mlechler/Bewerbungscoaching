@@ -48,7 +48,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            @if($__env->yieldContent('title') != 'Welcome' && $__env->yieldContent('title') != 'My Information')
+            @if($__env->yieldContent('title') != 'Welcome' && $__env->yieldContent('title') != 'My Information' && $__env->yieldContent('title') != 'Blog Post')
                 <h3>@yield('title')</h3>
             @endif
 

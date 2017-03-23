@@ -68,11 +68,15 @@
 
     <script>
         new SimpleMDE({
-            element: document.getElementsByName('body')[0]
+            element: document.getElementsByName('body')[0],
+            toolbar: ["bold", "italic", "strikethrough", "heading", "|", "code", "quote", "unordered-list", "ordered-list",
+                "clean-block", "|", "link", "image", "table", "horizontal-rule", "|", "preview", "side-by-side", "fullscreen", "|", "guide"]
         }).render();
 
         new SimpleMDE({
-            element: document.getElementsByName('excerpt')[0]
+            element: document.getElementsByName('excerpt')[0],
+            toolbar: ["bold", "italic", "strikethrough", "heading", "|", "code", "quote", "unordered-list", "ordered-list",
+                "clean-block", "|", "link", "image", "table", "horizontal-rule", "|", "preview", "side-by-side", "fullscreen", "|", "guide"]
         }).render();
 
         $('input[name=published_at]').datetimepicker({

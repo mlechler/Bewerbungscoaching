@@ -38,7 +38,10 @@
 {{ Form::close() }}
 
 <script>
-    new SimpleMDE().render();
+    new SimpleMDE({
+        toolbar: ["bold", "italic", "strikethrough", "heading", "|", "code", "quote", "unordered-list", "ordered-list",
+            "clean-block", "|", "link", "image", "table", "horizontal-rule", "|", "preview", "side-by-side", "fullscreen", "|", "guide"]
+    }).render();
 
     $('#category').on('change', function () {
         if ($(this).val() == 'booking' || $(this).val() == 'invoice' || $(this).val() == 'discount') {

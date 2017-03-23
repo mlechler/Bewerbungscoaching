@@ -23,7 +23,7 @@ class BlogController extends Controller
 
     public function detail($id)
     {
-        $post = Post::findOrFail($id);
+        $post = Post::with('author')->findOrFail($id);
 
         return view('frontend.blog.detail', compact('post'));
     }

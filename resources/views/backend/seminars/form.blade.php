@@ -76,7 +76,10 @@
     {{ Form::close() }}
 
     <script>
-        new SimpleMDE().render();
+        new SimpleMDE({
+            toolbar: ["bold", "italic", "strikethrough", "heading", "|", "code", "quote", "unordered-list", "ordered-list",
+                "clean-block", "|", "link", "image", "table", "horizontal-rule", "|", "preview", "side-by-side", "fullscreen", "|", "guide"]
+        }).render();
 
         $('input[id=files]').change(function() {
             var names = [];
