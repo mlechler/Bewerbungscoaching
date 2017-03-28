@@ -19,7 +19,7 @@ class PostPresenter extends BasePresenter
     {
         $excerpt = Markdown::parse($this->excerpt);
         $pieces = explode(" ", $excerpt);
-        return (implode(" ", array_splice($pieces, 0, 50)));
+        return (implode(" ", array_splice($pieces, 0, 25)));
     }
 
     public function bodyHtml()
@@ -31,7 +31,7 @@ class PostPresenter extends BasePresenter
     {
         $body = Markdown::parse($this->body);
         $pieces = explode(" ", $body);
-        return (implode(" ", array_splice($pieces, 0, 50)));
+        return (implode(" ", array_splice($pieces, 0, 25)));
     }
 
     public function getName()
@@ -63,14 +63,15 @@ class PostPresenter extends BasePresenter
         }
     }
 
-    public function getPreview()
+    public
+    function getPreview()
     {
         if ($this->preview) {
             $newlink = substr($this->preview, 0, -1);
 
-            return '<img src="' . $newlink . '1&raw=1">';
+            return $newlink . '1&raw=1';
         }
 
-        return 'Currently no Preview available.';
+        return null;
     }
 }

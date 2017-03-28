@@ -20,8 +20,7 @@ class UpdatePostRequest extends FormRequest
 
         if (Auth::guard('employee')->user()->isAdmin()) {
             $return = true;
-        }
-        elseif ($post->author_id != Auth::guard('employee')->id()) {
+        } elseif ($post->author_id != Auth::guard('employee')->id()) {
             $return = false;
         } else {
             $return = true;
@@ -46,8 +45,8 @@ class UpdatePostRequest extends FormRequest
     {
         $id = $this->route('blog');
         return [
-            'title' => ['required', 'unique:posts,title,'.$id],
-            'slug' => ['required'],
+            'title' => ['required', 'unique:posts,title,' . $id],
+            'slug' => ['required', 'unique:posts, slug,' . $id],
             'published_at' => ['date_format:Y-m-d H:i:s'],
             'body' => ['required'],
             'image' => ['mimes:' . config('app.allowedImageFileTypes'), 'max:' . config('app.maxFileSize')]
@@ -60,6 +59,7 @@ class UpdatePostRequest extends FormRequest
             'title.required' => 'Title is required',
             'title.unique' => 'Title has to be unique in Blog Posts',
             'slug.required' => 'Slug is required',
+            'slug.unique' => 'Slug has to be unique in Blog Posts',
             'body.required' => 'Body is required',
             'image.mimes' => 'Wrong Filetype',
             'image.max' => 'Filesize exceeded'

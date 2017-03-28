@@ -6,18 +6,29 @@
     <div class="row">
         @foreach($posts as $post)
             <div class="col-md-4">
-                <div class="panel panel-default" style="min-height:300px">
-                    <div class="panel-heading">
-                        {!! $post->getPreview() !!}
+                <div class="panel panel-default">
+                    <div class="panel-heading blogPostPreviewHeading"
+                         style="background-image: url({{ $post->getPreview() }})">
+                        @if($post->getPreview() == null)
+                            <div class="vertical-center blogPostPreviewHeading" align="center">
+                                Currently no Preview available.
+                            </div>
+                        @endif
                     </div>
-                    <div class="panel-body">
-                        <h4>{{ $post->title }}</h4><br>
+                    <div class="panel-body blogPostPreviewBody">
+                        <h3>{{ $post->title }}</h3><br>
                         @if($post->excerpt)
                             {!! $post->shortExcerptHtml() !!}
-                            <a href="{{ route('frontend.blog.detail', $post->id) }}" target="_blank">Read more</a>
+                            <br><br>
+                            <div style="position: absolute; bottom:25px">
+                                <a href="{{ route('frontend.blog.detail', $post->slug) }}" target="_blank">Read more</a>
+                            </div>
                         @else
-                            {!! $post->shortBodyHtml !!}
-                            <a href="{{ route('frontend.blog.detail', $post->id) }}" target="_blank">Read more</a>
+                            {!! $post->shortBodyHtml() !!}
+                            <br><br>
+                            <div style="position: absolute; bottom:25px">
+                                <a href="{{ route('frontend.blog.detail', $post->slug) }}" target="_blank">Read more</a>
+                            </div>
                         @endif
                     </div>
                 </div>

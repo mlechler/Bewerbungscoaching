@@ -11165,4 +11165,14 @@ a.navbar-brand img {
   color: red;
 }
 
+.blogPostPreviewHeading {
+  height: 300px;
+  background-size: cover;
+  background-position: center center;
+}
+
+.blogPostPreviewBody {
+  height: 300px;
+}
+
 /*# sourceMappingURL=frontend.css.map */

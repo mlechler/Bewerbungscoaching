@@ -25,7 +25,7 @@ class StorePostRequest extends FormRequest
     {
         return [
             'title' => ['required', 'unique:posts'],
-            'slug' => ['required'],
+            'slug' => ['required', 'unique:posts'],
             'published_at' => ['date_format:Y-m-d H:i:s'],
             'body' => ['required'],
             'image' => ['mimes:' . config('app.allowedImageFileTypes'), 'max:' . config('app.maxFileSize')]
@@ -38,6 +38,7 @@ class StorePostRequest extends FormRequest
             'title.required' => 'Title is required',
             'title.unique' => 'Title has to be unique in Blog Posts',
             'slug.required' => 'Slug is required',
+            'slug.unique' => 'Slug has to be unique in Blog Posts',
             'body.required' => 'Body is required',
             'image.mimes' => 'Wrong Filetype',
             'image.max' => 'Filesize exceeded'

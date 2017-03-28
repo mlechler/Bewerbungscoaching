@@ -38,7 +38,7 @@
 
     <div class="form-group row">
         <div class="col-md-12">
-            {{ Form::label('image_(PNG_or_JPG)') }}
+            {{ Form::label('preview_image_(PNG_or_JPG)') }}
             <br>
             <div class="row">
                 @if($post->image)

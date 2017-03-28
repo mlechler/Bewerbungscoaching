@@ -21,9 +21,9 @@ class BlogController extends Controller
         return view('frontend.blog.index', compact('posts'));
     }
 
-    public function detail($id)
+    public function detail($slug)
     {
-        $post = Post::with('author')->findOrFail($id);
+        $post = Post::with('author')->where('slug', '=', $slug)->first();
 
         return view('frontend.blog.detail', compact('post'));
     }
