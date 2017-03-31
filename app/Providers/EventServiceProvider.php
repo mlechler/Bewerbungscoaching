@@ -71,6 +71,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\RemindCoachingBooking' => [
             'App\Listeners\SendCoachingReminder',
+        ],
+        'App\Events\CreateInvoice' => [
+            'App\Listeners\SendInvoice',
         ]
     ];
 

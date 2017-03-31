@@ -13,7 +13,7 @@ class StoreInvoiceRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,14 +24,16 @@ class StoreInvoiceRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'member_id' => ['required'],
+            'type' => ['required']
         ];
     }
 
     public function messages()
     {
         return [
-            //
+            'member_id.required' => 'Member is required',
+            'type.required' => 'Select a Type'
         ];
     }
 }

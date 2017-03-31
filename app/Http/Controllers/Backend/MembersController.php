@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Booking;
 use App\Events\UploadMemberFile;
 use App\IndividualCoaching;
+use App\Invoice;
 use App\LayoutPurchase;
 use App\Member;
 use App\Address;
@@ -164,6 +165,7 @@ class MembersController extends Controller
         $this->deleteDiscounts($id);
         $this->deleteLayouts($id);
         $this->deletePackages($id);
+        $this->deleteInvoices($id);
 
         return redirect(route('members.index'))->with('status', 'Member has been deleted.');
     }
@@ -315,6 +317,15 @@ class MembersController extends Controller
             Dropbox::delete($package->path);
 
             PackagePurchase::destroy($package->id);
+        }
+    }
+
+    public function deleteInvoices($member_id)
+    {
+        $invoices = Invoice::all()->where('member_id', '=', $member_id);
+
+        foreach ($invoices as $invoice) {
+            Invoice::destroy($invoice->id);
         }
     }
 }

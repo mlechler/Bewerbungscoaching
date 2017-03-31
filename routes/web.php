@@ -80,6 +80,7 @@ Route::group(['prefix' => 'backend'], function () {
 
         Route::get('/invoices/{invoice}/confirm', ['as' => 'invoices.confirm', 'uses' => 'Backend\InvoicesController@confirm']);
         Route::get('/invoices/{invoice}/detail', ['as' => 'invoices.detail', 'uses' => 'Backend\InvoicesController@detail']);
+        Route::get('/invoices/memberdata', ['as' => 'invoices.memberData', 'uses' => 'Backend\InvoicesController@getMemberData']);
         Route::resource('/invoices', 'Backend\InvoicesController');
 
         Route::get('/pages/{page}/confirm', ['as' => 'pages.confirm', 'uses' => 'Backend\PagesController@confirm']);
