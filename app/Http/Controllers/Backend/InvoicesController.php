@@ -15,7 +15,6 @@ use App\Http\Requests;
 use App\PackagePurchase;
 use App\Seminar;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 
 class InvoicesController extends Controller
 {
@@ -122,12 +121,99 @@ class InvoicesController extends Controller
             $members[$member->id] = $member->lastname . ', ' . $member->firstname;
         }
 
-        return view('backend.invoices.form', compact('invoice', 'members'));
+        $individualcoachings = IndividualCoaching::select('id', 'services', 'date', 'time', 'duration')->where('member_id','=',$invoice->member_id)->get();
+        $coachings = ['' => ''];
+        foreach ($individualcoachings as $individualcoaching) {
+            $coachings[$individualcoaching->id] = $individualcoaching->services . '; '
+                . date_format($individualcoaching->date, 'd.m.Y') . '; '
+                . Carbon::parse($individualcoaching->time)->format('H:i') . ' - '
+                . Carbon::parse($individualcoaching->time)->addHours($individualcoaching->duration)->format('H:i');
+        }
+
+        $seminarbookings = Booking::select('id', 'appointment_id')->where('member_id','=',$invoice->member_id)->get();
+        $bookings = ['' => ''];
+        foreach ($seminarbookings as $seminarbooking) {
+            $bookings[$seminarbooking->id] = $seminarbooking->appointment->seminar->title . '; '
+                . date_format($seminarbooking->appointment->date, 'd.m.Y') . '; '
+                . Carbon::parse($seminarbooking->appointment->time)->format('H:i') . ' - '
+                . Carbon::parse($seminarbooking->appointment->time)->addHours($seminarbooking->appointment->seminar->duration)->format('H:i');
+        }
+
+        $purchases = PackagePurchase::select('id', 'applicationpackage_id')->where('member_id','=',$invoice->member_id)->get();
+        $packagepurchases = ['' => ''];
+        foreach ($purchases as $purchase) {
+            $packagepurchases[$purchase->id] = $purchase->applicationpackage->title;
+        }
+
+        $purchases = LayoutPurchase::select('id', 'applicationlayout_id')->where('member_id','=',$invoice->member_id)->get();
+        $layoutpurchases = ['' => ''];
+        foreach ($purchases as $purchase) {
+            $layoutpurchases[$purchase->id] = $purchase->applicationlayout->title;
+        }
+
+        return view('backend.invoices.form', compact('invoice', 'members', 'coachings', 'bookings', 'packagepurchases', 'layoutpurchases'));
     }
 
-    public function update()
+    public function update(Requests\Backend\UpdateInvoiceRequest $request, $id)
     {
-        //
+        $booking_id = null;
+        $individualcoaching_id = null;
+        $packagepurchase_id = null;
+        $layoutpurchase_id = null;
+        $totalprice = null;
+        $type = null;
+
+        if($request->individualcoaching == "" && $request->seminar == "" && $request->package == "" && $request->layout == "")
+        {
+            return redirect()->back()->withErrors([
+                'error' => 'Select an Position'
+            ]);
+        }
+
+        switch($request->type){
+            case 'individualcoaching':
+                $individualcoaching = IndividualCoaching::findOrFail($request->individualcoaching);
+                $individualcoaching_id = $individualcoaching->id;
+                $totalprice = $individualcoaching->price_incl_discount;
+                $type = 'coaching';
+                break;
+            case 'seminar':
+                $booking = Booking::findOrFail($request->seminar);
+                $booking_id = $booking->id;
+                $totalprice = $booking->price_incl_discount;
+                $type = 'seminar';
+                break;
+            case 'package':
+                $packagepurchase = PackagePurchase::findOrFail($request->package);
+                $packagepurchase_id = $packagepurchase->id;
+                $totalprice = $packagepurchase->price_incl_discount;
+                $type = 'package';
+                break;
+            case 'layout':
+                $layoutpurchase = LayoutPurchase::findOrFail($request->layout);
+                $layoutpurchase_id = $layoutpurchase->id;
+                $totalprice = $layoutpurchase->price_incl_discount;
+                $type = 'layout';
+                break;
+            default:
+                break;
+        }
+
+        $invoice = Invoice::findOrFail($id);
+
+        $invoice->fill(array(
+            'member_id' => $request->member_id,
+            'individualcoaching_id' => $individualcoaching_id,
+            'booking_id' => $booking_id,
+            'packagepurchase_id' => $packagepurchase_id,
+            'layoutpurchase_id' => $layoutpurchase_id,
+            'totalprice' => $totalprice,
+            'date' => Carbon::now()
+        ))->save();
+
+        event(new CreateInvoice($invoice, $type));
+
+        return redirect(route('invoices.index'))->with('status', 'Invoice has been updated.');
     }
 
     public function confirm($id)

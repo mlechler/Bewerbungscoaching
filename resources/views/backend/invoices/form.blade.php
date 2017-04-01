@@ -9,9 +9,6 @@
     'name' => 'invoiceForm'
     ]) }}
 
-    @if ($invoice->exists)
-        {{ Form::hidden('edit', $invoice) }}
-    @endif
     <div class="form-group row">
         <div class="col-md-6">
             {{ Form::label('member') }} <span class="required">*</span>
@@ -24,10 +21,10 @@
             Individual Coaching
         </div>
         <div class="col-md-1">
-            {{ Form::radio('type','individualcoaching') }}
+            {{ Form::radio('type','individualcoaching', $invoice->individualcoaching_id ? 'checked' : null) }}
         </div>
         <div class="col-md-9">
-            {{ Form::select('individualcoaching', ['' => ''], null, ['class' => 'form-control', 'id' => 'individualcoaching', 'style' => 'visibility: hidden']) }}
+            {{ Form::select('individualcoaching', $invoice->exists ? $coachings : ['' => ''], $invoice->exists ? $invoice->individualcoaching_id : null, ['class' => 'form-control', 'id' => 'individualcoaching', 'style' => $invoice->individualcoaching_id ? 'visibility: visible' : 'visibility: hidden']) }}
         </div>
     </div>
 
@@ -36,10 +33,10 @@
             Seminar
         </div>
         <div class="col-md-1">
-            {{ Form::radio('type','seminar') }}
+            {{ Form::radio('type','seminar', $invoice->booking_id ? 'checked' : null) }}
         </div>
         <div class="col-md-9">
-            {{ Form::select('seminar', ['' => ''], null, ['class' => 'form-control', 'id' => 'seminar', 'style' => 'visibility: hidden']) }}
+            {{ Form::select('seminar', $invoice->exists ? $bookings : ['' => ''], $invoice->exists ? $invoice->booking_id : null, ['class' => 'form-control', 'id' => 'seminar', 'style' => $invoice->booking_id ? 'visibility: visible' : 'visibility: hidden']) }}
         </div>
     </div>
 
@@ -48,10 +45,10 @@
             Application Package
         </div>
         <div class="col-md-1">
-            {{ Form::radio('type','package') }}
+            {{ Form::radio('type','package', $invoice->packagepurchase_id ? 'checked' : null) }}
         </div>
         <div class="col-md-9">
-            {{ Form::select('package', ['' => ''], null, ['class' => 'form-control', 'id' => 'package', 'style' => 'visibility: hidden']) }}
+            {{ Form::select('package', $invoice->exists ? $packagepurchases : ['' => ''], $invoice->exists ? $invoice->packagepurchase_id : null, ['class' => 'form-control', 'id' => 'package', 'style' => $invoice->packagepurchase_id ? 'visibility: visible' : 'visibility: hidden']) }}
         </div>
     </div>
 
@@ -60,10 +57,10 @@
             Application Layout
         </div>
         <div class="col-md-1">
-            {{ Form::radio('type','layout') }}
+            {{ Form::radio('type','layout', $invoice->layoutpurchase_id ? 'checked' : null) }}
         </div>
         <div class="col-md-9">
-            {{ Form::select('layout', ['' => ''], null, ['class' => 'form-control', 'id' => 'layout', 'style' => 'visibility: hidden']) }}
+            {{ Form::select('layout', $invoice->exists ? $layoutpurchases : ['' => ''], $invoice->exists ? $invoice->layoutpurchase_id : null, ['class' => 'form-control', 'id' => 'layout', 'style' => $invoice->layoutpurchase_id ? 'visibility: visible' : 'visibility: hidden']) }}
         </div>
     </div>
 
@@ -72,19 +69,12 @@
     {{ Form::close() }}
 
     <script>
-        $(document).ready(function() {
-            if(document.getElementsByName('edit'))
-            {
-                getMemberData();
-            }
-        });
-
         var radio = document.invoiceForm.type;
         for (var i = 0; i < radio.length; i++) {
             radio[i].onclick = function () {
-                var inputs = document.getElementsByTagName('select');
-                for (var i = 0; i < inputs.length; i++) {
-                    inputs[i].style.visibility = 'hidden'
+                var selects = document.getElementsByTagName('select');
+                for (var i = 0; i < selects.length; i++) {
+                    selects[i].style.visibility = 'hidden'
                 }
                 document.getElementById(this.value).style.visibility = 'visible';
                 document.getElementById('members').style.visibility = 'visible';
@@ -93,6 +83,23 @@
         function getMemberData() {
             var member = document.getElementById("members");
             var selectedMember = member.options[member.selectedIndex].value;
+
+            var selects = document.getElementsByTagName('select');
+            for (var i = 0; i < selects.length; i++) {
+                selects[i].style.visibility = 'hidden';
+            }
+            document.getElementById('members').style.visibility = 'visible';
+
+            var radios = document.getElementsByName('type');
+            for (var j = 0; j < radios.length; j++) {
+                radios[j].checked = false;
+            }
+
+            document.getElementById('individualcoaching').options.length = 1;
+            document.getElementById('seminar').options.length = 1;
+            document.getElementById('package').options.length = 1;
+            document.getElementById('layout').options.length = 1;
+
             $.ajax(
                 {
                     type: 'GET',
@@ -101,7 +108,7 @@
                         id: selectedMember
                     },
                     success: function (data) {
-                        var coachings = $.map(data[0], function (value) {
+                        coachings = $.map(data[0], function (value) {
                             return [value];
                         });
                         var coaching = document.getElementById('individualcoaching');
