@@ -8,12 +8,12 @@
         @foreach($posts as $post)
             <li class="list-group-item">
                 <h4>
-                    <a href="#">{{ $post->title }}</a>
+                    <a href="{{ route('frontend.blog.detail', $post->id) }}">{{ $post->title }}</a>
                     <a href="{{ route('blog.edit', $post->id) }}" class="pull-right"><span
                                 class="glyphicon glyphicon-edit"></span></a>
                 </h4>
 
-                {!! $post->excerptHtml() !!}
+                {!! $post->shortExcerptHtml() !!}
             </li>
         @endforeach
     @endif

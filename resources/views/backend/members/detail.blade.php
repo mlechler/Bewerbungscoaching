@@ -115,7 +115,7 @@
                 @foreach($member->memberFiles as $file)
                     <div class="row">
                         <div class="col-md-5">
-                            {{ $file->name }}
+                            <a href="{{ $file->download }}" target="_blank">{{ $file->name }}</a>
                             <br><br>
                         </div>
                         <div class="col-md-2">

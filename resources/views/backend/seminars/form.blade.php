@@ -10,38 +10,38 @@
     ]) }}
 
     <div class="form-group">
-        {{ Form::label('title') }}
+        {{ Form::label('title') }} <span class="required">*</span>
         {{ Form::text('title', null, ['class' => 'form-control']) }}
     </div>
 
     <div class="form-group">
-        {{ Form::label('services') }}
+        {{ Form::label('services') }} <span class="required">*</span>
         {{ Form::text('services', null, ['class' => 'form-control']) }}
     </div>
 
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-                {{ Form::label('maximum_participants') }}
+                {{ Form::label('maximum_participants') }} <span class="required">*</span>
                 {{ Form::number('maxMembers', null, ['class' => 'form-control', 'min' => 0]) }}
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                {{ Form::label('duration') }}
+                {{ Form::label('duration') }} <span class="required">*</span>
                 {{ Form::number('duration', null, ['class' => 'form-control', 'min' => 0]) }}
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                {{ Form::label('price') }}
+                {{ Form::label('price') }} <span class="required">*</span>
                 {{ Form::number('price', null, ['class' => 'form-control', 'step' => '0.01', 'min' => 0]) }}
             </div>
         </div>
     </div>
 
     <div class="form-group">
-        {{ Form::label('description') }}
+        {{ Form::label('description') }} <span class="required">*</span>
         {{ Form::textarea('description', null, ['class' => 'form-control']) }}
     </div>
 
@@ -76,7 +76,10 @@
     {{ Form::close() }}
 
     <script>
-        new SimpleMDE().render();
+        new SimpleMDE({
+            toolbar: ["bold", "italic", "strikethrough", "heading", "|", "code", "quote", "unordered-list", "ordered-list",
+                "clean-block", "|", "link", "image", "table", "horizontal-rule", "|", "preview", "side-by-side", "fullscreen", "|", "guide"]
+        }).render();
 
         $('input[id=files]').change(function() {
             var names = [];

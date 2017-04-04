@@ -30,20 +30,18 @@ class LayoutPurchasesController extends Controller
 
     public function create(LayoutPurchase $layoutpurchase)
     {
-        $mem = Member::select('lastname', 'firstname')->get();
+        $mem = Member::select('id', 'lastname', 'firstname')->get();
         $members = ['' => ''];
         foreach ($mem as $member) {
-            array_push($members, $member->lastname.', '.$member->firstname);
+            $members[$member->id] = $member->lastname . ', ' . $member->firstname;
         }
-        array_unshift($members,'');
-        unset($members[0]);
 
         $applicationlayouts = ['' => ''] + ApplicationLayout::all()->pluck('title', 'id')->toArray();
 
         return view('backend.layoutpurchases.form', compact('layoutpurchase', 'members', 'applicationlayouts'));
     }
 
-    public function store(Requests\StoreLayoutPurchaseRequest $request)
+    public function store(Requests\Backend\StoreLayoutPurchaseRequest $request)
     {
         $layout = ApplicationLayout::findOrFail($request->applicationlayout_id);
         $price = $request->price_incl_discount > $layout->price ? $layout->price : $request->price_incl_discount;
@@ -74,20 +72,18 @@ class LayoutPurchasesController extends Controller
     {
         $layoutpurchase = LayoutPurchase::findOrFail($id);
 
-        $mem = Member::select('lastname', 'firstname')->get();
+        $mem = Member::select('id', 'lastname', 'firstname')->get();
         $members = ['' => ''];
         foreach ($mem as $member) {
-            array_push($members, $member->lastname.', '.$member->firstname);
+            $members[$member->id] = $member->lastname . ', ' . $member->firstname;
         }
-        array_unshift($members,'');
-        unset($members[0]);
 
         $applicationlayouts = ['' => ''] + ApplicationLayout::all()->pluck('title', 'id')->toArray();
 
         return view('backend.layoutpurchases.form', compact('layoutpurchase', 'members', 'applicationlayouts'));
     }
 
-    public function update(Requests\UpdateLayoutPurchaseRequest $request, $id)
+    public function update(Requests\Backend\UpdateLayoutPurchaseRequest $request, $id)
     {
         $layoutpurchase = LayoutPurchase::findOrFail($id);
 

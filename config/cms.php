@@ -6,11 +6,5 @@ return [
 
         'folder' => 'themes',
         'active' => 'default'
-    ],
-
-    'templates' => [
-
-        'page' => App\Templates\PageTemplate::class
-
     ]
 ];

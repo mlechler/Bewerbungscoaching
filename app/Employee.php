@@ -13,7 +13,7 @@ class Employee extends Authenticatable implements HasPresenter
     use Notifiable;
 
     protected $table = 'employees';
-    protected $fillable = ['lastname', 'firstname', 'birthday', 'phone', 'mobile', 'email', 'address_id', 'role_id', 'password', 'remember_token'];
+    protected $fillable = ['lastname', 'firstname', 'birthday', 'phone', 'mobile', 'email', 'address_id', 'role_id', 'color', 'password', 'remember_token'];
     protected $hidden = ['password', 'remember_token'];
     protected $dates = ['birthday', 'last_login_at'];
 
@@ -36,7 +36,11 @@ class Employee extends Authenticatable implements HasPresenter
         return $this->hasMany(Post::class);
     }
 
-    public function tasks(){
+    public function tasksCreated(){
+        return $this->hasMany(Task::class);
+    }
+
+    public function tasksProcessed(){
         return $this->hasMany(Task::class);
     }
 
@@ -68,5 +72,10 @@ class Employee extends Authenticatable implements HasPresenter
     public function individualCoachings()
     {
         return $this->hasMany(IndividualCoaching::class);
+    }
+
+    public function processedContactRequests()
+    {
+        return $this->hasMany(ContactRequest::class);
     }
 }

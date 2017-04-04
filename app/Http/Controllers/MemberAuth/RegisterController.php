@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\MemberAuth;
 
+use App\Address;
 use App\Member;
-use Validator;
+use App\Http\Requests;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Auth;
+use Cornford\Googlmapper\Facades\MapperFacade as Mapper;
 
 class RegisterController extends Controller
 {
@@ -23,78 +26,55 @@ class RegisterController extends Controller
 
     use RegistersUsers;
 
-    /**
-     * Where to redirect users after login / registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/home';
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('member.guest');
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
+    public function register(Requests\Frontend\RegisterNewMember $request)
     {
-        return Validator::make($data, [
-            'lastname' => 'required|max:255',
-            'firstname' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:members|unique:employees',
-            'password' => 'required|min:6|confirmed',
-        ]);
-    }
+        $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return Member
-     */
-    protected function create(array $data)
-    {
-        return Member::create([
-            'lastname' => $data['lastname'],
-            'firstname' => $data['firstname'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-            'birthday' => $data['birthday'],
-            'phone' => $data['phone'],
-            'mobile' => $data['mobile'],
-            'job' => $data['job'],
-            'employer' => $data['employer'],
-            'university' => $data['university'],
-            'courseofstudies' => $data['courseofstudies'],
+        if (!$address) {
+            $geo = Mapper::location('Germany' . $request->zip . $request->street . $request->housenumber);
+            $newaddress = Address::create(array(
+                'zip' => $request->zip,
+                'city' => $request->city,
+                'street' => $request->street,
+                'housenumber' => $request->housenumber,
+                'latitude' => $geo->getLatitude(),
+                'longitude' => $geo->getLongitude()
+            ));
+            $address = $newaddress;
+        }
+
+        $member = Member::create([
+            'lastname' => $request->lastname,
+            'firstname' => $request->firstname,
+            'birthday' => $request->birthday,
+            'phone' => $request->phone,
+            'mobile' => $request->mobile,
+            'email' => $request->email,
+            'address_id' => $address->id,
+            'role_id' => 3,
+            'job' => $request->job,
+            'employer' => $request->employer,
+            'university' => $request->university,
+            'courseofstudies' => $request->courseofstudies,
+            'password' => Hash::make($request->password),
             'remember_token' => Auth::viaRemember()
         ]);
+
+        Auth::guard('member')->loginUsingId($member->id);
+
+        return redirect('/')->with('status', 'Successfully registered. Welcome!');
     }
 
-    /**
-     * Show the application registration form.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function showRegistrationForm()
     {
         return view('auth.member.register');
     }
 
-    /**
-     * Get the guard to be used during registration.
-     *
-     * @return \Illuminate\Contracts\Auth\StatefulGuard
-     */
     protected function guard()
     {
         return Auth::guard('member');

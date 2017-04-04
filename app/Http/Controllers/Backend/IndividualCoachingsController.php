@@ -7,6 +7,7 @@ use App\Events\CancelCoaching;
 use App\Events\ChangeCoachingAddress;
 use App\Events\ChangeCoachingDateTime;
 use App\Events\MakeCoachingBooking;
+use App\Events\RemindCoachingBooking;
 use App\IndividualCoaching;
 use App\Employee;
 use App\Invoice;
@@ -14,6 +15,7 @@ use App\Member;
 use Carbon\Carbon;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
+use Cornford\Googlmapper\Facades\MapperFacade as Mapper;
 
 class IndividualCoachingsController extends Controller
 {
@@ -31,50 +33,54 @@ class IndividualCoachingsController extends Controller
         if (Auth::guard('employee')->user()->isAdmin()) {
             $coachings = IndividualCoaching::with('employee', 'member')->orderBy('created_at', 'desc')->paginate(10);
         } else {
-            $coachings = IndividualCoaching::with('employee', 'member')->where('employee_id', '=', Auth::guard('employee')->user()->id)->orderBy('created_at', 'desc')->paginate(10);
+            $coachings = IndividualCoaching::with('employee', 'member')->where('employee_id', '=', Auth::guard('employee')->id())->orderBy('created_at', 'desc')->paginate(10);
         }
+
+        $this->sendReminder();
+
         return view('backend.individualcoachings.index', compact('coachings'));
     }
 
     public function create(IndividualCoaching $coaching)
     {
         if (!Auth::guard('employee')->user()->isAdmin()) {
-            $emp = Employee::select('id', 'lastname', 'firstname')->whereId(Auth::guard('employee')->user()->id)->get();
+            $emp = Employee::select('id', 'lastname', 'firstname')->whereId(Auth::guard('employee')->id())->get();
             $employees = ['' => ''];
             foreach ($emp as $employee) {
                 $employees[$employee->id] = $employee->lastname . ', ' . $employee->firstname;
             }
         } else {
-            $emp = Employee::select('lastname', 'firstname')->get();
+            $emp = Employee::select('id','lastname', 'firstname')->get();
             $employees = ['' => ''];
             foreach ($emp as $employee) {
-                array_push($employees, $employee->lastname . ', ' . $employee->firstname);
+                $employees[$employee->id] = $employee->lastname . ', ' . $employee->firstname;
             }
             array_unshift($employees, '');
             unset($employees[0]);
         }
 
-        $mem = Member::select('lastname', 'firstname')->get();
+        $mem = Member::select('id', 'lastname', 'firstname')->get();
         $members = ['' => ''];
         foreach ($mem as $member) {
-            array_push($members, $member->lastname . ', ' . $member->firstname);
+            $members[$member->id] = $member->lastname . ', ' . $member->firstname;
         }
-        array_unshift($members, '');
-        unset($members[0]);
 
         return view('backend.individualcoachings.form', compact('coaching', 'employees', 'members'));
     }
 
-    public function store(Requests\StoreCoachingRequest $request)
+    public function store(Requests\Backend\StoreCoachingRequest $request)
     {
         $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 
         if (!$address) {
+            $geo = Mapper::location('Germany' . $request->zip . $request->street . $request->housenumber);
             $newaddress = Address::create(array(
                 'zip' => $request->zip,
                 'city' => $request->city,
                 'street' => $request->street,
-                'housenumber' => $request->housenumber
+                'housenumber' => $request->housenumber,
+                'latitude' => $geo->getLatitude(),
+                'longitude' => $geo->getLongitude()
             ));
             $address = $newaddress;
         }
@@ -90,6 +96,7 @@ class IndividualCoachingsController extends Controller
             'member_id' => $request->member_id,
             'address_id' => $address->id,
             'paid' => $request->trial == 'on' ? true : false,
+            'reminderSend' => false
         ));
 
         $invoice = Invoice::create(array(
@@ -112,42 +119,41 @@ class IndividualCoachingsController extends Controller
         $coaching = IndividualCoaching::findOrFail($id);
 
         if (!Auth::guard('employee')->user()->isAdmin()) {
-            $emp = Employee::select('id', 'lastname', 'firstname')->whereId(Auth::guard('employee')->user()->id)->get();
+            $emp = Employee::select('id', 'lastname', 'firstname')->whereId(Auth::guard('employee')->id())->get();
             $employees = ['' => ''];
             foreach ($emp as $employee) {
                 $employees[$employee->id] = $employee->lastname . ', ' . $employee->firstname;
             }
         } else {
-            $emp = Employee::select('lastname', 'firstname')->get();
+            $emp = Employee::select('id', 'lastname', 'firstname')->get();
             $employees = ['' => ''];
             foreach ($emp as $employee) {
-                array_push($employees, $employee->lastname . ', ' . $employee->firstname);
+                $employees[$employee->id] = $employee->lastname . ', ' . $employee->firstname;
             }
-            array_unshift($employees, '');
-            unset($employees[0]);
         }
 
-        $mem = Member::select('lastname', 'firstname')->get();
+        $mem = Member::select('id', 'lastname', 'firstname')->get();
         $members = ['' => ''];
         foreach ($mem as $member) {
-            array_push($members, $member->lastname . ', ' . $member->firstname);
+            $members[$member->id] = $member->lastname . ', ' . $member->firstname;
         }
-        array_unshift($members, '');
-        unset($members[0]);
 
         return view('backend.individualcoachings.form', compact('coaching', 'employees', 'members'));
     }
 
-    public function update(Requests\UpdateCoachingRequest $request, $id)
+    public function update(Requests\Backend\UpdateCoachingRequest $request, $id)
     {
         $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 
         if (!$address) {
+            $geo = Mapper::location('Germany' . $request->zip . $request->street . $request->housenumber);
             $newaddress = Address::create(array(
                 'zip' => $request->zip,
                 'city' => $request->city,
                 'street' => $request->street,
-                'housenumber' => $request->housenumber
+                'housenumber' => $request->housenumber,
+                'latitude' => $geo->getLatitude(),
+                'longitude' => $geo->getLongitude()
             ));
             $address = $newaddress;
         }
@@ -205,5 +211,21 @@ class IndividualCoachingsController extends Controller
         $coaching = IndividualCoaching::with('employee', 'member')->findOrFail($id);
 
         return view('backend.individualcoachings.detail', compact('coaching'));
+    }
+
+    public function sendReminder()
+    {
+        $coachings = IndividualCoaching::all();
+
+        foreach ($coachings as $coaching) {
+            if ($coaching->date->subDays(7) < Carbon::now()) {
+                if (!$coaching->reminderSend) {
+                    event(new RemindCoachingBooking($coaching));
+                    $coaching->fill(array(
+                        'reminderSend' => true
+                    ))->save();
+                }
+            }
+        }
     }
 }

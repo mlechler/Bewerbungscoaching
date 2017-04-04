@@ -17,13 +17,17 @@ class AddressTableSeeder extends Seeder
             'zip' => 71263,
             'city' => 'Weil der Stadt',
             'street' => 'Hauptstraße',
-            'housenumber' => '13'
+            'housenumber' => '13',
+            'latitude' => '48.76781',
+            'longitude' => '8.85230'
         ));
         Address::create(array(
             'zip' => 71034,
             'city' => 'Böblingen',
-            'street' => 'Nebenstraße',
-            'housenumber' => '25/1'
+            'street' => 'Herrenberger Straße',
+            'housenumber' => '140',
+            'latitude' => '48.67585',
+            'longitude' => '8.97656'
         ));
     }
 }

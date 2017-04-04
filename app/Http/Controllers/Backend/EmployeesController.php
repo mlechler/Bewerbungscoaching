@@ -9,10 +9,12 @@ use App\EmployeeFile;
 use App\EmployeeFreeTime;
 use App\IndividualCoaching;
 use App\Role;
-use Illuminate\Support\Facades\Storage;
+use Dropbox\WriteMode;
+use GrahamCampbell\Dropbox\Facades\Dropbox;
 use App\Http\Requests;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Cornford\Googlmapper\Facades\MapperFacade as Mapper;
 
 class EmployeesController extends Controller
 {
@@ -39,16 +41,19 @@ class EmployeesController extends Controller
         return view('backend.employees.form', compact('employee', 'roles'));
     }
 
-    public function store(Requests\StoreEmployeeRequest $request)
+    public function store(Requests\Backend\StoreEmployeeRequest $request)
     {
         $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 
         if (!$address) {
+            $geo = Mapper::location('Germany' . $request->zip . $request->street . $request->housenumber);
             $newaddress = Address::create(array(
                 'zip' => $request->zip,
                 'city' => $request->city,
                 'street' => $request->street,
-                'housenumber' => $request->housenumber
+                'housenumber' => $request->housenumber,
+                'latitude' => $geo->getLatitude(),
+                'longitude' => $geo->getLongitude()
             ));
             $address = $newaddress;
         }
@@ -62,6 +67,7 @@ class EmployeesController extends Controller
             'email' => $request->email,
             'address_id' => $address->id,
             'role_id' => $request->role_id,
+            'color' => $request->color,
             'password' => Hash::make($request->password),
             'remember_token' => Auth::viaRemember()
         ));
@@ -78,7 +84,7 @@ class EmployeesController extends Controller
     {
         $employee = Employee::findOrFail($id);
 
-        if (!Auth::guard('employee')->user()->isAdmin() && Auth::guard('employee')->user()->id != $employee->id) {
+        if (!Auth::guard('employee')->user()->isAdmin() && Auth::guard('employee')->id() != $employee->id) {
             return redirect()->back();
         }
 
@@ -87,16 +93,19 @@ class EmployeesController extends Controller
         return view('backend.employees.form', compact('employee', 'roles'));
     }
 
-    public function update(Requests\UpdateEmployeeRequest $request, $id)
+    public function update(Requests\Backend\UpdateEmployeeRequest $request, $id)
     {
         $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 
         if (!$address) {
+            $geo = Mapper::location('Germany' . $request->zip . $request->street . $request->housenumber);
             $newaddress = Address::create(array(
                 'zip' => $request->zip,
                 'city' => $request->city,
                 'street' => $request->street,
-                'housenumber' => $request->housenumber
+                'housenumber' => $request->housenumber,
+                'latitude' => $geo->getLatitude(),
+                'longitude' => $geo->getLongitude()
             ));
             $address = $newaddress;
         }
@@ -104,6 +113,7 @@ class EmployeesController extends Controller
         $employee = Employee::findOrFail($id);
 
         $oldrole = $employee->role_id;
+        $oldpw = $employee->password;
 
         $employee->fill(array(
             'lastname' => $request->lastname,
@@ -114,7 +124,8 @@ class EmployeesController extends Controller
             'email' => $request->email,
             'address_id' => $address->id,
             'role_id' => $request->role_id ? $request->role_id : $oldrole,
-            'password' => Hash::make($request->password),
+            'color' => $request->color,
+            'password' => $request->password ? Hash::make($request->password) : $oldpw,
             'remember_token' => Auth::viaRemember()
         ))->save();
 
@@ -124,21 +135,21 @@ class EmployeesController extends Controller
         }
 
         if (!Auth::guard('employee')->user()->isAdmin()) {
-            return redirect(route('employees.edit', Auth::guard('employee')->user()->id))->with('status', 'Your Information has been updated.');
+            return redirect(route('employees.edit', Auth::guard('employee')->id()))->with('status', 'Your Information has been updated.');
         } else {
             return redirect(route('employees.index'))->with('status', 'Employee has been updated.');
         }
     }
 
 
-    public function confirm(Requests\DeleteEmployeeRequest $request, $id)
+    public function confirm(Requests\Backend\DeleteEmployeeRequest $request, $id)
     {
         $employee = Employee::findOrFail($id);
 
         return view('backend.employees.confirm', compact('employee'));
     }
 
-    public function destroy(Requests\DeleteEmployeeRequest $request, $id)
+    public function destroy(Requests\Backend\DeleteEmployeeRequest $request, $id)
     {
         Employee::destroy($id);
 
@@ -154,7 +165,7 @@ class EmployeesController extends Controller
     {
         $employee = Employee::findOrFail($id);
 
-        if (!Auth::guard('employee')->user()->isAdmin() && Auth::guard('employee')->user()->id != $employee->id) {
+        if (!Auth::guard('employee')->user()->isAdmin() && Auth::guard('employee')->id() != $employee->id) {
             return redirect()->back();
         }
 
@@ -166,22 +177,25 @@ class EmployeesController extends Controller
         foreach ($files as $file) {
             $fileName = $file->getClientOriginalName();
             $fileType = $file->getClientMimeType();
-            $destinationPath = config('app.fileDestinationPath') . '/employees/' . $employee_id . '/' . $fileName;
-            $uploaded = Storage::put($destinationPath, file_get_contents($file->getRealPath()));
+            $destinationPath = '/employees/' . $employee_id . '/' . $fileName;
 
-            if ($uploaded) {
-                $employeefile = EmployeeFile::where('path', '=', $destinationPath)->first();
+            Dropbox::uploadFileFromString($destinationPath, WriteMode::force(), file_get_contents($file));
 
-                if (!$employeefile) {
-                    EmployeeFile::create(array(
-                        'name' => $fileName,
-                        'path' => $destinationPath,
-                        'type' => $fileType,
-                        'size' => filesize($file),
-                        'employee_id' => $employee_id
-                    ));
-                }
+            $employeefile = EmployeeFile::where('path', '=', $destinationPath)->first();
+
+            $downloadLink = Dropbox::createShareableLink($destinationPath);
+
+            if (!$employeefile) {
+                EmployeeFile::create(array(
+                    'name' => $fileName,
+                    'path' => $destinationPath,
+                    'type' => $fileType,
+                    'size' => filesize($file),
+                    'employee_id' => $employee_id,
+                    'download' => $downloadLink
+                ));
             }
+
         }
     }
 
@@ -189,10 +203,12 @@ class EmployeesController extends Controller
     {
         $employeefiles = EmployeeFile::all()->where('employee_id', '=', $employee_id);
 
-        foreach ($employeefiles as $employeefile) {
-            Storage::delete($employeefile->path);
+        if ($employeefiles) {
+            foreach ($employeefiles as $employeefile) {
+                Dropbox::delete($employeefile->path);
 
-            EmployeeFile::destroy($employeefile->id);
+                EmployeeFile::destroy($employeefile->id);
+            }
         }
     }
 
@@ -200,7 +216,7 @@ class EmployeesController extends Controller
     {
         $employeefile = EmployeeFile::findOrFail($file_id);
 
-        Storage::delete($employeefile->path);
+        Dropbox::delete($employeefile->path);
 
         EmployeeFile::destroy($file_id);
 

@@ -3,26 +3,29 @@
 Route::group(['prefix' => 'employee'], function () {
     Route::get('/login', ['as' => 'employee.login', 'uses' => 'EmployeeAuth\LoginController@showLoginForm']);
     Route::post('/login', ['as' => 'employee.login', 'uses' => 'EmployeeAuth\LoginController@login']);
-    Route::get('/logout', 'EmployeeAuth\LoginController@logout');
+    Route::get('/logout', ['as' => 'employee.logout', 'uses' => 'EmployeeAuth\LoginController@logout']);
 
-    Route::post('/password/email', 'EmployeeAuth\ForgotPasswordController@sendResetLinkEmail');
-    Route::post('/password/reset', 'EmployeeAuth\ResetPasswordController@reset');
-    Route::get('/password/reset', 'EmployeeAuth\ForgotPasswordController@showLinkRequestForm');
-    Route::get('/password/reset/{token}', 'EmployeeAuth\ResetPasswordController@showResetForm');
+    Route::post('/password/email', ['as' => 'employee.password.email', 'uses' => 'EmployeeAuth\ForgotPasswordController@sendResetLinkEmail']);
+    Route::post('/password/reset', ['as' => 'employee.password.reset', 'uses' => 'EmployeeAuth\ResetPasswordController@reset']);
+    Route::get('/password/reset', ['as' => 'employee.password.reset', 'uses' => 'EmployeeAuth\ForgotPasswordController@showLinkRequestForm']);
+    Route::get('/password/reset/{token}', ['as' => 'employee.password.reset.token', 'uses' => 'EmployeeAuth\ResetPasswordController@showResetForm']);
 });
 
 Route::group(['prefix' => 'member'], function () {
     Route::get('/login', ['as' => 'member.login', 'uses' => 'MemberAuth\LoginController@showLoginForm']);
     Route::post('/login', ['as' => 'member.login', 'uses' => 'MemberAuth\LoginController@login']);
-    Route::get('/logout', 'MemberAuth\LoginController@logout');
+    Route::get('/logout', ['as' => 'member.logout', 'uses' => 'MemberAuth\LoginController@logout']);
 
     Route::get('/register', ['as' => 'member.register', 'uses' => 'MemberAuth\RegisterController@showRegistrationForm']);
     Route::post('/register', ['as' => 'member.register', 'uses' => 'MemberAuth\RegisterController@register']);
 
-    Route::post('/password/email', 'MemberAuth\ForgotPasswordController@sendResetLinkEmail');
-    Route::post('/password/reset', 'MemberAuth\ResetPasswordController@reset');
-    Route::get('/password/reset', 'MemberAuth\ForgotPasswordController@showLinkRequestForm');
-    Route::get('/password/reset/{token}', 'MemberAuth\ResetPasswordController@showResetForm');
+    Route::post('/password/email', ['as' => 'member.password.email', 'uses' => 'MemberAuth\ForgotPasswordController@sendResetLinkEmail']);
+    Route::post('/password/reset', ['as' => 'member.password.reset', 'uses' => 'MemberAuth\ResetPasswordController@reset']);
+    Route::get('/password/reset', ['as' => 'member.password.reset', 'uses' => 'MemberAuth\ForgotPasswordController@showLinkRequestForm']);
+    Route::get('/password/reset/{token}', ['as' => 'member.password.reset.token', 'uses' => 'MemberAuth\ResetPasswordController@showResetForm']);
+
+    Route::get('/password/update', ['as' => 'member.password.update', 'uses' => 'MemberAuth\UpdatePasswordController@showUpdateForm']);
+    Route::post('/password/update', ['as' => 'member.password.update', 'uses' => 'MemberAuth\UpdatePasswordController@update']);
 });
 
 Route::group(['prefix' => 'backend'], function () {
@@ -44,6 +47,7 @@ Route::group(['prefix' => 'backend'], function () {
 
         Route::get('/seminarappointments/{seminarappointment}/confirm', ['as' => 'seminarappointments.confirm', 'uses' => 'Backend\AppointmentsController@confirm']);
         Route::get('/seminarappointments/{seminarappointment}/removeparticipant/{participant}', ['as' => 'seminarappointments.removeParticipant', 'uses' => 'Backend\AppointmentsController@removeParticipant']);
+        Route::get('/seminarappointments/{seminarappointment}/participantpaid/{participant}', ['as' => 'seminarappointments.participantPaid', 'uses' => 'Backend\AppointmentsController@participantPaid']);
         Route::resource('/seminarappointments', 'Backend\AppointmentsController');
 
         Route::get('/seminarbookings/{seminarbooking}/confirm', ['as' => 'seminarbookings.confirm', 'uses' => 'Backend\BookingsController@confirm']);
@@ -74,24 +78,22 @@ Route::group(['prefix' => 'backend'], function () {
         Route::get('/discounts/{discount}/detail', ['as' => 'discounts.detail', 'uses' => 'Backend\DiscountsController@detail']);
         Route::resource('/discounts', 'Backend\DiscountsController');
 
-        Route::get('/memberdiscounts/{memberdiscount}/confirm', ['as' => 'memberdiscounts.confirm', 'uses' => 'Backend\MemberDiscountsController@confirm']);
-        Route::get('/memberdiscounts/{memberdiscount}/detail', ['as' => 'memberdiscounts.detail', 'uses' => 'Backend\MemberDiscountsController@detail']);
-        Route::resource('/memberdiscounts', 'Backend\MemberDiscountsController');
-
         Route::get('/invoices/{invoice}/confirm', ['as' => 'invoices.confirm', 'uses' => 'Backend\InvoicesController@confirm']);
         Route::get('/invoices/{invoice}/detail', ['as' => 'invoices.detail', 'uses' => 'Backend\InvoicesController@detail']);
+        Route::get('/invoices/memberdata', ['as' => 'invoices.memberData', 'uses' => 'Backend\InvoicesController@getMemberData']);
         Route::resource('/invoices', 'Backend\InvoicesController');
 
         Route::get('/pages/{page}/confirm', ['as' => 'pages.confirm', 'uses' => 'Backend\PagesController@confirm']);
         Route::get('/pages/{page}/detail', ['as' => 'pages.detail', 'uses' => 'Backend\PagesController@detail']);
         Route::resource('/pages', 'Backend\PagesController');
 
-        Route::get('/blog/{blog}/confirm', ['as' => 'blog.confirm', 'uses' => 'Backend\BlogController@confirm']);
-        Route::resource('/blog', 'Backend\BlogController');
-
         Route::get('/todo/{todo}/confirm', ['as' => 'todo.confirm', 'uses' => 'Backend\TasksController@confirm']);
         Route::post('/todo/delete', ['as' => 'todo.deleteAllFinishedTasks', 'uses' => 'Backend\TasksController@deleteAllFinishedTasks']);
         Route::resource('/todo', 'Backend\TasksController');
+
+        Route::get('/contact/{contact}/confirm', ['as' => 'contact.confirm', 'uses' => 'Backend\ContactController@confirm']);
+        Route::delete('/contact/{contact}', ['as' => 'contact.destroy', 'uses' => 'Backend\ContactController@destroy']);
+        Route::post('/contact/delete', ['as' => 'contact.deleteAllFinishedRequests', 'uses' => 'Backend\ContactController@deleteAllFinishedRequests']);
     });
     Route::get('/employees/{employee}/detail', ['as' => 'employees.detail', 'uses' => 'Backend\EmployeesController@detail']);
     Route::resource('/employees', 'Backend\EmployeesController', ['only' => ['edit', 'update']]);
@@ -109,6 +111,7 @@ Route::group(['prefix' => 'backend'], function () {
     Route::resource('/seminars', 'Backend\SeminarsController', ['only' => ['index']]);
 
     Route::get('/seminarappointments/{seminarappointment}/detail', ['as' => 'seminarappointments.detail', 'uses' => 'Backend\AppointmentsController@detail']);
+    Route::get('/seminarappointments/{seminarappointment}/list', ['as' => 'seminarappointments.list', 'uses' => 'Backend\AppointmentsController@createList']);
     Route::resource('/seminarappointments', 'Backend\AppointmentsController', ['only' => ['index']]);
 
     Route::get('/individualcoachings/{individualcoaching}/detail', ['as' => 'individualcoachings.detail', 'uses' => 'Backend\IndividualCoachingsController@detail']);
@@ -120,14 +123,73 @@ Route::group(['prefix' => 'backend'], function () {
     Route::get('/packagepurchases/{packagepurchase}/detail', ['as' => 'packagepurchases.detail', 'uses' => 'Backend\PackagePurchasesController@detail']);
     Route::post('/packagepurchases/{packagepurchase}/uploadpackagefile', ['as' => 'packagepurchases.uploadPackageFile', 'uses' => 'Backend\PackagePurchasesController@uploadPackageFile']);
 
+    Route::get('/blog/{blog}/confirm', ['as' => 'blog.confirm', 'uses' => 'Backend\BlogController@confirm']);
     Route::get('/blog/{blog}/detail', ['as' => 'blog.detail', 'uses' => 'Backend\BlogController@detail']);
-    Route::resource('/blog', 'Backend\BlogController', ['only' => ['index', 'create', 'store', 'edit', 'update']]);
+    Route::get('/blog/{blog}/delete', ['as' => 'blog.deleteImage', 'uses' => 'Backend\BlogController@deleteImage']);
+    Route::resource('/blog', 'Backend\BlogController');
 
     Route::get('/todo/{todo}/detail', ['as' => 'todo.detail', 'uses' => 'Backend\TasksController@detail']);
     Route::get('/todo/{todo}/finished', ['as' => 'todo.finishedTask', 'uses' => 'Backend\TasksController@taskFinished']);
+    Route::get('/todo/{todo}/process', ['as' => 'todo.processTask', 'uses' => 'Backend\TasksController@taskProcessing']);
     Route::resource('/todo', 'Backend\TasksController', ['only' => ['index', 'create', 'store', 'edit', 'update']]);
+
+    Route::get('/contact', ['as' => 'contact.index', 'uses' => 'Backend\ContactController@index']);
+    Route::get('/contact/{contact}/detail', ['as' => 'contact.detail', 'uses' => 'Backend\ContactController@detail']);
+    Route::get('/contact/{contact}/process', ['as' => 'contact.processRequest', 'uses' => 'Backend\ContactController@requestProcessing']);
+    Route::get('/contact/{contact}/finished', ['as' => 'contact.finishedRequest', 'uses' => 'Backend\ContactController@requestFinished']);
 });
 
-Route::get('/', function () {
-    return view('frontend.welcome');
+Route::group([], function () {
+    Route::get('/', ['as' => 'frontend.welcome.index', 'uses' => 'Frontend\WelcomeController@index']);
+    Route::group(['middleware' => 'member'], function () {
+        Route::get('/myinformation', ['as' => 'frontend.myinformation.index', 'uses' => 'Frontend\MyInformationController@index']);
+        Route::get('/myinformation/edit', ['as' => 'frontend.myinformation.edit', 'uses' => 'Frontend\MyInformationController@edit']);
+        Route::post('/myinformation/edit', ['as' => 'frontend.myinformation.update', 'uses' => 'Frontend\MyInformationController@update']);
+        Route::get('/myinformation/files', ['as' => 'frontend.myinformation.files', 'uses' => 'Frontend\MyInformationController@manageFiles']);
+        Route::post('/myinformation/files', ['as' => 'frontend.myinformation.files', 'uses' => 'Frontend\MyInformationController@uploadFiles']);
+        Route::get('/myinformation/files/delete', ['as' => 'frontend.myinformation.deleteAllFiles', 'uses' => 'Frontend\MyInformationController@deleteAllFiles']);
+        Route::get('/myinformation/files/{file}/delete', ['as' => 'frontend.myinformation.deleteFile', 'uses' => 'Frontend\MyInformationController@deleteFile']);
+
+        Route::get('/bank/{type}/{id}', ['as' => 'frontend.bank.index', 'uses' => 'Frontend\PagesController@bank']);
+
+        Route::get('/seminars/execute/{id}', ['as' => 'frontend.seminars.execute', 'uses' => 'Frontend\SeminarsController@executePayment']);
+        Route::post('/seminars/makeBooking/{appointment}', ['as' => 'frontend.seminars.makeBooking', 'uses' => 'Frontend\SeminarsController@makeBooking']);
+
+        Route::get('/individualcoachings/detail/{id}', ['as' => 'frontend.individualcoachings.detail', 'uses' => 'Frontend\IndividualCoachingsController@detail']);
+        Route::get('/individualcoachings/execute/{id}', ['as' => 'frontend.individualcoachings.execute', 'uses' => 'Frontend\IndividualCoachingsController@executePayment']);
+        Route::post('/individualcoachings/makeBooking/{id}', ['as' => 'frontend.individualcoachings.makeBooking', 'uses' => 'Frontend\IndividualCoachingsController@makeBooking']);
+
+        Route::get('/applicationlayouts/execute/{id}', ['as' => 'frontend.applicationlayouts.execute', 'uses' => 'Frontend\ApplicationLayoutsController@executePayment']);
+        Route::post('/applicationlayouts/purchase/{layout}', ['as' => 'frontend.applicationlayouts.purchase', 'uses' => 'Frontend\ApplicationLayoutsController@purchase']);
+
+        Route::get('/applicationpackages/execute/{id}', ['as' => 'frontend.applicationpackages.execute', 'uses' => 'Frontend\ApplicationPackagesController@executePayment']);
+        Route::post('/applicationpackages/purchase/{package}', ['as' => 'frontend.applicationpackages.purchase', 'uses' => 'Frontend\ApplicationPackagesController@purchase']);
+    });
+
+    Route::get('/seminars', ['as' => 'frontend.seminars.index', 'uses' => 'Frontend\SeminarsController@index']);
+
+    Route::get('/individualcoachings', ['as' => 'frontend.individualcoachings.index', 'uses' => 'Frontend\IndividualCoachingsController@index']);
+    Route::get('/individualcoachings/contact', ['as' => 'frontend.individualcoachings.contact', 'uses' => 'Frontend\IndividualCoachingsController@contact']);
+    Route::post('/individualcoachings/contact', ['as' => 'frontend.individualcoachings.contact', 'uses' => 'Frontend\IndividualCoachingsController@contactStore']);
+
+    Route::get('/applicationdocuments', ['as' => 'frontend.applicationdocuments.index', 'uses' => 'Frontend\ApplicationDocumentsController@index']);
+
+    Route::get('/applicationpackages', ['as' => 'frontend.applicationpackages.index', 'uses' => 'Frontend\ApplicationPackagesController@index']);
+
+    Route::get('/applicationlayouts', ['as' => 'frontend.applicationlayouts.index', 'uses' => 'Frontend\ApplicationLayoutsController@index']);
+
+    Route::get('/blog', ['as' => 'frontend.blog.index', 'uses' => 'Frontend\BlogController@index']);
+    Route::get('/blog/{blog}', ['as' => 'frontend.blog.detail', 'uses' => 'Frontend\BlogController@detail']);
+
+    //Generate the dynamic pages
+    foreach (\App\Page::all() as $page) {
+        Route::get($page->uri, ['as' => 'frontend.' . $page->name . '.index', function () use ($page) {
+            return $this->app->call('App\Http\Controllers\Frontend\PagesController@show', [
+                'page' => $page,
+                'parameters' => Route::current()->parameters()
+            ]);
+        }]);
+    }
+
+    Route::post('/contact', ['as' => 'frontend.contact.store', 'uses' => 'Frontend\ContactController@store']);
 });

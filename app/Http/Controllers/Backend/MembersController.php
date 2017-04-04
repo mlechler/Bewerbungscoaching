@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Booking;
 use App\Events\UploadMemberFile;
 use App\IndividualCoaching;
+use App\Invoice;
 use App\LayoutPurchase;
 use App\Member;
 use App\Address;
@@ -13,11 +14,13 @@ use App\MemberFile;
 use App\PackagePurchase;
 use App\Role;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Storage;
+use Dropbox\WriteMode;
+use GrahamCampbell\Dropbox\Facades\Dropbox;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Cornford\Googlmapper\Facades\MapperFacade as Mapper;
 
 class MembersController extends Controller
 {
@@ -44,16 +47,19 @@ class MembersController extends Controller
         return view('backend.members.form', compact('member', 'roles'));
     }
 
-    public function store(Requests\StoreMemberRequest $request)
+    public function store(Requests\Backend\StoreMemberRequest $request)
     {
         $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 
         if (!$address) {
+            $geo = Mapper::location('Germany' . $request->zip . $request->street . $request->housenumber);
             $newaddress = Address::create(array(
                 'zip' => $request->zip,
                 'city' => $request->city,
                 'street' => $request->street,
-                'housenumber' => $request->housenumber
+                'housenumber' => $request->housenumber,
+                'latitude' => $geo->getLatitude(),
+                'longitude' => $geo->getLongitude()
             ));
             $address = $newaddress;
         }
@@ -94,21 +100,26 @@ class MembersController extends Controller
         return view('backend.members.form', compact('member', 'roles'));
     }
 
-    public function update(Requests\UpdateMemberRequest $request, $id)
+    public function update(Requests\Backend\UpdateMemberRequest $request, $id)
     {
         $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 
         if (!$address) {
+            $geo = Mapper::location('Germany' . $request->zip . $request->street . $request->housenumber);
             $newaddress = Address::create(array(
                 'zip' => $request->zip,
                 'city' => $request->city,
                 'street' => $request->street,
-                'housenumber' => $request->housenumber
+                'housenumber' => $request->housenumber,
+                'latitude' => $geo->getLatitude(),
+                'longitude' => $geo->getLongitude()
             ));
             $address = $newaddress;
         }
 
         $member = Member::findOrFail($id);
+
+        $oldpw = $member->password;
 
         $member->fill(array(
             'lastname' => $request->lastname,
@@ -123,7 +134,7 @@ class MembersController extends Controller
             'employer' => $request->employer,
             'university' => $request->university,
             'courseofstudies' => $request->courseofstudies,
-            'password' => Hash::make($request->password),
+            'password' => $request->password ? Hash::make($request->password) : $oldpw,
             'remember_token' => Auth::viaRemember()
         ))->save();
 
@@ -154,6 +165,7 @@ class MembersController extends Controller
         $this->deleteDiscounts($id);
         $this->deleteLayouts($id);
         $this->deletePackages($id);
+        $this->deleteInvoices($id);
 
         return redirect(route('members.index'))->with('status', 'Member has been deleted.');
     }
@@ -170,36 +182,39 @@ class MembersController extends Controller
         foreach ($files as $file) {
             $fileName = $file->getClientOriginalName();
             $fileType = $file->getClientMimeType();
-            $destinationPath = config('app.fileDestinationPath') . '/members/' . $member_id . '/' . $fileName;
-            $uploaded = Storage::put($destinationPath, file_get_contents($file->getRealPath()));
+            $destinationPath = '/members/' . $member_id . '/' . $fileName;
 
-            if ($uploaded) {
-                $memberfile = MemberFile::where('path', '=', $destinationPath)->first();
+            Dropbox::uploadFileFromString($destinationPath, WriteMode::force(), file_get_contents($file));
 
-                if (!$memberfile) {
-                    MemberFile::create(array(
-                        'name' => $fileName,
-                        'path' => $destinationPath,
-                        'type' => $fileType,
-                        'size' => filesize($file),
-                        'member_id' => $member_id,
-                        'checked' => false
-                    ));
-                } elseif ($memberfile) {
-                    $memberfile->fill(array(
-                        'name' => $fileName,
-                        'path' => $destinationPath,
-                        'type' => $fileType,
-                        'size' => filesize($file),
-                        'member_id' => $member_id,
-                        'checked' => true
-                    ))->save();
-                }
+            $memberfile = MemberFile::where('path', '=', $destinationPath)->first();
+
+            $downloadLink = Dropbox::createShareableLink($destinationPath);
+
+            if (!$memberfile) {
+                MemberFile::create(array(
+                    'name' => $fileName,
+                    'path' => $destinationPath,
+                    'type' => $fileType,
+                    'size' => filesize($file),
+                    'member_id' => $member_id,
+                    'checked' => false,
+                    'download' => $downloadLink
+                ));
+            } elseif ($memberfile) {
+                $memberfile->fill(array(
+                    'name' => $fileName,
+                    'path' => $destinationPath,
+                    'type' => $fileType,
+                    'size' => filesize($file),
+                    'member_id' => $member_id,
+                    'checked' => true,
+                    'download' => $downloadLink
+                ))->save();
             }
         }
     }
 
-    public function deleteAllFiles(Requests\DeleteAllMemberFilesRequest $request)
+    public function deleteAllFiles(Requests\Backend\DeleteAllMemberFilesRequest $request)
     {
         switch ($request->timerange) {
             case 'one':
@@ -215,8 +230,11 @@ class MembersController extends Controller
 
         $files = MemberFile::where('updated_at', '<=', $date)->get();
 
-        foreach ($files as $file) {
-            MemberFile::destroy($file->id);
+        if ($files) {
+            foreach ($files as $file) {
+                MemberFile::destroy($file->id);
+                Dropbox::delete($file->path);
+            }
         }
         return redirect(route('members.index'))->with('status', 'Files have been deleted.');
     }
@@ -235,10 +253,12 @@ class MembersController extends Controller
     {
         $memberfiles = MemberFile::all()->where('member_id', '=', $member_id);
 
-        foreach ($memberfiles as $memberfile) {
-            Storage::delete($memberfile->path);
+        if ($memberfiles) {
+            foreach ($memberfiles as $memberfile) {
+                Dropbox::delete($memberfile->path);
 
-            MemberFile::destroy($memberfile->id);
+                MemberFile::destroy($memberfile->id);
+            }
         }
     }
 
@@ -246,7 +266,7 @@ class MembersController extends Controller
     {
         $memberfile = MemberFile::findOrFail($file_id);
 
-        Storage::delete($memberfile->path);
+        Dropbox::delete($memberfile->path);
 
         MemberFile::destroy($file_id);
 
@@ -294,9 +314,18 @@ class MembersController extends Controller
         $packages = PackagePurchase::all()->where('member_id', '=', $member_id);
 
         foreach ($packages as $package) {
-            Storage::delete($package->path);
+            Dropbox::delete($package->path);
 
             PackagePurchase::destroy($package->id);
+        }
+    }
+
+    public function deleteInvoices($member_id)
+    {
+        $invoices = Invoice::all()->where('member_id', '=', $member_id);
+
+        foreach ($invoices as $invoice) {
+            Invoice::destroy($invoice->id);
         }
     }
 }

@@ -6,7 +6,8 @@ use App\Appointment;
 use App\Booking;
 use App\Seminar;
 use App\SeminarFile;
-use Illuminate\Support\Facades\Storage;
+use Dropbox\WriteMode;
+use GrahamCampbell\Dropbox\Facades\Dropbox;
 use App\Http\Requests;
 
 class SeminarsController extends Controller
@@ -32,7 +33,7 @@ class SeminarsController extends Controller
         return view('backend.seminars.form', compact('seminar'));
     }
 
-    public function store(Requests\StoreSeminarRequest $request)
+    public function store(Requests\Backend\StoreSeminarRequest $request)
     {
         $seminar = Seminar::create(array(
             'title' => $request->title,
@@ -46,7 +47,6 @@ class SeminarsController extends Controller
         if ($request->hasFile('files')) {
             $files = $request->file('files');
             $this->storeFiles($files, $seminar->id);
-
         }
 
         return redirect(route('seminars.index'))->with('status', 'Seminar has been created.');
@@ -59,7 +59,7 @@ class SeminarsController extends Controller
         return view('backend.seminars.form', compact('seminar'));
     }
 
-    public function update(Requests\UpdateSeminarRequest $request, $id)
+    public function update(Requests\Backend\UpdateSeminarRequest $request, $id)
     {
         $seminar = Seminar::findOrFail($id);
 
@@ -110,21 +110,23 @@ class SeminarsController extends Controller
         foreach ($files as $file) {
             $fileName = $file->getClientOriginalName();
             $fileType = $file->getClientMimeType();
-            $destinationPath = config('app.fileDestinationPath') . '/seminars/' . $seminar_id . '/' . $fileName;
-            $uploaded = Storage::put($destinationPath, file_get_contents($file->getRealPath()));
+            $destinationPath = '/seminars/' . $seminar_id . '/' . $fileName;
 
-            if ($uploaded) {
-                $seminarfile = SeminarFile::where('path', '=', $destinationPath)->first();
+            Dropbox::uploadFileFromString($destinationPath, WriteMode::force(), file_get_contents($file));
 
-                if (!$seminarfile) {
-                    SeminarFile::create(array(
-                        'name' => $fileName,
-                        'path' => $destinationPath,
-                        'type' => $fileType,
-                        'size' => filesize($file),
-                        'seminar_id' => $seminar_id
-                    ));
-                }
+            $seminarfile = SeminarFile::where('path', '=', $destinationPath)->first();
+
+            $downloadLink = Dropbox::createShareableLink($destinationPath);
+
+            if (!$seminarfile) {
+                SeminarFile::create(array(
+                    'name' => $fileName,
+                    'path' => $destinationPath,
+                    'type' => $fileType,
+                    'size' => filesize($file),
+                    'seminar_id' => $seminar_id,
+                    'download' => $downloadLink
+                ));
             }
         }
     }
@@ -133,7 +135,7 @@ class SeminarsController extends Controller
     {
         $seminarfile = SeminarFile::findOrFail($file_id);
         SeminarFile::destroy($file_id);
-        Storage::delete($seminarfile->path);
+        Dropbox::delete($seminarfile->path);
 
         return redirect()->back()->with('status', 'File has been deleted.');
     }
@@ -141,10 +143,11 @@ class SeminarsController extends Controller
     public function deleteFiles($seminar_id)
     {
         $seminarfiles = SeminarFile::all()->where('seminar_id', '=', $seminar_id);
-
-        foreach ($seminarfiles as $seminarfile) {
-            SeminarFile::destroy($seminarfile->id);
-            Storage::delete($seminarfile->path);
+        if ($seminarfiles) {
+            foreach ($seminarfiles as $seminarfile) {
+                SeminarFile::destroy($seminarfile->id);
+                Dropbox::delete($seminarfile->path);
+            }
         }
     }
 

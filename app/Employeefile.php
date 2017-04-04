@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class EmployeeFile extends Model
 {
     protected $table = 'employeefiles';
-    protected $fillable = ['name', 'type', 'size', 'path', 'employee_id'];
+    protected $fillable = ['name', 'type', 'size', 'path', 'employee_id', 'download'];
 
     public function employee()
     {

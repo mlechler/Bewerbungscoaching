@@ -32,9 +32,23 @@ elixir(function (mix) {
     mix.copy('node_modules/simplemde/dist/simplemde.min.css', elixir.config.publicPath + '/css/simplemde.css');
     mix.copy('node_modules/simplemde/dist/simplemde.min.js', elixir.config.publicPath + '/js/simplemde.js');
 
+    mix.copy('node_modules/fullcalendar/dist/fullcalendar.min.css', elixir.config.publicPath + '/css/fullcalendar.css');
+    mix.copy('node_modules/fullcalendar/dist/fullcalendar.min.js', elixir.config.publicPath + '/js/fullcalendar.js');
+    mix.copy('node_modules/fullcalendar/dist/gcal.min.js', elixir.config.publicPath + '/js/gcal.js');
+    mix.copy('node_modules/fullcalendar/dist/locale-all.js', elixir.config.publicPath + '/js/locale-all.js');
+
+    mix.copy('node_modules/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css', elixir.config.publicPath + '/css/bootstrap-colorpicker.css');
+    mix.copy('node_modules/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js', elixir.config.publicPath + '/js/bootstrap-colorpicker.js');
+    mix.copy('node_modules/bootstrap-colorpicker/dist/img/bootstrap-colorpicker/alpha.png', elixir.config.publicPath + '/img/bootstrap-colorpicker/alpha.png');
+    mix.copy('node_modules/bootstrap-colorpicker/dist/img/bootstrap-colorpicker/alpha-horizontal.png', elixir.config.publicPath + '/img/bootstrap-colorpicker/alpha-horizontal.png');
+    mix.copy('node_modules/bootstrap-colorpicker/dist/img/bootstrap-colorpicker/hue.png', elixir.config.publicPath + '/img/bootstrap-colorpicker/hue.png');
+    mix.copy('node_modules/bootstrap-colorpicker/dist/img/bootstrap-colorpicker/hue-horizontal.png', elixir.config.publicPath + '/img/bootstrap-colorpicker/hue-horizontal.png');
+    mix.copy('node_modules/bootstrap-colorpicker/dist/img/bootstrap-colorpicker/saturation.png', elixir.config.publicPath + '/img/bootstrap-colorpicker/saturation.png');
+
     mix.scripts([
         'jquery.js', 'bootstrap.js', 'moment.js',
-        'simplemde.js', 'datepicker.js'
+        'simplemde.js', 'datepicker.js', 'fullcalendar.js',
+        'gcal.js', 'locale-all.js', 'bootstrap-colorpicker.js'
     ]);
 
     mix.sass('backend.scss');

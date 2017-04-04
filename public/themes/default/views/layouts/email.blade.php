@@ -69,7 +69,7 @@
                 </thead>
                 <tr>
                     <td align="center">
-                        You can contact us <a href="">here</a><br>
+                        You can contact us <a href="{{ url('/contact') }}">here</a><br>
                         or call us via +49 1234 56789.
                     </td>
                     <td align="center">

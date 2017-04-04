@@ -29,7 +29,7 @@ class ApplicationPackagesController extends Controller
         return view('backend.applicationpackages.form', compact('package'));
     }
 
-    public function store(Requests\StorePackageRequest $request)
+    public function store(Requests\Backend\StorePackageRequest $request)
     {
         ApplicationPackage::create(array(
             'title' => $request->title,
@@ -47,7 +47,7 @@ class ApplicationPackagesController extends Controller
         return view('backend.applicationpackages.form', compact('package'));
     }
 
-    public function update(Requests\UpdatePackageRequest $request, $id)
+    public function update(Requests\Backend\UpdatePackageRequest $request, $id)
     {
         $package = ApplicationPackage::findOrFail($id);
 

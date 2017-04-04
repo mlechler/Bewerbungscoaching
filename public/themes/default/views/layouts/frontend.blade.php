@@ -14,35 +14,31 @@
     <div class="container">
         <div class="navbar-header">
             <a href="/" class="navbar-brand">
-                <img src="images/logo.png" alt="Bewerbungscoaching">
+                <img src="{{theme('../../../../images/logo.png')}}" alt="Bewerbungscoaching">
             </a>
         </div>
         <ul class="nav navbar-nav">
+            <li><a href="{{ route('frontend.seminars.index') }}">Seminars</a></li>
+            <li><a href="{{ route('frontend.individualcoachings.index') }}">Individual Coaching</a></li>
             <li class="dropdown">
-                <a href="">Item 1 <span class="caret"></span></a>
+                <a href="{{ route('frontend.applicationdocuments.index') }}">Application Documents <span class="caret"></span></a>
                 <ul class="dropdown-menu multi-level" role="menu">
-                    <li class="dropdown-submenu">
-                        <a href="">Item 1.1</a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Item 1.1.1</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="{{ route('frontend.applicationpackages.index') }}">Application Packages</a></li>
+                    <li><a href="{{ route('frontend.applicationlayouts.index') }}">Application Layouts</a></li>
                 </ul>
-            <li><a href="#">Item 2</a></li>
-            <li><a href="#">Item 3</a></li>
+            <li><a href="{{ route('frontend.blog.index') }}">Blog</a></li>
             @include('partials.staticpagesnavigation')
         </ul>
         <ul class="nav navbar-nav navbar-right">
+            <li><a href="{{ route('employee.login') }}">Intern</a></li>
             @if($loggedInUser)
-                <li><span class="navbar-text">
                 <li class="dropdown">
                     <a href="">Hello, {{ $loggedInUser->firstname }} <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu" aria-labelledby="userMenu">
-                        <li><a href="">My Information</a></li>
+                        <li><a href="{{ route('frontend.myinformation.index') }}">My Information</a></li>
                     </ul>
                 </li>
-                </span></li>
-                <li><a href="/member/logout">Logout</a></li>
+                <li><a href="{{ route('member.logout') }}">Logout</a></li>
             @else
                 <li><a href="{{ route('member.login') }}">Login</a></li>
             @endif
@@ -52,18 +48,37 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
+            @if($__env->yieldContent('title') != 'Welcome' && $__env->yieldContent('title') != 'My Information' && $__env->yieldContent('title') != 'Blog Post')
+                <h3>@yield('title')</h3>
+            @endif
+
+            @if($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            @if($status)
+                <div class="alert alert-success">
+                    {{ $status }}
+                </div>
+            @endif
+
             @yield('content')
         </div>
     </div>
 </div>
-<div class="panel panel-default footer">
-    <div class="panel-footer">
-        <div class="container">
-            <div class="col-md-12" align="center">
-                ©2017 Bewerbungscoaching | Designed by Marcel Lechler
-            </div>
-        </div>
+<nav class="navbar navbar-default footer">
+    <div class="container">
+        <ul class="nav navbar-nav">
+            <li>
+                <a href="">©2017 Bewerbungscoaching | Designed by Marcel Lechler</a>
+            </li>
+        </ul>
     </div>
-</div>
+</nav>
 </body>
 </html>

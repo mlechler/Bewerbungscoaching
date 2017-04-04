@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Page;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -108,15 +107,6 @@ class RouteServiceProvider extends ServiceProvider
         ], function ($router) {
             require base_path('routes/web.php');
         });
-
-        foreach (Page::all() as $page) {
-            Route::get($page->uri, ['as' => 'frontend.'.$page->name, function () use ($page) {
-                return $this->app->call('App\Http\Controllers\Frontend\PagesController@show', [
-                    'page' => $page,
-                    'parameters' => Route::current()->parameters()
-                ]);
-            }]);
-        }
     }
 
     /**

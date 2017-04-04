@@ -17,13 +17,15 @@ class BookingTableSeeder extends Seeder
             'member_id' => 1,
             'appointment_id' => 1,
             'price_incl_discount' => 123.45,
-            'paid' => false
+            'paid' => false,
+            'reminderSend' => false
         ));
         Booking::create(array(
             'member_id' => 2,
             'appointment_id' => 2,
             'price_incl_discount' => 99.99,
-            'paid' => true
+            'paid' => true,
+            'reminderSend' => false
         ));
     }
 }

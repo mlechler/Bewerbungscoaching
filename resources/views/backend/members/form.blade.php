@@ -10,53 +10,53 @@
     ]) }}
 
     <div class="form-group">
-        {{ Form::label('lastname') }}
+        {{ Form::label('lastname') }} <span class="required">*</span>
         {{ Form::text('lastname', null, ['class' => 'form-control']) }}
     </div>
 
     <div class="form-group">
-        {{ Form::label('firstname') }}
+        {{ Form::label('firstname') }} <span class="required">*</span>
         {{ Form::text('firstname', null, ['class' => 'form-control']) }}
     </div>
 
     <div class="form-group">
-        {{ Form::label('birthday') }}
+        {{ Form::label('birthday') }} <span class="required">*</span>
         {{ Form::text('birthday', null, ['class' => 'form-control']) }}
     </div>
 
     <div class="form-group">
-        {{ Form::label('phone') }}
+        {{ Form::label('phone') }} <span class="required">*</span>
         {{ Form::text('phone', null, ['class' => 'form-control']) }}
     </div>
 
     <div class="form-group">
-        {{ Form::label('mobile') }}
+        {{ Form::label('mobile') }} <span class="required">*</span>
         {{ Form::text('mobile', null, ['class' => 'form-control']) }}
     </div>
 
     <div class="form-group">
-        {{ Form::label('email') }}
+        {{ Form::label('email') }} <span class="required">*</span>
         {{ Form::text('email', null, ['class' => 'form-control']) }}
     </div>
 
     <div class="form-group row">
         <div class="col-md-2">
-            {{ Form::label('zip_code') }}
+            {{ Form::label('zip_code') }} <span class="required">*</span>
             {{ Form::text('zip', $member->address ? $member->address->zip : null, ['class' => 'form-control']) }}
         </div>
 
         <div class="col-md-4">
-            {{ Form::label('city') }}
+            {{ Form::label('city') }} <span class="required">*</span>
             {{ Form::text('city', $member->address ? $member->address->city : null, ['class' => 'form-control']) }}
         </div>
 
         <div class="col-md-4">
-            {{ Form::label('street') }}
+            {{ Form::label('street') }} <span class="required">*</span>
             {{ Form::text('street', $member->address ? $member->address->street : null, ['class' => 'form-control']) }}
         </div>
 
         <div class="col-md-2">
-            {{ Form::label('housenumber') }}
+            {{ Form::label('housenumber') }} <span class="required">*</span>
             {{ Form::text('housenumber', $member->address ? $member->address->housenumber : null, ['class' => 'form-control']) }}
         </div>
     </div>
@@ -83,7 +83,7 @@
 
     <div class="form-group row">
         <div class="col-md-12">
-            {{ Form::label('role') }}
+            {{ Form::label('role') }} <span class="required">*</span>
         </div>
         <div class="col-md-4">
             {{ Form::select('role_id', $roles, null, ['class' => 'form-control']) }}
@@ -91,12 +91,12 @@
     </div>
 
     <div class="form-group">
-        {{ Form::label('password') }}
+        {{ Form::label('password') }} <span class="required">*</span>
         {{ Form::password('password', ['class' => 'form-control']) }}
     </div>
 
     <div class="form-group">
-        {{ Form::label('password_confirmation') }}
+        {{ Form::label('password_confirmation') }} <span class="required">*</span>
         {{ Form::password('password_confirmation', ['class' => 'form-control']) }}
     </div>
 
@@ -107,7 +107,7 @@
             @if(!$member->memberFiles->isEmpty())
                 @foreach($member->memberFiles as $file)
                     <div class="col-md-3">
-                        {{ $file->name }}
+                        <a href="{{ $file->download }}" target="_blank">{{ $file->name }}</a>
                     </div>
                     <div class="col-md-1">
                         <a href="{{ route('members.deleteFile', $file->id) }}"><span
@@ -138,13 +138,13 @@
             defaultDate: '{{ old('birthday', $member->birthday) }}'
         });
 
-        $('input[id=files]').change(function() {
+        $('input[id=files]').change(function () {
             var names = [];
             for (var i = 0; i < $(this).get(0).files.length; ++i) {
                 names.push($(this).get(0).files[i].name);
                 names.push(', ');
             }
-            names.splice(-1,1);
+            names.splice(-1, 1);
             $('#filenames').html(names);
         });
     </script>

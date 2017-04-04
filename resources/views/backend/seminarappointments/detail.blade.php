@@ -59,8 +59,17 @@
                             <a href="{{ route('seminarappointments.removeParticipant', [$seminarappointment->id, $member->id]) }}"><span
                                         class="glyphicon glyphicon-remove"></span></a>
                         </div>
+                        <div class="col-md-2">
+                            <a href="{{ route('seminarappointments.participantPaid', [$seminarappointment->id, $member->id]) }}"><span
+                                        class="glyphicon glyphicon-ok"></span></a>
+                        </div>
+                        <div class="col-md-2">
+                            {{ $member->pivot->paid ? 'Paid' : 'Not Paid' }}
+                        </div>
                     </div>
                 @endforeach
+                    <br><br><br>
+                    <a href="{{ route('seminarappointments.list', $seminarappointment->id) }}" class="btn btn-success">Create List</a>
             </td>
         </tr>
         </tbody>

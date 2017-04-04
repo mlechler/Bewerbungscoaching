@@ -9,7 +9,7 @@ use McCool\LaravelAutoPresenter\HasPresenter;
 class PackagePurchase extends Model implements HasPresenter
 {
     protected $table = 'packagepurchases';
-    protected $fillable = ['member_id', 'applicationpackage_id', 'paid', 'price_incl_discount', 'path'];
+    protected $fillable = ['member_id', 'applicationpackage_id', 'paid', 'price_incl_discount', 'path', 'packageDownload'];
 
     public function getPresenterClass()
     {

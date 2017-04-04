@@ -29,6 +29,30 @@
                 <h4>{{ $discount->amount }} {{ $discount->getAmountType()}}</h4>
             </td>
         </tr>
+        <tr>
+            <td>
+                <h4>Validity</h4>
+            </td>
+            <td>
+                <h4>{{ $discount->getValidity() }}</h4>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h4>Code</h4>
+            </td>
+            <td>
+                <h4>{{ $discount->code }}</h4>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h4>Expired</h4>
+            </td>
+            <td>
+                <h4><span class="glyphicon glyphicon-{{ $discount->expired ? 'ok' : 'remove' }}"></span></h4>
+            </td>
+        </tr>
         </tbody>
     </table>
     <a href="{{ route('discounts.index') }}" class="btn btn-danger">Back</a>

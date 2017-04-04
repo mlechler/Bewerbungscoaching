@@ -15,14 +15,14 @@ class AppointmentTableSeeder extends Seeder
     {
         DB::table('seminarappointments')->truncate();
         Appointment::create(array(
-            'date' => Carbon::createFromDate(2017, 01, 05),
+            'date' => Carbon::createFromDate(2017, 04, 20),
             'time' => Carbon::createFromTime(9, 00, 00),
             'employee_id' => 1,
             'seminar_id' => 1,
             'address_id' => 1,
         ));
         Appointment::create(array(
-            'date' => Carbon::createFromDate(2017, 01, 05),
+            'date' => Carbon::createFromDate(2017, 04, 20),
             'time' => Carbon::createFromTime(18, 30, 00),
             'employee_id' => 2,
             'seminar_id' => 2,

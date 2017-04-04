@@ -20,6 +20,7 @@ class CreateEmployeeFilesTable extends Migration
             $table->string('type');
             $table->string('size');
             $table->integer('employee_id');
+            $table->string('download');
             $table->timestamps();
         });
     }

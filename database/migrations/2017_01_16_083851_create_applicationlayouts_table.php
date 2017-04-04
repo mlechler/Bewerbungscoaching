@@ -19,6 +19,8 @@ class CreateApplicationLayoutsTable extends Migration
             $table->text('description');
             $table->string('preview')->nullable();
             $table->string('layout')->nullable();
+            $table->string('previewDownload')->nullable();
+            $table->string('layoutDownload')->nullable();
             $table->float('price');
             $table->timestamps();
         });

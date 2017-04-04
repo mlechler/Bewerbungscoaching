@@ -21,6 +21,7 @@ class CreateMemberFilesTable extends Migration
             $table->string('size');
             $table->integer('member_id');
             $table->boolean('checked');
+            $table->string('download');
             $table->timestamps();
         });
     }

@@ -9,7 +9,7 @@ use Baum\Node;
 class Page extends Node implements HasPresenter
 {
     protected $table = 'pages';
-    protected $fillable = ['title', 'name', 'uri', 'pagecontent', 'template'];
+    protected $fillable = ['title', 'name', 'uri', 'pagecontent'];
 
     public function getPresenterClass()
     {
@@ -32,10 +32,5 @@ class Page extends Node implements HasPresenter
     public function setNameAttribute($value)
     {
         $this->attributes['name'] = $value ?: null;
-    }
-
-    public function setTemplateAttribute($value)
-    {
-        $this->attributes['template'] = $value ?: null;
     }
 }

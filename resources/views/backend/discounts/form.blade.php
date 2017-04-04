@@ -9,24 +9,52 @@
     ]) }}
 
     <div class="form-group">
-        {{ Form::label('title') }}
+        {{ Form::label('title') }} <span class="required">*</span>
         {{ Form::text('title', null, ['class' => 'form-control']) }}
     </div>
 
     <div class="form-group">
-        {{ Form::label('service') }}
-        {{ Form::text('service', null, ['class' => 'form-control']) }}
+        {{ Form::label('service') }} <span class="required">*</span>
+        {{ Form::text('service', null, ['class' => 'form-control', 'placeholder' => 'Universal, Seminar, Individual Coaching, Application Layout, Application Package']) }}
     </div>
 
     <div class="form-group row">
         <div class="col-md-6">
-            {{ Form::label('amount') }}
+            {{ Form::label('amount') }} <span class="required">*</span>
             {{ Form::number('amount', null, ['class' => 'form-control', 'step' => '0.01', 'min' => 0]) }}
         </div>
         <div class="col-md-2">
             {{ Form::label('percentage') }}
             <br>
             {{ Form::checkbox('percentage', null) }}
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-6">
+            {{ Form::label('validity') }} <span class="required">*</span>
+            {{ Form::number('validity', null, ['class' => 'form-control', 'min' => 0]) }}
+        </div>
+        <div class="col-md-1">
+            {{ Form::label('permanent') }} <span class="required">*</span>
+            {{ Form::checkbox('permanent', null) }}
+        </div>
+    </div>
+
+    <div class="form-group">
+        {{ Form::label('start_date') }} <span class="required">*</span>
+        {{ Form::text('startdate', null, ['class' => 'form-control']) }}
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-12">
+            {{ Form::label('code') }} <span class="required">*</span>
+        </div>
+        <div class="col-md-12">
+            <div class="input-group">
+                {{ Form::text('code', null, ['class' => 'form-control']) }}
+                <span class="input-group-btn">{{ Form::button('Random Code', ['class' => 'btn btn-default', 'onclick' => 'getCode()', 'style' => 'height: 34px']) }}</span>
+            </div>
         </div>
     </div>
 
@@ -43,5 +71,35 @@
                 }
             }
         });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (document.getElementById('permanent').checked) {
+                document.getElementById('validity').disabled = true;
+            }
+        }, false);
+
+        $('input[name=startdate]').datetimepicker({
+            allowInputToggle: true,
+            format: 'YYYY-MM-DD',
+            showClear: true,
+            defaultDate: '{{ old('startdate', $discount->startdate) }}'
+        });
+        $('#permanent').on('change', function () {
+            if ($(this).is(':checked')) {
+                document.getElementById('validity').disabled = true;
+            } else {
+                document.getElementById('validity').disabled = false;
+            }
+        });
+        function getCode() {
+            var text = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+            for (var i = 0; i < 12; i++) {
+                text += possible.charAt(Math.floor(Math.random() * possible.length));
+            }
+
+            document.getElementById('code').value = text;
+        }
     </script>
 @endsection

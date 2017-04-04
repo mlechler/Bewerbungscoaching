@@ -19,6 +19,11 @@ class CreateDiscountsTable extends Migration
             $table->float('amount');
             $table->boolean('percentage');
             $table->string('service');
+            $table->integer('validity')->nullable();
+            $table->boolean('permanent');
+            $table->date('startdate');
+            $table->string('code');
+            $table->boolean('expired');
             $table->timestamps();
         });
     }

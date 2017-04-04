@@ -24,39 +24,18 @@ class LoginController extends Controller
         LogsoutGuard::logout insteadof AuthenticatesUsers;
     }
 
-    /**
-     * Where to redirect users after login / registration.
-     *
-     * @var string
-     */
     public $redirectTo = '/';
-    public $redirectAfterLogout = '/member/login';
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('member.guest', ['except' => 'logout']);
     }
 
-    /**
-     * Show the application's login form.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function showLoginForm()
     {
         return view('auth.member.login');
     }
 
-    /**
-     * Get the guard to be used during authentication.
-     *
-     * @return \Illuminate\Contracts\Auth\StatefulGuard
-     */
     protected function guard()
     {
         return Auth::guard('member');
@@ -66,6 +45,6 @@ class LoginController extends Controller
     {
         $this->guard()->logout();
 
-        return redirect('/member/login');
+        return redirect('/');
     }
 }

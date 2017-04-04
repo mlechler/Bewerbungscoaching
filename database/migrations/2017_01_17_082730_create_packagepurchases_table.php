@@ -20,6 +20,7 @@ class CreatePackagePurchasesTable extends Migration
             $table->float('price_incl_discount');
             $table->boolean('paid');
             $table->string('path')->nullable();
+            $table->string('packageDownload')->nullable();
             $table->timestamps();
         });
     }

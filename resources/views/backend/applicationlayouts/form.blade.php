@@ -10,17 +10,17 @@
     ]) }}
 
     <div class="form-group">
-        {{ Form::label('title') }}
+        {{ Form::label('title') }} <span class="required">*</span>
         {{ Form::text('title', null, ['class' => 'form-control']) }}
     </div>
 
     <div class="form-group">
-        {{ Form::label('price') }}
+        {{ Form::label('price') }} <span class="required">*</span>
         {{ Form::number('price', null, ['class' => 'form-control', 'step' => '0.01', 'min' => 0]) }}
     </div>
 
     <div class="form-group">
-        {{ Form::label('description') }}
+        {{ Form::label('description') }} <span class="required">*</span>
         {{ Form::textarea('description', null, ['class' => 'form-control']) }}
     </div>
 
@@ -77,7 +77,10 @@
     {{ Form::close() }}
 
     <script>
-        new SimpleMDE().render();
+        new SimpleMDE({
+            toolbar: ["bold", "italic", "strikethrough", "heading", "|", "code", "quote", "unordered-list", "ordered-list",
+                "clean-block", "|", "link", "image", "table", "horizontal-rule", "|", "preview", "side-by-side", "fullscreen", "|", "guide"]
+        }).render();
 
         $('#preview').on('change', function () {
             var pathParts = $(this).val().split('\\');

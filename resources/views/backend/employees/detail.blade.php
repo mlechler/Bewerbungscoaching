@@ -71,16 +71,28 @@
         </tr>
         <tr>
             <td>
+                <h4>Color</h4>
+            </td>
+            <td>
+                <h4 style="color: {{ $employee->color }}" title="{{ $employee->color }}">█</h4>
+            </td>
+        </tr>
+        <tr>
+            <td>
                 <h4>Files</h4>
             </td>
             <td>
                 @foreach($employee->employeeFiles as $file)
-                    {{ $file->name }}
+                    <a href="{{ $file->download }}" target="_blank">{{ $file->name }}</a>
                 @endforeach
             </td>
         </tr>
         </tbody>
     </table>
     <a href="{{ route('employees.edit', $employee->id) }}" class="btn btn-success">Change Data</a>
-    <a href="{{ route('employees.index') }}" class="btn btn-danger">Back</a>
+    @if($backendUser->isAdmin())
+        <a href="{{ route('employees.index') }}" class="btn btn-danger">Back</a>
+    @else
+        <a href="{{ route('backend.dashboard') }}" class="btn btn-danger">Back</a>
+    @endif
 @endsection

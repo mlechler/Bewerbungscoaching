@@ -27,21 +27,18 @@ class PagesController extends Controller
 
     public function create(Page $page)
     {
-        $templates = $this->getPageTemplates();
-
         $orderPages = Page::all();
 
-        return view('backend.pages.form', compact('page', 'templates', 'orderPages'));
+        return view('backend.pages.form', compact('page', 'orderPages'));
     }
 
-    public function store(Requests\StorePageRequest $request)
+    public function store(Requests\Backend\StorePageRequest $request)
     {
         $page = Page::create(array(
             'title' => $request->title,
             'uri' => $request->uri,
             'name' => $request->name,
-            'pagecontent' => $request->pagecontent,
-            'template' => $request->template
+            'pagecontent' => $request->pagecontent
         ));
 
         $this->updatePageOrder($page, $request);
@@ -53,14 +50,12 @@ class PagesController extends Controller
     {
         $page = Page::findOrFail($id);
 
-        $templates = $this->getPageTemplates();
-
         $orderPages = Page::all();
 
-        return view('backend.pages.form', compact('page', 'templates', 'orderPages'));
+        return view('backend.pages.form', compact('page', 'orderPages'));
     }
 
-    public function update(Requests\UpdatePageRequest $request, $id)
+    public function update(Requests\Backend\UpdatePageRequest $request, $id)
     {
         $page = Page::findOrFail($id);
 
@@ -72,8 +67,7 @@ class PagesController extends Controller
             'title' => $request->title,
             'uri' => $request->uri,
             'name' => $request->name,
-            'pagecontent' => $request->pagecontent,
-            'template' => $request->template
+            'pagecontent' => $request->pagecontent
         ))->save();
 
         return redirect(route('pages.index'))->with('status', 'Page has been updated.');
@@ -103,13 +97,6 @@ class PagesController extends Controller
         $page = Page::findOrFail($id);
 
         return view('backend.pages.detail', compact('page'));
-    }
-
-    protected function getPageTemplates()
-    {
-        $templates = config('cms.templates');
-
-        return ['' => ''] + array_combine(array_keys($templates), array_keys($templates));
     }
 
     protected function updatePageOrder(Page $page, Request $request)

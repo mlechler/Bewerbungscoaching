@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 use App\Employee;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class EmployeeTableSeeder extends Seeder
 {
@@ -19,6 +20,7 @@ class EmployeeTableSeeder extends Seeder
             'email' => 'marcel.lechler@gmx.de',
             'address_id' => 1,
             'role_id' => 1,
+            'color' => '#ff0000',
             'password' => Hash::make('awesome'),
             'remember_token' => Auth::viaRemember()
         ));
@@ -31,6 +33,7 @@ class EmployeeTableSeeder extends Seeder
             'email' => 'scrat007@gmx.de',
             'address_id' => 2,
             'role_id' => 2,
+            'color' => '#00ffe2',
             'password' => Hash::make('awesome'),
             'remember_token' => Auth::viaRemember()
         ));

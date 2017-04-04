@@ -6,6 +6,7 @@
  */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 @import url(simplemde.css);
+@import url(bootstrap-colorpicker.css);
 html {
   font-family: sans-serif;
   -ms-text-size-adjust: 100%;
@@ -11131,6 +11132,10 @@ input[type="file"] {
 .excerpt .CodeMirror {
   height: 150px;
   min-height: 150px;
+}
+
+.required {
+  color: red;
 }
 
 /*# sourceMappingURL=backend.css.map */

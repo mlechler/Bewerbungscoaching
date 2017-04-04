@@ -9,13 +9,13 @@
     ]) }}
 
     <div class="form-group">
-        {{ Form::label('title') }}
+        {{ Form::label('title') }} <span class="required">*</span>
         {{ Form::text('title', null, ['class' => 'form-control']) }}
     </div>
 
     <div class="form-group row">
         <div class="col-md-6">
-            {{ Form::label('uri', 'URI') }}
+            {{ Form::label('uri', 'URI') }} <span class="required">*</span>
             {{ Form::text('uri', null, ['class' => 'form-control']) }}
         </div>
 
@@ -27,16 +27,7 @@
 
     <div class="form-group row">
         <div class="col-md-12">
-            {{ Form::label('template') }}
-        </div>
-        <div class="col-md-4">
-            {{ Form::select('template', $templates, null, ['class' => 'form-control']) }}
-        </div>
-    </div>
-
-    <div class="form-group row">
-        <div class="col-md-12">
-            {{ Form::label('order') }}
+            {{ Form::label('order') }} <span class="required">*</span>
         </div>
         <div class="col-md-2">
             {{ Form::select('order', [
@@ -52,7 +43,7 @@
     </div>
 
     <div class="form-group">
-        {{ Form::label('pagecontent') }}
+        {{ Form::label('pagecontent') }} <span class="required">*</span>
         {{ Form::textarea('pagecontent', null, ['class' => 'form-control']) }}
     </div>
 
@@ -61,6 +52,9 @@
     {{ Form::close() }}
 
     <script>
-        new SimpleMDE().render();
+        new SimpleMDE({
+            toolbar: ["bold", "italic", "strikethrough", "heading", "|", "code", "quote", "unordered-list", "ordered-list",
+                "clean-block", "|", "link", "image", "table", "horizontal-rule", "|", "preview", "side-by-side", "fullscreen", "|", "guide"]
+        }).render();
     </script>
 @endsection

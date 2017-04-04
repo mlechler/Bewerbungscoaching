@@ -12,7 +12,7 @@
 <body>
 <nav class="navbar navbar-static-top navbar-inverse">
     <div class="container">
-        <div class="navbar-header"><a href="/" class="navbar-brand">Bewerbungscoaching</a></div>
+        <div class="navbar-header"><a href="/" class="navbar-brand">Home</a></div>
         <ul class="nav navbar-nav">
             <li><a href="{{ route('backend.dashboard') }}">Dashboard</a></li>
             <li class="dropdown">
@@ -75,13 +75,7 @@
                 </ul>
             </li>
             @if($backendUser->isAdmin())
-                <li class="dropdown">
-                    <a href="">Discounts <span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="discountsMenu">
-                        <li><a href="{{ route('discounts.index') }}">Overview Discounts</a></li>
-                        <li><a href="{{ route('memberdiscounts.index') }}">Overview Member Discounts</a></li>
-                    </ul>
-                </li>
+                <li><a href="{{ route('discounts.index') }}">Discounts</a></li>
             @endif
             @if($backendUser->isAdmin())
                 <li><a href="{{ route('invoices.index') }}">Invoices</a></li>
@@ -92,6 +86,7 @@
 
             <li><a href="{{ route('blog.index') }}">Blog Posts</a></li>
             <li><a href="{{ route('todo.index') }}">Tasks</a></li>
+            <li><a href="{{ route('contact.index') }}">Contact Requests</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
             <li><span class="navbar-text">
@@ -105,7 +100,7 @@
                 </ul>
             </li>
             </span></li>
-            <li><a href="/employee/logout">Logout</a></li>
+            <li><a href="{{ route('employee.logout') }}">Logout</a></li>
         </ul>
     </div>
 </nav>

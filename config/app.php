@@ -2,15 +2,12 @@
 
 return [
 
-    'fileDestinationPath' => 'uploads',
-    'layoutDestinationPath' => 'layouts',
-    'packageDestinationPath' => 'packagepurchases',
     'allowedFileTypes' => 'png,pdf,docx',
-    'allowedPreviewFileTypes' => 'png',
+    'allowedImageFileTypes' => 'png,jpeg',
     'allowedLayoutFileTypes' => 'pdf,docx',
     'allowedPackageFileTypes' => 'rar,zip',
-    'maxFileSize' => 5000,
-    'maxPackageFileSize' => 30000,
+    'maxFileSize' => 5120,
+    'maxPackageFileSize' => 30720,
 
     /*
     |--------------------------------------------------------------------------
@@ -149,6 +146,11 @@ return [
 
     'providers' => [
 
+        MaddHatter\LaravelFullcalendar\ServiceProvider::class,
+        Anouar\Paypalpayment\PaypalpaymentServiceProvider::class,
+        GrahamCampbell\Dropbox\DropboxServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
+        Cornford\Googlmapper\MapperServiceProvider::class,
         Schuppo\PasswordStrength\PasswordStrengthServiceProvider::class,
         AlfredoRamos\ParsedownExtra\ParsedownExtraServiceProvider::class,
         Arrilot\Widgets\ServiceProvider::class,
@@ -245,8 +247,12 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Widget' => Arrilot\Widgets\Facade::class,
-        'Markdown' => AlfredoRamos\ParsedownExtra\Facades\ParsedownExtra::class
-
+        'Markdown' => AlfredoRamos\ParsedownExtra\Facades\ParsedownExtra::class,
+        'Mapper' => Cornford\Googlmapper\Facades\MapperFacade::class,
+        'DropBox' => GrahamCampbell\Dropbox\Facades\Dropbox::class,
+        'PayPal' => Anouar\Paypalpayment\Facades\PaypalPayment::class,
+        'Calendar' => MaddHatter\LaravelFullcalendar\Facades\Calendar::class,
+        'Image' => Intervention\Image\Facades\Image::class
     ],
 
 ];

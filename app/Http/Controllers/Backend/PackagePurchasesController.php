@@ -4,14 +4,14 @@ namespace App\Http\Controllers\Backend;
 
 use App\ApplicationPackage;
 use App\Events\MakePackagePurchase;
-use App\Events\PurchaseApplicationPackage;
 use App\Invoice;
 use App\PackagePurchase;
 use App\Member;
 use Carbon\Carbon;
+use Dropbox\WriteMode;
+use GrahamCampbell\Dropbox\Facades\Dropbox;
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use Illuminate\Support\Facades\Storage;
 
 class PackagePurchasesController extends Controller
 {
@@ -33,20 +33,18 @@ class PackagePurchasesController extends Controller
 
     public function create(PackagePurchase $packagepurchase)
     {
-        $mem = Member::select('lastname', 'firstname')->get();
+        $mem = Member::select('id', 'lastname', 'firstname')->get();
         $members = ['' => ''];
         foreach ($mem as $member) {
-            array_push($members, $member->lastname . ', ' . $member->firstname);
+            $members[$member->id] = $member->lastname . ', ' . $member->firstname;
         }
-        array_unshift($members,'');
-        unset($members[0]);
 
         $applicationpackages = ['' => ''] + ApplicationPackage::all()->pluck('title', 'id')->toArray();
 
         return view('backend.packagepurchases.form', compact('packagepurchase', 'members', 'applicationpackages'));
     }
 
-    public function store(Requests\StorePackagePurchaseRequest $request)
+    public function store(Requests\Backend\StorePackagePurchaseRequest $request)
     {
         $package = ApplicationPackage::findOrFail($request->applicationpackage_id);
         $price = $request->price_incl_discount > $package->price ? $package->price : $request->price_incl_discount;
@@ -84,20 +82,18 @@ class PackagePurchasesController extends Controller
     {
         $packagepurchase = PackagePurchase::findOrFail($id);
 
-        $mem = Member::select('lastname', 'firstname')->get();
+        $mem = Member::select('id', 'lastname', 'firstname')->get();
         $members = ['' => ''];
         foreach ($mem as $member) {
-            array_push($members, $member->lastname . ', ' . $member->firstname);
+            $members[$member->id] = $member->lastname . ', ' . $member->firstname;
         }
-        array_unshift($members,'');
-        unset($members[0]);
 
         $applicationpackages = ['' => ''] + ApplicationPackage::all()->pluck('title', 'id')->toArray();
 
         return view('backend.packagepurchases.form', compact('packagepurchase', 'members', 'applicationpackages'));
     }
 
-    public function update(Requests\UpdatePackagePurchaseRequest $request, $id)
+    public function update(Requests\Backend\UpdatePackagePurchaseRequest $request, $id)
     {
         $packagepurchase = PackagePurchase::findOrFail($id);
 
@@ -133,6 +129,7 @@ class PackagePurchasesController extends Controller
 
     public function destroy($id)
     {
+        $this->deleteFile($id);
         PackagePurchase::destroy($id);
 
         return redirect(route('packagepurchases.index'))->with('status', 'Package Purchase has been deleted.');
@@ -148,32 +145,35 @@ class PackagePurchasesController extends Controller
     public function storeFile($packageFile, $purchase)
     {
         $fileName = $packageFile->getClientOriginalName();
-        $destinationpath = config('app.packageDestinationPath') . '/member' . $purchase->member_id . '/' . $fileName;
-        $uploaded = Storage::put($destinationpath, file_get_contents($packageFile->getRealPath()));
+        $destinationPath = '/packages/member' . $purchase->member_id . '/' . $fileName;
+        Dropbox::uploadFileFromString($destinationPath, WriteMode::force(), file_get_contents($packageFile));
 
-        if ($uploaded) {
-            $packagepurchase = PackagePurchase::findOrFail($purchase->id);
+        $downloadLink = Dropbox::createShareableLink($destinationPath);
 
-            $packagepurchase->fill(array(
-                'path' => $destinationpath
-            ))->save();
-        }
+        $packagepurchase = PackagePurchase::findOrFail($purchase->id);
+
+        $packagepurchase->fill(array(
+            'path' => $destinationPath,
+            'packageDownload' => $downloadLink
+        ))->save();
     }
 
     public function deleteFile($id)
     {
         $package = PackagePurchase::findOrFail($id);
 
-        Storage::delete($package->path);
+        if ($package) {
+            Dropbox::delete($package->path);
 
-        $package->fill(array(
-            'path' => null
-        ))->save();
-
+            $package->fill(array(
+                'path' => null,
+                'packageDownload' => null
+            ))->save();
+        }
         return redirect()->back()->with('status', 'File has been deleted.');
     }
 
-    public function uploadPackageFile(Request $request, $id)
+    public function uploadPackageFile(Requests\Backend\UploadPackageRequest $request, $id)
     {
         $purchase = PackagePurchase::findOrFail($id);
 

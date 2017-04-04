@@ -17,7 +17,7 @@
             <br><br>
 
             <div align="center">
-                <a href="{{ url('member/password/reset/'.$token) }}"
+                <a href="{{ route('member.password.reset.token', $token) }}"
                    style=" line-height:40px; width:25%; display:inline-block; color: #fff; background-color: #337ab7; border-color: #2e6da4;"><span>Reset Password</span>
                 </a>
             </div>

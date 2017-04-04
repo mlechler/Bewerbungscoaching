@@ -10,7 +10,7 @@
         </div>
     @endif
 
-    <form class="form-horizontal" role="form" method="POST" action="{{ url('/employee/password/reset') }}">
+    <form class="form-horizontal" role="form" method="POST" action="{{ route('employee.password.reset') }}">
         {{ csrf_field() }}
 
         <input type="hidden" name="token" value="{{ $token }}">

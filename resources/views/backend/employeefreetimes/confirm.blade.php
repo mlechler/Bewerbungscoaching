@@ -9,7 +9,7 @@
     ]) }}
 
     <div class="alert alert-danger">
-        <strong>Warning!</strong> You are about to delete an Employee Free Time. All Files and Informations belonging to this Employee will be deleted. This action cannot be undone.
+        <strong>Warning!</strong> You are about to delete an Employee Free Time. All Files and Informations belonging to this Employee Free Time will be deleted. This action cannot be undone.
         <br>
         Are you sure you want to continue?
     </div>

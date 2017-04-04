@@ -59,7 +59,7 @@
             </td>
             <td>
                 @foreach($seminar->seminarFiles as $file)
-                    {{ $file->name }}
+                    {{ $file->name }} <br>
                 @endforeach
             </td>
         </tr>
