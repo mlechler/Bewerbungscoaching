@@ -146,7 +146,6 @@ return [
 
     'providers' => [
 
-        Intervention\Image\ImageServiceProvider::class,
         MaddHatter\LaravelFullcalendar\ServiceProvider::class,
         Anouar\Paypalpayment\PaypalpaymentServiceProvider::class,
         GrahamCampbell\Dropbox\DropboxServiceProvider::class,
