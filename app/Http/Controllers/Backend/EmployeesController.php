@@ -68,6 +68,7 @@ class EmployeesController extends Controller
             'address_id' => $address->id,
             'role_id' => $request->role_id,
             'color' => $request->color,
+            'contribution' => 0,
             'password' => Hash::make($request->password),
             'remember_token' => Auth::viaRemember()
         ));
@@ -248,5 +249,16 @@ class EmployeesController extends Controller
         foreach ($coachings as $coaching) {
             IndividualCoaching::destroy($coaching->id);
         }
+    }
+
+    public function resetContribution($id)
+    {
+        $employee = Employee::findOrFail($id);
+
+        $employee->fill(array(
+            'contribution' => 0
+        ))->save();
+
+        return redirect()->back()->with('status', 'Contribution has been reseted.');
     }
 }

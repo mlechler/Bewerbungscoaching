@@ -112,6 +112,8 @@ class IndividualCoachingsController extends Controller
 
         $freetime = EmployeeFreeTime::findOrFail($freetime_id);
 
+        $employee = Employee::findOrFail($freetime->employee->id);
+
         $discount = Discount::where('code', '=', $request->code)->where('expired', '=', false)->first();
 
         $starttime = explode(':', $request->starttime);
@@ -130,6 +132,10 @@ class IndividualCoachingsController extends Controller
         if ($discount) {
             $price_incl_discount = $this->useDiscount($discount, $price_incl_discount);
         }
+
+        $employee->fill(array(
+            'contribution' => $price_incl_discount,
+        ))->save();
 
         $coaching = IndividualCoaching::create(array(
             'services' => $freetime->services,

@@ -32,6 +32,7 @@ Route::group(['prefix' => 'backend'], function () {
     Route::get('/', ['as' => 'backend.dashboard', 'uses' => 'Backend\DashboardController@index']);
     Route::group(['middleware' => 'admin'], function () {
         Route::get('/employees/{employee}/confirm', ['as' => 'employees.confirm', 'uses' => 'Backend\EmployeesController@confirm']);
+        Route::get('/employees/{employee}/reset', ['as' => 'employees.reset', 'uses' => 'Backend\EmployeesController@resetContribution']);
         Route::get('/employees/files/{file}/delete', ['as' => 'employees.deleteFile', 'uses' => 'Backend\EmployeesController@deleteFile']);
         Route::resource('/employees', 'Backend\EmployeesController');
 

@@ -72,6 +72,12 @@ class IndividualCoachingsController extends Controller
     {
         $address = Address::where('zip', '=', $request->zip)->where('city', '=', $request->city)->where('street', '=', $request->street)->where('housenumber', '=', $request->housenumber)->first();
 
+        $employee = Employee::findOrFail($request->employee_id);
+
+        $employee->fill(array(
+            'contribution' => $request->price_incl_discount,
+        ))->save();
+
         if (!$address) {
             $geo = Mapper::location('Germany' . $request->zip . $request->street . $request->housenumber);
             $newaddress = Address::create(array(
