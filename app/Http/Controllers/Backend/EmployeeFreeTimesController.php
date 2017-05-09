@@ -75,7 +75,7 @@ class EmployeeFreeTimesController extends Controller
                 'error' => 'Time Overlap detected.'
             ]);
         } else {
-            if ($request->recurrence) {
+            if ($request->recurrence && $request->occurences) {
                 $date = Carbon::parse($request->date);
                 switch($request->recurrence) {
                     case 'daily':
