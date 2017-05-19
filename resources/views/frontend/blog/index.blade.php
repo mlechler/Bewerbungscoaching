@@ -3,7 +3,7 @@
 @section('title', 'Blog Posts')
 
 @section('content')
-    <table class="table table-hover">
+    <table class="table">
         <tbody>
         @foreach($posts as $post)
             <tr>

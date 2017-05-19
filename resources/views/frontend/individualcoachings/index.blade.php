@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-md-12" align="right">
             <a href="{{ route('frontend.individualcoachings.contact') }}">
-                <button class="btn btn-success">Ask for Trial or new Appointment</button>
+                <button class="btn btn-primary">Ask for Trial or new Appointment</button>
             </a>
         </div>
         <br>

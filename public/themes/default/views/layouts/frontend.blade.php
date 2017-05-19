@@ -14,7 +14,7 @@
     <script src="{{ theme('js/all.js') }}"></script>
 </head>
 <body>
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default navbar-inverse">
     <div class="container">
         <div class="navbar-header">
             <a href="/" class="navbar-brand">
@@ -78,11 +78,11 @@
         </div>
     </div>
 </div>
-<nav class="navbar navbar-default footer">
+<nav class="navbar navbar-default navbar-inverse footer">
     <div class="container">
         <ul class="nav navbar-nav">
             <li>
-                <a href="">©2017 Bewerbungscoaching | Designed by Marcel Lechler</a>
+                <a>©2017 Bewerbungscoaching | Designed by Marcel Lechler</a>
             </li>
         </ul>
     </div>

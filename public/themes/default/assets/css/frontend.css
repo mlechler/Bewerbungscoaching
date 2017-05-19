@@ -11064,6 +11064,14 @@ a.navbar-brand img {
   height: 32px;
 }
 
+a:hover {
+  font-weight: bold;
+}
+
+.navbar {
+  border-radius: 0;
+}
+
 .footer {
   position: absolute;
   text-align: center;
