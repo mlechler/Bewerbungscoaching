@@ -47,15 +47,19 @@ class EmployeesController extends Controller
 
         if (!$address) {
             $geo = Mapper::location('Germany' . $request->zip . $request->street . $request->housenumber);
-            $newaddress = Address::create(array(
-                'zip' => $request->zip,
-                'city' => $request->city,
-                'street' => $request->street,
-                'housenumber' => $request->housenumber,
-                'latitude' => $geo->getLatitude(),
-                'longitude' => $geo->getLongitude()
-            ));
-            $address = $newaddress;
+            if ($geo) {
+                $newaddress = Address::create(array(
+                    'zip' => $request->zip,
+                    'city' => $request->city,
+                    'street' => $request->street,
+                    'housenumber' => $request->housenumber,
+                    'latitude' => $geo->getLatitude(),
+                    'longitude' => $geo->getLongitude()
+                ));
+                $address = $newaddress;
+            } else {
+                return redirect()->back()->withErrors(['error' => 'Address not found.']);
+            }
         }
 
         $employee = Employee::create(array(
@@ -100,15 +104,19 @@ class EmployeesController extends Controller
 
         if (!$address) {
             $geo = Mapper::location('Germany' . $request->zip . $request->street . $request->housenumber);
-            $newaddress = Address::create(array(
-                'zip' => $request->zip,
-                'city' => $request->city,
-                'street' => $request->street,
-                'housenumber' => $request->housenumber,
-                'latitude' => $geo->getLatitude(),
-                'longitude' => $geo->getLongitude()
-            ));
-            $address = $newaddress;
+            if ($geo) {
+                $newaddress = Address::create(array(
+                    'zip' => $request->zip,
+                    'city' => $request->city,
+                    'street' => $request->street,
+                    'housenumber' => $request->housenumber,
+                    'latitude' => $geo->getLatitude(),
+                    'longitude' => $geo->getLongitude()
+                ));
+                $address = $newaddress;
+            } else {
+                return redirect()->back()->withErrors(['error' => 'Address not found.']);
+            }
         }
 
         $employee = Employee::findOrFail($id);

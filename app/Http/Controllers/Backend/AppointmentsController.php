@@ -42,7 +42,7 @@ class AppointmentsController extends Controller
     {
         $seminars = ['' => ''] + Seminar::all()->pluck('title', 'id')->toArray();
 
-        $emp = Employee::select('id','lastname', 'firstname')->get();
+        $emp = Employee::select('id', 'lastname', 'firstname')->get();
         $employees = ['' => ''];
         foreach ($emp as $employee) {
             $employees[$employee->id] = $employee->lastname . ', ' . $employee->firstname;
@@ -57,15 +57,19 @@ class AppointmentsController extends Controller
 
         if (!$address) {
             $geo = Mapper::location('Germany' . $request->zip . $request->street . $request->housenumber);
-            $newaddress = Address::create(array(
-                'zip' => $request->zip,
-                'city' => $request->city,
-                'street' => $request->street,
-                'housenumber' => $request->housenumber,
-                'latitude' => $geo->getLatitude(),
-                'longitude' => $geo->getLongitude()
-            ));
-            $address = $newaddress;
+            if ($geo) {
+                $newaddress = Address::create(array(
+                    'zip' => $request->zip,
+                    'city' => $request->city,
+                    'street' => $request->street,
+                    'housenumber' => $request->housenumber,
+                    'latitude' => $geo->getLatitude(),
+                    'longitude' => $geo->getLongitude()
+                ));
+                $address = $newaddress;
+            } else {
+                return redirect()->back()->withErrors(['error' => 'Address not found.']);
+            }
         }
 
         Appointment::create(array(
@@ -100,15 +104,19 @@ class AppointmentsController extends Controller
 
         if (!$address) {
             $geo = Mapper::location('Germany' . $request->zip . $request->street . $request->housenumber);
-            $newaddress = Address::create(array(
-                'zip' => $request->zip,
-                'city' => $request->city,
-                'street' => $request->street,
-                'housenumber' => $request->housenumber,
-                'latitude' => $geo->getLatitude(),
-                'longitude' => $geo->getLongitude()
-            ));
-            $address = $newaddress;
+            if ($geo) {
+                $newaddress = Address::create(array(
+                    'zip' => $request->zip,
+                    'city' => $request->city,
+                    'street' => $request->street,
+                    'housenumber' => $request->housenumber,
+                    'latitude' => $geo->getLatitude(),
+                    'longitude' => $geo->getLongitude()
+                ));
+                $address = $newaddress;
+            } else {
+                return redirect()->back()->withErrors(['error' => 'Address not found.']);
+            }
         }
 
         $seminarappointment = Appointment::findOrFail($id);
