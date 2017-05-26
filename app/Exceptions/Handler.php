@@ -6,6 +6,9 @@ use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -28,7 +31,7 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param  \Exception  $exception
+     * @param  \Exception $exception
      * @return void
      */
     public function report(Exception $exception)
@@ -39,25 +42,61 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Exception $exception
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $exception)
     {
-        if($exception instanceof ModelNotFoundException) {
+        $member = Auth::guard('member')->user();
+        $employee = Auth::guard('employee')->user();
+
+        if ($exception instanceof ModelNotFoundException) {
             return redirect()->back()->withErrors([
-               'error' => 'Could not find a matching record.'
+                'error' => 'Could not find a matching record.'
             ]);
         }
+
+        if ($exception instanceof NotFoundHttpException) {
+            $url = "$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+            if (strpos($url, 'backend') !== false) {
+                if (Auth::guard('employee')->check()) {
+                    Auth::login($employee);
+                }
+                return response()->view('errors.404');
+            } else {
+                if (Auth::guard('member')->check()) {
+                    Auth::login($member);
+                }
+                return response()->view('errors.public.404');
+            }
+        }
+
+        if($exception instanceof ServiceUnavailableHttpException) {
+            $url = "$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+            if (strpos($url, 'backend') !== false) {
+                if (Auth::guard('employee')->check()) {
+                    Auth::login($employee);
+                }
+                return response()->view('errors.503');
+            } else {
+                if (Auth::guard('member')->check()) {
+                    Auth::login($member);
+                }
+                return response()->view('errors.public.503');
+            }
+        }
+
         return parent::render($request, $exception);
     }
 
     /**
      * Convert an authentication exception into an unauthenticated response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Auth\AuthenticationException  $exception
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Illuminate\Auth\AuthenticationException $exception
      * @return \Illuminate\Http\Response
      */
     protected function unauthenticated($request, AuthenticationException $exception)

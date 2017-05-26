@@ -11138,4 +11138,14 @@ input[type="file"] {
   color: red;
 }
 
+.error {
+  width: 100%;
+  color: gray;
+  font-weight: 100;
+  font-family: 'Lato', sans-serif;
+  font-size: 50px;
+  text-align: center;
+  word-break: break-all;
+}
+
 /*# sourceMappingURL=backend.css.map */

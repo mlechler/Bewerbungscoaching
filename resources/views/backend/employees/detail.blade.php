@@ -79,6 +79,18 @@
         </tr>
         <tr>
             <td>
+                <h4>Contribution Individual Coachings</h4>
+            </td>
+            <td>
+                <h4>{{ $employee->contribution }} €</h4>
+                @if($backendUser->isAdmin())
+                    <a href="{{ route('employees.reset', $employee->id) }}"
+                       class="btn btn-default">Reset</a>
+                @endif
+            </td>
+        </tr>
+        <tr>
+            <td>
                 <h4>Files</h4>
             </td>
             <td>

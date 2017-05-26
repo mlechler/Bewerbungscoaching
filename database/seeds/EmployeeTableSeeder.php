@@ -21,6 +21,7 @@ class EmployeeTableSeeder extends Seeder
             'address_id' => 1,
             'role_id' => 1,
             'color' => '#ff0000',
+            'contribution' => 0,
             'password' => Hash::make('awesome'),
             'remember_token' => Auth::viaRemember()
         ));
@@ -34,6 +35,7 @@ class EmployeeTableSeeder extends Seeder
             'address_id' => 2,
             'role_id' => 2,
             'color' => '#00ffe2',
+            'contribution' => 0,
             'password' => Hash::make('awesome'),
             'remember_token' => Auth::viaRemember()
         ));

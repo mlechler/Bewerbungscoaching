@@ -46,7 +46,7 @@ class UpdatePostRequest extends FormRequest
         $id = $this->route('blog');
         return [
             'title' => ['required', 'unique:posts,title,' . $id],
-            'slug' => ['required', 'unique:posts, slug,' . $id],
+            'slug' => ['required', 'unique:posts,slug,' . $id],
             'published_at' => ['date_format:Y-m-d H:i:s'],
             'body' => ['required'],
             'image' => ['mimes:' . config('app.allowedImageFileTypes'), 'max:' . config('app.maxFileSize')]

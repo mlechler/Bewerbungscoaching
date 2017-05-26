@@ -10,7 +10,7 @@
         <td>
             Hi,<br><br>
 
-            you received the following member discount:<br><br>
+            you received the following discount:<br><br>
 
             <div align="center">
                 <strong>{{ $discount->title }}</strong> <br>

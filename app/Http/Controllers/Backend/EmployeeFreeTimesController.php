@@ -6,6 +6,7 @@ use App\Address;
 use App\Employee;
 use App\EmployeeFreeTime;
 use App\Http\Requests;
+use Carbon\Carbon;
 use Cornford\Googlmapper\Facades\MapperFacade as Mapper;
 use Illuminate\Support\Facades\Auth;
 
@@ -58,15 +59,19 @@ class EmployeeFreeTimesController extends Controller
 
         if (!$address) {
             $geo = Mapper::location('Germany' . $request->zip . $request->street . $request->housenumber);
-            $newaddress = Address::create(array(
-                'zip' => $request->zip,
-                'city' => $request->city,
-                'street' => $request->street,
-                'housenumber' => $request->housenumber,
-                'latitude' => $geo->getLatitude(),
-                'longitude' => $geo->getLongitude()
-            ));
-            $address = $newaddress;
+            if ($geo) {
+                $newaddress = Address::create(array(
+                    'zip' => $request->zip,
+                    'city' => $request->city,
+                    'street' => $request->street,
+                    'housenumber' => $request->housenumber,
+                    'latitude' => $geo->getLatitude(),
+                    'longitude' => $geo->getLongitude()
+                ));
+                $address = $newaddress;
+            } else {
+                return redirect()->back()->withErrors(['error' => 'Address not found.']);
+            }
         }
 
         if ($overlap) {
@@ -74,17 +79,54 @@ class EmployeeFreeTimesController extends Controller
                 'error' => 'Time Overlap detected.'
             ]);
         } else {
-            EmployeeFreeTime::create(array(
-                'date' => $request->date,
-                'starttime' => $request->starttime,
-                'endtime' => $request->endtime,
-                'hourlyrate' => $request->hourlyrate,
-                'services' => $request->services,
-                'employee_id' => $request->employee_id,
-                'address_id' => $address->id
-            ));
+            if ($request->recurrence && $request->occurences) {
+                $date = Carbon::parse($request->date);
+                switch($request->recurrence) {
+                    case 'daily':
+                        for($i = 0; $i < $request->occurences; $i++) {
+                        EmployeeFreeTime::create(array(
+                            'date' => $date,
+                            'starttime' => $request->starttime,
+                            'endtime' => $request->endtime,
+                            'hourlyrate' => $request->hourlyrate,
+                            'services' => $request->services,
+                            'employee_id' => $request->employee_id,
+                            'address_id' => $address->id
+                        ));
+                        $date->addWeekday();
+                    }
+                        break;
+                    case 'weekly':
+                        for($i = 0; $i < $request->occurences; $i++) {
+                            EmployeeFreeTime::create(array(
+                                'date' => $date,
+                                'starttime' => $request->starttime,
+                                'endtime' => $request->endtime,
+                                'hourlyrate' => $request->hourlyrate,
+                                'services' => $request->services,
+                                'employee_id' => $request->employee_id,
+                                'address_id' => $address->id
+                            ));
+                            $date->addWeek();
+                        }
+                        break;
+                    default:
+                        break;
+                }
 
-            return redirect(route('employeefreetimes.index'))->with('status', 'Free Time has been created.');
+                return redirect(route('employeefreetimes.index'))->with('status', 'Free Times have been created.');
+            } else {
+                EmployeeFreeTime::create(array(
+                    'date' => $request->date,
+                    'starttime' => $request->starttime,
+                    'endtime' => $request->endtime,
+                    'hourlyrate' => $request->hourlyrate,
+                    'services' => $request->services,
+                    'employee_id' => $request->employee_id,
+                    'address_id' => $address->id
+                ));
+                return redirect(route('employeefreetimes.index'))->with('status', 'Free Time has been created.');
+            }
         }
     }
 
@@ -123,15 +165,19 @@ class EmployeeFreeTimesController extends Controller
 
         if (!$address) {
             $geo = Mapper::location('Germany' . $request->zip . $request->street . $request->housenumber);
-            $newaddress = Address::create(array(
-                'zip' => $request->zip,
-                'city' => $request->city,
-                'street' => $request->street,
-                'housenumber' => $request->housenumber,
-                'latitude' => $geo->getLatitude(),
-                'longitude' => $geo->getLongitude()
-            ));
-            $address = $newaddress;
+            if ($geo) {
+                $newaddress = Address::create(array(
+                    'zip' => $request->zip,
+                    'city' => $request->city,
+                    'street' => $request->street,
+                    'housenumber' => $request->housenumber,
+                    'latitude' => $geo->getLatitude(),
+                    'longitude' => $geo->getLongitude()
+                ));
+                $address = $newaddress;
+            } else {
+                return redirect()->back()->withErrors(['error' => 'Address not found.']);
+            }
         }
 
         if ($overlap) {

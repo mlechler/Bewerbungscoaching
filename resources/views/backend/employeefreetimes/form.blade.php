@@ -20,6 +20,25 @@
             {{ Form::label('date') }} <span class="required">*</span>
             {{ Form::text('date', null, ['class' => 'form-control']) }}
         </div>
+        @if(!$freetime->exists)
+            <div class="col-md-2">
+                {{ Form::label('Recurrence') }} <br>
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        {{ Form::label('Daily') }}
+                        {{ Form::radio('recurrence','daily', null) }}
+                    </div>
+                    <div class="col-md-6">
+                        {{ Form::label('Weekly') }}
+                        {{ Form::radio('recurrence','weekly', null) }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1">
+                {{ Form::label('Occurences') }}
+                {{ Form::number('occurences', null, ['class' => 'form-control', 'min' => 0, 'max' => 50]) }}
+            </div>
+        @endif
     </div>
 
     <div class="form-group row">

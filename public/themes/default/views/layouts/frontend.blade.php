@@ -4,13 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>@yield('title') &mdash; Bewerbungscoaching</title>
+    @if($__env->yieldContent('title'))
+        <title>@yield('title') &mdash; Bewerbungscoaching</title>
+    @else
+        <title>Bewerbungscoaching</title>
+    @endif
 
     <link rel="stylesheet" type="text/css" href="{{ theme('css/frontend.css') }}">
     <script src="{{ theme('js/all.js') }}"></script>
 </head>
 <body>
-<nav class="navbar navbar-default">
+<nav class="navbar navbar-default navbar-inverse">
     <div class="container">
         <div class="navbar-header">
             <a href="/" class="navbar-brand">
@@ -21,7 +25,8 @@
             <li><a href="{{ route('frontend.seminars.index') }}">Seminars</a></li>
             <li><a href="{{ route('frontend.individualcoachings.index') }}">Individual Coaching</a></li>
             <li class="dropdown">
-                <a href="{{ route('frontend.applicationdocuments.index') }}">Application Documents <span class="caret"></span></a>
+                <a href="{{ route('frontend.applicationdocuments.index') }}">Application Documents <span
+                            class="caret"></span></a>
                 <ul class="dropdown-menu multi-level" role="menu">
                     <li><a href="{{ route('frontend.applicationpackages.index') }}">Application Packages</a></li>
                     <li><a href="{{ route('frontend.applicationlayouts.index') }}">Application Layouts</a></li>
@@ -52,14 +57,16 @@
                 <h3>@yield('title')</h3>
             @endif
 
-            @if($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
+            @if(isset($errors))
+                @if($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
             @endif
             @if($status)
                 <div class="alert alert-success">
@@ -71,11 +78,11 @@
         </div>
     </div>
 </div>
-<nav class="navbar navbar-default footer">
+<nav class="navbar navbar-default navbar-inverse footer">
     <div class="container">
         <ul class="nav navbar-nav">
             <li>
-                <a href="">©2017 Bewerbungscoaching | Designed by Marcel Lechler</a>
+                <a>©2017 Bewerbungscoaching | Designed by Marcel Lechler</a>
             </li>
         </ul>
     </div>
