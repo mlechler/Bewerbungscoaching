@@ -17,8 +17,8 @@
 <nav class="navbar navbar-default navbar-inverse">
     <div class="container">
         <div class="navbar-header">
-            <a href="/" class="navbar-brand">
-                <img src="{{theme('../../../../images/logo.png')}}" alt="Bewerbungscoaching">
+            <a href="/bewerbungscoaching/public" class="navbar-brand">
+                <img src="{{theme('img/logo.png')}}" alt="Bewerbungscoaching">
             </a>
         </div>
         <ul class="nav navbar-nav">
