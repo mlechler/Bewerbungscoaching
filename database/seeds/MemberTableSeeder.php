@@ -11,12 +11,12 @@ class MemberTableSeeder extends Seeder
     {
         DB::table('members')->truncate();
         Member::create(array(
-            'lastname' => 'Lechler',
-            'firstname' => 'Marcel',
-            'birthday' => Carbon::createFromDate(1995, 6, 28),
-            'phone' => '123/456',
-            'mobile' => '456/7891',
-            'email' => 'scrat007@gmx.de',
+            'lastname' => 'Bär',
+            'firstname' => 'Hans',
+            'birthday' => Carbon::createFromDate(1997, 4, 21),
+            'phone' => '07033/637372',
+            'mobile' => '0176/3764824',
+            'email' => 'hb@gmx.de',
             'address_id' => 1,
             'role_id' => 3,
             'job' => 'student',
@@ -27,12 +27,12 @@ class MemberTableSeeder extends Seeder
             'remember_token' => Auth::viaRemember()
         ));
         Member::create(array(
-            'lastname' => 'L',
-            'firstname' => 'Marcel',
-            'birthday' => Carbon::createFromDate(1995, 6, 28),
-            'phone' => '123/456',
-            'mobile' => '456/7892',
-            'email' => 'scrat007@gmail.de',
+            'lastname' => 'Wolf',
+            'firstname' => 'Heinrich',
+            'birthday' => Carbon::createFromDate(1998, 12, 24),
+            'phone' => '07152/2748952',
+            'mobile' => '0157/3634748',
+            'email' => 'hw@gmx.de',
             'address_id' => 2,
             'role_id' => 3,
             'job' => 'student',

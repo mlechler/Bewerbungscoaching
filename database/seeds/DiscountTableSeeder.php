@@ -21,7 +21,7 @@ class DiscountTableSeeder extends Seeder
             'service' => 'Universal',
             'validity' => 20,
             'permanent' => 0,
-            'startdate' => Carbon::createFromDate(2017,2,23),
+            'startdate' => Carbon::createFromDate(2017,5,23),
             'code' => 'Code199',
             'expired' => 0,
         ));
@@ -32,7 +32,7 @@ class DiscountTableSeeder extends Seeder
             'service' => 'Individual Coaching',
             'validity' => null,
             'permanent' => 1,
-            'startdate' => Carbon::createFromDate(2017,2,23),
+            'startdate' => Carbon::createFromDate(2017,5,23),
             'code' => 'Coaching15',
             'expired' => 0,
         ));
@@ -43,7 +43,7 @@ class DiscountTableSeeder extends Seeder
             'service' => 'Universal',
             'validity' => null,
             'permanent' => 1,
-            'startdate' => Carbon::createFromDate(2017,2,23),
+            'startdate' => Carbon::createFromDate(2017,5,23),
             'code' => 'Universal50',
             'expired' => 0,
         ));

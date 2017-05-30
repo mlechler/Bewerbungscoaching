@@ -15,8 +15,8 @@ class EmployeeTableSeeder extends Seeder
             'lastname' => 'Lechler',
             'firstname' => 'Marcel',
             'birthday' => Carbon::createFromDate(1995, 6, 28),
-            'phone' => '123/456',
-            'mobile' => '456/789',
+            'phone' => '07031/123456',
+            'mobile' => '01522/7891011',
             'email' => 'marcel.lechler@gmx.de',
             'address_id' => 1,
             'role_id' => 1,
@@ -26,11 +26,11 @@ class EmployeeTableSeeder extends Seeder
             'remember_token' => Auth::viaRemember()
         ));
         Employee::create(array(
-            'lastname' => 'L',
-            'firstname' => 'Marcel',
-            'birthday' => Carbon::createFromDate(1995, 6, 28),
-            'phone' => '123/456',
-            'mobile' => '456/7890',
+            'lastname' => 'Müller',
+            'firstname' => 'Bernd',
+            'birthday' => Carbon::createFromDate(1990, 3, 12),
+            'phone' => '07031/987654',
+            'mobile' => '01522/1110987',
             'email' => 'scrat007@gmx.de',
             'address_id' => 2,
             'role_id' => 2,

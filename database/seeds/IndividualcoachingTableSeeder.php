@@ -16,7 +16,7 @@ class IndividualCoachingTableSeeder extends Seeder
         DB::table('individualcoachings')->truncate();
         IndividualCoaching::create(array(
             'services' => 'Interview, Document Review',
-            'date' => Carbon::createFromDate(2017, 03, 05),
+            'date' => Carbon::createFromDate(2017, 07, 05),
             'time' => Carbon::createFromTime(9, 00, 00),
             'duration' => 10,
             'price_incl_discount' => 99,
@@ -29,7 +29,7 @@ class IndividualCoachingTableSeeder extends Seeder
         ));
         IndividualCoaching::create(array(
             'services' => 'Interview',
-            'date' => Carbon::createFromDate(2017, 03, 05),
+            'date' => Carbon::createFromDate(2017, 07, 05),
             'time' => Carbon::createFromTime(9, 00, 00),
             'duration' => 1,
             'price_incl_discount' => 0,
